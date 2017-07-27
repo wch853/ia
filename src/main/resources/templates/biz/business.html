@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- headers -->
+	<#include "/common/standard.html"/>
+	<title>商务管理-欢迎使用智慧农业管理系统</title>
+</head>
+<body>
+	<div id="wrapper">
+		<!--navigation-->
+		<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+			<!-- nav header 导航栏左侧-->
+			<div class="navbar-header">
+				<!--响应式布局按钮，用于触发侧边栏-->
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sidebar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<!--nav brand-->
+				<a class="navbar-brand" href="">智慧农业管理系统</a>
+				<ul class="nav navbar-nav left-ul">
+					<li><a href="index.html"><i class="fa fa-paper-plane"></i>系统管理</a></li>
+					<li><a href="business0.html"><i class="fa fa-truck"></i>商务管理</a></li>
+				</ul>
+			</div>
+			<!-- 导航栏右侧 -->
+			<ul class="nav navbar-right top-nav">
+				<!--消息提示下拉-->
+				<li class="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-bell"></i>消息<i class="fa fa-caret-down"></i>
+					</a>
+					<ul class="dropdown-menu alert-dropdown">
+						<li>
+							<a href="javascript:void(0);">后台订单 <span class="label label-primary">订单详情</span></a>
+						</li>
+						<li>
+							<a href="javascript:void(0);">系统提示 <span class="label label-info">提示详情</span></a>
+						</li>
+						<li>
+							<a href="javascript:void(0);">系统警报 <span class="label label-danger">警报详情</span></a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="javascript:void(0);" class="text-center">查看全部</a>
+						</li>
+					</ul>
+				</li>
+				<!--用户信息下拉-->
+				<li class="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-user"></i>管理员001<i class="fa fa-caret-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="javascript:void(0);"><i class="fa fa-fw fa-user"></i>个人信息</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);"><i class="fa fa-fw fa-gear"></i>设置</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="javascript:void(0);"><i class="fa fa-fw fa-power-off"></i>退出登录</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<!-- 侧边栏 -->
+			<div class="collapse navbar-collapse" id="sidebar-collapse">
+				<ul class="nav navbar-nav side-nav">
+					<!-- 产品管理 -->
+					<li>
+						<a href="javascript:void(0);" data-toggle="collapse" data-target="#sys-man">
+							<i class="fa fa-fw fa-leaf"></i>产品管理<i class="fa fa-fw fa-caret-down"></i>
+						</a>
+						<ul id="sys-man" class="collapse">
+							<li>
+								<a href="newproduct.html"><i class="fa fa-angle-right"></i>新增产品</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><i class="fa fa-angle-right"></i>产品查询</a>
+							</li>
+						</ul>
+					</li>
+					<!-- 用户管理 -->
+					<li>
+						<a href="javascript:void(0);" data-toggle="collapse" data-target="#data-man">
+							<i class="fa fa-fw fa-handshake-o"></i>用户管理<i class="fa fa-fw fa-caret-down"></i>
+						</a>
+						<ul id="data-man" class="collapse">
+							<li>
+								<a href="javascript:void(0);"><i class="fa fa-angle-right"></i>用户查询</a>
+							</li>
+						</ul>
+					</li>
+					<!-- 订单管理 -->
+					<li>
+						<a href="javascript:void(0);" data-toggle="collapse" data-target="#ctrl-man">
+							<i class="fa fa-fw fa-truck"></i>订单管理<i class="fa fa-fw fa-caret-down"></i>
+						</a>
+						<ul id="ctrl-man" class="collapse">
+							<li>
+								<a href="javascript:void(0);"><i class="fa fa-angle-right"></i>物流管理</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><i class="fa fa-angle-right"></i>订单查询</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</nav>
+
+		<!-- 页面内容 -->
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				
+			<div class="row col-md-12">
+				<ol class="breadcrumb">
+					<li><a href="index.html">首页</a></li>
+					<li><a href="business0.html">商务管理</a></li>
+				</ol>
+			</div>
+			
+
+			<div class="col-md-12">
+				<h3>订单</h3><hr>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								您有新的订单待处理 <span class="badge">17</span>
+							</div>
+
+							<div class="panel-body">
+								<ul>
+									<li>用户编号：1778569856</li>
+									<li>产品编号：10011407</li>
+									<li>产品名称：生菜</li>
+									<li>数量(kg)：150kg</li>
+									<li>交易状态：已付款</li>
+								</ul>
+							</div>
+
+							<a href="javascript:void(0);">
+								<div class="panel-footer">
+									<span class="pull-left">显示更多</span>
+									<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+									<div class="clearfix"></div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<h3>物流</h3><hr>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								待发货 <span class="badge">9</span>
+							</div>
+
+							<div class="panel-body">
+								<ul>
+									<li>用户编号：15299864956</li>
+									<li>交易编号：1456256895562</li>
+									<li>交易状态：已付款</li>
+								</ul>
+							</div>
+
+							<a href="javascript:void(0);">
+								<div class="panel-footer">
+									<span class="pull-left">显示更多</span>
+									<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+									<div class="clearfix"></div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								在途物流 <span class="badge">28</span>
+							</div>
+
+							<div class="panel-body">
+								<ul>
+									<li>用户编号：14895654796</li>
+									<li>交易编号：1468695864268</li>
+									<li>交易状态：已付款，物流在途</li>
+								</ul>
+							</div>
+
+							<a href="javascript:void(0);">
+								<div class="panel-footer">
+									<span class="pull-left">显示更多</span>
+									<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+									<div class="clearfix"></div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div><!--container-->
+		</div><!--page wrapped-->
+
+	</div><!--wrapped-->
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+    <!-- nav header 导航栏左侧-->
+    <div class="navbar-header">
+        <!--响应式布局按钮，用于触发侧边栏-->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sidebar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <!--nav brand-->
+        <a class="navbar-brand" href="">智慧农业管理系统</a>
+        <ul class="nav navbar-nav left-ul">
+            <li><a href="sys"><i class="fa fa-paper-plane"></i>系统管理</a></li>
+            <li><a href="business"><i class="fa fa-truck"></i>商务管理</a></li>
+        </ul>
+    </div>
+    <!-- 导航栏右侧 -->
+    <ul class="nav navbar-right top-nav">
+        <!--消息提示下拉-->
+        <li class="dropdown">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell"></i>消息<i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu alert-dropdown">
+                <li>
+                    <a href="javascript:void(0);">后台订单 <span class="label label-primary">订单详情</span></a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">系统提示 <span class="label label-info">提示详情</span></a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">系统警报 <span class="label label-danger">警报详情</span></a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="javascript:void(0);" class="text-center">查看全部</a>
+                </li>
+            </ul>
+        </li>
+        <!--用户信息下拉-->
+        <li class="dropdown">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user"></i>管理员001<i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="javascript:void(0);"><i class="fa fa-fw fa-user"></i>个人信息</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);"><i class="fa fa-fw fa-gear"></i>设置</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="javascript:void(0);"><i class="fa fa-fw fa-power-off"></i>退出登录</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- 侧边栏 -->
+    <div class="collapse navbar-collapse" id="sidebar-collapse">
+        <ul class="nav navbar-nav side-nav">
+            <!-- 系统管理 -->
+            <li>
+                <a href="javascript:void(0);" data-toggle="collapse" data-target="#sys-man">
+                    <i class="fa fa-fw fa-file"></i>系统档案<i class="fa fa-fw fa-caret-down"></i>
+                </a>
+                <ul id="sys-man" class="collapse">
+                    <li>
+                        <a href="file1field.html"><i class="fa fa-angle-right"></i>档案管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>权限管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>账户管理</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- 数据管理 -->
+            <li>
+                <a href="javascript:void(0);" data-toggle="collapse" data-target="#data-man">
+                    <i class="fa fa-fw fa-line-chart"></i>数据管理<i class="fa fa-fw fa-caret-down"></i>
+                </a>
+                <ul id="data-man" class="collapse">
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>数据查询</a>
+                    </li>
+                    <li>
+                        <a href="chart.html"><i class="fa fa-angle-right"></i>图表分析</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- 控制管理 -->
+            <li>
+                <a href="javascript:void(0);" data-toggle="collapse" data-target="#ctrl-man">
+                    <i class="fa fa-fw fa-podcast"></i>控制管理<i class="fa fa-fw fa-caret-down"></i>
+                </a>
+                <ul id="ctrl-man" class="collapse">
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>排灌管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>智能排灌方案生成</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- 报警控制 -->
+            <li>
+                <a href="javascript:void(0);" data-toggle="collapse" data-target="#warn-man">
+                    <i class="fa fa-fw fa-exclamation"></i>报警控制<i class="fa fa-fw fa-caret-down"></i>
+                </a>
+                <ul id="warn-man" class="collapse">
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>缺水报警</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>温控报警</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>缺养报警</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- 记录管理 -->
+            <li>
+                <a href="javascript:void(0);" data-toggle="collapse" data-target="#log-man">
+                    <i class="fa fa-fw fa-pencil-square-o"></i>记录管理<i class="fa fa-fw fa-caret-down"></i>
+                </a>
+                <ul id="log-man" class="collapse">
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>控制记录</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>报警记录</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- 帮助 -->
+            <li>
+                <a href="javascript:void(0);" data-toggle="collapse" data-target="#help">
+                    <i class="fa fa-fw fa-info"></i>帮助文档<i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="help" class="collapse">
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>帮助</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"><i class="fa fa-angle-right"></i>联系我们</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>
