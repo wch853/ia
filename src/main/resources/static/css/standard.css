@@ -1,6 +1,6 @@
 body {
     margin-top: 100px;
-    font-family: "Microsoft YaHei UI";
+    font-family: "Microsoft YaHei";
 }
 
 @media (min-width: 768px) {
@@ -94,6 +94,13 @@ nav > ul > li > a,
 }
 
 /* Side Navigation */
+.side-nav {
+    background-color: #373b49;
+}
+
+.side-nav > li > a {
+    color: #fff !important;
+}
 
 @media (min-width: 768px) {
     .side-nav {
@@ -114,7 +121,6 @@ nav > ul > li > a,
     .side-nav > li > a {
         width: 225px;
         font-size: 16px;
-        color: #fff !important;
     }
 
     .side-nav li a:hover,
@@ -196,4 +202,10 @@ i {
     padding: 5px;
     z-index: 100;
     border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+    .form-inline .form-group {
+        padding-right: 10px;
+    }
 }

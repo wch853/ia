@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/echarts.html"/>
+    <title>图表分析</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/common/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>图表分析</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="">首页</a></li>
+                    <li><a href="sys/data/dataAnalysis">图表分析</a></li>
+                </ol>
+            </div>
+
+            <div class="col-md-3">
+
+                <h4>选择地块编号：</h4>
+                <div class="btn-group">
+                    <button class="btn btn-default">201701001</button>
+                    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="active">
+                            <a href="javascript:void(0);">201701001</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">201701002</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">201701003</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">201701004</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <h4>选择数据类型：</h4>
+                <div class="btn-group">
+                    <button class="btn btn-default">温度、湿度、蒸发量综合</button>
+                    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="javascript:void(0);">温度</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">湿度</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">蒸发量</a>
+                        </li>
+                        <li class="active">
+                            <a href="javascript:void(0);">温度、湿度、蒸发量综合</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <h4>选择日期：</h4>
+                <input type="text" class="form-control" id="datepicker" style="width: 120px;" value="11/05/2017">
+
+            </div>
+
+            <div class="col-md-9" id="chart" style="width: 720px;height:480px;"></div>
+        </div><!--container-->
+    </div><!--page wrapped-->
+
+</div><!--wrapped-->
+
+<script type="text/javascript">
+    $("#datepicker").datepicker();
+</script>
+
+<script type="text/javascript">
+    var colors = ['#5793f3', '#d14a61', '#675bba'];
+    var myChart = echarts.init(document.getElementById('chart'));
+    var option = {
+        color: colors,
+
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        grid: {
+            right: '20%'
+        },
+        toolbox: {
+            feature: {
+                dataView: {
+                    show: true,
+                    readOnly: false
+                },
+                restore: {
+                    show: true
+                },
+                saveAsImage: {
+                    show: true
+                }
+            }
+        },
+        legend: {
+            data: ['蒸发量', '湿度', '平均温度']
+        },
+        xAxis: [{
+            type: 'category',
+            axisTick: {
+                alignWithLabel: true
+            },
+            data: ['0时', '2时', '4时', '6时', '8时', '10时', '12时', '14时', '16时', '18时', '20时', '22时', '24时']
+        }],
+        yAxis: [{
+            type: 'value',
+            name: '蒸发量',
+            min: 0,
+            max: 200,
+            position: 'right',
+            axisLine: {
+                lineStyle: {
+                    color: colors[0]
+                }
+            },
+            axisLabel: {
+                formatter: '{value} ml'
+            }
+        }, {
+            type: 'value',
+            name: '湿度',
+            min: 0,
+            max: 100,
+            position: 'right',
+            offset: 80,
+            axisLine: {
+                lineStyle: {
+                    color: colors[1]
+                }
+            },
+            axisLabel: {
+                formatter: '{value} %'
+            }
+        }, {
+            type: 'value',
+            name: '温度',
+            min: 10,
+            max: 30,
+            position: 'left',
+            axisLine: {
+                lineStyle: {
+                    color: colors[2]
+                }
+            },
+            axisLabel: {
+                formatter: '{value} °C'
+            }
+        }],
+        series: [{
+            name: '蒸发量',
+            type: 'bar',
+            data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3, 2.2]
+        }, {
+            name: '湿度',
+            type: 'bar',
+            yAxisIndex: 1,
+            data: [82, 72, 65, 59, 52, 44, 43, 38, 35, 39, 47, 60, 77]
+        }, {
+            name: '平均温度',
+            type: 'line',
+            yAxisIndex: 2,
+            data: [14.7, 15.6, 18.1, 19.7, 21.3, 23.5, 24.3, 24.7, 23.7, 20.5, 19.0, 17.2, 16.4]
+        }]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+</html>

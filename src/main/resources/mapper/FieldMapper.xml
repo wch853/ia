@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.wa.sys.mapper.FieldMapper">
+
+    <resultMap id="fieldMap" type="Field">
+        <id property="fieldId" column="field_id"/>
+        <result property="fieldName" column="field_name"/>
+        <result property="useStatus" column="use_status"/>
+        <result property="fieldPs" column="field_ps"/>
+        <association property="block" column="block_id" select="selectBlockById"/>
+        <association property="crop" column="crop_id" select="selectCropById"/>
+    </resultMap>
+
+    <select id="selectFields" resultMap="fieldMap">
+        SELECT field_id, field_name, block_id, crop_id, use_status, field_ps
+        FROM field
+        <where>
+            <if test="null != fieldName and !''.equals(fieldName)">
+                field_name LIKE CONCAT('%', #{fieldName}, '%')
+            </if>
+            <if test="null != block.blockId and !''.equals(block.blockId)">
+                AND block_id = #{block.blockId}
+            </if>
+            <if test="null != crop.cropId and !''.equals(crop.cropId)">
+                AND crop_id = #{crop.cropId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBlockById" resultType="Block">
+        SELECT block_name
+        FROM block
+        WHERE block_id = #{block_id}
+    </select>
+
+    <select id="selectCropById" resultType="Crop">
+        SELECT crop_name
+        FROM crop
+        WHERE crop_id = #{crop_id}
+    </select>
+</mapper>	

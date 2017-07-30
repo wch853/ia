@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-table.html"/>
+    <title>作物档案</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/file/fileSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>作物档案</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="">首页</a></li>
+                    <li><a href="sys/file">档案管理</a></li>
+                    <li><a href="sys/file/crop">作物档案</a></li>
+                </ol>
+            </div>
+
+            <table id="cropFileTable"></table>
+        </div><!--container-->
+    </div><!--page wrapped-->
+
+</div><!--wrapped-->
+<script type="text/javascript" src="js/sys/file/cropFile.js"></script>
+</body>
+</html>

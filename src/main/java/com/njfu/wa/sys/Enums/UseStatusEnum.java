@@ -1,19 +1,18 @@
-package com.njfu.wa.sys.util;
+package com.njfu.wa.sys.Enums;
 
 /**
- * 存放消息代码及其类型描述
+ * 存放使用状态及其描述
  */
-public enum MessageEnum {
-    SUCCESS(100, "success"),
-    FAIL(200, "fail");
+public enum UseStatusEnum {
+    UNUSE(0, "未使用"),
+    INUSE(1, "使用中"),
+    WRONG(2, "出现故障");
 
-    // 消息代码
     private Integer code;
 
-    // 消息类型
     private String info;
 
-    MessageEnum(Integer code, String info) {
+    UseStatusEnum(Integer code, String info) {
         this.code = code;
         this.info = info;
     }
