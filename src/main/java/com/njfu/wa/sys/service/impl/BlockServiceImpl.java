@@ -18,4 +18,9 @@ public class BlockServiceImpl implements BlockService {
     public List<Block> getBlocks() {
         return blockMapper.selectBlocks();
     }
+
+    @Override
+    public List<Block> getBlocksAndFields() {
+        return blockMapper.selectBlocksAndFields();
+    }
 }

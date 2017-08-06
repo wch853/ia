@@ -31,7 +31,7 @@
             </div>
 
             <!-- 查询工具栏 -->
-            <div class="form-inline">
+            <div class="form-inline" id="queryToolBar">
                 <div class="form-group">
                     <label for="queryFieldText">大棚名称：</label>
                     <input id="queryFieldText" class="form-control input-sm">
@@ -52,6 +52,14 @@
                         <#list crops as crop>
                             <option value="${crop.cropId!}">${crop.cropName!}</option>
                         </#list>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="queryUseStatusText">使用状态：</label>
+                    <select id="queryUseStatusText" class="selectpicker" data-live-search="true">
+                        <option value="" style="display: none;">请选择使用状态</option>
+                        <option value="0">未使用</option>
+                        <option value="1">使用中</option>
                     </select>
                 </div>
                 <button class="btn btn-primary btn-sm" id="queryBtn">查询</button>
@@ -84,7 +92,7 @@
                             <div class="form-group">
                                 <label for="addBlockIdText">所属地块：</label>
                                 <select id="addBlockIdText" class="selectpicker" data-live-search="true">
-                                    <option value="" style="display: none;">请选择地块名称</option>
+                                    <option value="" style="display: none;">请选择地块名称（不可为空）</option>
                                     <#list blocks as block>
                                         <option value="${block.blockId!}">${block.blockName!}</option>
                                     </#list>
@@ -100,15 +108,17 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="addUseStatusText">使用状态名称：</label>
+                                <label for="addUseStatusText">使用状态：</label>
                                 <select id="addUseStatusText" class="selectpicker">
                                     <option value="0">未使用</option>
                                     <option value="1">使用中</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="addFieldPsText">备注：</label>
-                                <input id="addFieldPsText" class="form-control input-sm" placeholder="限输80个字符">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="addFieldPsText">大棚备注：</label>
+                                    <input id="addFieldPsText" class="form-control" placeholder="限输入80个字符">
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -119,11 +129,69 @@
                 </div>
             </div>
 
+            <!-- 修改模态窗 -->
+            <div class="modal fade" id="modifyModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">修改大棚信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline" style="padding-bottom: 15px;">
+                                <div class="form-group">
+                                    <label for="modifyFieldIdText">大棚编号：</label>
+                                    <p id="modifyFieldIdText" class="form-control-static"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modifyFieldNameText">大棚名称：</label>
+                                    <input id="modifyFieldNameText" class="form-control" placeholder="大棚名称不可为空">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="modifyBlockIdText">所属地块：</label>
+                                <select id="modifyBlockIdText" class="selectpicker" data-live-search="true">
+                                    <#list blocks as block>
+                                        <option value="${block.blockId!}">${block.blockName!}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="modifyCropIdText">作物名称：</label>
+                                <select id="modifyCropIdText" class="selectpicker" data-live-search="true">
+                                    <option value="">待定</option>
+                                    <#list crops as crop>
+                                        <option value="${crop.cropId!}">${crop.cropName!}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="modifyUseStatusText">使用状态：</label>
+                                <select id="modifyUseStatusText" class="selectpicker">
+                                    <option value="0">未使用</option>
+                                    <option value="1">使用中</option>
+                                </select>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="modifyFieldPsText">大棚备注：</label>
+                                    <input id="modifyFieldPsText" class="form-control" placeholder="限输入80个字符">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="saveModify">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div><!--container-->
     </div><!--page wrapped-->
 
 </div><!--wrapped-->
-<script type="text/javascript" src="js/sys/file/fieldFile.js"></script>
 <script src="https://cdn.bootcss.com/bootbox.js/4.4.0/bootbox.min.js"></script>
+<script type="text/javascript" src="js/sys/file/fieldFile.js"></script>
 </body>
 </html>

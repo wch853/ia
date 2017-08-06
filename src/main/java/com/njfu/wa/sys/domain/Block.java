@@ -1,5 +1,7 @@
 package com.njfu.wa.sys.domain;
 
+import java.util.List;
+
 /**
  * 地块
  */
@@ -12,6 +14,8 @@ public class Block {
     private String blockLoc;
 
     private String blockPs;
+
+    private List<Field> fields;
 
     public Block() {}
 
@@ -49,6 +53,14 @@ public class Block {
 
     public void setBlockPs(String blockPs) {
         this.blockPs = blockPs;
+    }
+
+    public List<Field> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
     }
 
     @Override

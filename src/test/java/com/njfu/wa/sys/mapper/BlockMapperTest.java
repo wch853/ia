@@ -15,7 +15,6 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BlockMapperTest {
-
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -25,6 +24,14 @@ public class BlockMapperTest {
     public void selectBlocks() throws Exception {
         List<Block> blocks = blockMapper.selectBlocks();
         log.info("blocks : {}", blocks);
+    }
+
+    @Test
+    public void selectBlocksAndFields() throws Exception {
+        List<Block> blocks = blockMapper.selectBlocksAndFields();
+        for (Block block : blocks) {
+            log.info("block : {}", block.getFields());
+        }
     }
 
 }

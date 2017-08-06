@@ -13,7 +13,7 @@ field_id VARCHAR(255) NOT NULL COMMENT '大棚编号',
 field_name VARCHAR(255) NOT NULL COMMENT '大棚名称',
 block_id VARCHAR(255) NOT NULL COMMENT '所属地块编号',
 crop_id VARCHAR(255) DEFAULT NULL COMMENT '种植作物编号',
-use_status INT DEFAULT 0 COMMENT '使用状态，0unuse，1inuse',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
 field_ps VARCHAR(255) DEFAULT NULL COMMENT '大棚备注',
 PRIMARY KEY (field_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='大棚';
@@ -49,9 +49,10 @@ PRIMARY KEY (emp_id)
 DROP TABLE IF EXISTS sensor;
 CREATE TABLE sensor (
 sensor_id VARCHAR(255) NOT NULL COMMENT '传感器编号',
+sensor_fun VARCHAR(255) NOT NULL COMMENT '传感器功能类型',
 sensor_type VARCHAR(255) NOT NULL COMMENT '传感器型号',
 field_id VARCHAR(255) DEFAULT NULL COMMENT '所属大棚编号',
-use_status INT DEFAULT 0 COMMENT '使用状态，0unuse，1inuse',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
 sensor_ps VARCHAR(255) DEFAULT NULL COMMENT '传感器备注',
 PRIMARY KEY (sensor_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='传感器';
@@ -61,7 +62,7 @@ CREATE TABLE machine (
 machine_id VARCHAR(255) NOT NULL COMMENT '机械编号',
 machine_type VARCHAR(255) NOT NULL COMMENT '机械型号',
 block_id VARCHAR(255) DEFAULT NULL COMMENT '所属地块编号',
-use_status INT DEFAULT 0 COMMENT '使用状态，0unuse，1inuse',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
 machine_ps VARCHAR(255) DEFAULT NULL COMMENT '机械备注',
 PRIMARY KEY (machine_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='机械';
@@ -71,7 +72,7 @@ CREATE TABLE vehicle (
 veh_id VARCHAR(255) NOT NULL COMMENT '车辆编号',
 veh_type VARCHAR(255) NOT NULL COMMENT '车辆型号',
 block_id VARCHAR(255) DEFAULT NULL COMMENT '所属地块编号',
-use_status INT DEFAULT 0 COMMENT '使用状态，0unuse，1inuse',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
 veh_ps VARCHAR(255) DEFAULT NULL COMMENT '车辆备注',
 PRIMARY KEY (veh_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='车辆';
@@ -79,7 +80,7 @@ PRIMARY KEY (veh_id)
 DROP TABLE IF EXISTS soil_status;
 CREATE TABLE soil_status (
 id INT NOT NULL auto_increment COMMENT '测量记录编号',
-field_id VARCHAR(255) NOT NULL COMMENT '所属大棚编号',
+sensor_id VARCHAR(255) NOT NULL COMMENT '来源传感器编号',
 measure_time TIMESTAMP NOT NULL COMMENT '测量时间',
 n_content INT DEFAULT NULL COMMENT '氮含量',
 p_content INT DEFAULT NULL COMMENT '磷含量',
@@ -92,7 +93,7 @@ PRIMARY KEY (id)
 DROP TABLE IF EXISTS environment_status;
 CREATE TABLE environment_status (
 id INT NOT NULL auto_increment COMMENT '测量记录编号',
-field_id VARCHAR(255) NOT NULL COMMENT '所属大棚编号',
+sensor_id VARCHAR(255) NOT NULL COMMENT '来源传感器编号',
 measure_time TIMESTAMP NOT NULL COMMENT '测量时间',
 temperature INT DEFAULT NULL COMMENT '温度',
 moisture INT DEFAULT NULL COMMENT '湿度',
@@ -111,22 +112,22 @@ INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b08', 
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b09', '安国生态农业观光园', '安国镇', '南部高效设施园艺区');
 
 -- field
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701001', '加温温室', 'b01', 'c001', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701002', '双屋面温室', 'b01', 'c002', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701003', '透光塑料大棚', 'b01', 'c003', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701004', '塑料大棚', 'b01', 'c004', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702001', '加温温室', 'b02', 'c001', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702002', '双屋面温室', 'b02', 'c002', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702003', '透光塑料大棚', 'b02', 'c003', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702004', '塑料大棚', 'b02', 'c004', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703001', '加温温室', 'b03', 'c001', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703002', '双屋面温室', 'b03', 'c002', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703003', '透光塑料大棚', 'b03', 'c003', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703004', '塑料大棚', 'b03', 'c004', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704001', '加温温室', 'b04', 'c001', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704002', '双屋面温室', 'b04', 'c002', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704003', '透光塑料大棚', 'b04', 'c003', 1, null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704004', '塑料大棚', 'b04', 'c004', 1, null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701001', '加温温室', 'b01', 'c001', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701002', '双屋面温室', 'b01', 'c002', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701003', '透光塑料大棚', 'b01', 'c003', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701004', '塑料大棚', 'b01', 'c004', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702001', '加温温室', 'b02', 'c001', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702002', '双屋面温室', 'b02', 'c002', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702003', '透光塑料大棚', 'b02', 'c003', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702004', '塑料大棚', 'b02', 'c004', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703001', '加温温室', 'b03', 'c001', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703002', '双屋面温室', 'b03', 'c002', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703003', '透光塑料大棚', 'b03', 'c003', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703004', '塑料大棚', 'b03', 'c004', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704001', '加温温室', 'b04', 'c001', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704002', '双屋面温室', 'b04', 'c002', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704003', '透光塑料大棚', 'b04', 'c003', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704004', '塑料大棚', 'b04', 'c004', '1', null);
 
 -- crop
 INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c001', '玉米', null);
@@ -138,3 +139,19 @@ INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c004', '大豆', null
 INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e001', 'wch1', '15261861234', null, null, null, null);
 INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e002', 'wch2', '15261861234', null, null, null, null);
 INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e003', 'wch3', '15261861234', null, null, null, null);
+
+-- sensor
+INSERT INTO wa.sensor (sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-001', '1', 'abc001', 'f1701001', '1', null);
+INSERT INTO wa.sensor (sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-002', '1', 'abc001', 'f1701002', '1', null);
+INSERT INTO wa.sensor (sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-001', '2', 'abc002', 'f1701003', '1', null);
+INSERT INTO wa.sensor (sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-002', '2', 'abc002', 'f1701004', '1', null);
+-- machine
+INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m001', 'cba001', 'b01', '0', null);
+INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m002', 'cba002', 'b02', '0', null);
+INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m003', 'cba003', 'b03', '0', null);
+INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m004', 'cba004', 'b04', '0', null);
+-- vehicle
+INSERT INTO wa.vehicle (veh_id, veh_type, block_id, use_status, veh_ps) VALUES ('v001', 'xyz001', 'b01', '0', null);
+INSERT INTO wa.vehicle (veh_id, veh_type, block_id, use_status, veh_ps) VALUES ('v002', 'xyz002', 'b02', '0', null);
+INSERT INTO wa.vehicle (veh_id, veh_type, block_id, use_status, veh_ps) VALUES ('v003', 'xyz003', 'b03', '0', null);
+INSERT INTO wa.vehicle (veh_id, veh_type, block_id, use_status, veh_ps) VALUES ('v004', 'xyz004', 'b04', '0', null);

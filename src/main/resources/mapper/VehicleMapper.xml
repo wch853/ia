@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.wa.sys.mapper.VehicleMapper">
+
+    <resultMap id="vehicleMap" type="Vehicle">
+        <id property="vehId" column="veh_id"/>
+        <result property="vehType" column="veh_type"/>
+        <result property="useStatus" column="use_status"/>
+        <result property="vehPs" column="veh_ps"/>
+        <association property="block" column="block_id" select="com.njfu.wa.sys.mapper.BlockMapper.selectBlockById"/>
+    </resultMap>
+
+    <select id="selectVehicles" resultMap="vehicleMap">
+        SELECT veh_id, veh_type, block_id, use_status, veh_ps
+        FROM vehicle
+    </select>
+</mapper>	

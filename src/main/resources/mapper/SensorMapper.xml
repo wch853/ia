@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.wa.sys.mapper.SensorMapper">
+
+    <resultMap id="sensorMap" type="Sensor">
+        <id property="sensorId" column="sensor_id"/>
+        <result property="sensorFun" column="sensor_fun"/>
+        <result property="sensorType" column="sensor_type"/>
+        <result property="useStatus" column="use_status"/>
+        <result property="sensorPs" column="sensor_ps"/>
+        <association property="field" column="field_id" select="com.njfu.wa.sys.mapper.FieldMapper.selectFieldById"/>
+    </resultMap>
+
+    <select id="selectSensors" resultMap="sensorMap">
+        SELECT sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps
+        FROM sensor
+    </select>
+</mapper>	

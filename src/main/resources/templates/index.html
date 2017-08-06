@@ -4,26 +4,6 @@
     <!-- headers -->
     <#include "/common/standard.html"/>
     <title>首页-欢迎使用智慧农业管理系统</title>
-    <script type="text/javascript">
-        $(function () {
-            $('a.tooltips').hover(function (e) {
-                var text = $(this).siblings('div').text();
-                text = text + "<br>" + "数据状态：正常<br>" + "温度：23.45℃<br>" + "湿度：54.45%<br>"
-                    + "数据上传时间：17/05/11 18:56:05";
-                $('body').append('<div id="tooltip">' + text + '</div>');
-                $("#tooltip").css({
-                    left: e.pageX + 'px',
-                    top: e.pageY + 'px'
-                }).fadeIn(500);
-            }, function () {
-                $("#tooltip").remove();
-            });
-
-            $('.breadcrumb').click(function () {
-                $(this).siblings('.row').toggle(300);
-            });
-        });
-    </script>
 </head>
 <body>
 <div id="wrapper">
@@ -46,9 +26,9 @@
 
             <div class="form-inline">
                 <div class="form-group">
-                    <label for="gh_search">地块编号</label>
-                    <input type="text" id="gh_search" name="search" class="form-control">
-                    <input type="button" name="" value="搜索" class="btn btn-primary">
+                    <label for="queryFieldBtn">大棚编号：</label>
+                    <input id="queryFieldBtn" class="form-control">
+                    <button class="btn btn-primary">搜索</button>
                 </div>
             </div>
             <br>
@@ -58,64 +38,125 @@
                 <ol class="breadcrumb">
                     <li>
                         <a href="javascript:void(0);">
-                            <i class="fa fa-list"></i>下蜀林场A01<i class="fa fa-expand"></i>
+                            <i class="fa fa-list"></i><span class="bread-span">测试01</span><i class="fa fa-expand"></i>
                         </a>
                     </li>
                 </ol>
 
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                地块编号：201701001
+                <div class="row col-md-12">
+                    <a href="javascript:void(0);" class="tooltips">
+                        <div class="fieldCard">
+                            <div class="card-header-blue">
+                                编号：f1701001
                             </div>
-
-                            <a href="javascript:void(0);" class="tooltips">
-                                <div class="panel-body">
-                                    <span class="pull-left">显示更多</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                地块编号：201701004
+                            <div class="card-body">
+                                <span class="pull-left">查看详情</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             </div>
-
-                            <a href="exception.html" class="tooltips">
-                                <div class="panel-body">
-                                    <span class="pull-left">显示更多</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                </div>
-                            </a>
                         </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                地块编号：201701009
+                    </a>
+                    <a href="javascript:void(0);" class="tooltips">
+                        <div class="fieldCard">
+                            <div class="card-header-red">
+                                编号：f1701001
                             </div>
-
-                            <a href="javascript:void(0);" class="tooltips">
-                                <div class="panel-body">
-                                    <span class="pull-left">显示更多</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                </div>
-                            </a>
+                            <div class="card-body">
+                                <span class="pull-left">查看详情</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
+                    <a href="javascript:void(0);" class="tooltips">
+                        <div class="fieldCard">
+                            <div class="card-header-yellow">
+                                编号：f1701001
+                            </div>
+                            <div class="card-body">
+                                <span class="pull-left">查看详情</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0);" class="tooltips">
+                        <div class="fieldCard">
+                            <div class="card-header-blue">
+                                编号：f1701001
+                            </div>
+                            <div class="card-body">
+                                <span class="pull-left">查看详情</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0);" class="tooltips">
+                        <div class="fieldCard">
+                            <div class="card-header-blue">
+                                编号：f1701001
+                            </div>
+                            <div class="card-body">
+                                <span class="pull-left">查看详情</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0);" class="tooltips">
+                        <div class="fieldCard">
+                            <div class="card-header-blue">
+                                编号：f1701001
+                            </div>
+                            <div class="card-body">
+                                <span class="pull-left">查看详情</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0);" class="tooltips">
+                        <div class="fieldCard">
+                            <div class="card-header-blue">
+                                编号：f1701001
+                            </div>
+                            <div class="card-body">
+                                <span class="pull-left">查看详情</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
 
-                </div> <!-- 01 panel row-->
+                </div>
             </div>
+
+            <#list blocks! as block>
+                <div class="row col-md-12">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="javascript:void(0);">
+                                <i class="fa fa-list"></i><span class="bread-span">${block.blockName!}</span><i class="fa fa-expand"></i>
+                            </a>
+                        </li>
+                    </ol>
+
+                    <div class="row col-md-12">
+                        <#list block.fields! as field>
+                            <a href="javascript:void(0);" class="tooltips">
+                                <div class="fieldCard">
+                                    <div class="card-header-blue">
+                                        编号：${field.fieldId!}
+                                    </div>
+                                    <div class="card-body">
+                                        <span class="pull-left">查看详情</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </#list>
+                    </div>
+                </div>
+            </#list>
 
         </div><!--container-->
     </div><!--page wrapped-->
 
 </div><!--wrapped-->
-
+<script type="text/javascript" src="js/sys/index.js"></script>
 </body>
 </html>

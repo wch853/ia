@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.wa.sys.mapper.EmployeeMapper">
+
+    <select id="selectEmployees" resultType="Employee">
+        SELECT emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps
+        FROM employee
+    </select>
+</mapper>	

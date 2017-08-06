@@ -6,7 +6,7 @@ package com.njfu.wa.sys.Enums;
 public enum UseStatusEnum {
     UNUSE(0, "未使用"),
     INUSE(1, "使用中"),
-    WRONG(2, "出现故障");
+    WRONG(2, "故障中");
 
     private Integer code;
 

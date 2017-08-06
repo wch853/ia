@@ -1,6 +1,6 @@
-package com.njfu.wa.sys.mapper;
+package com.njfu.wa.sys.service;
 
-import com.njfu.wa.sys.domain.Crop;
+import com.njfu.wa.sys.domain.Employee;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -13,17 +13,17 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CropMapperTest {
+public class EmployeeServiceTest {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private CropMapper cropMapper;
+    private EmployeeService employeeService;
 
     @Test
-    public void selectCrops() throws Exception {
-        List<Crop> crops = cropMapper.selectCrops();
-        log.info("crops : {}", crops);
+    public void getEmployees() throws Exception {
+        List<Employee> employees = employeeService.getEmployees();
+        log.info("employees : {}", employees);
     }
 
 }

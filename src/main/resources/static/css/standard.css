@@ -149,46 +149,57 @@ i {
     color: #87b5de;
 }
 
-/*panel*/
-.panel-red {
-    border-color: #d9534f;
+/*card*/
+.fieldCard {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px 5px 0 0;
+    width: 15%;
+    display: inline-block;
+    margin: 5px 10px 10px 5px;
+    padding-bottom: 10px;
 }
 
-.panel-red > .panel-heading {
-    border-color: #d9534f;
-    color: #fff;
+@media (max-width: 768px) {
+    .fieldCard {
+        width: 30%;
+    }
+}
+
+.card-header-blue {
+    background-color: #337ab7;
+    border-radius: 5px 5px 0 0;
+    color: #ffffff;
+    padding: 10px;
+}
+
+
+.card-header-red {
     background-color: #d9534f;
+    border-radius: 5px 5px 0 0;
+    color: #ffffff;
+    padding: 10px;
 }
 
-.panel-red > a {
-    color: #d9534f;
-}
-
-.panel-red > a:hover {
-    color: #b52b27;
-}
-
-.panel-yellow {
-    border-color: #f0ad4e;
-}
-
-.panel-yellow > .panel-heading {
-    border-color: #f0ad4e;
-    color: #fff;
+.card-header-yellow {
     background-color: #f0ad4e;
+    border-radius: 5px 5px 0 0;
+    color: #ffffff;
+    padding: 10px;
 }
 
-.panel-yellow > a {
-    color: #f0ad4e;
+.card-body {
+    margin: 10px;
 }
 
-.panel-yellow > a:hover {
-    color: #df8a13;
-}
-
+/*breadcrumb*/
 .breadcrumb > li > a {
     text-decoration: none;
     font-size: 15px;
+}
+
+.bread-span {
+    font-weight: bold;
+    color: #373b49;
 }
 
 #tooltip {

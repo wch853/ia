@@ -7,4 +7,6 @@ import java.util.List;
 public interface BlockService {
 
     List<Block> getBlocks();
+
+    List<Block> getBlocksAndFields();
 }
