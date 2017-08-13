@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface FieldService {
 
-    List<Field> getFields(String fieldName, String blockId, String cropId, String useStatus);
+    List<Field> getFields(Field field, String blockId, String cropId);
 
-    Message addField(String fieldId, String fieldName, String blockId, String cropId, String useStatus, String fieldPs);
+    Message addField(Field field, String blockId, String cropId);
 
-    Message modifyField(String fieldId, String fieldName, String blockId, String cropId, String useStatus, String fieldPs);
+    Message modifyField(Field field, String blockId, String cropId);
 
     Message removeField(String fieldId);
 }

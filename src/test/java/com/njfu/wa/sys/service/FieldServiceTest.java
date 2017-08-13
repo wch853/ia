@@ -1,6 +1,5 @@
 package com.njfu.wa.sys.service;
 
-import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.util.Message;
 import org.junit.Test;
@@ -26,20 +25,20 @@ public class FieldServiceTest {
 
     @Test
     public void getFields() throws Exception {
-        List<Field> fileds = fieldService.getFields(null, null, null, null);
+        List<Field> fileds = fieldService.getFields(new Field(), null, null);
         log.info("fields : {}", fileds);
     }
 
     @Test
     public void addField() throws Exception {
-        Message message = fieldService.addField("f1700001", "test", "b00", "", "1", "");
+        Message message = fieldService.addField(new Field(), null, null);
         log.info("message : {}", message);
     }
 
 
     @Test
     public void modifyField() throws Exception {
-        Message message = fieldService.modifyField("f1700001", "test", "b00", "", "1", "");
+        Message message = fieldService.modifyField(new Field(), null, null);
         log.info("message : {}", message);
     }
 

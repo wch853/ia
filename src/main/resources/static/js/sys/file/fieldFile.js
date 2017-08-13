@@ -4,7 +4,7 @@ $("#fieldFileTable").bootstrapTable({
         return {
             offset: params.offset,
             limit: params.limit,
-            fieldName: $('#queryFieldText').val(),
+            fieldName: $('#queryFieldText').val().trim(),
             blockId: $('#queryBlockText').val(),
             cropId: $('#queryCropText').val(),
             useStatus: $('#queryUseStatusText').val()
@@ -41,12 +41,12 @@ $("#fieldFileTable").bootstrapTable({
         formatter: function (value, row, index) {
             return [
                 '<a href="javascript:modifyField(' + "'" + row.fieldId + "', '" + row.fieldName + "', '"
-                    + row.block.blockId + "', '" + convertCropId(row.crop) + "', '" + row.useStatus + "', '"
-                    + convertFieldPs(row) + "'" + ')">' +
-                    '<i class="glyphicon glyphicon-pencil"></i>修改' +
+                + row.block.blockId + "', '" + convertCropId(row.crop) + "', '" + row.useStatus + "', '"
+                + convertFieldPs(row) + "'" + ')">' +
+                '<i class="glyphicon glyphicon-pencil"></i>修改' +
                 '</a>',
-                '<a href="javascript:removeField(' + "'" + row.fieldId +  "'" + ')">' +
-                    '<i class="glyphicon glyphicon-remove"></i>删除' +
+                '<a href="javascript:removeField(' + "'" + row.fieldId + "'" + ')">' +
+                '<i class="glyphicon glyphicon-remove"></i>删除' +
                 '</a>'
             ].join('');
         },
@@ -119,8 +119,9 @@ function deliverData(path, fieldId, fieldName, blockId, cropId, useStatus, field
 $('#addBtn').click(function () {
     // 清空新增modal内容
     $('.modal :text').val('');
+    $('#addFieldPsText').val('');
     var $select = $('.modal .selectpicker');
-    $select.each(function() {
+    $select.each(function () {
         $(this).find('option:first').prop('selected', true);
     });
     $select.selectpicker('refresh');
@@ -129,12 +130,12 @@ $('#addBtn').click(function () {
 });
 
 $('#saveAdd').click(function () {
-    var fieldId = $('#addFieldIdText').val();
-    var fieldName = $('#addFieldNameText').val();
+    var fieldId = $('#addFieldIdText').val().trim();
+    var fieldName = $('#addFieldNameText').val().trim();
     var blockId = $('#addBlockIdText').val();
     var cropId = $('#addCropIdText').val();
     var useStatus = $('#addUseStatusText').val();
-    var fieldPs = $('#addFieldPsText').val();
+    var fieldPs = $('#addFieldPsText').val().trim();
 
     $('#addModal').modal('hide');
 
@@ -174,13 +175,13 @@ function modifyField(fieldId, fieldName, blockId, cropId, useStatus, fieldPs) {
     $('#modifyModal').modal('show');
 }
 
-$('#saveModify').click(function() {
+$('#saveModify').click(function () {
     var fieldId = $('#modifyFieldIdText').text();
-    var fieldName = $('#modifyFieldNameText').val();
+    var fieldName = $('#modifyFieldNameText').val().trim();
     var blockId = $('#modifyBlockIdText').val();
     var cropId = $('#modifyCropIdText').val();
     var useStatus = $('#modifyUseStatusText').val();
-    var fieldPs = $('#modifyFieldPsText').val();
+    var fieldPs = $('#modifyFieldPsText').val().trim();
 
     $('#modifyModal').modal('hide');
 

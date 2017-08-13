@@ -8,6 +8,14 @@
     <select id="com.njfu.wa.sys.mapper.CropMapper.selectCrops" resultType="Crop">
         SELECT crop_id, crop_name, crop_ps
         FROM crop
+        <where>
+            <if test="null != cropId and !''.equals(cropId)">
+                crop_id = #{cropId}
+            </if>
+            <if test="null != cropName and !''.equals(cropName)">
+                crop_name = #{cropName}
+            </if>
+        </where>
     </select>
 
     <select id="selectCropById" resultType="Crop">

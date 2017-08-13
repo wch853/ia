@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WAApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WAApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WAApplication.class, args);
+    }
 }

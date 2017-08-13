@@ -11,7 +11,8 @@ public class Crop {
 
     private String cropPs;
 
-    public Crop() {}
+    public Crop() {
+    }
 
     public Crop(String cropId) {
         this.cropId = cropId;

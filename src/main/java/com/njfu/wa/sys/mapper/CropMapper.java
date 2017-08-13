@@ -8,5 +8,5 @@ import java.util.List;
 @Mapper
 public interface CropMapper {
 
-    List<Crop> selectCrops();
+    List<Crop> selectCrops(Crop crop);
 }

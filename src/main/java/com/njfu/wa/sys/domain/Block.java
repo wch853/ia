@@ -17,7 +17,8 @@ public class Block {
 
     private List<Field> fields;
 
-    public Block() {}
+    public Block() {
+    }
 
     public Block(String blockId) {
         this.blockId = blockId;

@@ -56,15 +56,15 @@
                 </div>
                 <div class="form-group">
                     <label for="queryUseStatusText">使用状态：</label>
-                    <select id="queryUseStatusText" class="selectpicker" data-live-search="true">
+                    <select id="queryUseStatusText" class="selectpicker">
                         <option value="" style="display: none;">请选择使用状态</option>
                         <option value="0">未使用</option>
                         <option value="1">使用中</option>
                     </select>
                 </div>
                 <button class="btn btn-primary btn-sm" id="queryBtn">查询</button>
-                <button class="btn btn-primary btn-sm" id="resetBtn">重置</button>
-                <button class="btn btn-primary btn-sm" id="addBtn">新增</button>
+                <button class="btn btn-success btn-sm" id="resetBtn">重置</button>
+                <button class="btn btn-danger btn-sm" id="addBtn">新增</button>
             </div>
             <hr>
 
@@ -117,7 +117,8 @@
                             <div class="form-inline">
                                 <div class="form-group">
                                     <label for="addFieldPsText">大棚备注：</label>
-                                    <input id="addFieldPsText" class="form-control" placeholder="限输入80个字符">
+                                    <textarea id="addFieldPsText" class="form-control" placeholder="限输入80个字符" rows="3"
+                                              cols="60"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +176,8 @@
                             <div class="form-inline">
                                 <div class="form-group">
                                     <label for="modifyFieldPsText">大棚备注：</label>
-                                    <input id="modifyFieldPsText" class="form-control" placeholder="限输入80个字符">
+                                    <textarea id="modifyFieldPsText" class="form-control" placeholder="限输入80个字符"
+                                              rows="3" cols="60"></textarea>
                                 </div>
                             </div>
                         </div>

@@ -2,6 +2,7 @@ package com.njfu.wa.sys.util;
 
 /**
  * 用于返回消息
+ *
  * @param <T>
  */
 public class Message<T> {

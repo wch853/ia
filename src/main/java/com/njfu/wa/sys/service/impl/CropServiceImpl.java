@@ -15,7 +15,7 @@ public class CropServiceImpl implements CropService {
     private CropMapper cropMapper;
 
     @Override
-    public List<Crop> getCrops() {
-        return cropMapper.selectCrops();
+    public List<Crop> getCrops(Crop crop) {
+        return cropMapper.selectCrops(crop);
     }
 }

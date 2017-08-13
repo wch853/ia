@@ -64,7 +64,7 @@ public class FileController {
     @RequestMapping("/field")
     public String fieldFile(Model model) {
         List<Block> blocks = blockService.getBlocks();
-        List<Crop> crops = cropService.getCrops();
+        List<Crop> crops = cropService.getCrops(new Crop());
         model.addAttribute("blocks", blocks);
         model.addAttribute("crops", crops);
         return "sys/file/fieldFile";
@@ -72,22 +72,22 @@ public class FileController {
 
     @RequestMapping("/getFields")
     public @ResponseBody
-    PaginationResult getFields(int offset, int limit, String fieldName, String blockId, String cropId, String useStatus) {
+    PaginationResult getFields(int offset, int limit, Field field, String blockId, String cropId) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
-        List<Field> fields = fieldService.getFields(fieldName, blockId, cropId, useStatus);
+        List<Field> fields = fieldService.getFields(field, blockId, cropId);
         return new PaginationResult(page.getTotal(), fields);
     }
 
     @PostMapping("/addField")
     public @ResponseBody
-    Message addField(String fieldId, String fieldName, String blockId, String cropId, String useStatus, String fieldPs) {
-        return fieldService.addField(fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
+    Message addField(Field field, String blockId, String cropId) {
+        return fieldService.addField(field, blockId, cropId);
     }
 
     @PostMapping("/modifyField")
     public @ResponseBody
-    Message modifyField(String fieldId, String fieldName, String blockId, String cropId, String useStatus, String fieldPs) {
-        return fieldService.modifyField(fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
+    Message modifyField(Field field, String blockId, String cropId) {
+        return fieldService.modifyField(field, blockId, cropId);
     }
 
     @PostMapping("/removeField")
@@ -103,9 +103,9 @@ public class FileController {
 
     @RequestMapping("/getCrops")
     public @ResponseBody
-    PaginationResult getCrops(int offset, int limit) {
+    PaginationResult getCrops(int offset, int limit, Crop crop) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
-        List<Crop> crops = cropService.getCrops();
+        List<Crop> crops = cropService.getCrops(crop);
         return new PaginationResult(page.getTotal(), crops);
     }
 

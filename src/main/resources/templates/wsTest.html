@@ -14,7 +14,7 @@
 
 <script type="text/javascript">
     var websocket;
-    var url = "ws://" + window.location.host + '/' + window.location.pathname.split('/')[1] + '/syshandler';
+    var url = 'ws://localhost:8000/' + window.location.pathname.split('/')[1] + '/syshandler';
     if (window.WebSocket) {
         console.log('Support WebSocket.');
         websocket = new WebSocket(url);
@@ -22,32 +22,32 @@
         alert('Not Support WebSocket!');
     }
 
-    websocket.onopen = function() {
+    websocket.onopen = function () {
         console.log('WebSocket open!');
     }
 
-    websocket.onmessage = function(event) {
+    websocket.onmessage = function (event) {
         $('#txt').append('<div>' + event.data + '</div>');
     }
 
-    websocket.onerror = function() {
+    websocket.onerror = function () {
         alert('WebSocket error, reload the page!');
     }
 
-    websocket.onclose = function() {
+    websocket.onclose = function () {
         console.log('WebSocket close!')
     }
 
-    window.onbeforeunload = function() {
+    window.onbeforeunload = function () {
         websocket.close();
     }
 
-    $('#send').click(function() {
+    $('#send').click(function () {
         var text = $('#ipt').val();
         websocket.send(text);
     });
 
-    $('#disconnect').click(function() {
+    $('#disconnect').click(function () {
         websocket.close();
     });
 </script>

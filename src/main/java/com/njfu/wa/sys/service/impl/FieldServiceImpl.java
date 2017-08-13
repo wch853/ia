@@ -18,29 +18,18 @@ public class FieldServiceImpl implements FieldService {
     @Autowired
     private FieldMapper fieldMapper;
 
-
     @Override
-    public List<Field> getFields(String fieldName, String blockId, String cropId, String useStatus) {
-        Field field = new Field();
-        field.setFieldName(fieldName);
+    public List<Field> getFields(Field field, String blockId, String cropId) {
         field.setBlock(new Block(blockId));
         field.setCrop(new Crop(cropId));
-        field.setUseStatus(useStatus);
         return fieldMapper.selectFields(field);
     }
 
     @Override
-    public Message addField(String fieldId, String fieldName, String blockId, String cropId, String useStatus, String fieldPs) {
-        Field field = new Field();
-        field.setFieldId(fieldId.trim());
-        field.setFieldName(fieldName.trim());
+    public Message addField(Field field, String blockId, String cropId) {
         field.setBlock(new Block(blockId));
         if (cropId != "") {
             field.setCrop(new Crop(cropId));
-        }
-        field.setUseStatus(useStatus);
-        if (fieldPs.trim() != "") {
-            field.setFieldPs(fieldPs);
         }
 
         int rowCount = fieldMapper.insertField(field);
@@ -52,17 +41,10 @@ public class FieldServiceImpl implements FieldService {
     }
 
     @Override
-    public Message modifyField(String fieldId, String fieldName, String blockId, String cropId, String useStatus, String fieldPs) {
-        Field field = new Field();
-        field.setFieldId(fieldId);
-        field.setFieldName(fieldName.trim());
+    public Message modifyField(Field field, String blockId, String cropId) {
         field.setBlock(new Block(blockId));
         if (cropId != "") {
             field.setCrop(new Crop(cropId));
-        }
-        field.setUseStatus(useStatus);
-        if (fieldPs.trim() != "") {
-            field.setFieldPs(fieldPs);
         }
 
         int rowCount = fieldMapper.updateField(field);

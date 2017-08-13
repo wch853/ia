@@ -24,7 +24,6 @@ public class SysWebSocketHandler implements WebSocketHandler {
      *
      * @param session
      * @throws Exception
-     *
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -38,20 +37,16 @@ public class SysWebSocketHandler implements WebSocketHandler {
      * @param session
      * @param message
      * @throws Exception
-     *
      */
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         if (message instanceof TextMessage) {
             handleTextMessage(session, ((TextMessage) message).getPayload());
-        }
-        else if (message instanceof BinaryMessage) {
+        } else if (message instanceof BinaryMessage) {
             session.sendMessage(message);
-        }
-        else if (message instanceof PongMessage) {
+        } else if (message instanceof PongMessage) {
             session.sendMessage(message);
-        }
-        else {
+        } else {
             throw new IllegalStateException("未知WebSocket message类型: " + message);
         }
     }
@@ -66,7 +61,6 @@ public class SysWebSocketHandler implements WebSocketHandler {
      * @param session
      * @param exception
      * @throws Exception
-     *
      */
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
@@ -83,7 +77,6 @@ public class SysWebSocketHandler implements WebSocketHandler {
      * @param session
      * @param closeStatus
      * @throws Exception
-     *
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CropService {
 
-    List<Crop> getCrops();
+    List<Crop> getCrops(Crop crop);
 }

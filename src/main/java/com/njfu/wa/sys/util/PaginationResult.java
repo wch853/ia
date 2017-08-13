@@ -11,6 +11,9 @@ public class PaginationResult {
 
     private List<?> rows;
 
+    public PaginationResult() {
+    }
+
     public PaginationResult(long total, List<?> rows) {
         this.total = total;
         this.rows = rows;
