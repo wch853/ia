@@ -9,7 +9,7 @@ import java.util.List;
 public interface BlockMapper {
 
     // 查询地块档案
-    List<Block> selectBlocks();
+    List<Block> selectBlocks(Block block);
 
     // 查询所有地块档案及对应地块下使用状态的大棚
     List<Block> selectBlocksAndFields();

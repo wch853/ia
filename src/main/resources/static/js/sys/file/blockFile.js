@@ -3,7 +3,9 @@ $("#blockFileTable").bootstrapTable({
     queryParams: function (params) {
         return {
             offset: params.offset,
-            limit: params.limit
+            limit: params.limit,
+            blockId: $('#queryBlockId').val(),
+            blockName: $('#queryBlockName').val()
         }
     },
     columns: [{
@@ -24,4 +26,15 @@ $("#blockFileTable").bootstrapTable({
     sidePagination: 'server',
     pageSize: 10,
     pageList: [5, 10, 25]
+});
+
+// 查询
+$('#queryBtn').click(function() {
+    $('#blockFileTable').bootstrapTable('selectPage', 1);
+});
+
+// 重置
+$('#resetBtn').click(function() {
+    $('#queryToolBar :text').val('');
+    $('#blockFileTable').bootstrapTable('selectPage', 1);
 });

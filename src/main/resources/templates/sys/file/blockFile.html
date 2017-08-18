@@ -31,13 +31,80 @@
 
             <div class="form-inline" id="queryToolBar">
                 <div class="form-group">
-                    <label for="queryFieldText">作物编号：</label>
-                    <input id="queryFieldText" class="form-control input-sm">
+                    <label for="queryBlockId">地块编号：</label>
+                    <input id="queryBlockId" class="form-control input-sm">
                 </div>
+                <div class="form-group">
+                    <label for="queryBlockName">地块名称：</label>
+                    <input id="queryBlockName" class="form-control input-sm">
+                </div>
+                <button class="btn btn-primary btn-sm" id="queryBtn">查询</button>
+                <button class="btn btn-success btn-sm" id="resetBtn">重置</button>
+                <button class="btn btn-danger btn-sm" id="addBtn">新增</button>
             </div>
             <hr>
 
             <table id="blockFileTable"></table>
+
+            <!-- 新增模态窗 -->
+            <div class="modal fade" id="addModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">新增地块</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline" style="padding-bottom: 15px;">
+                                <div class="form-group">
+                                    <label for="addBlockId">地块编号：</label>
+                                    <input id="addBlockId" class="form-control" placeholder="大棚编号不可为空">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addFieldNameText">地块名称：</label>
+                                    <input id="addFieldNameText" class="form-control" placeholder="大棚名称不可为空">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="addBlockIdText">所属地块：</label>
+                                <select id="addBlockIdText" class="selectpicker" data-live-search="true">
+                                    <option value="" style="display: none;">请选择地块名称（不可为空）</option>
+                                    <#list blocks as block>
+                                        <option value="${block.blockId!}">${block.blockName!}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="addCropIdText">作物名称：</label>
+                                <select id="addCropIdText" class="selectpicker" data-live-search="true">
+                                    <option value="" style="display: none;">请选择作物名称</option>
+                                    <#list crops as crop>
+                                        <option value="${crop.cropId!}">${crop.cropName!}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="addUseStatusText">使用状态：</label>
+                                <select id="addUseStatusText" class="selectpicker">
+                                    <option value="0">未使用</option>
+                                    <option value="1">使用中</option>
+                                </select>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="addFieldPsText">大棚备注：</label>
+                                    <textarea id="addFieldPsText" class="form-control" placeholder="限输入80个字符" rows="3"
+                                              cols="60"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="saveAdd">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div><!--container-->
     </div><!--page wrapped-->

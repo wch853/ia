@@ -8,6 +8,14 @@
     <select id="selectBlocks" resultType="Block">
         SELECT block_id, block_name, block_loc, block_ps
         FROM block
+        <where>
+            <if test="null != blockId and !''.equals(blockId)">
+                block_id = #{blockId}
+            </if>
+            <if test="null != blockName and !''.equals(blockName)">
+                block_name LIKE  CONCAT('%', #{blockName}, '%')
+            </if>
+        </where>
     </select>
 
     <resultMap id="blocksAndFieldsMap" type="Block">
@@ -22,7 +30,7 @@
     </select>
 
     <select id="selectFields" resultType="Field">
-        SELECT field_id
+        SELECT field_id, field_name
         FROM field
         WHERE block_id = #{block_id} AND use_status = '1'
     </select>

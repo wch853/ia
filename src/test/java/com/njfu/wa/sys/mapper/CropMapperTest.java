@@ -22,8 +22,8 @@ public class CropMapperTest {
 
     @Test
     public void selectCrops() throws Exception {
-        List<Crop> crops = cropMapper.selectCrops();
-        log.info("crops : {}", crops);
+        List<Crop> crops = cropMapper.selectCrops(new Crop());
+        log.info("crops: {}", crops);
     }
 
 }

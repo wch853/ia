@@ -25,26 +25,26 @@ public class FieldServiceTest {
 
     @Test
     public void getFields() throws Exception {
-        List<Field> fileds = fieldService.getFields(new Field(), null, null);
-        log.info("fields : {}", fileds);
+        List<Field> fields = fieldService.getFields(new Field(), null, null);
+        log.info("fields: {}", fields);
     }
 
     @Test
     public void addField() throws Exception {
         Message message = fieldService.addField(new Field(), null, null);
-        log.info("message : {}", message);
+        log.info("message: {}", message);
     }
 
 
     @Test
     public void modifyField() throws Exception {
         Message message = fieldService.modifyField(new Field(), null, null);
-        log.info("message : {}", message);
+        log.info("message: {}", message);
     }
 
     @Test
     public void removeField() throws Exception {
         Message message = fieldService.removeField("f1700001");
-        log.info("message : {}", message);
+        log.info("message: {}", message);
     }
 }

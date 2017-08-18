@@ -23,7 +23,7 @@ public class EmployeeServiceTest {
     @Test
     public void getEmployees() throws Exception {
         List<Employee> employees = employeeService.getEmployees();
-        log.info("employees : {}", employees);
+        log.info("employees: {}", employees);
     }
 
 }

@@ -30,7 +30,7 @@ public class FieldMapperTest {
         field.setCrop(new Crop(null));
         field.setUseStatus("1");
         List<Field> fields = fieldMapper.selectFields(field);
-        log.info("fields : {}", fields);
+        log.info("fields: {}", fields);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class FieldMapperTest {
 
         int rowCount = fieldMapper.insertField(field);
 
-        log.info("rowCount : {}", rowCount);
+        log.info("rowCount: {}", rowCount);
     }
 
     @Test
@@ -57,13 +57,13 @@ public class FieldMapperTest {
         field.setUseStatus("0");
 
         int rowCount = fieldMapper.updateField(field);
-        log.info("rowCount : {}", rowCount);
+        log.info("rowCount: {}", rowCount);
     }
 
     @Test
     public void deleteField() throws Exception {
         int rowCount = fieldMapper.deleteField("f1700001");
-        log.info("rowCount : {}", rowCount);
+        log.info("rowCount: {}", rowCount);
     }
 
 }

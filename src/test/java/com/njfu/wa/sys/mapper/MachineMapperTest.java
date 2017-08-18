@@ -25,6 +25,6 @@ public class MachineMapperTest {
     @Test
     public void selectMachines() throws Exception {
         List<Machine> machines = machineMapper.selectMachines();
-        log.info("machines : {}", machines);
+        log.info("machines: {}", machines);
     }
 }

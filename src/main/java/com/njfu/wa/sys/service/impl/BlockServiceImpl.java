@@ -14,11 +14,19 @@ public class BlockServiceImpl implements BlockService {
     @Autowired
     private BlockMapper blockMapper;
 
+    /**
+     * 获取地块列表
+     * @return
+     */
     @Override
-    public List<Block> getBlocks() {
-        return blockMapper.selectBlocks();
+    public List<Block> getBlocks(Block block) {
+        return blockMapper.selectBlocks(block);
     }
 
+    /**
+     * 查询所有地块及各地块下处于使用中状态的大棚
+     * @return
+     */
     @Override
     public List<Block> getBlocksAndFields() {
         return blockMapper.selectBlocksAndFields();

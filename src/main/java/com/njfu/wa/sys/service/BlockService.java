@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BlockService {
 
-    List<Block> getBlocks();
+    List<Block> getBlocks(Block block);
 
     List<Block> getBlocksAndFields();
 }

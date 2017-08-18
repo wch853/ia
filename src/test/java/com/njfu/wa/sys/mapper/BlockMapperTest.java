@@ -22,15 +22,15 @@ public class BlockMapperTest {
 
     @Test
     public void selectBlocks() throws Exception {
-        List<Block> blocks = blockMapper.selectBlocks();
-        log.info("blocks : {}", blocks);
+        List<Block> blocks = blockMapper.selectBlocks(new Block());
+        log.info("blocks: {}", blocks);
     }
 
     @Test
     public void selectBlocksAndFields() throws Exception {
         List<Block> blocks = blockMapper.selectBlocksAndFields();
         for (Block block : blocks) {
-            log.info("block : {}", block.getFields());
+            log.info("block: {}", block.getFields());
         }
     }
 

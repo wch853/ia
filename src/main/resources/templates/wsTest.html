@@ -14,7 +14,7 @@
 
 <script type="text/javascript">
     var websocket;
-    var url = 'ws://localhost:8000/' + window.location.pathname.split('/')[1] + '/syshandler';
+    var url = 'ws://localhost:8000/wa/syshandler';
     if (window.WebSocket) {
         console.log('Support WebSocket.');
         websocket = new WebSocket(url);

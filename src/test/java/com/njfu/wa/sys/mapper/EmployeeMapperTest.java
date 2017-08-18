@@ -23,7 +23,7 @@ public class EmployeeMapperTest {
     @Test
     public void selectEmployees() throws Exception {
         List<Employee> employees = employeeMapper.selectEmployees();
-        log.info("employees : {}", employees);
+        log.info("employees: {}", employees);
     }
 
 }

@@ -22,8 +22,8 @@ public class BlockServiceTest {
 
     @Test
     public void getBlocks() throws Exception {
-        List<Block> blocks = blockService.getBlocks();
-        log.info("blocks : {}", blocks);
+        List<Block> blocks = blockService.getBlocks(new Block());
+        log.info("blocks: {}", blocks);
     }
 
 }

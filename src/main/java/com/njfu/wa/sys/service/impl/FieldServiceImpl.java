@@ -7,6 +7,8 @@ import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.mapper.FieldMapper;
 import com.njfu.wa.sys.service.FieldService;
 import com.njfu.wa.sys.util.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class FieldServiceImpl implements FieldService {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private FieldMapper fieldMapper;
@@ -34,7 +38,7 @@ public class FieldServiceImpl implements FieldService {
 
         int rowCount = fieldMapper.insertField(field);
         if (rowCount == 0) {
-            return new Message(MessageEnum.FAIL.getCode(), "新增大棚信息失败！");
+            return new Message(MessageEnum.FAIL.getCode(), "新增大棚信息失败，请检查新增编号是否存在！");
         }
 
         return new Message(MessageEnum.SUCCESS.getCode(), "新增大棚信息成功！");
