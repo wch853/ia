@@ -40,8 +40,8 @@
     </select>
 
     <insert id="insertField">
-        INSERT IGNORE INTO field(field_id, field_name, block_id, crop_id, use_status, field_ps)
-        VALUES(#{fieldId}, #{fieldName}, #{block.blockId}, #{crop.cropId}, #{useStatus}, #{fieldPs})
+        INSERT IGNORE INTO field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+        VALUES (#{fieldId}, #{fieldName}, #{block.blockId}, #{crop.cropId}, #{useStatus}, #{fieldPs})
     </insert>
 
     <update id="updateField">

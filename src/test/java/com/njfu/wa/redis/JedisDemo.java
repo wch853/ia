@@ -16,11 +16,11 @@ public class JedisDemo {
      */
     @Test
     public void demo1() {
-        Jedis jedis = new Jedis("106.14.200.121", 6379);
+        Jedis jedis = new Jedis("106.14.200.121", 6379, 1000);
         jedis.auth("admin");
         jedis.set("name", "wch");
         String name = jedis.get("name");
-        log.info("name : {}", name);
+        log.info("name: {}", name);
         jedis.close();
     }
 

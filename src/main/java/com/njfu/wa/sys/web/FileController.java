@@ -45,7 +45,8 @@ public class FileController {
 
     /**
      * 档案页首页
-     * @return
+     *
+     * @return page
      */
     @RequestMapping
     public String file() {
@@ -54,7 +55,8 @@ public class FileController {
 
     /**
      * 地块档案页
-     * @return
+     *
+     * @return page
      */
     @RequestMapping("/block")
     public String blockFile() {
@@ -63,9 +65,10 @@ public class FileController {
 
     /**
      * 获取地块列表
-     * @param offset
-     * @param limit
-     * @return
+     *
+     * @param offset offset
+     * @param limit  limit
+     * @return json data
      */
     @RequestMapping("/getBlocks")
     public @ResponseBody
@@ -76,9 +79,46 @@ public class FileController {
     }
 
     /**
+     * 新增地块信息
+     *
+     * @param block block
+     * @return json message
+     */
+    @PostMapping("/addBlock")
+    public @ResponseBody
+    Message addBlock(Block block) {
+        return blockService.addBlock(block);
+    }
+
+    /**
+     * 修改地块信息
+     *
+     * @param block block
+     * @return json message
+     */
+    @PostMapping("/modifyBlock")
+    public @ResponseBody
+    Message modifyBlock(Block block) {
+        return blockService.modifyBlock(block);
+    }
+
+    /**
+     * 删除地块信息
+     *
+     * @param block block
+     * @return json message
+     */
+    @PostMapping("/removeBlock")
+    public @ResponseBody
+    Message removeBlock(Block block) {
+        return blockService.removeBlock(block);
+    }
+
+    /**
      * 大棚档案页
-     * @param model
-     * @return
+     *
+     * @param model data
+     * @return page
      */
     @RequestMapping("/field")
     public String fieldFile(Model model) {
@@ -91,12 +131,13 @@ public class FileController {
 
     /**
      * 获取大棚列表
-     * @param offset
-     * @param limit
-     * @param field
-     * @param blockId
-     * @param cropId
-     * @return
+     *
+     * @param offset  offset
+     * @param limit   limit
+     * @param field   field
+     * @param blockId blockId
+     * @param cropId  cropId
+     * @return json data
      */
     @RequestMapping("/getFields")
     public @ResponseBody
@@ -108,10 +149,11 @@ public class FileController {
 
     /**
      * 新增大棚信息
-     * @param field
-     * @param blockId
-     * @param cropId
-     * @return
+     *
+     * @param field   field
+     * @param blockId blockId
+     * @param cropId  cropId
+     * @return json message
      */
     @PostMapping("/addField")
     public @ResponseBody
@@ -121,10 +163,11 @@ public class FileController {
 
     /**
      * 修改大棚信息
-     * @param field
-     * @param blockId
-     * @param cropId
-     * @return
+     *
+     * @param field   field
+     * @param blockId blockId
+     * @param cropId  cropId
+     * @return json message
      */
     @PostMapping("/modifyField")
     public @ResponseBody
@@ -134,8 +177,9 @@ public class FileController {
 
     /**
      * 移除大棚信息
-     * @param fieldId
-     * @return
+     *
+     * @param fieldId fieldId
+     * @return json message
      */
     @PostMapping("/removeField")
     public @ResponseBody
@@ -145,7 +189,8 @@ public class FileController {
 
     /**
      * 作物档案页
-     * @return
+     *
+     * @return page
      */
     @RequestMapping("/crop")
     public String cropFile() {
@@ -154,10 +199,11 @@ public class FileController {
 
     /**
      * 获取作物列表
-     * @param offset
-     * @param limit
-     * @param crop
-     * @return
+     *
+     * @param offset offset
+     * @param limit  limit
+     * @param crop   crop
+     * @return json data
      */
     @RequestMapping("/getCrops")
     public @ResponseBody
@@ -168,8 +214,45 @@ public class FileController {
     }
 
     /**
-     * 员工档案页
+     * 新增作物信息
+     *
+     * @param crop crop
+     * @return json message
+     */
+    @PostMapping("/addCrop")
+    public @ResponseBody
+    Message addCrop(Crop crop) {
+        return cropService.addCrop(crop);
+    }
+
+    /**
+     * 修改作物信息
+     *
+     * @param crop crop
+     * @return json message
+     */
+    @PostMapping("/modifyCrop")
+    public @ResponseBody
+    Message modifyCrop(Crop crop) {
+        return cropService.modifyCrop(crop);
+    }
+
+    /**
+     * 删除作物信息
+     *
+     * @param crop
      * @return
+     */
+    @PostMapping("/removeCrop")
+    public @ResponseBody
+    Message removeCrop(Crop crop) {
+        return cropService.removeCrop(crop);
+    }
+
+    /**
+     * 员工档案页
+     *
+     * @return page
      */
     @RequestMapping("/employee")
     public String employeeFile() {
@@ -178,9 +261,10 @@ public class FileController {
 
     /**
      * 获取员工列表
-     * @param offset
-     * @param limit
-     * @return
+     *
+     * @param offset offset
+     * @param limit  limit
+     * @return json data
      */
     @RequestMapping("/getEmployees")
     public @ResponseBody
@@ -192,6 +276,7 @@ public class FileController {
 
     /**
      * 机械档案页
+     *
      * @return
      */
     @RequestMapping("/machine")
@@ -201,6 +286,7 @@ public class FileController {
 
     /**
      * 获取机械列表
+     *
      * @param offset
      * @param limit
      * @return
@@ -215,6 +301,7 @@ public class FileController {
 
     /**
      * 车辆档案页
+     *
      * @return
      */
     @RequestMapping("/vehicle")
@@ -224,6 +311,7 @@ public class FileController {
 
     /**
      * 获取车辆列表
+     *
      * @param offset
      * @param limit
      * @return
@@ -238,6 +326,7 @@ public class FileController {
 
     /**
      * 传感器档案页
+     *
      * @return
      */
     @RequestMapping("/sensor")
@@ -247,6 +336,7 @@ public class FileController {
 
     /**
      * 获取传感器列表
+     *
      * @param offset
      * @param limit
      * @return

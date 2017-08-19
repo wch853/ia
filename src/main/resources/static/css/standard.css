@@ -102,6 +102,12 @@ nav > ul > li > a,
     color: #fff !important;
 }
 
+@media (max-width: 484px) {
+    #sidebar-collapse {
+        margin-top: 138px;
+    }
+}
+
 @media (min-width: 768px) {
     .side-nav {
         position: fixed;
@@ -146,7 +152,11 @@ nav > ul > li > a,
 /*icon*/
 i {
     margin: 0px 7px;
-    color: #87b5de;
+}
+
+nav i,
+#sidebar-collapse i {
+    color: #cbd3d4;
 }
 
 /*card*/
@@ -224,4 +234,8 @@ i {
     .form-inline .form-group {
         padding-right: 10px;
     }
+}
+
+.btm-px {
+    margin-bottom: 15px;
 }

@@ -26,9 +26,9 @@ $("#fieldFileTable").bootstrapTable({
         formatter: function (value, row, index) {
             var useStatus = row.useStatus;
             var format = '';
-            if (useStatus == 1) {
+            if (useStatus === '1') {
                 format = '使用中'
-            } else if (useStatus == 0) {
+            } else if (useStatus === '0') {
                 format = '未使用'
             }
             return format;
@@ -39,10 +39,11 @@ $("#fieldFileTable").bootstrapTable({
         title: '备注'
     }, {
         formatter: function (value, row, index) {
+            /** @namespace row.block */
             return [
                 '<a href="javascript:modifyField(' + "'" + row.fieldId + "', '" + row.fieldName + "', '"
                 + row.block.blockId + "', '" + convertCropId(row.crop) + "', '" + row.useStatus + "', '"
-                + convertFieldPs(row) + "'" + ')">' +
+                + convertFieldPs(row.fieldPs) + "'" + ')">' +
                 '<i class="glyphicon glyphicon-pencil"></i>修改' +
                 '</a>',
                 '<a href="javascript:removeField(' + "'" + row.fieldId + "'" + ')">' +
@@ -56,7 +57,7 @@ $("#fieldFileTable").bootstrapTable({
     pagination: true,
     sidePagination: 'server',
     pageSize: 10,
-    pageList: [5, 10, 25]
+    pageList: [5, 10, 25, 50]
 });
 
 // 处理json中cropId可能出现的null值
@@ -69,11 +70,11 @@ function convertCropId(crop) {
 }
 
 // 处理json中fieldPs可能出现的null值
-function convertFieldPs(row) {
-    if (null == row.fieldPs) {
+function convertFieldPs(fieldPs) {
+    if (null === fieldPs) {
         return '';
     } else {
-        return row.fieldPs;
+        return fieldPs;
     }
 }
 
@@ -139,7 +140,7 @@ $('#saveAdd').click(function () {
 
     $('#addModal').modal('hide');
 
-    if (fieldId == '' || fieldName == '' || blockId == '') {
+    if (fieldId === '' || fieldName === '' || blockId === '') {
         bootbox.alert({
             title: '提示',
             message: '请输入完整信息！'
@@ -185,7 +186,7 @@ $('#saveModify').click(function () {
 
     $('#modifyModal').modal('hide');
 
-    if (fieldName == '' || blockId == '') {
+    if (fieldName === '' || blockId === '') {
         bootbox.alert({
             title: '提示',
             message: '请输入完整信息！'
