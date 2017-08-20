@@ -16,6 +16,35 @@
     <select id="selectMachines" resultMap="machineMap">
         SELECT machine_id, machine_type, block_id, use_status, machine_ps
         FROM machine
+        <where>
+            <if test="null != machineId and !''.equals(machineId)">
+                machine_id = #{machineId}
+            </if>
+            <if test="null != machineType and !''.equals(machineType)">
+                machine_type = #{machineType}
+            </if>
+            <if test="null != block.blockId and !''.equals(block.blockId)">
+                block_id = #{block.blockId}
+            </if>
+            <if test="null != useStatus and !''.equals(useStatus)">
+                use_status = #{useStatus}
+            </if>
+        </where>
     </select>
 
+    <insert id="insertMachine">
+        INSERT INTO machine (machine_id, machine_type, block_id, use_status, machine_ps)
+        VALUES (#{machineId}, #{machineType}, #{block.blockId}, #{useStatus}, #{machinePs})
+    </insert>
+
+    <update id="updateMachine">
+        UPDATE machine
+        SET machine_type = #{machineType}, block_id = #{block.blockId}, use_status = #{useStatus}, machine_ps = #{machinePs}
+        WHERE machine_id = #{machineId}
+    </update>
+
+    <delete id="deleteMachine">
+        DELETE FROM machine
+        WHERE machine_id = #{machineId}
+    </delete>
 </mapper>	

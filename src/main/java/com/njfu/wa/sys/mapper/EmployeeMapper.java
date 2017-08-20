@@ -10,5 +10,35 @@ import java.util.List;
 @Repository
 public interface EmployeeMapper {
 
-    List<Employee> selectEmployees();
+    /**
+     * 查询员工列表
+     *
+     * @param employee empId empName
+     * @return data
+     */
+    List<Employee> selectEmployees(Employee employee);
+
+    /**
+     * 插入员工信息
+     *
+     * @param employee empId empName empTel empPosition empAge empSex empPs
+     * @return row count
+     */
+    int insertEmployee(Employee employee);
+
+    /**
+     * 修改员工信息
+     *
+     * @param employee empId empName empTel empPosition empAge empSex empPs
+     * @return row count
+     */
+    int updateEmployee(Employee employee);
+
+    /**
+     * 删除员工信息
+     *
+     * @param employee empId
+     * @return row count
+     */
+    int deleteEmployee(Employee employee);
 }

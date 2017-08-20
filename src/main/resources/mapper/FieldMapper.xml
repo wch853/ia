@@ -46,7 +46,8 @@
 
     <update id="updateField">
         UPDATE field
-        SET field_name = #{fieldName}, block_id = #{block.blockId}, crop_id = #{crop.cropId}, use_status = #{useStatus}, field_ps = #{fieldPs}
+        SET field_name = #{fieldName}, block_id = #{block.blockId}, crop_id = #{crop.cropId},
+        use_status = #{useStatus}, field_ps = #{fieldPs}
         WHERE field_id = #{fieldId}
     </update>
 

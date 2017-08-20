@@ -22,6 +22,7 @@ public class BlockServiceImpl implements BlockService {
     /**
      * 获取地块列表
      *
+     * @param block blockId blockName
      * @return data
      */
     @Override
@@ -42,11 +43,12 @@ public class BlockServiceImpl implements BlockService {
     /**
      * 新增地块信息
      *
-     * @param block block
+     * @param block blockId blockName blockLoc blockPs
      * @return message
      */
     @Override
     public Message addBlock(Block block) {
+        // 若blockPs为空字符串，转为null
         if ("".equals(block.getBlockPs())) {
             block.setBlockPs(null);
         }
@@ -62,11 +64,12 @@ public class BlockServiceImpl implements BlockService {
     /**
      * 修改地块信息
      *
-     * @param block block
+     * @param block blockId blockName blockLoc blockPs
      * @return message
      */
     @Override
     public Message modifyBlock(Block block) {
+        // 若blockPs为空字符串，转为null
         if ("".equals(block.getBlockPs())) {
             block.setBlockPs(null);
         }
@@ -83,7 +86,7 @@ public class BlockServiceImpl implements BlockService {
     /**
      * 删除地块信息
      *
-     * @param block block
+     * @param block blockId
      * @return message
      */
     @Override

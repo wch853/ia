@@ -10,7 +10,7 @@ public interface BlockService {
     /**
      * 获取地块信息
      *
-     * @param block block
+     * @param block blockId blockName
      * @return data
      */
     List<Block> getBlocks(Block block);
@@ -25,21 +25,23 @@ public interface BlockService {
     /**
      * 新增地块信息
      *
-     * @param block block
+     * @param block blockId blockName blockLoc blockPs
      * @return message
      */
     Message addBlock(Block block);
 
     /**
      * 修改地块信息
-     * @param block block
+     *
+     * @param block blockId blockName blockLoc blockPs
      * @return message
      */
     Message modifyBlock(Block block);
 
     /**
      * 删除地块信息
-     * @param block block
+     *
+     * @param block blockId
      * @return message
      */
     Message removeBlock(Block block);

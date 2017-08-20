@@ -8,5 +8,30 @@
     <select id="selectEmployees" resultType="Employee">
         SELECT emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps
         FROM employee
+        <where>
+            <if test="null != empId and !''.equals(empId)">
+                emp_id = #{empId}
+            </if>
+            <if test="null != empName and !''.equals(empName)">
+                AND emp_name LIKE CONCAT('%', #{empName}, '%')
+            </if>
+        </where>
     </select>
+
+    <insert id="insertEmployee">
+        INSERT IGNORE INTO employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps)
+        VALUES (#{empId}, #{empName}, #{empTel}, #{empPosition}, #{empAge}, #{empSex}, #{empPs})
+    </insert>
+
+    <update id="updateEmployee">
+        UPDATE employee
+        SET emp_name = #{empName}, emp_tel = #{empTel}, emp_position = #{empPosition},
+        emp_age = #{empAge}, emp_sex = #{empSex}, emp_ps = #{empPs}
+        WHERE emp_id = #{empId}
+    </update>
+
+    <delete id="deleteEmployee">
+        DELETE FROM employee
+        WHERE emp_id = #{empId}
+    </delete>
 </mapper>	

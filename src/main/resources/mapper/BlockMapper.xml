@@ -13,7 +13,7 @@
                 block_id = #{blockId}
             </if>
             <if test="null != blockName and !''.equals(blockName)">
-                block_name LIKE CONCAT('%', #{blockName}, '%')
+                AND block_name LIKE CONCAT('%', #{blockName}, '%')
             </if>
         </where>
     </select>

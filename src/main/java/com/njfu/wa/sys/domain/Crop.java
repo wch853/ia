@@ -14,10 +14,6 @@ public class Crop {
     public Crop() {
     }
 
-    public Crop(String cropId) {
-        this.cropId = cropId;
-    }
-
     public String getCropId() {
         return cropId;
     }

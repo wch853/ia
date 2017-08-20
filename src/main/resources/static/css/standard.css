@@ -9,6 +9,12 @@ body {
     }
 }
 
+@media (max-width: 484px) {
+    body {
+        margin-top: 120px;
+    }
+}
+
 #wrapper {
     padding-left: 0;
 }
@@ -234,8 +240,20 @@ nav i,
     .form-inline .form-group {
         padding-right: 10px;
     }
+
+    .form-inline .form-group input.inline-lg-size {
+        width: 450px;
+    }
+
+    .modal .form-control-static {
+        width: 180px;
+    }
 }
 
 .btm-px {
     margin-bottom: 15px;
+}
+
+.hide-option {
+    display: none !important;
 }

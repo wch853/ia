@@ -22,7 +22,7 @@ public class CropServiceImpl implements CropService {
     /**
      * 获取作物列表
      *
-     * @param crop crop
+     * @param crop cropId cropName
      * @return data
      */
     @Override
@@ -33,8 +33,8 @@ public class CropServiceImpl implements CropService {
     /**
      * 新增作物信息
      *
-     * @param crop
-     * @return
+     * @param crop cropId cropName cropPs
+     * @return message
      */
     @Override
     public Message addCrop(Crop crop) {
@@ -54,7 +54,7 @@ public class CropServiceImpl implements CropService {
     /**
      * 修改作物信息
      *
-     * @param crop crop
+     * @param crop cropId cropName cropPs
      * @return message
      */
     @Override
@@ -75,7 +75,7 @@ public class CropServiceImpl implements CropService {
     /**
      * 删除作物信息
      *
-     * @param crop crop
+     * @param crop cropId
      * @return message
      */
     @Override

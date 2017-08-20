@@ -95,7 +95,7 @@ $('#saveAdd').click(function () {
 
     $('#addModal').modal('hide');
 
-    if (cropId === '' || cropName === '' || cropPs === '') {
+    if (cropId === '' || cropName === '') {
         bootbox.alert({
             title: '提示',
             message: '请输入完整信息！'

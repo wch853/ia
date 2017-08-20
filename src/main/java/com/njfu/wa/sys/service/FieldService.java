@@ -1,5 +1,7 @@
 package com.njfu.wa.sys.service;
 
+import com.njfu.wa.sys.domain.Block;
+import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.util.Message;
 
@@ -8,40 +10,38 @@ import java.util.List;
 public interface FieldService {
 
     /**
-     * 查询大棚信息
-     *
-     * @param field
-     * @param blockId
-     * @param cropId
-     * @return
+     * @param field fieldName useStatus
+     * @param block blockId
+     * @param crop  cropId
+     * @return data
      */
-    List<Field> getFields(Field field, String blockId, String cropId);
+    List<Field> getFields(Field field, Block block, Crop crop);
 
     /**
      * 新增大棚信息
      *
-     * @param field
-     * @param blockId
-     * @param cropId
-     * @return
+     * @param field fieldId fieldName useStatus fieldPs
+     * @param block blockId
+     * @param crop  cropId
+     * @return message
      */
-    Message addField(Field field, String blockId, String cropId);
+    Message addField(Field field, Block block, Crop crop);
 
     /**
      * 修改大棚信息
      *
-     * @param field
-     * @param blockId
-     * @param cropId
-     * @return
+     * @param field fieldId fieldName useStatus fieldPs
+     * @param block blockId
+     * @param crop  cropId
+     * @return message
      */
-    Message modifyField(Field field, String blockId, String cropId);
+    Message modifyField(Field field, Block block, Crop crop);
 
     /**
      * 删除大棚信息
      *
-     * @param fieldId
-     * @return
+     * @param field field
+     * @return message
      */
-    Message removeField(String fieldId);
+    Message removeField(Field field);
 }

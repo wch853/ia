@@ -1,8 +1,8 @@
-package com.njfu.wa.sys.mapper;
+package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Machine;
-import org.junit.Assert;
+import com.njfu.wa.sys.util.Message;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,67 +17,58 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class MachineMapperTest {
+public class MachineServiceTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private MachineMapper machineMapper;
+    private MachineService machineService;
 
     @Test
-    public void selectMachines() throws Exception {
-        Block block = new Block();
-        Machine machine = new Machine();
-        machine.setBlock(block);
-
-        List<Machine> machines = machineMapper.selectMachines(machine);
+    public void getMachines() throws Exception {
+        List<Machine> machines = machineService.getMachines(new Machine(), new Block());
         log.info("machines: {}", machines);
     }
 
     @Test
-    public void insertMachine() throws Exception {
+    public void addMachine() throws Exception {
         Machine machine = new Machine();
         machine.setMachineId("m000");
         machine.setMachineType("xyz");
 
         Block block = new Block();
         block.setBlockId("b01");
-        machine.setBlock(block);
 
         machine.setUseStatus("0");
         machine.setMachinePs("test");
 
-        int res = machineMapper.insertMachine(machine);
-
-        Assert.assertEquals(1, res);
+        Message message = machineService.addMachine(machine, block);
+        log.info("message: {}", machine);
     }
 
     @Test
-    public void updateMachine() throws Exception {
+    public void modifyMachine() throws Exception {
         Machine machine = new Machine();
         machine.setMachineId("m001");
         machine.setMachineType("xyz");
 
         Block block = new Block();
         block.setBlockId("b01");
-        machine.setBlock(block);
 
         machine.setUseStatus("0");
         machine.setMachinePs("test");
 
-        int res = machineMapper.updateMachine(machine);
-
-        Assert.assertEquals(1, res);
+        Message message = machineService.modifyMachine(machine, block);
+        log.info("message: {}", machine);
     }
 
     @Test
-    public void deleteMachine() throws Exception {
+    public void removeMachine() throws Exception {
         Machine machine = new Machine();
         machine.setMachineId("m001");
 
-        int res = machineMapper.deleteMachine(machine);
-
-        Assert.assertEquals(1, res);
+        Message message = machineService.removeMachine(machine);
+        log.info("message: {}", machine);
     }
 
 }

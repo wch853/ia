@@ -3,7 +3,11 @@ $("#machineFileTable").bootstrapTable({
     queryParams: function (params) {
         return {
             offset: params.offset,
-            limit: params.limit
+            limit: params.limit,
+            machineId: $('#queryMachineId').val().trim(),
+            machineType: $('#queryMachineType').val().trim(),
+            blockId: $('#queryBlock').val(),
+            useStatus: $('#queryUseStatus').val(),
         }
     },
     columns: [{
@@ -36,4 +40,10 @@ $("#machineFileTable").bootstrapTable({
     sidePagination: 'server',
     pageSize: 10,
     pageList: [5, 10, 25, 50]
+});
+
+// TODO machineFile js script
+
+$('#queryBtn').click(function () {
+    $("#machineFileTable").bootstrapTable('selectPage', 1);
 });

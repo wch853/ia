@@ -13,7 +13,7 @@
                 crop_id = #{cropId}
             </if>
             <if test="null != cropName and !''.equals(cropName)">
-                crop_name LIKE CONCAT('%', #{cropName}, '%')
+                AND crop_name LIKE CONCAT('%', #{cropName}, '%')
             </if>
         </where>
     </select>

@@ -21,23 +21,32 @@ public class FieldServiceImpl implements FieldService {
     @Autowired
     private MessageFactory messageFactory;
 
+    /**
+     * @param field fieldName useStatus
+     * @param block blockId
+     * @param crop  cropId
+     * @return data
+     */
     @Override
-    public List<Field> getFields(Field field, String blockId, String cropId) {
-        field.setBlock(new Block(blockId));
-        field.setCrop(new Crop(cropId));
+    public List<Field> getFields(Field field, Block block, Crop crop) {
+        field.setBlock(block);
+        field.setCrop(crop);
         return fieldMapper.selectFields(field);
     }
 
+    /**
+     * 新增大棚信息
+     *
+     * @param field fieldId fieldName useStatus fieldPs
+     * @param block blockId
+     * @param crop  cropId
+     * @return message
+     */
     @Override
-    public Message addField(Field field, String blockId, String cropId) {
-        if ("".equals(field.getFieldPs())) {
-            field.setFieldPs(null);
-        }
+    public Message addField(Field field, Block block, Crop crop) {
+        this.convertNull(field, crop);
 
-        field.setBlock(new Block(blockId));
-        if (!"".equals(cropId)) {
-            field.setCrop(new Crop(cropId));
-        }
+        field.setBlock(block);
 
         int res = fieldMapper.insertField(field);
         if (res == 0) {
@@ -47,16 +56,19 @@ public class FieldServiceImpl implements FieldService {
         return messageFactory.successMessage("新增大棚信息成功！");
     }
 
+    /**
+     * 修改大棚信息
+     *
+     * @param field fieldId fieldName useStatus fieldPs
+     * @param block blockId
+     * @param crop  cropId
+     * @return message
+     */
     @Override
-    public Message modifyField(Field field, String blockId, String cropId) {
-        if ("".equals(field.getFieldPs())) {
-            field.setFieldPs(null);
-        }
+    public Message modifyField(Field field, Block block, Crop crop) {
+        this.convertNull(field, crop);
 
-        field.setBlock(new Block(blockId));
-        if (!"".equals(cropId)) {
-            field.setCrop(new Crop(cropId));
-        }
+        field.setBlock(block);
 
         int res = fieldMapper.updateField(field);
         if (res == 0) {
@@ -66,14 +78,38 @@ public class FieldServiceImpl implements FieldService {
         return messageFactory.successMessage("修改大棚信息成功！");
     }
 
+    /**
+     * 删除大棚信息
+     *
+     * @param field field
+     * @return message
+     */
     @Override
-    public Message removeField(String fieldId) {
-        int res = fieldMapper.deleteField(fieldId);
+    public Message removeField(Field field) {
+        int res = fieldMapper.deleteField(field);
 
         if (res == 0) {
             return messageFactory.failMessage("删除大棚信息失败！");
         }
 
         return messageFactory.successMessage("删除大棚信息成功！");
+    }
+
+    /**
+     * 使得fieldPs、cropId不为空字符串
+     *
+     * @param field fieldPs
+     * @param crop  cropId
+     */
+    private void convertNull(Field field, Crop crop) {
+        if ("".equals(field.getFieldPs())) {
+            field.setFieldPs(null);
+        }
+
+        if (!"".equals(crop.getCropId())) {
+            field.setCrop(crop);
+        } else {
+            field.setCrop(new Crop());
+        }
     }
 }

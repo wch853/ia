@@ -3,7 +3,9 @@ $("#employeeFileTable").bootstrapTable({
     queryParams: function (params) {
         return {
             offset: params.offset,
-            limit: params.limit
+            limit: params.limit,
+            empId: $('#queryEmpId').val().trim(),
+            empName: $('#queryEmpName').val().trim()
         }
     },
     columns: [{
@@ -56,4 +58,169 @@ function convertNull(param) {
     } else {
         return param;
     }
+}
+
+// 查询
+$('#queryBtn').click(function () {
+    $('#employeeFileTable').bootstrapTable('selectPage', 1);
+});
+
+// 重置
+$('#resetBtn').click(function () {
+    $('#queryToolBar :text').val('');
+    $('#employeeFileTable').bootstrapTable('selectPage', 1);
+});
+
+// 设置bootbox中文支持
+bootbox.setLocale('zh_CN');
+
+// 设置bootstrap-select大小
+$('.selectpicker').selectpicker({
+    width: '180.67px'
+});
+
+// 数据提交
+function deliverData(path, empId, empName, empTel, empPosition, empAge, empSex, empPs) {
+    $.ajax({
+        url: path,
+        type: 'post',
+        data: {
+            empId: empId,
+            empName: empName,
+            empTel: empTel,
+            empPosition: empPosition,
+            empAge: empAge,
+            empSex: empSex,
+            empPs: empPs
+        },
+        success: function (res) {
+            bootbox.alert({
+                title: '提示',
+                message: res.message
+            });
+            $("#employeeFileTable").bootstrapTable('selectPage', 1);
+        }
+    });
+}
+
+// 新增
+$('#addBtn').click(function () {
+    $('.modal :text').val('');
+    $('#addEmpSex').find('option:first').prop('selected', true).selectpicker('refresh');
+    $('#addEmpPs').val('');
+    $('#addModal').modal('show');
+});
+
+$('#saveAdd').click(function () {
+    var empId = $('#addEmpId').val().trim();
+    var empName = $('#addEmpName').val().trim();
+    var empTel = $('#addEmpTel').val().trim();
+    var empPosition = $('#addEmpPosition').val().trim();
+    var empAge = $('#addEmpAge').val().trim();
+    var empSex = $('#addEmpSex').val();
+    var empPs = $('#addEmpPs').val().trim();
+
+    $('#addModal').modal('hide');
+
+    if (empId === '' || empName === '' || empTel === '') {
+        bootbox.alert({
+            title: '提示',
+            message: '请输入完整信息！'
+        });
+    } else if (!/^1[0-9]{10}$/.test(empTel)) {
+        bootbox.alert({
+            title: '提示',
+            message: '联系方式输入有误！'
+        });
+    } else if ('' !== empAge && !/^[0-9]{1,3}$/.test(empAge)) {
+        bootbox.alert({
+            title: '提示',
+            message: '年龄输入有误！'
+        });
+    } else if (empPs.length > 80) {
+        bootbox.alert({
+            title: '提示',
+            message: '员工备注限输入80个字符！'
+        });
+    } else {
+        bootbox.confirm({
+            title: '提示',
+            message: '确认新增员工信息',
+            callback: function (flag) {
+                if (flag) {
+                    deliverData('sys/file/addEmployee', empId, empName, empTel, empPosition, empAge, empSex, empPs);
+                }
+            }
+        });
+    }
+});
+
+// 修改
+function modifyEmp(empId, empName, empTel, empPosition, empAge, empSex, empPs) {
+    $('#modifyEmpId').text(empId);
+    $('#modifyEmpName').val(empName);
+    $('#modifyEmpTel').val(empTel);
+    $('#modifyEmpPosition').val(empPosition);
+    $('#modifyEmpAge').val(empAge);
+    $('#modifyEmpSex').selectpicker('val', empSex);
+    $('#modifyEmpPs').val(empPs);
+
+    $('#modifyModal').modal('show');
+}
+
+$('#saveModify').click(function () {
+    var empId = $('#modifyEmpId').text();
+    var empName = $('#modifyEmpName').val().trim();
+    var empTel = $('#modifyEmpTel').val().trim();
+    var empPosition = $('#modifyEmpPosition').val().trim();
+    var empAge = $('#modifyEmpAge').val().trim();
+    var empSex = $('#modifyEmpSex').val();
+    var empPs = $('#modifyEmpPs').val().trim();
+
+    $('#modifyModal').modal('hide');
+
+    if (empName === '' || empTel === '') {
+        bootbox.alert({
+            title: '提示',
+            message: '请输入完整信息！'
+        });
+    } else if (!/^1[0-9]{10}$/.test(empTel)) {
+        bootbox.alert({
+            title: '提示',
+            message: '联系方式输入有误！'
+        });
+    } else if ('' !== empAge && !/^[0-9]{1,3}$/.test(empAge)) {
+        bootbox.alert({
+            title: '提示',
+            message: '年龄输入有误！'
+        });
+    } else if (empPs.length > 80) {
+        bootbox.alert({
+            title: '提示',
+            message: '员工备注限输入80个字符！'
+        });
+    } else {
+        bootbox.confirm({
+            title: '提示',
+            message: '确认修改员工信息',
+            callback: function (flag) {
+                if (flag) {
+                    deliverData('sys/file/modifyEmployee', empId, empName, empTel, empPosition, empAge, empSex, empPs);
+                }
+            }
+        });
+    }
+});
+
+// 删除
+function removeEmp(empId) {
+    bootbox.confirm({
+        title: '提示',
+        message: '确认删除员工信息',
+        callback: function (flag) {
+            if (flag) {
+                deliverData('sys/file/removeEmployee', empId);
+            }
+        }
+    });
 }

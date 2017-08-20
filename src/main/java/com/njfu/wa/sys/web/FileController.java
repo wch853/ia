@@ -68,7 +68,8 @@ public class FileController {
      *
      * @param offset offset
      * @param limit  limit
-     * @return json data
+     * @param block  blockId blockName
+     * @return
      */
     @RequestMapping("/getBlocks")
     public @ResponseBody
@@ -81,7 +82,7 @@ public class FileController {
     /**
      * 新增地块信息
      *
-     * @param block block
+     * @param block blockId blockName blockLoc blockPs
      * @return json message
      */
     @PostMapping("/addBlock")
@@ -93,7 +94,7 @@ public class FileController {
     /**
      * 修改地块信息
      *
-     * @param block block
+     * @param block blockId blockName blockLoc blockPs
      * @return json message
      */
     @PostMapping("/modifyBlock")
@@ -105,7 +106,7 @@ public class FileController {
     /**
      * 删除地块信息
      *
-     * @param block block
+     * @param block blockId
      * @return json message
      */
     @PostMapping("/removeBlock")
@@ -117,7 +118,7 @@ public class FileController {
     /**
      * 大棚档案页
      *
-     * @param model data
+     * @param model blocks crops
      * @return page
      */
     @RequestMapping("/field")
@@ -132,59 +133,59 @@ public class FileController {
     /**
      * 获取大棚列表
      *
-     * @param offset  offset
-     * @param limit   limit
-     * @param field   field
-     * @param blockId blockId
-     * @param cropId  cropId
+     * @param offset offset
+     * @param limit  limit
+     * @param field  fieldName useStatus
+     * @param block  blockId
+     * @param crop   cropId
      * @return json data
      */
     @RequestMapping("/getFields")
     public @ResponseBody
-    PaginationResult getFields(int offset, int limit, Field field, String blockId, String cropId) {
+    PaginationResult getFields(int offset, int limit, Field field, Block block, Crop crop) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
-        List<Field> fields = fieldService.getFields(field, blockId, cropId);
+        List<Field> fields = fieldService.getFields(field, block, crop);
         return new PaginationResult(page.getTotal(), fields);
     }
 
     /**
      * 新增大棚信息
      *
-     * @param field   field
-     * @param blockId blockId
-     * @param cropId  cropId
+     * @param field fieldId fieldName useStatus fieldPs
+     * @param block blockId
+     * @param crop  cropId
      * @return json message
      */
     @PostMapping("/addField")
     public @ResponseBody
-    Message addField(Field field, String blockId, String cropId) {
-        return fieldService.addField(field, blockId, cropId);
+    Message addField(Field field, Block block, Crop crop) {
+        return fieldService.addField(field, block, crop);
     }
 
     /**
      * 修改大棚信息
      *
-     * @param field   field
-     * @param blockId blockId
-     * @param cropId  cropId
+     * @param field fieldId fieldName useStatus fieldPs
+     * @param block blockId
+     * @param crop  cropId
      * @return json message
      */
     @PostMapping("/modifyField")
     public @ResponseBody
-    Message modifyField(Field field, String blockId, String cropId) {
-        return fieldService.modifyField(field, blockId, cropId);
+    Message modifyField(Field field, Block block, Crop crop) {
+        return fieldService.modifyField(field, block, crop);
     }
 
     /**
      * 移除大棚信息
      *
-     * @param fieldId fieldId
+     * @param field fieldId
      * @return json message
      */
     @PostMapping("/removeField")
     public @ResponseBody
-    Message removeField(String fieldId) {
-        return fieldService.removeField(fieldId);
+    Message removeField(Field field) {
+        return fieldService.removeField(field);
     }
 
     /**
@@ -202,7 +203,7 @@ public class FileController {
      *
      * @param offset offset
      * @param limit  limit
-     * @param crop   crop
+     * @param crop   cropId cropName
      * @return json data
      */
     @RequestMapping("/getCrops")
@@ -216,7 +217,7 @@ public class FileController {
     /**
      * 新增作物信息
      *
-     * @param crop crop
+     * @param crop cropId cropName cropPs
      * @return json message
      */
     @PostMapping("/addCrop")
@@ -228,7 +229,7 @@ public class FileController {
     /**
      * 修改作物信息
      *
-     * @param crop crop
+     * @param crop cropId cropName cropPs
      * @return json message
      */
     @PostMapping("/modifyCrop")
@@ -240,8 +241,8 @@ public class FileController {
     /**
      * 删除作物信息
      *
-     * @param crop
-     * @return
+     * @param crop cropId
+     * @return json message
      */
     @PostMapping("/removeCrop")
     public @ResponseBody
@@ -262,41 +263,121 @@ public class FileController {
     /**
      * 获取员工列表
      *
-     * @param offset offset
-     * @param limit  limit
-     * @return json data
+     * @param offset   offset
+     * @param limit    limit
+     * @param employee empId empName
+     * @return
      */
     @RequestMapping("/getEmployees")
     public @ResponseBody
-    PaginationResult getEmployees(int offset, int limit) {
+    PaginationResult getEmployees(int offset, int limit, Employee employee) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
-        List<Employee> employees = employeeService.getEmployees();
+        List<Employee> employees = employeeService.getEmployees(employee);
         return new PaginationResult(page.getTotal(), employees);
+    }
+
+    /**
+     * 新增员工信息
+     *
+     * @param employee empId empName empTel empPosition empAge empSex empPs
+     * @return json message
+     */
+    @PostMapping("/addEmployee")
+    public @ResponseBody
+    Message addEmployee(Employee employee) {
+        return employeeService.addEmployee(employee);
+    }
+
+    /**
+     * 修改员工信息
+     *
+     * @param employee empId empName empTel empPosition empAge empSex empPs
+     * @return json message
+     */
+    @PostMapping("/modifyEmployee")
+    public @ResponseBody
+    Message modifyEmployee(Employee employee) {
+        return employeeService.modifyEmployee(employee);
+    }
+
+    /**
+     * 删除员工信息
+     *
+     * @param employee empId
+     * @return json message
+     */
+    @PostMapping("/removeEmployee")
+    public @ResponseBody
+    Message removeEmployee(Employee employee) {
+        return employeeService.removeEmployee(employee);
     }
 
     /**
      * 机械档案页
      *
-     * @return
+     * @param model blocks
+     * @return page
      */
     @RequestMapping("/machine")
-    public String machineFile() {
+    public String machineFile(Model model) {
+        List<Block> blocks = blockService.getBlocks(new Block());
+        model.addAttribute("blocks", blocks);
         return "sys/file/machineFile";
     }
 
     /**
      * 获取机械列表
      *
-     * @param offset
-     * @param limit
-     * @return
+     * @param offset  offset
+     * @param limit   limit
+     * @param machine machineId machineType useStatus machinePs
+     * @param block   blockId
+     * @return json data
      */
     @RequestMapping("/getMachines")
     public @ResponseBody
-    PaginationResult getMachines(int offset, int limit) {
+    PaginationResult getMachines(int offset, int limit, Machine machine, Block block) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
-        List<Machine> machines = machineService.getMachines();
+        List<Machine> machines = machineService.getMachines(machine, block);
         return new PaginationResult(page.getTotal(), machines);
+    }
+
+    /**
+     * 新增机械信息
+     *
+     * @param machine 　machineId machineType useStatus machinePs
+     * @param block   　blockId
+     * @return json message
+     */
+    @PostMapping("/addMachine")
+    public @ResponseBody
+    Message addMachine(Machine machine, Block block) {
+        return machineService.addMachine(machine, block);
+    }
+
+    /**
+     * 修改机械信息
+     *
+     * @param machine 　machineId machineType useStatus machinePs
+     * @param block   　blockId
+     * @return json message
+     */
+    @PostMapping("/modifyMachine")
+    public @ResponseBody
+    Message modifyMachine(Machine machine, Block block) {
+        return machineService.modifyMachine(machine, block);
+    }
+
+    /**
+     * 删除机械信息
+     *
+     * @param machine 　machineId
+     * @return
+     */
+    @PostMapping("removeMachine")
+    public @ResponseBody
+    Message removeMachine(Machine machine) {
+        return machineService.removeMachine(machine);
     }
 
     /**

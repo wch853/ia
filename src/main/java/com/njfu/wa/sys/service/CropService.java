@@ -10,7 +10,7 @@ public interface CropService {
     /**
      * 获取作物列表
      *
-     * @param crop crop
+     * @param crop cropId cropName
      * @return data
      */
     List<Crop> getCrops(Crop crop);
@@ -18,15 +18,15 @@ public interface CropService {
     /**
      * 新增作物信息
      *
-     * @param crop
-     * @return
+     * @param crop cropId cropName cropPs
+     * @return message
      */
     Message addCrop(Crop crop);
 
     /**
      * 修改作物信息
      *
-     * @param crop crop
+     * @param crop cropId cropName cropPs
      * @return message
      */
     Message modifyCrop(Crop crop);
@@ -34,7 +34,7 @@ public interface CropService {
     /**
      * 删除作物信息
      *
-     * @param crop crop
+     * @param crop cropId
      * @return message
      */
     Message removeCrop(Crop crop);

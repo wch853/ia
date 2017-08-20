@@ -121,11 +121,11 @@ $('#addBtn').click(function () {
     // 清空新增modal内容
     $('.modal :text').val('');
     $('#addFieldPsText').val('');
-    var $select = $('.modal .selectpicker');
-    $select.each(function () {
-        $(this).find('option:first').prop('selected', true);
+    $('#addModal .selectpicker').each(function () {
+        var val = $(this).find('option:first').val();
+        console.log('-----' + $(this).find('option:first').text() + '----' + val);
+        $(this).selectpicker('val', val);
     });
-    $select.selectpicker('refresh');
 
     $('#addModal').modal('show');
 });

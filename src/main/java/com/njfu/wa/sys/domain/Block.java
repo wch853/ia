@@ -21,10 +21,6 @@ public class Block {
     public Block() {
     }
 
-    public Block(String blockId) {
-        this.blockId = blockId;
-    }
-
     public String getBlockId() {
         return blockId;
     }
