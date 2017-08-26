@@ -3,6 +3,7 @@
 <head>
     <!-- headers -->
     <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-select.html"/>
     <title>档案管理</title>
 </head>
 <body>
@@ -26,19 +27,30 @@
                     <li><a href="sys/file">档案管理</a></li>
                 </ol>
 
-                <a href="sys/file/block">地块档案</a><br>
-                <a href="sys/file/field">大棚档案</a><br>
-                <a href="sys/file/crop">作物档案</a><br>
-                <a href="sys/file/employee">员工档案</a><br>
-                <a href="sys/file/machine">机械档案</a><br>
-                <a href="sys/file/vehicle">车辆档案</a><br>
-                <a href="sys/file/sensor">传感器档案</a><br>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="queryFile">查询档案：</label>
+                        <select id="queryFile" class="selectpicker">
+                            <option value="" class="hide-option">请选择档案类型</option>
+                            <option value="sys/file/block">地块档案</option>
+                            <option value="sys/file/field">大棚档案</option>
+                            <option value="sys/file/crop">作物档案</option>
+                            <option value="sys/file/employee">员工档案</option>
+                            <option value="sys/file/machine">机械档案</option>
+                            <option value="sys/file/vehicle">车辆档案</option>
+                            <option value="sys/file/sensor">传感器档案</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="queryBtn">查询</button>
+                </div>
+                <hr>
+
             </div>
 
         </div><!--container-->
     </div><!--page wrapped-->
 
 </div><!--wrapped-->
-
 </body>
+<script type="text/javascript" src="js/sys/file/file.js"></script>
 </html>

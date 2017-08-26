@@ -11,7 +11,7 @@
     <#include "/common/topNav.html"/>
 
     <!-- side navigation -->
-    <#include "/common/sysSideNav.html"/>
+    <#include "/sys/sysSideNav.html"/>
 
     <!-- page content -->
     <div id="page-wrapper">
@@ -24,21 +24,12 @@
                 </div>
             </div>
 
-            <div class="form-inline">
-                <div class="form-group">
-                    <label for="queryFieldBtn">大棚编号：</label>
-                    <input id="queryFieldBtn" class="form-control">
-                    <button class="btn btn-primary">搜索</button>
-                </div>
-            </div>
-            <br>
-
             <!-- bread01 -->
             <div class="row col-md-12">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb index-bread">
                     <li>
                         <a href="javascript:void(0);">
-                            <i class="fa fa-list"></i><span class="bread-span">测试01</span><i class="fa fa-expand"></i>
+                            <i class="fa fa-list"></i><span class="bread-span">测试01</span><i class="fa fa-compress icon-collapse"></i>
                         </a>
                     </li>
                 </ol>
@@ -127,11 +118,11 @@
 
             <#list blocks! as block>
                 <div class="row col-md-12">
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb index-bread">
                         <li>
                             <a href="javascript:void(0);">
                                 <i class="fa fa-list"></i><span class="bread-span">${block.blockName!}</span><i
-                                    class="fa fa-expand"></i>
+                                    class="fa fa-compress icon-collapse"></i>
                             </a>
                         </li>
                     </ol>

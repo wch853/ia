@@ -21,13 +21,13 @@
                 machine_id = #{machineId}
             </if>
             <if test="null != machineType and !''.equals(machineType)">
-                machine_type = #{machineType}
+                AND machine_type LIKE CONCAT('%', #{machineType}, '%')
             </if>
             <if test="null != block.blockId and !''.equals(block.blockId)">
-                block_id = #{block.blockId}
+                AND block_id = #{block.blockId}
             </if>
             <if test="null != useStatus and !''.equals(useStatus)">
-                use_status = #{useStatus}
+                AND use_status = #{useStatus}
             </if>
         </where>
     </select>

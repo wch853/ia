@@ -6,15 +6,46 @@
 <mapper namespace="com.njfu.wa.sys.mapper.VehicleMapper">
 
     <resultMap id="vehicleMap" type="Vehicle">
-        <id property="vehId" column="veh_id"/>
-        <result property="vehType" column="veh_type"/>
+        <id property="vehicleId" column="vehicle_id"/>
+        <result property="vehicleType" column="vehicle_type"/>
         <result property="useStatus" column="use_status"/>
-        <result property="vehPs" column="veh_ps"/>
+        <result property="vehiclePs" column="vehicle_ps"/>
         <association property="block" column="block_id" select="com.njfu.wa.sys.mapper.BlockMapper.selectBlockById"/>
     </resultMap>
 
     <select id="selectVehicles" resultMap="vehicleMap">
-        SELECT veh_id, veh_type, block_id, use_status, veh_ps
+        SELECT vehicle_id, vehicle_type, block_id, use_status, vehicle_ps
         FROM vehicle
+        <where>
+            <if test="null != vehicleId and !''.equals(vehicleId)">
+                vehicle_id = #{vehicleId}
+            </if>
+            <if test="null != vehicleType and !''.equals(vehicleType)">
+                AND vehicle_type LIKE CONCAT('%', #{vehicleType}, '%')
+            </if>
+            <if test="null != block.blockId and !''.equals(block.blockId)">
+                AND block_id = #{block.blockId}
+            </if>
+            <if test="null != useStatus and !''.equals(useStatus)">
+                AND use_status = #{useStatus}
+            </if>
+        </where>
     </select>
+
+    <insert id="insertVehicle">
+        INSERT INTO vehicle(vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
+        VALUES (#{vehicleId}, #{vehicleType}, #{block.blockId}, #{useStatus}, #{vehiclePs})
+    </insert>
+
+    <update id="updateVehicle">
+        UPDATE vehicle
+        SET vehicle_type = #{vehicleType}, block_id = #{block.blockId},
+            use_status = #{useStatus}, vehicle_ps = #{vehiclePs}
+        WHERE vehicle_id = #{vehicleId}
+    </update>
+
+    <delete id="deleteVehicle">
+        DELETE FROM vehicle
+        WHERE vehicle_id = #{vehicleId}
+    </delete>
 </mapper>	

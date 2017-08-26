@@ -12,7 +12,13 @@ $(function () {
         $("#tooltip").remove();
     });
 
-    $('.breadcrumb').click(function () {
+    $('.index-bread').click(function () {
         $(this).siblings('.row').toggle(300);
+        var $icon = $(this).find('.icon-collapse');
+        if ($icon.hasClass('fa-compress')) {
+            $icon.removeClass('fa-compress').addClass('fa-expand');
+        } else {
+            $icon.removeClass('fa-expand').addClass('fa-compress');
+        }
     });
 });

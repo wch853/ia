@@ -170,14 +170,15 @@ nav i,
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 5px 5px 0 0;
     width: 15%;
+    min-width: 125px;
     display: inline-block;
     margin: 5px 10px 10px 5px;
     padding-bottom: 10px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 484px) {
     .fieldCard {
-        width: 30%;
+        width: 50%;
     }
 }
 
@@ -256,4 +257,10 @@ nav i,
 
 .hide-option {
     display: none !important;
+}
+
+.file-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px 5px 0 0;
+    width: 50%;
 }

@@ -7,7 +7,7 @@
 
     <resultMap id="sensorMap" type="Sensor">
         <id property="sensorId" column="sensor_id"/>
-        <result property="sensorFun" column="sensor_fun"/>
+        <result property="sensorFunc" column="sensor_func"/>
         <result property="sensorType" column="sensor_type"/>
         <result property="useStatus" column="use_status"/>
         <result property="sensorPs" column="sensor_ps"/>
@@ -15,7 +15,41 @@
     </resultMap>
 
     <select id="selectSensors" resultMap="sensorMap">
-        SELECT sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps
+        SELECT sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps
         FROM sensor
+        <where>
+            <if test="null != sensorId and !''.equals(sensorId)">
+                sensor_id = #{sensorId}
+            </if>
+            <if test="null != sensorFunc and !''.equals(sensorFunc)">
+                AND sensor_func = #{sensorFunc}
+            </if>
+            <if test="null != sensorType and !''.equals(sensorType)">
+                AND sensor_type LIKE CONCAT('%', #{sensorType}, '%')
+            </if>
+            <if test="null != field.fieldId and !''.equals(field.fieldId)">
+                AND field_id = #{field.fieldId}
+            </if>
+            <if test="null != useStatus and !''.equals(useStatus)">
+                AND use_status = #{useStatus}
+            </if>
+        </where>
     </select>
+
+    <insert id="insertSensor">
+        INSERT INTO sensor(sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
+        VALUES (#{sensorId}, #{sensorFunc}, #{sensorType}, #{field.fieldId}, #{useStatus}, #{sensorPs})
+    </insert>
+
+    <update id="updateSensor">
+        UPDATE sensor
+        SET sensor_func = #{sensorFunc}, sensor_type = #{sensorType}, field_id = #{field.fieldId},
+            use_status = #{useStatus}, sensor_ps = #{sensorPs}
+        WHERE sensor_id = #{sensorId}
+    </update>
+
+    <delete id="deleteSensor">
+        DELETE FROM sensor
+        WHERE sensor_id = #{sensorId}
+    </delete>
 </mapper>	

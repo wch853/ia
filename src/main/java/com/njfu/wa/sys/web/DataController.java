@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 数据管理控制器
  */
 @Controller
-@RequestMapping("/data")
+@RequestMapping("/sys/data")
 public class DataController {
 
     @RequestMapping("/query")

@@ -24,7 +24,7 @@ $("#blockFileTable").bootstrapTable({
         formatter: function (value, row, index) {
             return [
                 '<a href="javascript:modifyBlock(' + "'" + row.blockId + "', '" + row.blockName + "', '"
-                + row.blockLoc + "', '" + convertBlockPs(row.blockPs) + "'" + ')">' +
+                + row.blockLoc + "', '" + convertNull(row.blockPs) + "'" + ')">' +
                 '<i class="glyphicon glyphicon-pencil"></i>修改' +
                 '</a>',
                 '<a href="javascript:removeBlock(' + "'" + row.blockId + "'" + ')">' +
@@ -41,12 +41,12 @@ $("#blockFileTable").bootstrapTable({
     pageList: [5, 10, 25, 50]
 });
 
-// 处理json中BlockPs可能出现的null值
-function convertBlockPs(blockPs) {
-    if (null === blockPs) {
+// 处理json中可能出现的null值
+function convertNull(param) {
+    if (null === param) {
         return '';
     } else {
-        return blockPs;
+        return param;
     }
 }
 
@@ -60,9 +60,6 @@ $('#resetBtn').click(function () {
     $('#queryToolBar :text').val('');
     $('#blockFileTable').bootstrapTable('selectPage', 1);
 });
-
-// 设置bootbox中文支持
-bootbox.setLocale('zh_CN');
 
 // 数据提交
 function deliverData(path, blockId, blockName, blockLoc, blockPs) {

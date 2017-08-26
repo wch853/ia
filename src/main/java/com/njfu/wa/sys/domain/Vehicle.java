@@ -5,33 +5,33 @@ package com.njfu.wa.sys.domain;
  */
 public class Vehicle {
 
-    private String vehId;
+    private String vehicleId;
 
-    private String vehType;
+    private String vehicleType;
 
     private Block block;
 
     private String useStatus;
 
-    private String vehPs;
+    private String vehiclePs;
 
     public Vehicle() {
     }
 
-    public String getVehId() {
-        return vehId;
+    public String getVehicleId() {
+        return vehicleId;
     }
 
-    public void setVehId(String vehId) {
-        this.vehId = vehId;
+    public void setVehicleId(String vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
-    public String getVehType() {
-        return vehType;
+    public String getVehicleType() {
+        return vehicleType;
     }
 
-    public void setVehType(String vehType) {
-        this.vehType = vehType;
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public Block getBlock() {
@@ -50,22 +50,22 @@ public class Vehicle {
         this.useStatus = useStatus;
     }
 
-    public String getVehPs() {
-        return vehPs;
+    public String getVehiclePs() {
+        return vehiclePs;
     }
 
-    public void setVehPs(String vehPs) {
-        this.vehPs = vehPs;
+    public void setVehiclePs(String vehiclePs) {
+        this.vehiclePs = vehiclePs;
     }
 
     @Override
     public String toString() {
         return "Vehicle{" +
-                "vehId='" + vehId + '\'' +
-                ", vehType='" + vehType + '\'' +
+                "vehicleId='" + vehicleId + '\'' +
+                ", vehicleType='" + vehicleType + '\'' +
                 ", block=" + block +
                 ", useStatus='" + useStatus + '\'' +
-                ", vehPs='" + vehPs + '\'' +
+                ", vehiclePs='" + vehiclePs + '\'' +
                 '}';
     }
 }

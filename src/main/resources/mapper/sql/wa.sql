@@ -49,10 +49,10 @@ PRIMARY KEY (emp_id)
 DROP TABLE IF EXISTS sensor;
 CREATE TABLE sensor (
 sensor_id VARCHAR(255) NOT NULL COMMENT '传感器编号',
-sensor_fun VARCHAR(255) NOT NULL COMMENT '传感器功能类型',
+sensor_func VARCHAR(255) NOT NULL COMMENT '传感器功能类型',
 sensor_type VARCHAR(255) NOT NULL COMMENT '传感器型号',
 field_id VARCHAR(255) DEFAULT NULL COMMENT '所属大棚编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse, 1inuse, 2error',
 sensor_ps VARCHAR(255) DEFAULT NULL COMMENT '传感器备注',
 PRIMARY KEY (sensor_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='传感器';
@@ -62,19 +62,19 @@ CREATE TABLE machine (
 machine_id VARCHAR(255) NOT NULL COMMENT '机械编号',
 machine_type VARCHAR(255) NOT NULL COMMENT '机械型号',
 block_id VARCHAR(255) DEFAULT NULL COMMENT '所属地块编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse, 1inuse, 2error',
 machine_ps VARCHAR(255) DEFAULT NULL COMMENT '机械备注',
 PRIMARY KEY (machine_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='机械';
 
 DROP TABLE IF EXISTS vehicle;
 CREATE TABLE vehicle (
-veh_id VARCHAR(255) NOT NULL COMMENT '车辆编号',
-veh_type VARCHAR(255) NOT NULL COMMENT '车辆型号',
+vehicle_id VARCHAR(255) NOT NULL COMMENT '车辆编号',
+vehicle_type VARCHAR(255) NOT NULL COMMENT '车辆型号',
 block_id VARCHAR(255) DEFAULT NULL COMMENT '所属地块编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
-veh_ps VARCHAR(255) DEFAULT NULL COMMENT '车辆备注',
-PRIMARY KEY (veh_id)
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse, 1inuse, 2error',
+vehicle_ps VARCHAR(255) DEFAULT NULL COMMENT '车辆备注',
+PRIMARY KEY (vehicle_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='车辆';
 
 DROP TABLE IF EXISTS soil_status;
@@ -141,17 +141,19 @@ INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_s
 INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e003', 'wch3', '15261861234', null, null, null, null);
 
 -- sensor
-INSERT INTO wa.sensor (sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-001', '1', 'abc001', 'f1701001', '1', null);
-INSERT INTO wa.sensor (sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-002', '1', 'abc001', 'f1701002', '1', null);
-INSERT INTO wa.sensor (sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-001', '2', 'abc002', 'f1701003', '1', null);
-INSERT INTO wa.sensor (sensor_id, sensor_fun, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-002', '2', 'abc002', 'f1701004', '1', null);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-001', '1', 'abc001', 'f1701001', '1', null);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-002', '1', 'abc001', 'f1701002', '1', null);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-001', '2', 'abc002', 'f1701003', '1', null);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-002', '2', 'abc002', 'f1701004', '1', null);
+
 -- machine
 INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m001', 'cba001', 'b01', '0', null);
 INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m002', 'cba002', 'b02', '0', null);
 INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m003', 'cba003', 'b03', '0', null);
 INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m004', 'cba004', 'b04', '0', null);
+
 -- vehicle
-INSERT INTO wa.vehicle (veh_id, veh_type, block_id, use_status, veh_ps) VALUES ('v001', 'xyz001', 'b01', '0', null);
-INSERT INTO wa.vehicle (veh_id, veh_type, block_id, use_status, veh_ps) VALUES ('v002', 'xyz002', 'b02', '0', null);
-INSERT INTO wa.vehicle (veh_id, veh_type, block_id, use_status, veh_ps) VALUES ('v003', 'xyz003', 'b03', '0', null);
-INSERT INTO wa.vehicle (veh_id, veh_type, block_id, use_status, veh_ps) VALUES ('v004', 'xyz004', 'b04', '0', null);
+INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v001', 'xyz001', 'b01', '0', null);
+INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v002', 'xyz002', 'b02', '0', null);
+INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v003', 'xyz003', 'b03', '0', null);
+INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v004', 'xyz004', 'b04', '0', null);

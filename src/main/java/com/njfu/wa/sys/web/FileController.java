@@ -69,7 +69,7 @@ public class FileController {
      * @param offset offset
      * @param limit  limit
      * @param block  blockId blockName
-     * @return
+     * @return json data
      */
     @RequestMapping("/getBlocks")
     public @ResponseBody
@@ -266,7 +266,7 @@ public class FileController {
      * @param offset   offset
      * @param limit    limit
      * @param employee empId empName
-     * @return
+     * @return json data
      */
     @RequestMapping("/getEmployees")
     public @ResponseBody
@@ -372,9 +372,9 @@ public class FileController {
      * 删除机械信息
      *
      * @param machine 　machineId
-     * @return
+     * @return json message
      */
-    @PostMapping("removeMachine")
+    @PostMapping("/removeMachine")
     public @ResponseBody
     Message removeMachine(Machine machine) {
         return machineService.removeMachine(machine);
@@ -383,50 +383,134 @@ public class FileController {
     /**
      * 车辆档案页
      *
-     * @return
+     * @return page
      */
     @RequestMapping("/vehicle")
-    public String vehicleFile() {
+    public String vehicleFile(Model model) {
+        List<Block> blocks = blockService.getBlocks(new Block());
+        model.addAttribute("blocks", blocks);
         return "sys/file/vehicleFile";
     }
 
     /**
      * 获取车辆列表
      *
-     * @param offset
-     * @param limit
-     * @return
+     * @param offset  offset
+     * @param limit   limit
+     * @param vehicle vehicleId vehicleType useStatus vehiclePs
+     * @param block   blockId
+     * @return json data
      */
     @RequestMapping("/getVehicles")
     public @ResponseBody
-    PaginationResult getVehicles(int offset, int limit) {
+    PaginationResult getVehicles(int offset, int limit, Vehicle vehicle, Block block) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
-        List<Vehicle> vehicles = vehicleService.getVehicles();
+        List<Vehicle> vehicles = vehicleService.getVehicles(vehicle, block);
         return new PaginationResult(page.getTotal(), vehicles);
+    }
+
+    /**
+     * 新增车辆信息
+     *
+     * @param vehicle vehicleId vehicleType useStatus vehiclePs
+     * @param block   blockId
+     * @return json message
+     */
+    @RequestMapping("/addVehicle")
+    public @ResponseBody
+    Message addVehicle(Vehicle vehicle, Block block) {
+        return vehicleService.addVehicle(vehicle, block);
+    }
+
+    /**
+     * 修改车辆信息
+     *
+     * @param vehicle vehicleId vehicleType useStatus vehiclePs
+     * @param block   blockId
+     * @return json message
+     */
+    @RequestMapping("/modifyVehicle")
+    public @ResponseBody
+    Message modifyVehicle(Vehicle vehicle, Block block) {
+        return vehicleService.modifyVehicle(vehicle, block);
+    }
+
+    /**
+     * 删除车辆档案
+     *
+     * @param vehicle vehicleId
+     * @return json message
+     */
+    @RequestMapping("/removeVehicle")
+    public @ResponseBody
+    Message removeVehicle(Vehicle vehicle) {
+        return vehicleService.removeVehicle(vehicle);
     }
 
     /**
      * 传感器档案页
      *
-     * @return
+     * @return page
      */
     @RequestMapping("/sensor")
-    public String sensorFile() {
+    public String sensorFile(Model model) {
+        List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
+        model.addAttribute("fields", fields);
         return "sys/file/sensorFile";
     }
 
     /**
      * 获取传感器列表
      *
-     * @param offset
-     * @param limit
-     * @return
+     * @param offset offset
+     * @param limit  limit
+     * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
+     * @param field  fieldId
+     * @return json data
      */
     @RequestMapping("/getSensors")
     public @ResponseBody
-    PaginationResult getSensors(int offset, int limit) {
+    PaginationResult getSensors(int offset, int limit, Sensor sensor, Field field) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
-        List<Sensor> sensors = sensorService.getSensors();
+        List<Sensor> sensors = sensorService.getSensors(sensor, field);
         return new PaginationResult(page.getTotal(), sensors);
+    }
+
+    /**
+     * 新增传感器信息
+     *
+     * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
+     * @param field  fieldId
+     * @return json message
+     */
+    @RequestMapping("/addSensor")
+    public @ResponseBody
+    Message addSensor(Sensor sensor, Field field) {
+        return sensorService.addSensor(sensor, field);
+    }
+
+    /**
+     * 修改传感器信息
+     *
+     * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
+     * @param field  fieldId
+     * @return json message
+     */
+    @RequestMapping("/modifySensor")
+    public @ResponseBody
+    Message modifySensor(Sensor sensor, Field field) {
+        return sensorService.modifySensor(sensor, field);
+    }
+
+    /**
+     * 删除传感器信息
+     *
+     * @param sensor sensorId
+     * @return json message
+     */
+    @RequestMapping("/removeSensor")
+    public @ResponseBody
+    Message removeSensor(Sensor sensor) {
+        return sensorService.removeSensor(sensor);
     }
 }

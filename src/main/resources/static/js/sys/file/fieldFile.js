@@ -43,7 +43,7 @@ $("#fieldFileTable").bootstrapTable({
             return [
                 '<a href="javascript:modifyField(' + "'" + row.fieldId + "', '" + row.fieldName + "', '"
                 + row.block.blockId + "', '" + convertCropId(row.crop) + "', '" + row.useStatus + "', '"
-                + convertFieldPs(row.fieldPs) + "'" + ')">' +
+                + convertNull(row.fieldPs) + "'" + ')">' +
                 '<i class="glyphicon glyphicon-pencil"></i>修改' +
                 '</a>',
                 '<a href="javascript:removeField(' + "'" + row.fieldId + "'" + ')">' +
@@ -69,12 +69,12 @@ function convertCropId(crop) {
     }
 }
 
-// 处理json中fieldPs可能出现的null值
-function convertFieldPs(fieldPs) {
-    if (null === fieldPs) {
+// 处理json中可能出现的null值
+function convertNull(param) {
+    if (null === param) {
         return '';
     } else {
-        return fieldPs;
+        return param;
     }
 }
 
@@ -90,8 +90,10 @@ $('#queryBtn').click(function () {
     $("#fieldFileTable").bootstrapTable('selectPage', 1);
 });
 
-// 设置bootbox中文支持
-bootbox.setLocale('zh_CN');
+// 设置bootstrap-select大小
+$('#queryToolBar .selectpicker').selectpicker({
+    width: '180.67px'
+});
 
 // 数据提交
 function deliverData(path, fieldId, fieldName, blockId, cropId, useStatus, fieldPs) {
@@ -123,7 +125,6 @@ $('#addBtn').click(function () {
     $('#addFieldPsText').val('');
     $('#addModal .selectpicker').each(function () {
         var val = $(this).find('option:first').val();
-        console.log('-----' + $(this).find('option:first').text() + '----' + val);
         $(this).selectpicker('val', val);
     });
 
@@ -161,28 +162,27 @@ $('#saveAdd').click(function () {
             }
         });
     }
-
 });
 
 // 修改
 function modifyField(fieldId, fieldName, blockId, cropId, useStatus, fieldPs) {
-    $('#modifyFieldIdText').text(fieldId);
-    $('#modifyFieldNameText').val(fieldName);
-    $('#modifyBlockIdText').selectpicker('val', blockId);
-    $('#modifyCropIdText').selectpicker('val', cropId);
-    $('#modifyUseStatusText').selectpicker('val', useStatus);
-    $('#modifyFieldPsText').val(fieldPs);
+    $('#modifyFieldId').text(fieldId);
+    $('#modifyFieldName').val(fieldName);
+    $('#modifyBlockId').selectpicker('val', blockId);
+    $('#modifyCropId').selectpicker('val', cropId);
+    $('#modifyUseStatus').selectpicker('val', useStatus);
+    $('#modifyFieldPs').val(fieldPs);
 
     $('#modifyModal').modal('show');
 }
 
 $('#saveModify').click(function () {
-    var fieldId = $('#modifyFieldIdText').text();
-    var fieldName = $('#modifyFieldNameText').val().trim();
-    var blockId = $('#modifyBlockIdText').val();
-    var cropId = $('#modifyCropIdText').val();
-    var useStatus = $('#modifyUseStatusText').val();
-    var fieldPs = $('#modifyFieldPsText').val().trim();
+    var fieldId = $('#modifyFieldId').text();
+    var fieldName = $('#modifyFieldName').val().trim();
+    var blockId = $('#modifyBlockId').val();
+    var cropId = $('#modifyCropId').val();
+    var useStatus = $('#modifyUseStatus').val();
+    var fieldPs = $('#modifyFieldPs').val().trim();
 
     $('#modifyModal').modal('hide');
 

@@ -21,7 +21,7 @@ $("#cropFileTable").bootstrapTable({
         formatter: function (value, row, index) {
             return [
                 '<a href="javascript:modifyCrop(' + "'" + row.cropId + "', '" + row.cropName + "', '"
-                + convertCropPs(row.cropPs) + "'" + ')">' +
+                + convertNull(row.cropPs) + "'" + ')">' +
                 '<i class="glyphicon glyphicon-pencil"></i>修改' +
                 '</a>',
                 '<a href="javascript:removeCrop(' + "'" + row.cropId + "'" + ')">' +
@@ -38,12 +38,12 @@ $("#cropFileTable").bootstrapTable({
     pageList: [5, 10, 25, 50]
 });
 
-// 处理json中cropPs可能出现的null值
-function convertCropPs(cropPs) {
-    if (null === cropPs) {
+// 处理json中可能出现的null值
+function convertNull(param) {
+    if (null === param) {
         return '';
     } else {
-        return cropPs;
+        return param;
     }
 }
 
@@ -57,9 +57,6 @@ $('#resetBtn').click(function () {
     $('#queryToolBar :text').val('');
     $('#cropFileTable').bootstrapTable('selectPage', 1);
 });
-
-// 设置bootbox中文支持
-bootbox.setLocale('zh_CN');
 
 // 数据提交
 function deliverData(path, cropId, cropName, cropPs) {

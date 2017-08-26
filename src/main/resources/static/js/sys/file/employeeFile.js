@@ -71,9 +71,6 @@ $('#resetBtn').click(function () {
     $('#employeeFileTable').bootstrapTable('selectPage', 1);
 });
 
-// 设置bootbox中文支持
-bootbox.setLocale('zh_CN');
-
 // 设置bootstrap-select大小
 $('.selectpicker').selectpicker({
     width: '180.67px'

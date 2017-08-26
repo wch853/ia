@@ -10,5 +10,31 @@ import java.util.List;
 @Repository
 public interface SensorMapper {
 
-    List<Sensor> selectSensors();
+    /**
+     * 获取传感器列表
+     * @param sensor sensorId sensorFunc sensorType fieldId useStatus sensorPs
+     * @return data
+     */
+    List<Sensor> selectSensors(Sensor sensor);
+
+    /**
+     * 新增传感器信息
+     * @param sensor sensorId sensorFunc sensorType fieldId useStatus sensorPs
+     * @return row count
+     */
+    int insertSensor(Sensor sensor);
+
+    /**
+     * 修改传感器信息
+     * @param sensor sensorId sensorFunc sensorType fieldId useStatus sensorPs
+     * @return row count
+     */
+    int updateSensor(Sensor sensor);
+
+    /**
+     * 删除传感器信息
+     * @param sensor sensorId
+     * @return row count
+     */
+    int deleteSensor(Sensor sensor);
 }

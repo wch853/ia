@@ -4,6 +4,7 @@
     <!-- headers -->
     <#include "/common/standard.html"/>
     <#include "/common/bootstrap-table.html"/>
+    <#include "/common/bootstrap-select.html"/>
     <title>传感器档案</title>
 </head>
 <body>
@@ -29,11 +30,179 @@
                 </ol>
             </div>
 
+            <!-- 查询工具栏 -->
+            <div id="queryToolBar">
+                <div class="form-inline btm-px">
+                    <div class="form-group">
+                        <label for="querySensorId">传感器编号：</label>
+                        <input id="querySensorId" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="querySensorFunc">传感器功能类型：</label>
+                        <select id="querySensorFunc" class="selectpicker">
+                            <option value="" class="hide-option">请选择功能类型</option>
+                            <option value="1">温度传感器</option>
+                            <option value="2">湿度传感器</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="querySensorType">传感器型号：</label>
+                        <input id="querySensorType" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="queryFieldId">传感器所属大棚：</label>
+                        <select id="queryFieldId" class="selectpicker" data-live-search="true">
+                            <option value="" class="hide-option">请选择大棚编号</option>
+                            <#list fields as field>
+                                <option value="${field.fieldId!}">NO.${field.fieldId!}</option>
+                            </#list>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="queryUseStatus">使用状态：</label>
+                        <select id="queryUseStatus" class="selectpicker">
+                            <option value="" class="hide-option">请选择使用状态</option>
+                            <option value="0">未使用</option>
+                            <option value="1">使用中</option>
+                            <option value="2">故障中</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="queryBtn">查询</button>
+                    <button class="btn btn-success" id="resetBtn">重置</button>
+                    <button class="btn btn-danger" id="addBtn">新增</button>
+                </div>
+            </div>
+            <hr>
+
             <table id="sensorFileTable"></table>
+
+            <!-- 新增模态窗 -->
+            <div class="modal fade" id="addModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">新增传感器信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="addSensorId">传感器编号：</label>
+                                    <input id="addSensorId" class="form-control" placeholder="传感器编号不可为空">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addSensorType">传感器型号：</label>
+                                    <input id="addSensorType" class="form-control" placeholder="传感器型号不可为空">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="addSensorFunc" style="width: 84px;">功能类型：</label>
+                                <select id="addSensorFunc" class="selectpicker" data-live-search="true">
+                                    <option value="" class="hide-option">请选择功能类型（不可为空）：</option>
+                                    <option value="1">温度传感器</option>
+                                    <option value="2">湿度传感器</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="addFieldId" style="width: 84px;">所属大棚：</label>
+                                <select id="addFieldId" class="selectpicker" data-live-search="true">
+                                    <option value="" class="hide-option">请选择大棚编号</option>
+                                    <#list fields as field>
+                                        <option value="${field.fieldId!}">NO.${field.fieldId!}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="addUseStatus" style="width: 84px;">使用状态：</label>
+                                <select id="addUseStatus" class="selectpicker">
+                                    <option value="0">未使用</option>
+                                    <option value="1">使用中</option>
+                                    <option value="2">故障中</option>
+                                </select>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="addSensorPs">传感器备注：</label>
+                                    <textarea id="addSensorPs" class="form-control" placeholder="限输入80个字符" rows="3"
+                                              cols="60"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="saveAdd">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 修改模态窗 -->
+            <div class="modal fade" id="modifyModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">新增传感器信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="modifySensorId">传感器编号：</label>
+                                    <p id="modifySensorId" class="form-control-static"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modifySensorType">传感器型号：</label>
+                                    <input id="modifySensorType" class="form-control" placeholder="传感器型号不可为空">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="modifySensorFunc" style="width: 84px;">功能类型：</label>
+                                <select id="modifySensorFunc" class="selectpicker" data-live-search="true">
+                                    <option value="" class="hide-option">请选择功能类型（不可为空）：</option>
+                                    <option value="1">温度传感器</option>
+                                    <option value="2">湿度传感器</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="modifyFieldId" style="width: 84px;">所属大棚：</label>
+                                <select id="modifyFieldId" class="selectpicker" data-live-search="true">
+                                    <option value="">待定</option>
+                                    <#list fields as field>
+                                        <option value="${field.fieldId!}">NO.${field.fieldId!}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="modifyUseStatus" style="width: 84px;">使用状态：</label>
+                                <select id="modifyUseStatus" class="selectpicker">
+                                    <option value="0">未使用</option>
+                                    <option value="1">使用中</option>
+                                    <option value="2">故障中</option>
+                                </select>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="modifySensorPs">传感器备注：</label>
+                                    <textarea id="modifySensorPs" class="form-control" placeholder="限输入80个字符" rows="3"
+                                              cols="60"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="saveModify">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div><!--container-->
     </div><!--page wrapped-->
 
 </div><!--wrapped-->
+<#include "/common/bootbox.html"/>
 <script type="text/javascript" src="js/sys/file/sensorFile.js"></script>
 </body>
 </html>

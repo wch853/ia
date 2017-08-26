@@ -7,7 +7,7 @@ public class Sensor {
 
     private String sensorId;
 
-    private String sensorFun;
+    private String sensorFunc;
 
     private String sensorType;
 
@@ -28,12 +28,12 @@ public class Sensor {
         this.sensorId = sensorId;
     }
 
-    public String getSensorFun() {
-        return sensorFun;
+    public String getSensorFunc() {
+        return sensorFunc;
     }
 
-    public void setSensorFun(String sensorFun) {
-        this.sensorFun = sensorFun;
+    public void setSensorFunc(String sensorFunc) {
+        this.sensorFunc = sensorFunc;
     }
 
     public String getSensorType() {
@@ -72,7 +72,7 @@ public class Sensor {
     public String toString() {
         return "Sensor{" +
                 "sensorId='" + sensorId + '\'' +
-                ", sensorFun='" + sensorFun + '\'' +
+                ", sensorFunc='" + sensorFunc + '\'' +
                 ", sensorType='" + sensorType + '\'' +
                 ", field=" + field +
                 ", useStatus='" + useStatus + '\'' +

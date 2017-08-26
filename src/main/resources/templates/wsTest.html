@@ -7,14 +7,15 @@
     <#include "/common/standard.html"/>
 </head>
 <body>
-<input type="text" id="ipt" class="form-control">
-<button id="send" class="btn btn-primary">send</button>
-<button id="disconnect" class="btn btn-primary">disconnect</button>
-<h1 id="txt"></h1>
-
+<div class="container-fluid">
+    <input id="ipt" class="form-control">
+    <button id="send" class="btn btn-primary">send</button>
+    <button id="disconnect" class="btn btn-primary">disconnect</button>
+    <h1 id="txt"></h1>
+</div>
 <script type="text/javascript">
     var websocket;
-    var url = 'ws://localhost:8000/wa/syshandler';
+    var url = 'ws://localhost:8000/wa/sysHandler';
     if (window.WebSocket) {
         console.log('Support WebSocket.');
         websocket = new WebSocket(url);
@@ -24,23 +25,23 @@
 
     websocket.onopen = function () {
         console.log('WebSocket open!');
-    }
+    };
 
     websocket.onmessage = function (event) {
-        $('#txt').append('<div>' + event.data + '</div>');
-    }
+        $('#txt').text(event.data);
+    };
 
     websocket.onerror = function () {
         alert('WebSocket error, reload the page!');
-    }
+    };
 
     websocket.onclose = function () {
         console.log('WebSocket close!')
-    }
+    };
 
     window.onbeforeunload = function () {
         websocket.close();
-    }
+    };
 
     $('#send').click(function () {
         var text = $('#ipt').val();
