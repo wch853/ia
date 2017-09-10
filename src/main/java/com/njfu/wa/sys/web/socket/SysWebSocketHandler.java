@@ -32,7 +32,7 @@ public class SysWebSocketHandler implements WebSocketHandler {
     }
 
     /**
-     * 收到WebSocket message
+     * 处理收到的WebSocketMessage
      *
      * @param session
      * @param message
@@ -47,7 +47,7 @@ public class SysWebSocketHandler implements WebSocketHandler {
         } else if (message instanceof PongMessage) {
             session.sendMessage(message);
         } else {
-            throw new IllegalStateException("未知WebSocket message类型: " + message);
+            throw new IllegalStateException("未知WebSocketMessage类型: " + message);
         }
     }
 

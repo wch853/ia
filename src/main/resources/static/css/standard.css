@@ -110,7 +110,13 @@ nav > ul > li > a,
 
 @media (max-width: 484px) {
     #sidebar-collapse {
-        margin-top: 138px;
+        margin-top: 135px;
+    }
+}
+
+@media (max-width: 664px) and (min-width: 485px) {
+    #sidebar-collapse {
+        margin-top: 100px;
     }
 }
 
