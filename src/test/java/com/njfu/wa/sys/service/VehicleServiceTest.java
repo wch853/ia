@@ -2,7 +2,7 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Vehicle;
-import com.njfu.wa.sys.util.Message;
+import com.njfu.wa.sys.domain.util.Message;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

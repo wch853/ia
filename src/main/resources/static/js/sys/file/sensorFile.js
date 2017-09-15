@@ -50,7 +50,7 @@ $("#sensorFileTable").bootstrapTable({
     }, {
         formatter: function (value, row, index) {
             return [
-                '<a href="javascript:modifySensor(' + "'" + row.sensorId + "', '" + row.sensorFunc+ "', '"
+                '<a href="javascript:modifySensor(' + "'" + row.sensorId + "', '" + row.sensorFunc + "', '"
                 + row.sensorType + "', '" + convertFieldId(row.field) + "', '" + row.useStatus + "', '"
                 + convertNull(row.sensorPs) + "'" + ')">' +
                 '<i class="glyphicon glyphicon-pencil"></i>修改' +

@@ -11,7 +11,7 @@
     <#include "/common/topNav.html"/>
 
     <!-- side navigation -->
-    <#include "/common/sysSideNav.html"/>
+    <#include "/sys/sysSideNav.html"/>
 
     <!-- page content -->
     <div id="page-wrapper">
@@ -19,7 +19,7 @@
             <div class="col-md-12">
                 <div class="jumbotron">
                     <h2 class="text-center">
-                        发生未知错误
+                        发生错误 ${status!}
                     </h2>
                     <a href="" type="button" class="btn btn-danger center-block" style="width: 100px;">返回首页</a>
                 </div>
@@ -28,6 +28,5 @@
     </div><!--page wrapped-->
 
 </div><!--wrapped-->
-
 </body>
 </html>

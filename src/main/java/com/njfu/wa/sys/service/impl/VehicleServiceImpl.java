@@ -2,10 +2,10 @@ package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Vehicle;
+import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.MessageFactory;
 import com.njfu.wa.sys.mapper.VehicleMapper;
 import com.njfu.wa.sys.service.VehicleService;
-import com.njfu.wa.sys.util.Message;
-import com.njfu.wa.sys.util.MessageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Autowired
     private VehicleMapper vehicleMapper;
-    
+
     @Autowired
     private MessageFactory messageFactory;
 
@@ -89,8 +89,9 @@ public class VehicleServiceImpl implements VehicleService {
 
     /**
      * 使得blockId、vehiclePs不为空字符串
+     *
      * @param vehicle vehiclePs
-     * @param block blockId
+     * @param block   blockId
      */
     private void convertNull(Vehicle vehicle, Block block) {
         if (!"".equals(block.getBlockId())) {

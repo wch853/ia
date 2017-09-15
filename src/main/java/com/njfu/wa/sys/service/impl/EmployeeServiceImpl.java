@@ -1,10 +1,10 @@
 package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Employee;
+import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.MessageFactory;
 import com.njfu.wa.sys.mapper.EmployeeMapper;
 import com.njfu.wa.sys.service.EmployeeService;
-import com.njfu.wa.sys.util.Message;
-import com.njfu.wa.sys.util.MessageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

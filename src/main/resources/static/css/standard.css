@@ -172,7 +172,7 @@ nav i,
 }
 
 /*card*/
-.fieldCard {
+.field-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 5px 5px 0 0;
     width: 15%;
@@ -183,7 +183,7 @@ nav i,
 }
 
 @media (max-width: 484px) {
-    .fieldCard {
+    .field-card {
         width: 50%;
     }
 }
@@ -230,19 +230,6 @@ nav i,
     color: #373b49;
 }
 
-#tooltip {
-    position: absolute;
-    background: #fff;
-    border: 2px solid #337ab7;
-    color: #222;
-    width: 240px;
-    height: 120px;
-    display: none;
-    padding: 5px;
-    z-index: 100;
-    border-radius: 8px;
-}
-
 @media (min-width: 768px) {
     .form-inline .form-group {
         padding-right: 10px;
@@ -265,8 +252,22 @@ nav i,
     display: none !important;
 }
 
-.file-card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 5px 5px 0 0;
-    width: 50%;
+.popover {
+    color: #222;
+}
+
+.popover img {
+    width: 100px;
+    margin: auto;
+}
+
+.popover li {
+    list-style: none;
+    margin-left: -30px;
+    margin-bottom: 5px;
+}
+
+.status-data {
+    font-weight: 600;
+    color: #f09323;
 }

@@ -1,0 +1,27 @@
+package com.njfu.wa.sys.enums;
+
+/**
+ * 存放使用状态及其描述
+ */
+public enum UseStatusEnum {
+    UNUSE(0, "未使用"),
+    INUSE(1, "使用中"),
+    WRONG(2, "故障中");
+
+    private Integer code;
+
+    private String info;
+
+    UseStatusEnum(Integer code, String info) {
+        this.code = code;
+        this.info = info;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+}

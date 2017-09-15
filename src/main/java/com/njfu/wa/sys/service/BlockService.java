@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
-import com.njfu.wa.sys.util.Message;
+import com.njfu.wa.sys.domain.util.Message;
 
 import java.util.List;
 

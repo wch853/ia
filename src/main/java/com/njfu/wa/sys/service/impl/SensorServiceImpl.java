@@ -2,10 +2,10 @@ package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.domain.Sensor;
+import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.MessageFactory;
 import com.njfu.wa.sys.mapper.SensorMapper;
 import com.njfu.wa.sys.service.SensorService;
-import com.njfu.wa.sys.util.Message;
-import com.njfu.wa.sys.util.MessageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,8 +93,9 @@ public class SensorServiceImpl implements SensorService {
 
     /**
      * 使得fieldId、sensorPs不为空字符串
+     *
      * @param sensor sensorPs
-     * @param field fieldId
+     * @param field  fieldId
      */
     private void convertNull(Sensor sensor, Field field) {
         if (!"".equals(field.getFieldId())) {

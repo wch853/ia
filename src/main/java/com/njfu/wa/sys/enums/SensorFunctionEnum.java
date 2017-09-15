@@ -1,4 +1,4 @@
-package com.njfu.wa.sys.Enums;
+package com.njfu.wa.sys.enums;
 
 /**
  * 传感器作用

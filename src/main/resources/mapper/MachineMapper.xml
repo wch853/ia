@@ -39,7 +39,8 @@
 
     <update id="updateMachine">
         UPDATE machine
-        SET machine_type = #{machineType}, block_id = #{block.blockId}, use_status = #{useStatus}, machine_ps = #{machinePs}
+        SET machine_type = #{machineType}, block_id = #{block.blockId}, use_status = #{useStatus}, machine_ps =
+        #{machinePs}
         WHERE machine_id = #{machineId}
     </update>
 

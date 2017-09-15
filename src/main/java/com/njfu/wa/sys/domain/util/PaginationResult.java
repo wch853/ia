@@ -1,4 +1,4 @@
-package com.njfu.wa.sys.util;
+package com.njfu.wa.sys.domain.util;
 
 import java.util.List;
 

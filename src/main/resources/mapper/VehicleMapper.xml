@@ -40,7 +40,7 @@
     <update id="updateVehicle">
         UPDATE vehicle
         SET vehicle_type = #{vehicleType}, block_id = #{block.blockId},
-            use_status = #{useStatus}, vehicle_ps = #{vehiclePs}
+        use_status = #{useStatus}, vehicle_ps = #{vehiclePs}
         WHERE vehicle_id = #{vehicleId}
     </update>
 

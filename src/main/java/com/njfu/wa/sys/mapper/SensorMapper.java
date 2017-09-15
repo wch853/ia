@@ -12,6 +12,7 @@ public interface SensorMapper {
 
     /**
      * 获取传感器列表
+     *
      * @param sensor sensorId sensorFunc sensorType fieldId useStatus sensorPs
      * @return data
      */
@@ -19,6 +20,7 @@ public interface SensorMapper {
 
     /**
      * 新增传感器信息
+     *
      * @param sensor sensorId sensorFunc sensorType fieldId useStatus sensorPs
      * @return row count
      */
@@ -26,6 +28,7 @@ public interface SensorMapper {
 
     /**
      * 修改传感器信息
+     *
      * @param sensor sensorId sensorFunc sensorType fieldId useStatus sensorPs
      * @return row count
      */
@@ -33,6 +36,7 @@ public interface SensorMapper {
 
     /**
      * 删除传感器信息
+     *
      * @param sensor sensorId
      * @return row count
      */

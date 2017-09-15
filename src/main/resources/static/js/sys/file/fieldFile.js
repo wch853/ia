@@ -132,12 +132,12 @@ $('#addBtn').click(function () {
 });
 
 $('#saveAdd').click(function () {
-    var fieldId = $('#addFieldIdText').val().trim();
-    var fieldName = $('#addFieldNameText').val().trim();
-    var blockId = $('#addBlockIdText').val();
-    var cropId = $('#addCropIdText').val();
-    var useStatus = $('#addUseStatusText').val();
-    var fieldPs = $('#addFieldPsText').val().trim();
+    var fieldId = $('#addFieldId').val().trim();
+    var fieldName = $('#addFieldName').val().trim();
+    var blockId = $('#addBlockId').val();
+    var cropId = $('#addCropId').val();
+    var useStatus = $('#addUseStatus').val();
+    var fieldPs = $('#addFieldPs').val().trim();
 
     $('#addModal').modal('hide');
 

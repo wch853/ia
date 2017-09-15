@@ -3,12 +3,14 @@ package com.njfu.wa.sys.service.impl;
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.domain.Field;
+import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.MessageFactory;
 import com.njfu.wa.sys.mapper.FieldMapper;
+import com.njfu.wa.sys.mapper.FieldStatusMapper;
 import com.njfu.wa.sys.service.FieldService;
-import com.njfu.wa.sys.util.Message;
-import com.njfu.wa.sys.util.MessageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +19,9 @@ public class FieldServiceImpl implements FieldService {
 
     @Autowired
     private FieldMapper fieldMapper;
+
+    @Autowired
+    private FieldStatusMapper fieldStatusMapper;
 
     @Autowired
     private MessageFactory messageFactory;
@@ -43,6 +48,7 @@ public class FieldServiceImpl implements FieldService {
      * @return message
      */
     @Override
+    @Transactional
     public Message addField(Field field, Block block, Crop crop) {
         this.convertNull(field, crop);
 
@@ -52,6 +58,9 @@ public class FieldServiceImpl implements FieldService {
         if (res == 0) {
             return messageFactory.failMessage("新增大棚信息失败，请检查新增编号是否存在！");
         }
+
+        // 新增大棚状态数据项
+        fieldStatusMapper.insertFieldStatus(field);
 
         return messageFactory.successMessage("新增大棚信息成功！");
     }
@@ -85,12 +94,16 @@ public class FieldServiceImpl implements FieldService {
      * @return message
      */
     @Override
+    @Transactional
     public Message removeField(Field field) {
         int res = fieldMapper.deleteField(field);
 
         if (res == 0) {
             return messageFactory.failMessage("删除大棚信息失败！");
         }
+
+        // 删除大棚状态数据项
+        fieldStatusMapper.deleteFieldStatus(field);
 
         return messageFactory.successMessage("删除大棚信息成功！");
     }

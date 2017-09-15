@@ -2,7 +2,7 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.domain.Sensor;
-import com.njfu.wa.sys.util.Message;
+import com.njfu.wa.sys.domain.util.Message;
 
 import java.util.List;
 

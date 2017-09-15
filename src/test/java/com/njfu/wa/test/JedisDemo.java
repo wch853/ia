@@ -1,4 +1,4 @@
-package com.njfu.wa.redis;
+package com.njfu.wa.test;
 
 import org.junit.Test;
 import org.slf4j.Logger;

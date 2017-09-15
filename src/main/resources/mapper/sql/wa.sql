@@ -1,3 +1,5 @@
+----- DDL -----
+
 DROP TABLE IF EXISTS block;
 CREATE TABLE block (
 block_id VARCHAR(255) NOT NULL COMMENT '地块编号',
@@ -77,29 +79,146 @@ vehicle_ps VARCHAR(255) DEFAULT NULL COMMENT '车辆备注',
 PRIMARY KEY (vehicle_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='车辆';
 
-DROP TABLE IF EXISTS soil_status;
-CREATE TABLE soil_status (
-id INT NOT NULL auto_increment COMMENT '测量记录编号',
+DROP TABLE IF EXISTS data_record;
+CREATE TABLE data_record (
+id INT AUTO_INCREMENT NOT NULL COMMENT '数据记录编号',
 sensor_id VARCHAR(255) NOT NULL COMMENT '来源传感器编号',
-measure_time TIMESTAMP NOT NULL COMMENT '测量时间',
-n_content INT DEFAULT NULL COMMENT '氮含量',
-p_content INT DEFAULT NULL COMMENT '磷含量',
-k_content INT DEFAULT NULL COMMENT '钾含量',
-hg_content INT DEFAULT NULL COMMENT '汞含量',
-pb_content INT DEFAULT NULL COMMENT '铅含量',
+data_type VARCHAR(255) NOT NULL COMMENT '数据类型 1-温度temperature 2-湿度moisture 3-土壤温度 soil_temperature 4-土壤水分soil_moisture 5-光照 light 6-二氧化碳 co2 7-pH ph 8-氮含量n 9-磷含量p 10-钾含量k 11-汞含量hg 12-铅含量pb',
+val DOUBLE(5, 2) NOT NULL COMMENT '数据记录值',
+record_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
 PRIMARY KEY (id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='土壤墒情';
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='数据记录';
 
-DROP TABLE IF EXISTS environment_status;
-CREATE TABLE environment_status (
-id INT NOT NULL auto_increment COMMENT '测量记录编号',
-sensor_id VARCHAR(255) NOT NULL COMMENT '来源传感器编号',
-measure_time TIMESTAMP NOT NULL COMMENT '测量时间',
-temperature INT DEFAULT NULL COMMENT '温度',
-moisture INT DEFAULT NULL COMMENT '湿度',
+DROP TABLE IF EXISTS field_status;
+CREATE TABLE field_status (
+field_id VARCHAR(255) NOT NULL COMMENT '大棚编号',
+update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '状态更新时间',
+temperature DOUBLE(5, 2) DEFAULT NULL COMMENT '温度',
+moisture DOUBLE(5, 2) DEFAULT NULL COMMENT '湿度',
+soil_temperature DOUBLE(5, 2) DEFAULT NULL COMMENT '土壤温度',
+soil_moisture DOUBLE(5, 2) DEFAULT NULL COMMENT '土壤湿度',
+light DOUBLE(5, 2) DEFAULT NULL COMMENT '光照度',
+co2 DOUBLE(5, 2) DEFAULT NULL COMMENT '二氧化碳浓度',
+ph DOUBLE(5, 2) DEFAULT NULL COMMENT 'ph',
+n DOUBLE(5, 2) DEFAULT NULL COMMENT '氮含量',
+p DOUBLE(5, 2) DEFAULT NULL COMMENT '磷含量',
+k DOUBLE(5, 2) DEFAULT NULL COMMENT '钾含量',
+hg DOUBLE(5, 2) DEFAULT NULL COMMENT '汞含量',
+pb DOUBLE(5, 2) DEFAULT NULL COMMENT '铅含量',
+PRIMARY KEY (field_id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='大棚状态';
+
+DROP TABLE IF EXISTS warn_record;
+CREATE TABLE warn_record (
+id INT AUTO_INCREMENT NOT NULL COMMENT '报警记录编号',
+field_id VARCHAR(255) NOT NULL COMMENT '来源大棚编号',
+warn_type VARCHAR(255) NOT NULL COMMENT '报警类型',
+warn_val DOUBLE(5, 2) DEFAULT NULL COMMENT '报警值',
+warn_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '报警时间',
+handle_time TIMESTAMP NULL COMMENT '处理时间',
+flag VARCHAR(255) NOT NULL DEFAULT 0 COMMENT '处理标志 0-未处理 1-已处理',
+warn_ps VARCHAR(255) COMMENT '报警备注',
 PRIMARY KEY (id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='环境参数';
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='报警记录';
 
+DROP TABLE IF EXISTS warn_threshold;
+CREATE TABLE warn_threshold (
+id INT AUTO_INCREMENT NOT NULL COMMENT '报警阈值编号',
+threshold_type VARCHAR(255) NOT NULL COMMENT '阈值类型',
+ceil DOUBLE(5, 2) NOT NULL COMMENT '阈值上限',
+floor DOUBLE(5, 2) NOT NULL COMMENT '阈值下限',
+PRIMARY KEY (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='报警阈值';
+
+
+----- trigger -----
+
+-- 当数据记录表新增数据时，触发大棚状态表的相关字段更新
+DELIMITER //
+DROP PROCEDURE IF EXISTS update_field_status;
+CREATE PROCEDURE update_field_status(IN type VARCHAR(255), IN val INT, IN f_id VARCHAR(255))
+  BEGIN
+    CASE type
+      WHEN '1'
+      THEN
+        UPDATE field_status
+        SET temperature = val
+        WHERE field_id = f_id;
+      WHEN '2'
+      THEN
+        UPDATE field_status
+        SET moisture = val
+        WHERE field_id = f_id;
+      WHEN '3'
+      THEN
+        UPDATE field_status
+        SET soil_temperature = val
+        WHERE field_id = f_id;
+      WHEN '4'
+      THEN
+        UPDATE field_status
+        SET soil_moisture = val
+        WHERE field_id = f_id;
+      WHEN '5'
+      THEN
+        UPDATE field_status
+        SET light = val
+        WHERE field_id = f_id;
+      WHEN '6'
+      THEN
+        UPDATE field_status
+        SET co2 = val
+        WHERE field_id = f_id;
+      WHEN '7'
+      THEN
+        UPDATE field_status
+        SET ph = val
+        WHERE field_id = f_id;
+      WHEN '8'
+      THEN
+        UPDATE field_status
+        SET n = val
+        WHERE field_id = f_id;
+      WHEN '9'
+      THEN
+        UPDATE field_status
+        SET p = val
+        WHERE field_id = f_id;
+      WHEN '10'
+      THEN
+        UPDATE field_status
+        SET k = val
+        WHERE field_id = f_id;
+      WHEN '11'
+      THEN
+        UPDATE field_status
+        SET hg = val
+        WHERE field_id = f_id;
+      WHEN '12'
+      THEN
+        UPDATE field_status
+        SET pb = val
+        WHERE field_id = f_id;
+    ELSE
+      SET f_id = '';
+    END CASE;
+  END;
+
+DROP TRIGGER IF EXISTS after_data_insert;
+CREATE TRIGGER after_data_insert
+AFTER INSERT ON data_record
+FOR EACH ROW
+  BEGIN
+    DECLARE f_id VARCHAR(255) DEFAULT '';
+    SET f_id = (SELECT field_id
+                FROM sensor
+                WHERE sensor_id = NEW.sensor_id);
+    CALL update_field_status(NEW.data_type, NEW.val, f_id);
+  END //
+DELIMITER ;
+
+
+----- data -----
 -- block
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b01', '沛县现代农业产业园区', '朱寨镇、沛城镇、鹿楼镇、张寨镇、经济开发区', '近郊城市农业区');
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b02', '胡寨草庙千亩长茄示范园', '胡寨镇', '东部优质粮食主产区');
@@ -157,3 +276,24 @@ INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_
 INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v002', 'xyz002', 'b02', '0', null);
 INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v003', 'xyz003', 'b03', '0', null);
 INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v004', 'xyz004', 'b04', '0', null);
+
+-- field_status
+CALL add_field_status_data('f170100');
+CALL add_field_status_data('f170200');
+CALL add_field_status_data('f170300');
+CALL add_field_status_data('f170400');
+
+-- data_record
+TRUNCATE data_record;
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '1', 35.22, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '2', 45.22, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '3', 23.69, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '4', 48.56, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '5', 27.36, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '6', 35.35, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '7', 56.23, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '8', 12.56, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '9', 25.5, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '10', 96.63, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '11', 15.3, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '12', 96.8, NULL);
