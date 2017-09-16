@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Employee;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -40,8 +40,8 @@ public class EmployeeServiceTest {
         employee.setEmpSex("男");
         employee.setEmpPs("test");
 
-        Message message = employeeService.addEmployee(employee);
-        log.info("message: {}", message);
+        Result result = employeeService.addEmployee(employee);
+        log.info("result: {}", result);
     }
 
     @Test
@@ -55,8 +55,8 @@ public class EmployeeServiceTest {
         employee.setEmpSex("男");
         employee.setEmpPs("test");
 
-        Message message = employeeService.modifyEmployee(employee);
-        log.info("message: {}", message);
+        Result result = employeeService.modifyEmployee(employee);
+        log.info("result: {}", result);
     }
 
     @Test
@@ -64,8 +64,8 @@ public class EmployeeServiceTest {
         Employee employee = new Employee();
         employee.setEmpId("e001");
 
-        Message message = employeeService.removeEmployee(employee);
-        log.info("message: {}", message);
+        Result result = employeeService.removeEmployee(employee);
+        log.info("result: {}", result);
     }
 
 }

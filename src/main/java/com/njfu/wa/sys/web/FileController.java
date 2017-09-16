@@ -3,7 +3,7 @@ package com.njfu.wa.sys.web;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.njfu.wa.sys.domain.*;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 import com.njfu.wa.sys.domain.util.PaginationResult;
 import com.njfu.wa.sys.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +87,7 @@ public class FileController {
      */
     @PostMapping("/addBlock")
     public @ResponseBody
-    Message addBlock(Block block) {
+    Result addBlock(Block block) {
         return blockService.addBlock(block);
     }
 
@@ -99,7 +99,7 @@ public class FileController {
      */
     @PostMapping("/modifyBlock")
     public @ResponseBody
-    Message modifyBlock(Block block) {
+    Result modifyBlock(Block block) {
         return blockService.modifyBlock(block);
     }
 
@@ -111,7 +111,7 @@ public class FileController {
      */
     @PostMapping("/removeBlock")
     public @ResponseBody
-    Message removeBlock(Block block) {
+    Result removeBlock(Block block) {
         return blockService.removeBlock(block);
     }
 
@@ -158,7 +158,7 @@ public class FileController {
      */
     @PostMapping("/addField")
     public @ResponseBody
-    Message addField(Field field, Block block, Crop crop) {
+    Result addField(Field field, Block block, Crop crop) {
         return fieldService.addField(field, block, crop);
     }
 
@@ -172,7 +172,7 @@ public class FileController {
      */
     @PostMapping("/modifyField")
     public @ResponseBody
-    Message modifyField(Field field, Block block, Crop crop) {
+    Result modifyField(Field field, Block block, Crop crop) {
         return fieldService.modifyField(field, block, crop);
     }
 
@@ -184,7 +184,7 @@ public class FileController {
      */
     @PostMapping("/removeField")
     public @ResponseBody
-    Message removeField(Field field) {
+    Result removeField(Field field) {
         return fieldService.removeField(field);
     }
 
@@ -222,7 +222,7 @@ public class FileController {
      */
     @PostMapping("/addCrop")
     public @ResponseBody
-    Message addCrop(Crop crop) {
+    Result addCrop(Crop crop) {
         return cropService.addCrop(crop);
     }
 
@@ -234,7 +234,7 @@ public class FileController {
      */
     @PostMapping("/modifyCrop")
     public @ResponseBody
-    Message modifyCrop(Crop crop) {
+    Result modifyCrop(Crop crop) {
         return cropService.modifyCrop(crop);
     }
 
@@ -246,7 +246,7 @@ public class FileController {
      */
     @PostMapping("/removeCrop")
     public @ResponseBody
-    Message removeCrop(Crop crop) {
+    Result removeCrop(Crop crop) {
         return cropService.removeCrop(crop);
     }
 
@@ -284,7 +284,7 @@ public class FileController {
      */
     @PostMapping("/addEmployee")
     public @ResponseBody
-    Message addEmployee(Employee employee) {
+    Result addEmployee(Employee employee) {
         return employeeService.addEmployee(employee);
     }
 
@@ -296,7 +296,7 @@ public class FileController {
      */
     @PostMapping("/modifyEmployee")
     public @ResponseBody
-    Message modifyEmployee(Employee employee) {
+    Result modifyEmployee(Employee employee) {
         return employeeService.modifyEmployee(employee);
     }
 
@@ -308,7 +308,7 @@ public class FileController {
      */
     @PostMapping("/removeEmployee")
     public @ResponseBody
-    Message removeEmployee(Employee employee) {
+    Result removeEmployee(Employee employee) {
         return employeeService.removeEmployee(employee);
     }
 
@@ -351,7 +351,7 @@ public class FileController {
      */
     @PostMapping("/addMachine")
     public @ResponseBody
-    Message addMachine(Machine machine, Block block) {
+    Result addMachine(Machine machine, Block block) {
         return machineService.addMachine(machine, block);
     }
 
@@ -364,7 +364,7 @@ public class FileController {
      */
     @PostMapping("/modifyMachine")
     public @ResponseBody
-    Message modifyMachine(Machine machine, Block block) {
+    Result modifyMachine(Machine machine, Block block) {
         return machineService.modifyMachine(machine, block);
     }
 
@@ -376,7 +376,7 @@ public class FileController {
      */
     @PostMapping("/removeMachine")
     public @ResponseBody
-    Message removeMachine(Machine machine) {
+    Result removeMachine(Machine machine) {
         return machineService.removeMachine(machine);
     }
 
@@ -418,7 +418,7 @@ public class FileController {
      */
     @RequestMapping("/addVehicle")
     public @ResponseBody
-    Message addVehicle(Vehicle vehicle, Block block) {
+    Result addVehicle(Vehicle vehicle, Block block) {
         return vehicleService.addVehicle(vehicle, block);
     }
 
@@ -431,7 +431,7 @@ public class FileController {
      */
     @RequestMapping("/modifyVehicle")
     public @ResponseBody
-    Message modifyVehicle(Vehicle vehicle, Block block) {
+    Result modifyVehicle(Vehicle vehicle, Block block) {
         return vehicleService.modifyVehicle(vehicle, block);
     }
 
@@ -443,7 +443,7 @@ public class FileController {
      */
     @RequestMapping("/removeVehicle")
     public @ResponseBody
-    Message removeVehicle(Vehicle vehicle) {
+    Result removeVehicle(Vehicle vehicle) {
         return vehicleService.removeVehicle(vehicle);
     }
 
@@ -485,7 +485,7 @@ public class FileController {
      */
     @RequestMapping("/addSensor")
     public @ResponseBody
-    Message addSensor(Sensor sensor, Field field) {
+    Result addSensor(Sensor sensor, Field field) {
         return sensorService.addSensor(sensor, field);
     }
 
@@ -498,7 +498,7 @@ public class FileController {
      */
     @RequestMapping("/modifySensor")
     public @ResponseBody
-    Message modifySensor(Sensor sensor, Field field) {
+    Result modifySensor(Sensor sensor, Field field) {
         return sensorService.modifySensor(sensor, field);
     }
 
@@ -510,7 +510,7 @@ public class FileController {
      */
     @RequestMapping("/removeSensor")
     public @ResponseBody
-    Message removeSensor(Sensor sensor) {
+    Result removeSensor(Sensor sensor) {
         return sensorService.removeSensor(sensor);
     }
 }

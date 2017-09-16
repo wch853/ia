@@ -20,12 +20,12 @@ $("#cropFileTable").bootstrapTable({
     }, {
         formatter: function (value, row, index) {
             return [
-                '<a href="javascript:modifyCrop(' + "'" + row.cropId + "', '" + row.cropName + "', '"
-                + convertNull(row.cropPs) + "'" + ')">' +
-                '<i class="glyphicon glyphicon-pencil"></i>修改' +
+                '<a type="button" class="btn btn-operate" href="javascript:modifyCrop(' + "'" + row.cropId + "', '"
+                + row.cropName + "', '" + convertNull(row.cropPs) + "'" + ')">' +
+                '<i class="fa fa-pencil"></i> 修改' +
                 '</a>',
-                '<a href="javascript:removeCrop(' + "'" + row.cropId + "'" + ')">' +
-                '<i class="glyphicon glyphicon-remove"></i>删除' +
+                '<a type="button" class="btn btn-operate" href="javascript:removeCrop(' + "'" + row.cropId + "'" + ')">' +
+                '<i class="fa fa-times"></i> 删除' +
                 '</a>'
             ].join('');
         },

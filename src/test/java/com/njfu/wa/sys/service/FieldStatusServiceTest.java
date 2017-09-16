@@ -1,6 +1,6 @@
 package com.njfu.wa.sys.service;
 
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -20,8 +20,8 @@ public class FieldStatusServiceTest {
 
     @Test
     public void getFieldStatusById() throws Exception {
-        Message message = fieldStatusService.getFieldStatusById("f1701001");
-        log.info("data: {}", message.getData());
+        Result result = fieldStatusService.getFieldStatusById("f1701001");
+        log.info("data: {}", result.getData());
     }
 
 }

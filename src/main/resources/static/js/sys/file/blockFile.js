@@ -23,12 +23,12 @@ $("#blockFileTable").bootstrapTable({
     }, {
         formatter: function (value, row, index) {
             return [
-                '<a href="javascript:modifyBlock(' + "'" + row.blockId + "', '" + row.blockName + "', '"
-                + row.blockLoc + "', '" + convertNull(row.blockPs) + "'" + ')">' +
-                '<i class="glyphicon glyphicon-pencil"></i>修改' +
+                '<a type="button" class="btn btn-operate" href="javascript:modifyBlock(' + "'" + row.blockId + "', '"
+                + row.blockName + "', '" + row.blockLoc + "', '" + convertNull(row.blockPs) + "'" + ')">' +
+                '<i class="fa fa-pencil"></i> 修改' +
                 '</a>',
-                '<a href="javascript:removeBlock(' + "'" + row.blockId + "'" + ')">' +
-                '<i class="glyphicon glyphicon-remove"></i>删除' +
+                '<a type="button" class="btn btn-operate" href="javascript:removeBlock(' + "'" + row.blockId + "'" + ')">' +
+                '<i class="fa fa-times"></i> 删除' +
                 '</a>'
             ].join('');
         },

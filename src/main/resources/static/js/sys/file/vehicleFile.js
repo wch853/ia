@@ -37,12 +37,12 @@ $("#vehicleFileTable").bootstrapTable({
     }, {
         formatter: function (value, row, index) {
             return [
-                '<a href="javascript:modifyVehicle(' + "'" + row.vehicleId + "', '" + row.vehicleType + "', '"
+                '<a type="button" class="btn btn-operate" href="javascript:modifyVehicle(' + "'" + row.vehicleId + "', '" + row.vehicleType + "', '"
                 + convertBlockName(row.block) + "', '" + row.useStatus + "', '" + convertNull(row.vehiclePs) + "'" + ')">' +
-                '<i class="glyphicon glyphicon-pencil"></i>修改' +
+                '<i class="fa fa-pencil"></i> 修改' +
                 '</a>',
-                '<a href="javascript:removeVehicle(' + "'" + row.vehicleId + "'" + ')">' +
-                '<i class="glyphicon glyphicon-remove"></i>删除' +
+                '<a type="button" class="btn btn-operate" href="javascript:removeVehicle(' + "'" + row.vehicleId + "'" + ')">' +
+                '<i class="fa fa-times"></i> 删除' +
                 '</a>'
             ].join('');
         },

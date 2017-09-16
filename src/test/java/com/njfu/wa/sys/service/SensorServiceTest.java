@@ -2,7 +2,7 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.domain.Sensor;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -40,9 +40,9 @@ public class SensorServiceTest {
         sensor.setUseStatus("0");
         sensor.setSensorPs("test");
 
-        Message message = sensorService.addSensor(sensor, new Field());
+        Result result = sensorService.addSensor(sensor, new Field());
 
-        log.info("message: {}", message);
+        log.info("result: {}", result);
     }
 
     @Test
@@ -54,9 +54,9 @@ public class SensorServiceTest {
         sensor.setUseStatus("0");
         sensor.setSensorPs("test");
 
-        Message message = sensorService.modifySensor(sensor, new Field());
+        Result result = sensorService.modifySensor(sensor, new Field());
 
-        log.info("message: {}", message);
+        log.info("result: {}", result);
     }
 
     @Test
@@ -64,9 +64,9 @@ public class SensorServiceTest {
         Sensor sensor = new Sensor();
         sensor.setSensorId("s-01-001");
 
-        Message message = sensorService.removeSensor(sensor);
+        Result result = sensorService.removeSensor(sensor);
 
-        log.info("message: {}", message);
+        log.info("result: {}", result);
     }
 
 }

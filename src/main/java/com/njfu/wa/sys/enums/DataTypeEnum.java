@@ -26,6 +26,10 @@ public enum DataTypeEnum {
         this.type = type;
     }
 
+    public Integer getCode() {
+        return code;
+    }
+
     public String getType() {
         return type;
     }

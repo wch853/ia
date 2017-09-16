@@ -2,7 +2,7 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.domain.Sensor;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface SensorService {
      * @param field  fieldId
      * @return message
      */
-    Message addSensor(Sensor sensor, Field field);
+    Result addSensor(Sensor sensor, Field field);
 
     /**
      * 修改传感器信息
@@ -33,7 +33,7 @@ public interface SensorService {
      * @param field  fieldId
      * @return message
      */
-    Message modifySensor(Sensor sensor, Field field);
+    Result modifySensor(Sensor sensor, Field field);
 
     /**
      * 删除传感器信息
@@ -41,5 +41,5 @@ public interface SensorService {
      * @param sensor sensorId
      * @return message
      */
-    Message removeSensor(Sensor sensor);
+    Result removeSensor(Sensor sensor);
 }

@@ -37,12 +37,12 @@ $("#machineFileTable").bootstrapTable({
     }, {
         formatter: function (value, row, index) {
             return [
-                '<a href="javascript:modifyMachine(' + "'" + row.machineId + "', '" + row.machineType + "', '"
+                '<a type="button" class="btn btn-operate" href="javascript:modifyMachine(' + "'" + row.machineId + "', '" + row.machineType + "', '"
                 + convertBlockName(row.block) + "', '" + row.useStatus + "', '" + convertNull(row.machinePs) + "'" + ')">' +
-                '<i class="glyphicon glyphicon-pencil"></i>修改' +
+                '<i class="fa fa-pencil"></i> 修改' +
                 '</a>',
-                '<a href="javascript:removeMachine(' + "'" + row.machineId + "'" + ')">' +
-                '<i class="glyphicon glyphicon-remove"></i>删除' +
+                '<a type="button" class="btn btn-operate" href="javascript:removeMachine(' + "'" + row.machineId + "'" + ')">' +
+                '<i class="fa fa-times"></i> 删除' +
                 '</a>'
             ].join('');
         },

@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.web;
 
 import com.njfu.wa.sys.domain.Block;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 import com.njfu.wa.sys.service.BlockService;
 import com.njfu.wa.sys.service.FieldStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +28,6 @@ public class IndexController {
      */
     @RequestMapping({"/", "/sys"})
     public String index(Model model) {
-        if (1 == 1) {
-            throw new RuntimeException("1");
-        }
         List<Block> blocks = blockService.getBlocksAndFields();
         model.addAttribute("blocks", blocks);
         return "index";
@@ -38,7 +35,7 @@ public class IndexController {
 
     @RequestMapping("/sys/getFieldStatus")
     public @ResponseBody
-    Message getFieldStatus(String fieldId) {
+    Result getFieldStatus(String fieldId) {
         return fieldStatusService.getFieldStatusById(fieldId);
     }
 

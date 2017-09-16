@@ -1,8 +1,8 @@
 package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Block;
-import com.njfu.wa.sys.domain.util.Message;
-import com.njfu.wa.sys.domain.util.MessageFactory;
+import com.njfu.wa.sys.domain.util.Result;
+import com.njfu.wa.sys.domain.util.ResultFactory;
 import com.njfu.wa.sys.mapper.BlockMapper;
 import com.njfu.wa.sys.service.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class BlockServiceImpl implements BlockService {
     private BlockMapper blockMapper;
 
     @Autowired
-    private MessageFactory messageFactory;
+    private ResultFactory resultFactory;
 
     /**
      * 获取地块列表
@@ -47,7 +47,7 @@ public class BlockServiceImpl implements BlockService {
      * @return message
      */
     @Override
-    public Message addBlock(Block block) {
+    public Result addBlock(Block block) {
         // 若blockPs为空字符串，转为null
         if ("".equals(block.getBlockPs())) {
             block.setBlockPs(null);
@@ -56,9 +56,9 @@ public class BlockServiceImpl implements BlockService {
         int res = blockMapper.insertBlock(block);
 
         if (res == 0) {
-            return messageFactory.failMessage("新增地块信息失败，请检查新增编号是否存在！");
+            return resultFactory.failMessage("新增地块信息失败，请检查新增编号是否存在！");
         }
-        return messageFactory.successMessage("新增地块信息成功！");
+        return resultFactory.successMessage("新增地块信息成功！");
     }
 
     /**
@@ -68,7 +68,7 @@ public class BlockServiceImpl implements BlockService {
      * @return message
      */
     @Override
-    public Message modifyBlock(Block block) {
+    public Result modifyBlock(Block block) {
         // 若blockPs为空字符串，转为null
         if ("".equals(block.getBlockPs())) {
             block.setBlockPs(null);
@@ -77,10 +77,10 @@ public class BlockServiceImpl implements BlockService {
         int res = blockMapper.updateBlock(block);
 
         if (res == 0) {
-            return messageFactory.failMessage("修改地块信息失败!");
+            return resultFactory.failMessage("修改地块信息失败!");
         }
 
-        return messageFactory.successMessage("修改地块信息成功!");
+        return resultFactory.successMessage("修改地块信息成功!");
     }
 
     /**
@@ -90,13 +90,13 @@ public class BlockServiceImpl implements BlockService {
      * @return message
      */
     @Override
-    public Message removeBlock(Block block) {
+    public Result removeBlock(Block block) {
         int res = blockMapper.deleteBlock(block);
 
         if (res == 0) {
-            return messageFactory.failMessage("删除地块信息失败!");
+            return resultFactory.failMessage("删除地块信息失败!");
         }
 
-        return messageFactory.successMessage("删除地块信息成功!");
+        return resultFactory.successMessage("删除地块信息成功!");
     }
 }

@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Employee;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface EmployeeService {
      * @param employee empId empName empTel empPosition empAge empSex empPs
      * @return message
      */
-    Message addEmployee(Employee employee);
+    Result addEmployee(Employee employee);
 
     /**
      * 修改员工信息
@@ -29,7 +29,7 @@ public interface EmployeeService {
      * @param employee empId empName empTel empPosition empAge empSex empPs
      * @return message
      */
-    Message modifyEmployee(Employee employee);
+    Result modifyEmployee(Employee employee);
 
     /**
      * 删除员工信息
@@ -37,5 +37,5 @@ public interface EmployeeService {
      * @param employee empId
      * @return message
      */
-    Message removeEmployee(Employee employee);
+    Result removeEmployee(Employee employee);
 }

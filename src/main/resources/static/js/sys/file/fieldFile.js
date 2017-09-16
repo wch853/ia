@@ -41,13 +41,13 @@ $("#fieldFileTable").bootstrapTable({
         formatter: function (value, row, index) {
             /** @namespace row.block */
             return [
-                '<a href="javascript:modifyField(' + "'" + row.fieldId + "', '" + row.fieldName + "', '"
-                + row.block.blockId + "', '" + convertCropId(row.crop) + "', '" + row.useStatus + "', '"
-                + convertNull(row.fieldPs) + "'" + ')">' +
-                '<i class="glyphicon glyphicon-pencil"></i>修改' +
+                '<a type="button" class="btn btn-operate" href="javascript:modifyField(' + "'" + row.fieldId + "', '"
+                + row.fieldName + "', '" + row.block.blockId + "', '" + convertCropId(row.crop) + "', '"
+                + row.useStatus + "', '" + convertNull(row.fieldPs) + "'" + ')">' +
+                '<i class="fa fa-pencil"></i> 修改' +
                 '</a>',
-                '<a href="javascript:removeField(' + "'" + row.fieldId + "'" + ')">' +
-                '<i class="glyphicon glyphicon-remove"></i>删除' +
+                '<a type="button" class="btn btn-operate" href="javascript:removeField(' + "'" + row.fieldId + "'" + ')">' +
+                '<i class="fa fa-times"></i> 删除' +
                 '</a>'
             ].join('');
         },

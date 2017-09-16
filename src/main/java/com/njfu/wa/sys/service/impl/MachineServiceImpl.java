@@ -2,8 +2,8 @@ package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Machine;
-import com.njfu.wa.sys.domain.util.Message;
-import com.njfu.wa.sys.domain.util.MessageFactory;
+import com.njfu.wa.sys.domain.util.Result;
+import com.njfu.wa.sys.domain.util.ResultFactory;
 import com.njfu.wa.sys.mapper.MachineMapper;
 import com.njfu.wa.sys.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class MachineServiceImpl implements MachineService {
     private MachineMapper machineMapper;
 
     @Autowired
-    private MessageFactory messageFactory;
+    private ResultFactory resultFactory;
 
 
     /**
@@ -42,16 +42,16 @@ public class MachineServiceImpl implements MachineService {
      * @return message
      */
     @Override
-    public Message addMachine(Machine machine, Block block) {
+    public Result addMachine(Machine machine, Block block) {
         this.convertNull(machine, block);
 
         int res = machineMapper.insertMachine(machine);
 
         if (res == 0) {
-            return messageFactory.failMessage("新增机械信息失败，请检查新增编号是否存在！");
+            return resultFactory.failMessage("新增机械信息失败，请检查新增编号是否存在！");
         }
 
-        return messageFactory.successMessage("新增机械信息成功！");
+        return resultFactory.successMessage("新增机械信息成功！");
     }
 
     /**
@@ -62,16 +62,16 @@ public class MachineServiceImpl implements MachineService {
      * @return message
      */
     @Override
-    public Message modifyMachine(Machine machine, Block block) {
+    public Result modifyMachine(Machine machine, Block block) {
         this.convertNull(machine, block);
 
         int res = machineMapper.updateMachine(machine);
 
         if (res == 0) {
-            return messageFactory.failMessage("修改机械信息失败！");
+            return resultFactory.failMessage("修改机械信息失败！");
         }
 
-        return messageFactory.successMessage("修改机械信息成功！");
+        return resultFactory.successMessage("修改机械信息成功！");
     }
 
     /**
@@ -81,14 +81,14 @@ public class MachineServiceImpl implements MachineService {
      * @return message
      */
     @Override
-    public Message removeMachine(Machine machine) {
+    public Result removeMachine(Machine machine) {
         int res = machineMapper.deleteMachine(machine);
 
         if (res == 0) {
-            return messageFactory.failMessage("删除机械信息失败！");
+            return resultFactory.failMessage("删除机械信息失败！");
         }
 
-        return messageFactory.successMessage("删除机械信息成功！");
+        return resultFactory.successMessage("删除机械信息成功！");
     }
 
     /**

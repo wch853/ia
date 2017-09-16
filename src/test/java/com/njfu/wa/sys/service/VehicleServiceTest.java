@@ -2,7 +2,7 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Vehicle;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -37,9 +37,9 @@ public class VehicleServiceTest {
         vehicle.setVehicleType("xyz001");
         vehicle.setUseStatus("0");
 
-        Message message = vehicleService.addVehicle(vehicle, new Block());
+        Result result = vehicleService.addVehicle(vehicle, new Block());
 
-        log.info("message: {}", message);
+        log.info("result: {}", result);
     }
 
     @Test
@@ -49,8 +49,8 @@ public class VehicleServiceTest {
         vehicle.setVehicleType("xyz001");
         vehicle.setUseStatus("0");
 
-        Message message = vehicleService.modifyVehicle(vehicle, new Block());
-        log.info("message: {}", message);
+        Result result = vehicleService.modifyVehicle(vehicle, new Block());
+        log.info("result: {}", result);
     }
 
     @Test
@@ -58,8 +58,8 @@ public class VehicleServiceTest {
         Vehicle vehicle = new Vehicle();
         vehicle.setVehicleId("v001");
 
-        Message message = vehicleService.removeVehicle(vehicle);
-        log.info("message: {}", message);
+        Result result = vehicleService.removeVehicle(vehicle);
+        log.info("result: {}", result);
     }
 
 }

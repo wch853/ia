@@ -27,6 +27,7 @@ nav {
     width: 100%;
     padding: 10px 0 0 10px;
     background-color: #fff;
+    margin-top: -10px;
 }
 
 /* ctrl the page content*/
@@ -271,3 +272,27 @@ nav i,
     font-weight: 600;
     color: #f09323;
 }
+
+.side-active {
+    background-color: #575e75;
+}
+
+.btn-operate {
+    color: #222;
+    border: 1px solid #cccccc;
+    padding: 1px 10px;
+    margin: 0 5px;
+}
+
+.btn-operate i {
+    margin: 0;
+}
+
+.fa-pencil {
+    color: #5cb85c;
+}
+
+.fa-times {
+    color: #d9534f;
+}
+

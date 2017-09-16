@@ -3,7 +3,7 @@ package com.njfu.wa.sys.service;
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.domain.Field;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public interface FieldService {
      * @param crop  cropId
      * @return message
      */
-    Message addField(Field field, Block block, Crop crop);
+    Result addField(Field field, Block block, Crop crop);
 
     /**
      * 修改大棚信息
@@ -35,7 +35,7 @@ public interface FieldService {
      * @param crop  cropId
      * @return message
      */
-    Message modifyField(Field field, Block block, Crop crop);
+    Result modifyField(Field field, Block block, Crop crop);
 
     /**
      * 删除大棚信息
@@ -43,5 +43,5 @@ public interface FieldService {
      * @param field field
      * @return message
      */
-    Message removeField(Field field);
+    Result removeField(Field field);
 }

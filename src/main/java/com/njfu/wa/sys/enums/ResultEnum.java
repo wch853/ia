@@ -1,20 +1,20 @@
 package com.njfu.wa.sys.enums;
 
 /**
- * 存放消息代码及其类型描述
+ * 存放结果代码及其类型描述
  */
-public enum MessageEnum {
+public enum ResultEnum {
     SUCCESS(100, "success"),
     FAIL(200, "fail"),
     DATA(101, "data");
 
-    // 消息代码
+    // 结果代码
     private Integer code;
 
-    // 消息类型
+    // 结果类型
     private String info;
 
-    MessageEnum(Integer code, String info) {
+    ResultEnum(Integer code, String info) {
         this.code = code;
         this.info = info;
     }

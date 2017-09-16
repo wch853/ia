@@ -2,7 +2,7 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Vehicle;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface VehicleService {
      * @param block   blockId
      * @return message
      */
-    Message addVehicle(Vehicle vehicle, Block block);
+    Result addVehicle(Vehicle vehicle, Block block);
 
     /**
      * 修改车辆信息
@@ -33,7 +33,7 @@ public interface VehicleService {
      * @param block   blockId
      * @return message
      */
-    Message modifyVehicle(Vehicle vehicle, Block block);
+    Result modifyVehicle(Vehicle vehicle, Block block);
 
     /**
      * 删除车辆信息
@@ -41,5 +41,5 @@ public interface VehicleService {
      * @param vehicle vehicleId
      * @return message
      */
-    Message removeVehicle(Vehicle vehicle);
+    Result removeVehicle(Vehicle vehicle);
 }

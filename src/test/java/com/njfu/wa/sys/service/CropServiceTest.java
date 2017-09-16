@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Crop;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -36,8 +36,8 @@ public class CropServiceTest {
         crop.setCropName("test");
         crop.setCropPs("test");
 
-        Message message = cropService.addCrop(crop);
-        log.info("message: {}", message);
+        Result result = cropService.addCrop(crop);
+        log.info("result: {}", result);
     }
 
     @Test
@@ -47,8 +47,8 @@ public class CropServiceTest {
         crop.setCropName("test");
         crop.setCropPs("test");
 
-        Message message = cropService.modifyCrop(crop);
-        log.info("message: {}", message);
+        Result result = cropService.modifyCrop(crop);
+        log.info("result: {}", result);
     }
 
     @Test
@@ -56,8 +56,8 @@ public class CropServiceTest {
         Crop crop = new Crop();
         crop.setCropId("c001");
 
-        Message message = cropService.removeCrop(crop);
-        log.info("message: {}", message);
+        Result result = cropService.removeCrop(crop);
+        log.info("result: {}", result);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Crop;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface CropService {
      * @param crop cropId cropName cropPs
      * @return message
      */
-    Message addCrop(Crop crop);
+    Result addCrop(Crop crop);
 
     /**
      * 修改作物信息
@@ -29,7 +29,7 @@ public interface CropService {
      * @param crop cropId cropName cropPs
      * @return message
      */
-    Message modifyCrop(Crop crop);
+    Result modifyCrop(Crop crop);
 
     /**
      * 删除作物信息
@@ -37,5 +37,5 @@ public interface CropService {
      * @param crop cropId
      * @return message
      */
-    Message removeCrop(Crop crop);
+    Result removeCrop(Crop crop);
 }

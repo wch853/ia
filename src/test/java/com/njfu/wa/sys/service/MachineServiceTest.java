@@ -2,7 +2,7 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Machine;
-import com.njfu.wa.sys.domain.util.Message;
+import com.njfu.wa.sys.domain.util.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -42,8 +42,8 @@ public class MachineServiceTest {
         machine.setUseStatus("0");
         machine.setMachinePs("test");
 
-        Message message = machineService.addMachine(machine, block);
-        log.info("message: {}", machine);
+        Result result = machineService.addMachine(machine, block);
+        log.info("result: {}", machine);
     }
 
     @Test
@@ -58,8 +58,8 @@ public class MachineServiceTest {
         machine.setUseStatus("0");
         machine.setMachinePs("test");
 
-        Message message = machineService.modifyMachine(machine, block);
-        log.info("message: {}", machine);
+        Result result = machineService.modifyMachine(machine, block);
+        log.info("result: {}", machine);
     }
 
     @Test
@@ -67,8 +67,8 @@ public class MachineServiceTest {
         Machine machine = new Machine();
         machine.setMachineId("m001");
 
-        Message message = machineService.removeMachine(machine);
-        log.info("message: {}", machine);
+        Result result = machineService.removeMachine(machine);
+        log.info("result: {}", machine);
     }
 
 }

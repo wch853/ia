@@ -1,11 +1,11 @@
 package com.njfu.wa.sys.domain.util;
 
 /**
- * 用于返回消息
+ * 用于返回结果
  *
  * @param <T>
  */
-public class Message<T> {
+public class Result<T> {
 
     // 消息代码
     private Integer code;
@@ -16,19 +16,19 @@ public class Message<T> {
     // 消息具体内容
     private T data;
 
-    public Message() {
+    public Result() {
     }
 
-    public Message(Integer code) {
+    public Result(Integer code) {
         this.code = code;
     }
 
-    public Message(Integer code, String message) {
+    public Result(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public Message(Integer code, String message, T data) {
+    public Result(Integer code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -60,7 +60,7 @@ public class Message<T> {
 
     @Override
     public String toString() {
-        return "Message{" +
+        return "Result{" +
                 "code=" + code +
                 ", message='" + message + '\'' +
                 ", data=" + data +

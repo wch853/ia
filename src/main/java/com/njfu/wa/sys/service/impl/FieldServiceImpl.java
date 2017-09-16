@@ -3,8 +3,8 @@ package com.njfu.wa.sys.service.impl;
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.domain.Field;
-import com.njfu.wa.sys.domain.util.Message;
-import com.njfu.wa.sys.domain.util.MessageFactory;
+import com.njfu.wa.sys.domain.util.Result;
+import com.njfu.wa.sys.domain.util.ResultFactory;
 import com.njfu.wa.sys.mapper.FieldMapper;
 import com.njfu.wa.sys.mapper.FieldStatusMapper;
 import com.njfu.wa.sys.service.FieldService;
@@ -24,7 +24,7 @@ public class FieldServiceImpl implements FieldService {
     private FieldStatusMapper fieldStatusMapper;
 
     @Autowired
-    private MessageFactory messageFactory;
+    private ResultFactory resultFactory;
 
     /**
      * @param field fieldName useStatus
@@ -49,20 +49,20 @@ public class FieldServiceImpl implements FieldService {
      */
     @Override
     @Transactional
-    public Message addField(Field field, Block block, Crop crop) {
+    public Result addField(Field field, Block block, Crop crop) {
         this.convertNull(field, crop);
 
         field.setBlock(block);
 
         int res = fieldMapper.insertField(field);
         if (res == 0) {
-            return messageFactory.failMessage("新增大棚信息失败，请检查新增编号是否存在！");
+            return resultFactory.failMessage("新增大棚信息失败，请检查新增编号是否存在！");
         }
 
         // 新增大棚状态数据项
         fieldStatusMapper.insertFieldStatus(field);
 
-        return messageFactory.successMessage("新增大棚信息成功！");
+        return resultFactory.successMessage("新增大棚信息成功！");
     }
 
     /**
@@ -74,17 +74,17 @@ public class FieldServiceImpl implements FieldService {
      * @return message
      */
     @Override
-    public Message modifyField(Field field, Block block, Crop crop) {
+    public Result modifyField(Field field, Block block, Crop crop) {
         this.convertNull(field, crop);
 
         field.setBlock(block);
 
         int res = fieldMapper.updateField(field);
         if (res == 0) {
-            return messageFactory.failMessage("修改大棚信息失败！");
+            return resultFactory.failMessage("修改大棚信息失败！");
         }
 
-        return messageFactory.successMessage("修改大棚信息成功！");
+        return resultFactory.successMessage("修改大棚信息成功！");
     }
 
     /**
@@ -95,17 +95,17 @@ public class FieldServiceImpl implements FieldService {
      */
     @Override
     @Transactional
-    public Message removeField(Field field) {
+    public Result removeField(Field field) {
         int res = fieldMapper.deleteField(field);
 
         if (res == 0) {
-            return messageFactory.failMessage("删除大棚信息失败！");
+            return resultFactory.failMessage("删除大棚信息失败！");
         }
 
         // 删除大棚状态数据项
         fieldStatusMapper.deleteFieldStatus(field);
 
-        return messageFactory.successMessage("删除大棚信息成功！");
+        return resultFactory.successMessage("删除大棚信息成功！");
     }
 
     /**

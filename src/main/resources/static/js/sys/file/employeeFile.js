@@ -32,13 +32,13 @@ $("#employeeFileTable").bootstrapTable({
     }, {
         formatter: function (value, row, index) {
             return [
-                '<a href="javascript:modifyEmp(' + "'" + row.empId + "', '" + row.empName + "', '"
-                + row.empTel + "', '" + convertNull(row.empPosition) + "', '" + convertNull(row.empAge) + "', '"
-                + convertNull(row.empSex) + "', '" + convertNull(row.empPs) + "'" + ')">' +
-                '<i class="glyphicon glyphicon-pencil"></i>修改' +
+                '<a type="button" class="btn btn-operate" href="javascript:modifyEmp(' + "'" + row.empId + "', '"
+                + row.empName + "', '" + row.empTel + "', '" + convertNull(row.empPosition) + "', '" + convertNull(row.empAge)
+                + "', '" + convertNull(row.empSex) + "', '" + convertNull(row.empPs) + "'" + ')">' +
+                '<i class="fa fa-pencil"></i> 修改' +
                 '</a>',
-                '<a href="javascript:removeEmp(' + "'" + row.empId + "'" + ')">' +
-                '<i class="glyphicon glyphicon-remove"></i>删除' +
+                '<a type="button" class="btn btn-operate" href="javascript:removeEmp(' + "'" + row.empId + "'" + ')">' +
+                '<i class="fa fa-times"></i> 删除' +
                 '</a>'
             ].join('');
         },
