@@ -46,6 +46,18 @@ nav > ul > li > a,
     color: #fff !important;
 }
 
+.third-menu li {
+    list-style: none;
+    padding-left: 10px;
+    margin: 5px 0 15px 0;
+}
+
+.third-menu a {
+    font-size: 15px;
+    color: #fff !important;
+    text-decoration: none;
+}
+
 /* Top Navigation */
 .top-nav {
     padding: 0 15px;
@@ -69,6 +81,11 @@ nav > ul > li > a,
 .top-nav > .open > a:hover,
 .top-nav > .open > a:focus {
     background-color: #575e75;
+}
+
+#file-man a:hover,
+#file-man a:focus {
+    background-color: #373b49 !important;
 }
 
 .top-nav > .open > .dropdown-menu {
@@ -296,3 +313,6 @@ nav i,
     color: #d9534f;
 }
 
+.error-panel {
+    margin-top: 30px;
+}

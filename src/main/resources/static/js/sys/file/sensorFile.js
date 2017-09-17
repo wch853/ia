@@ -1,3 +1,7 @@
+// 激活侧边栏
+$('[data-target="#sys-man"]').trigger('click');
+$('[data-target="#file-man"]').trigger('click').addClass('side-active');
+
 $("#sensorFileTable").bootstrapTable({
     url: 'sys/file/getSensors',
     queryParams: function (params) {

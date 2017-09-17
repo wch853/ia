@@ -1,3 +1,7 @@
+// 激活侧边栏
+$('[data-target="#sys-man"]').trigger('click');
+$('[data-target="#file-man"]').trigger('click').addClass('side-active');
+
 $("#blockFileTable").bootstrapTable({
     url: 'sys/file/getBlocks',
     queryParams: function (params) {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.wa.sys.mapper.WarnThresholdMapper">
+
+    <select id="selectWarnThreshold" resultType="WarnThreshold">
+        SELECT id, threshold_type, ceil, floor, use_status
+        FROM warn_threshold
+        <if test="null != thresholdType and !''.equals(thresholdType)">
+            WHERE threshold_type = #{thresholdType}
+        </if>
+    </select>
+
+    <update id="updateWarnThreshold">
+        UPDATE warn_threshold
+        SET ceil = #{ceil}, floor = #{floor}, use_status = #{useStatus}
+        WHERE id = #{id}
+    </update>
+
+</mapper>	

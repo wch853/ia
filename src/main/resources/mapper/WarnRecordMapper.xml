@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.wa.sys.mapper.WarnRecordMapper">
+
+    <insert id="insetWarnRecord">
+        INSERT INTO warn_record (field_id, warn_type, warn_val)
+        VALUES (#{fieldId}, ${warnType}, ${warnVal})
+    </insert>
+
+    <select id="selectWarnRecord" resultType="WarnRecord">
+        SELECT id, field_id, warn_type, warn_val, warn_time, handle_time, flag
+        FROM warn_record
+        <where>
+            <if test="null != warnRecord.fieldId and !''.equals(warnRecord.fieldId)">
+                field_id = #{warnRecord.fieldId}
+            </if>
+            <if test="null != warnRecord.warnType and !''.equals(warnRecord.warnType)">
+                AND warn_type = #{warnRecord.warnType}
+            </if>
+            <if test="null != start and !''.equals(start)">
+                AND warn_time >= DATE_FORMAT(#{start}, '%Y:%m:%d')
+            </if>
+            <if test="null != end and !''.equals(end)">
+                AND DATE_FORMAT(#{end}, '%Y:%m:%d') >= warn_time
+            </if>
+        </where>
+    </select>
+
+    <update id="updateWarnRecord">
+        UPDATE warn_record
+        SET flag = #{flag}
+        WHERE id = #{id}
+    </update>
+
+</mapper>	

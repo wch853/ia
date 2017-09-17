@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.enums;
 
 /**
- * 数据（报警）类型
+ * 数据/阈值/报警类型
  */
 public enum DataTypeEnum {
     TEMPERATURE(1, "temperature"),

@@ -116,8 +116,7 @@ warn_type VARCHAR(255) NOT NULL COMMENT '报警类型',
 warn_val DOUBLE(5, 2) DEFAULT NULL COMMENT '报警值',
 warn_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '报警时间',
 handle_time TIMESTAMP NULL COMMENT '处理时间',
-flag VARCHAR(255) NOT NULL DEFAULT 0 COMMENT '处理标志 0-未处理 1-已处理',
-warn_ps VARCHAR(255) COMMENT '报警备注',
+flag VARCHAR(255) NOT NULL DEFAULT '0' COMMENT '处理标志 0-未处理 1-已处理 2-已忽略',
 PRIMARY KEY (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='报警记录';
 
@@ -125,8 +124,9 @@ DROP TABLE IF EXISTS warn_threshold;
 CREATE TABLE warn_threshold (
 id INT AUTO_INCREMENT NOT NULL COMMENT '报警阈值编号',
 threshold_type VARCHAR(255) NOT NULL COMMENT '阈值类型',
-ceil DOUBLE(5, 2) NOT NULL COMMENT '阈值上限',
 floor DOUBLE(5, 2) NOT NULL COMMENT '阈值下限',
+ceil DOUBLE(5, 2) NOT NULL COMMENT '阈值上限',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
 PRIMARY KEY (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='报警阈值';
 
@@ -278,6 +278,20 @@ INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_
 INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v004', 'xyz004', 'b04', '0', null);
 
 -- field_status
+DELIMITER //
+CREATE PROCEDURE add_field_status_data(IN prefix VARCHAR(255))
+  BEGIN
+    DECLARE i INT;
+    DECLARE f_id VARCHAR(255);
+    SET i = 1;
+    WHILE i <= 4 DO
+      SET f_id = CONCAT(prefix, i);
+      INSERT INTO field_status (field_id) VALUES (f_id);
+      SET i = i + 1;
+    END WHILE;
+  END //
+DELIMITER ;
+
 CALL add_field_status_data('f170100');
 CALL add_field_status_data('f170200');
 CALL add_field_status_data('f170300');
@@ -297,3 +311,17 @@ INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '10', 96.63, NULL);
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '11', 15.3, NULL);
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '12', 96.8, NULL);
+
+-- warn_threshold
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (1, '1', 12.22, 42.23, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (2, '2', 16.36, 86.35, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (3, '3', 15.36, 86.85, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (4, '4', 15.36, 56.35, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (5, '5', 56.36, 76.36, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (6, '6', 23.26, 43.36, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (7, '7', 3, 9, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (8, '8', 0.35, 2.65, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (9, '9', 0.35, 2.65, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (10, '10', 0.35, 2.65, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (11, '11', 0.35, 2.65, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (12, '12', 0.35, 2.65, '1');

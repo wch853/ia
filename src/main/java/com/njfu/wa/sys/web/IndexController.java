@@ -33,6 +33,11 @@ public class IndexController {
         return "index";
     }
 
+    /**
+     * 首页悬浮获取大棚状态
+     * @param fieldId fieldId
+     * @return json data
+     */
     @RequestMapping("/sys/getFieldStatus")
     public @ResponseBody
     Result getFieldStatus(String fieldId) {

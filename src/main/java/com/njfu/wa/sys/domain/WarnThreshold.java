@@ -17,6 +17,8 @@ public class WarnThreshold {
     // 阈值下限
     private Double floor;
 
+    private String useStatus;
+
     public WarnThreshold() {
     }
 
@@ -52,6 +54,14 @@ public class WarnThreshold {
         this.floor = floor;
     }
 
+    public String getUseStatus() {
+        return useStatus;
+    }
+
+    public void setUseStatus(String useStatus) {
+        this.useStatus = useStatus;
+    }
+
     @Override
     public String toString() {
         return "WarnThreshold{" +
@@ -59,6 +69,7 @@ public class WarnThreshold {
                 ", thresholdType='" + thresholdType + '\'' +
                 ", ceil=" + ceil +
                 ", floor=" + floor +
+                ", useStatus='" + useStatus + '\'' +
                 '}';
     }
 }

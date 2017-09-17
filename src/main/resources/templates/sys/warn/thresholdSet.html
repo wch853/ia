@@ -3,6 +3,8 @@
 <head>
     <!-- headers -->
     <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-table.html"/>
+    <#include "/common/bootstrap-select.html"/>
     <title>阈值设置</title>
 </head>
 <body>
@@ -27,12 +29,74 @@
                 </ol>
             </div>
 
+            <!-- 查询工具栏 -->
+            <div class="form-inline" id="queryToolBar">
+                <div class="form-group">
+                    <label for="queryThresholdType">阈值类型：</label>
+                    <select id="queryThresholdType" class="selectpicker" data-live-search="true">
+                        <option value="" class="hide-option">请选择阈值类型</option>
+                        <option value="1">温度</option>
+                        <option value="2">湿度</option>
+                        <option value="3">土壤温度</option>
+                        <option value="4">土壤湿度</option>
+                        <option value="5">光照度</option>
+                        <option value="6">CO2浓度</option>
+                        <option value="7">pH（土壤酸碱度）</option>
+                        <option value="8">N（氮含量）</option>
+                        <option value="9">P（磷含量）</option>
+                        <option value="10">K（钾含量）</option>
+                        <option value="11">Hg（汞含量）</option>
+                        <option value="12">Pb（铅含量）</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="queryBtn">查询</button>
+                <button class="btn btn-success" id="resetBtn">重置</button>
+            </div>
+            <hr>
 
+            <table id="thresholdTable"></table>
+
+            <!-- 修改模态窗 -->
+            <div class="modal fade" id="modifyModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">修改阈值信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="modifyThresholdId">
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="modifyThresholdType">阈值类型：</label>
+                                    <p id="modifyThresholdType" class="form-control-static"></p>
+                                </div>
+                                <div class="form-group inline-lg-size">
+                                    <label for="modifyUseStatus">使用状态：</label>
+                                    <select id="modifyUseStatus" class="selectpicker">
+                                        <option value="0">未使用</option>
+                                        <option value="1">使用中</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="threshold-range">阈值设置<small>（使用左右键微调）</small>:</label>
+                                <input type="text" id="threshold-range">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="saveModify">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div><!--container-->
     </div><!--page wrapped-->
 
 </div><!--wrapped-->
+<#include "/common/bootbox.html"/>
 <#include "/common/ion-rangeslider.html"/>
 <script type="text/javascript" src="js/sys/warn/thresholdSet.js"></script>
 </body>

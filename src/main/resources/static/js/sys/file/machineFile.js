@@ -1,3 +1,7 @@
+// 激活侧边栏
+$('[data-target="#sys-man"]').trigger('click');
+$('[data-target="#file-man"]').trigger('click').addClass('side-active');
+
 $("#machineFileTable").bootstrapTable({
     url: 'sys/file/getMachines',
     queryParams: function (params) {

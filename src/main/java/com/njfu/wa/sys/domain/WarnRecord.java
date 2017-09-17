@@ -11,7 +11,7 @@ public class WarnRecord {
     private Integer id;
 
     // 来源大棚编号
-    private Integer fieldId;
+    private String fieldId;
 
     // 报警类型
     private String warnType;
@@ -28,9 +28,6 @@ public class WarnRecord {
     // 处理标志 0-未处理 1-已处理 2-已忽略
     private String flag;
 
-    // 报警备注
-    private String warnPs;
-
     public WarnRecord() {
     }
 
@@ -42,11 +39,11 @@ public class WarnRecord {
         this.id = id;
     }
 
-    public Integer getFieldId() {
+    public String getFieldId() {
         return fieldId;
     }
 
-    public void setFieldId(Integer fieldId) {
+    public void setFieldId(String fieldId) {
         this.fieldId = fieldId;
     }
 
@@ -90,25 +87,16 @@ public class WarnRecord {
         this.flag = flag;
     }
 
-    public String getWarnPs() {
-        return warnPs;
-    }
-
-    public void setWarnPs(String warnPs) {
-        this.warnPs = warnPs;
-    }
-
     @Override
     public String toString() {
         return "WarnRecord{" +
                 "id=" + id +
-                ", fieldId=" + fieldId +
+                ", fieldId='" + fieldId + '\'' +
                 ", warnType='" + warnType + '\'' +
                 ", warnVal=" + warnVal +
                 ", warnTime=" + warnTime +
                 ", handleTime=" + handleTime +
                 ", flag='" + flag + '\'' +
-                ", warnPs='" + warnPs + '\'' +
                 '}';
     }
 }
