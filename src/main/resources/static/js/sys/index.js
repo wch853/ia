@@ -8,6 +8,8 @@ $('.index-bread').click(function () {
     }
 });
 
+$('.field-card').popover('destroy');
+
 $('.field-card').hover(function () {
     var $card = $(this);
     var fieldId = $(this).attr('code');

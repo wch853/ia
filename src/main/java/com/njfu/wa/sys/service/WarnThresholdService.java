@@ -9,13 +9,15 @@ public interface WarnThresholdService {
 
     /**
      * 获取阈值信息
-     * @param warnThreshold warnType
+     *
+     * @param warnThreshold thresholdType
      * @return data
      */
     List<WarnThreshold> getWarnThreshold(WarnThreshold warnThreshold);
 
     /**
      * 修改阈值信息
+     *
      * @param warnThreshold ceil floor useStatus
      * @return message
      */

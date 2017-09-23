@@ -325,3 +325,11 @@ INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALU
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (10, '10', 0.35, 2.65, '1');
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (11, '11', 0.35, 2.65, '1');
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (12, '12', 0.35, 2.65, '1');
+
+-- warn_record
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (1, 'f1701001', '1', 1.23, '2017-09-20 20:25:09', null, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (2, 'f1701002', '2', 3.45, '2017-09-20 20:26:28', null, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (3, 'f1701003', '3', 5.98, '2017-09-20 20:26:28', null, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (4, 'f1701004', '4', 9.58, '2017-09-20 20:26:28', null, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
+

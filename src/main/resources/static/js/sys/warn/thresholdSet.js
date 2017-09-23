@@ -30,13 +30,13 @@ $("#thresholdTable").bootstrapTable({
             var useStatus = row.useStatus;
             var format = '';
             if (useStatus === '1') {
-                format = '使用中'
+                format = '使用中';
             } else if (useStatus === '0') {
-                format = '未使用'
+                format = '未使用';
             }
             return format;
         },
-        title: '备注'
+        title: '使用状态'
     }, {
         formatter: function (value, row, index) {
             return [

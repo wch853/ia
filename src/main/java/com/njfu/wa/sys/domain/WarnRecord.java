@@ -1,5 +1,7 @@
 package com.njfu.wa.sys.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -20,13 +22,18 @@ public class WarnRecord {
     private Double warnVal;
 
     // 报警时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date warnTime;
 
     // 处理时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date handleTime;
 
     // 处理标志 0-未处理 1-已处理 2-已忽略
     private String flag;
+
+    // 对应阈值信息
+    private WarnThreshold warnThreshold;
 
     public WarnRecord() {
     }
@@ -87,6 +94,14 @@ public class WarnRecord {
         this.flag = flag;
     }
 
+    public WarnThreshold getWarnThreshold() {
+        return warnThreshold;
+    }
+
+    public void setWarnThreshold(WarnThreshold warnThreshold) {
+        this.warnThreshold = warnThreshold;
+    }
+
     @Override
     public String toString() {
         return "WarnRecord{" +
@@ -97,6 +112,7 @@ public class WarnRecord {
                 ", warnTime=" + warnTime +
                 ", handleTime=" + handleTime +
                 ", flag='" + flag + '\'' +
+                ", warnThreshold=" + warnThreshold +
                 '}';
     }
 }

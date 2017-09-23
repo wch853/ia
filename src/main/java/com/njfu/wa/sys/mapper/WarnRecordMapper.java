@@ -30,7 +30,14 @@ public interface WarnRecordMapper {
                                       @Param("end") String end);
 
     /**
-     * 修改报警记录
+     * 通过处理标志查询报警记录极其对应阈值信息
+     * @param warnRecord flag
+     * @return data
+     */
+    List<WarnRecord> selectWarnRecordByFlag(WarnRecord warnRecord);
+
+    /**
+     * 修改报警记录处理标志
      *
      * @param warnRecord id flag
      * @return row count

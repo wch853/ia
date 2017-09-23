@@ -26,11 +26,13 @@ $("#machineFileTable").bootstrapTable({
     }, {
         formatter: function (value, row, index) {
             var useStatus = row.useStatus;
-            var format = '故障中';
-            if (useStatus === '1') {
-                format = '使用中'
-            } else if (useStatus === '0') {
-                format = '未使用'
+            var format = '';
+            if (useStatus === '0') {
+                format = '未使用';
+            } else if (useStatus === '1') {
+                format = '使用中';
+            } else if (useStatus === '2') {
+                format = '故障中';
             }
             return format;
         },

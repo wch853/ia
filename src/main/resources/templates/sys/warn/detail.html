@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <title></title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>报警详情</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="">首页</a></li>
+                    <li><a href="sys/warn/detail">报警详情</a></li>
+                </ol>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="btm-px">
+                    <button class="btn btn-primary" id="check-all">全选</button>
+                    <button class="btn btn-success" id="uncheck-all">反选</button>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" id="btn-operate" class="btn btn-danger dropdown-toggle" disabled>
+                            操作 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:handleWarn(1)">标记为已处理</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="javascript:handleWarn(2)">标记为已忽略</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline"></div>
+            </div>
+
+        </div><!--container-->
+    </div><!--page wrapped-->
+</div><!--wrapped-->
+</body>
+<#include "/common/bootbox.html"/>
+<#include "/common/momentjs.html"/>
+<script type="text/javascript" src="js/sys/warn/detail.js"></script>
+</html>

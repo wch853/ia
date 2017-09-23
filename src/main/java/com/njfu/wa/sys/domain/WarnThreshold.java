@@ -1,8 +1,11 @@
 package com.njfu.wa.sys.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * 报警阈值
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarnThreshold {
 
     // 阈值编号
@@ -11,12 +14,13 @@ public class WarnThreshold {
     // 阈值类型
     private String thresholdType;
 
-    // 阈值上限
-    private Double ceil;
-
     // 阈值下限
     private Double floor;
 
+    // 阈值上限
+    private Double ceil;
+
+    // 使用状态
     private String useStatus;
 
     public WarnThreshold() {
@@ -38,20 +42,20 @@ public class WarnThreshold {
         this.thresholdType = thresholdType;
     }
 
-    public Double getCeil() {
-        return ceil;
-    }
-
-    public void setCeil(Double ceil) {
-        this.ceil = ceil;
-    }
-
     public Double getFloor() {
         return floor;
     }
 
     public void setFloor(Double floor) {
         this.floor = floor;
+    }
+
+    public Double getCeil() {
+        return ceil;
+    }
+
+    public void setCeil(Double ceil) {
+        this.ceil = ceil;
     }
 
     public String getUseStatus() {
@@ -67,8 +71,8 @@ public class WarnThreshold {
         return "WarnThreshold{" +
                 "id=" + id +
                 ", thresholdType='" + thresholdType + '\'' +
-                ", ceil=" + ceil +
                 ", floor=" + floor +
+                ", ceil=" + ceil +
                 ", useStatus='" + useStatus + '\'' +
                 '}';
     }

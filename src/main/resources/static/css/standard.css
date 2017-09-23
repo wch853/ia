@@ -290,6 +290,11 @@ nav i,
     color: #f09323;
 }
 
+.status-data-warn {
+    font-weight: 600;
+    color: #ff1514;
+}
+
 .side-active {
     background-color: #575e75;
 }
@@ -315,4 +320,55 @@ nav i,
 
 .error-panel {
     margin-top: 30px;
+}
+
+#queryToolBar #queryDate {
+    width: 210px;
+}
+
+.timeline-item {
+    clear: both;
+}
+
+.timeline-date i {
+    color: #d9534f;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    padding: 5px;
+    width: 30px;
+    text-align: center;
+    border-top: 1px solid #e7eaec;
+    border-bottom: 1px solid #e7eaec;
+    border-left: 1px solid #e7eaec;
+    background: #f8f8f8;
+}
+
+.timeline-date {
+    text-align: right;
+    width: 110px;
+    position: relative;
+    padding-top: 30px;
+    border-bottom: 2px solid #e7eaec;
+}
+
+.timeline-date small {
+    color: #d9534f;
+}
+
+.timeline-content {
+    border-left: 2px solid #e7eaec;
+    border-top: 2px solid #e7eaec;
+    padding-top: 10px;
+    min-height: 100px;
+}
+
+.timeline-content:hover {
+    background: #f6f6f6;
+}
+
+.timeline-check {
+    position: absolute;
+    left: 14.5px;
+    top: 0;
 }

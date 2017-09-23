@@ -13,6 +13,12 @@
         </if>
     </select>
 
+    <select id="selectWarnThresholdByThresholdType" resultType="WarnThreshold">
+        SELECT ceil, floor
+        FROM warn_threshold
+        WHERE threshold_type = #{thresholdType}
+    </select>
+
     <update id="updateWarnThreshold">
         UPDATE warn_threshold
         SET ceil = #{ceil}, floor = #{floor}, use_status = #{useStatus}

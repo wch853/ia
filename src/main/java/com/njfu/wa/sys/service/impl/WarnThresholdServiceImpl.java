@@ -22,7 +22,7 @@ public class WarnThresholdServiceImpl implements WarnThresholdService {
     /**
      * 获取阈值信息
      *
-     * @param warnThreshold warnType
+     * @param warnThreshold thresholdType
      * @return data
      */
     @Override

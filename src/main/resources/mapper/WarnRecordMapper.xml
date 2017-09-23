@@ -26,7 +26,30 @@
             <if test="null != end and !''.equals(end)">
                 AND DATE_FORMAT(#{end}, '%Y:%m:%d') >= warn_time
             </if>
+            <if test="null != warnRecord.flag and !''.equals(warnRecord.flag)">
+                AND flag = #{warnRecord.flag}
+            </if>
         </where>
+        ORDER BY id DESC
+    </select>
+
+    <resultMap id="recordMap" type="WarnRecord">
+        <id property="id" column="id"/>
+        <result property="fieldId" column="field_id"/>
+        <result property="warnType" column="warn_type"/>
+        <result property="warnVal" column="warn_val"/>
+        <result property="warnTime" column="warn_time"/>
+        <result property="handleTime" column="handle_time"/>
+        <result property="flag" column="flag"/>
+        <association property="warnThreshold" column="warn_type"
+                     select="com.njfu.wa.sys.mapper.WarnThresholdMapper.selectWarnThresholdByThresholdType"/>
+    </resultMap>
+
+    <select id="selectWarnRecordByFlag" resultMap="recordMap">
+        SELECT id, field_id, warn_type, warn_val, warn_time, handle_time, flag
+        FROM warn_record
+        WHERE flag = #{flag}
+        ORDER BY id DESC
     </select>
 
     <update id="updateWarnRecord">
