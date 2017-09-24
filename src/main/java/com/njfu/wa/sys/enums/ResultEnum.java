@@ -5,8 +5,9 @@ package com.njfu.wa.sys.enums;
  */
 public enum ResultEnum {
     SUCCESS(100, "success"),
+    DATA(101, "data"),
     FAIL(200, "fail"),
-    DATA(101, "data");
+    WARN(301, "warn");
 
     // 结果代码
     private Integer code;

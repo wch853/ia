@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -126,11 +127,25 @@ public class WarnController {
 
     /**
      * 修改报警记录处理标志
-     * @param warnRecord id flag
+     *
+     * @param ids  id
+     * @param flag flag
      * @return json message
      */
     @PostMapping("/modifyWarnRecord")
-    public @ResponseBody Result modifyWarnRecord(WarnRecord warnRecord) {
-        return warnRecordService.modifyWarnRecord(warnRecord);
+    public @ResponseBody
+    Result modifyWarnRecord(@RequestParam("ids[]") Integer[] ids, String flag) {
+        return warnRecordService.modifyWarnRecord(ids, flag);
+    }
+
+    /**
+     * 获取未处理报警记录数量
+     *
+     * @return json data
+     */
+    @RequestMapping("/getUnhandleRecordCount")
+    public @ResponseBody
+    Result getUnhandleRecordCount() {
+        return warnRecordService.getUnhandleRecordCount();
     }
 }

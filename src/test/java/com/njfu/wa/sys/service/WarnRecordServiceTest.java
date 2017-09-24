@@ -2,7 +2,6 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.WarnRecord;
 import com.njfu.wa.sys.domain.util.Result;
-import com.njfu.wa.sys.enums.WarnRecordFlagEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -46,11 +45,10 @@ public class WarnRecordServiceTest {
 
     @Test
     public void modifyWarnRecord() throws Exception {
-        WarnRecord warnRecord = new WarnRecord();
-        warnRecord.setId(1);
-        warnRecord.setFlag(WarnRecordFlagEnum.HANDLED.getCode());
+        Integer[] ids = {1, 2, 3};
+        String flag = "-2";
 
-        Result result = warnRecordService.modifyWarnRecord(warnRecord);
+        Result result = warnRecordService.modifyWarnRecord(ids, flag);
 
         log.info("result: {}", result);
     }

@@ -20,12 +20,15 @@ public class WarnRecordServiceImpl implements WarnRecordService {
     @Autowired
     private ResultFactory<List<WarnRecord>> resultFactory;
 
+    @Autowired
+    private ResultFactory<Integer> integerResultFactory;
+
     /**
      * 扫描大棚状态表，出现异常数据，插入报警记录
      */
     @Override
     public void scanFieldStatus() {
-        // TODO
+       // TODO 调用 check_warn
     }
 
     /**
@@ -40,7 +43,6 @@ public class WarnRecordServiceImpl implements WarnRecordService {
     public List<WarnRecord> getWarnRecord(WarnRecord warnRecord, String start, String end) {
         return warnRecordMapper.selectWarnRecord(warnRecord, start, end);
     }
-
 
 
     /**
@@ -59,13 +61,14 @@ public class WarnRecordServiceImpl implements WarnRecordService {
     /**
      * 修改报警记录处理标志
      *
-     * @param warnRecord id flag
+     * @param ids  id
+     * @param flag flag
      * @return message
      */
     @Override
-    public Result modifyWarnRecord(WarnRecord warnRecord) {
+    public Result modifyWarnRecord(Integer[] ids, String flag) {
 
-        int res = warnRecordMapper.updateWarnRecord(warnRecord);
+        int res = warnRecordMapper.updateWarnRecord(ids, flag);
 
         if (res == 0) {
             return resultFactory.failMessage("修改报警记录处理标志失败！");
@@ -73,4 +76,19 @@ public class WarnRecordServiceImpl implements WarnRecordService {
 
         return resultFactory.successMessage("修改报警记录处理标志成功！");
     }
+
+    /**
+     * 获取未处理报警记录数量
+     *
+     * @return data
+     */
+    @Override
+    public Result getUnhandleRecordCount() {
+        WarnRecord warnRecord = new WarnRecord();
+        warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
+
+        int res = warnRecordMapper.selectCount(warnRecord);
+        return integerResultFactory.dataResult(res);
+    }
+
 }

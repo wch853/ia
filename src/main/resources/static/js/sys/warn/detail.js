@@ -137,10 +137,10 @@ function fillTimeline(list) {
         var ceil = el.warnThreshold.ceil;
         var analysis = analysisVal(val, floor, ceil);
 
-        var html = '<div class="timeline-item"><div class="row"><div class="col-xs-3 timeline-date">' +
+        var html = '<div class="timeline-item"><div class="row"><div class="col-xs-3 timeline-date"><label>' +
             '<input type="checkbox" class="timeline-check" value="' + id + '">' + '<i class="fa fa-bell-o"></i><div>' +
             date + '</div>' + '<div>' + time + '</div><small class="text-muted">' +
-            moment(dateTime, 'YYYY-MM-DD HH:mm:ss').fromNow() + '</small></div><div class="col-xs-7 timeline-content">' +
+            moment(dateTime, 'YYYY-MM-DD HH:mm:ss').fromNow() + '</small></label></div><div class="col-xs-7 timeline-content">' +
             '<p>报警记录编号：<span class="status-data">' + id + '</span></p><p>大棚编号：<span class="status-data">' +
             fieldId + '</span></p><p>类型：<span class="warn-type status-data">' + warnType + '</span></p>' +
             '<p>异常值：<span class="status-data-warn">' + val + '</span>' + ' ( 阈值范围：' + '<span class="status-data">' +
@@ -176,24 +176,30 @@ function handleWarn(flag) {
         message: '确认将所选报警记录修改为<span class="status-data">' + type + '</span>',
         callback: function (res) {
             if (res) {
+                var ids = [];
                 $('.timeline-check:checked').each(function (i, el) {
-                    deliverData(el.value, flag);
+                    ids.push(el.value);
                 });
+                deliverData(ids, flag);
             }
         }
     });
 }
 
-function deliverData(id, flag) {
+function deliverData(ids, flag) {
     $.ajax({
-        url: 'sys/arn/modifyWarnRecord',
+        url: 'sys/warn/modifyWarnRecord',
         type: 'post',
         data: {
-            id: id,
+            ids: ids,
             flag: flag
         },
         success: function (res) {
-            // TODO 返回多个响应
+            initTimeline();
+            bootbox.alert({
+               title: '提示',
+               message: res.message
+            });
         }
     });
 }

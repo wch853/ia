@@ -32,8 +32,16 @@ public interface WarnRecordService {
     /**
      * 修改报警记录处理标志
      *
-     * @param warnRecord id flag
+     * @param ids  id
+     * @param flag flag
      * @return message
      */
-    Result modifyWarnRecord(WarnRecord warnRecord);
+    Result modifyWarnRecord(Integer[] ids, String flag);
+
+    /**
+     * 获取未处理报警记录数量
+     *
+     * @return data
+     */
+    Result getUnhandleRecordCount();
 }

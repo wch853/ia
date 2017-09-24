@@ -17,7 +17,7 @@ public interface WarnRecordMapper {
      * @param warnRecord *
      * @return row count
      */
-    int insetWarnRecord(WarnRecord warnRecord);
+    int insertWarnRecord(WarnRecord warnRecord);
 
     /**
      * 查询报警记录
@@ -31,6 +31,7 @@ public interface WarnRecordMapper {
 
     /**
      * 通过处理标志查询报警记录极其对应阈值信息
+     *
      * @param warnRecord flag
      * @return data
      */
@@ -39,8 +40,15 @@ public interface WarnRecordMapper {
     /**
      * 修改报警记录处理标志
      *
-     * @param warnRecord id flag
      * @return row count
      */
-    int updateWarnRecord(WarnRecord warnRecord);
+    int updateWarnRecord(@Param("ids") Integer[] ids, @Param("flag") String flag);
+
+    /**
+     * 获取报警记录数量
+     *
+     * @param warnRecord flag
+     * @return row count
+     */
+    int selectCount(WarnRecord warnRecord);
 }

@@ -25,13 +25,13 @@ public class WarnRecordMapperTest {
     public static final Logger log = LoggerFactory.getLogger(WarnThresholdMapperTest.class);
 
     @Test
-    public void insetWarnRecord() throws Exception {
+    public void insertWarnRecord() throws Exception {
         WarnRecord warnRecord = new WarnRecord();
         warnRecord.setFieldId("f1701001");
         warnRecord.setWarnType("1");
         warnRecord.setWarnVal(15.36);
 
-        int res = warnRecordMapper.insetWarnRecord(warnRecord);
+        int res = warnRecordMapper.insertWarnRecord(warnRecord);
 
         Assert.assertEquals(1, res);
     }
@@ -62,9 +62,11 @@ public class WarnRecordMapperTest {
         warnRecord.setId(1);
         warnRecord.setFlag("1");
 
-        int res = warnRecordMapper.updateWarnRecord(warnRecord);
+        Integer[] ids = {1, 2, 3};
+        String flag = "-2";
 
-        Assert.assertEquals(1, res);
+        int res = warnRecordMapper.updateWarnRecord(ids, flag);
+        Assert.assertNotEquals(1, res);
     }
 
 }

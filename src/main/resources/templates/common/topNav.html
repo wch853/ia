@@ -18,18 +18,21 @@
     <ul class="nav navbar-right top-nav">
         <!--消息提示下拉-->
         <li class="dropdown">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-bell"></i>消息<i class="fa fa-caret-down"></i>
+            <a href="javascript:void(0);" class="dropdown-toggle tip-view" data-toggle="dropdown">
+                <i class="fa fa-bell"></i>消息<i class="fa fa-caret-down"></i><i id="tip-view-point"></i>
             </a>
             <ul class="dropdown-menu alert-dropdown">
                 <li>
-                    <a href="javascript:void(0);">后台订单 <span class="label label-primary">订单详情</span></a>
+                    <a href="javascript:void(0);"><i class="fa fa-fax"></i>
+                        后台订单 <span class="label label-primary">0</span></a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);">系统提示 <span class="label label-info">提示详情</span></a>
+                    <a href="javascript:void(0);"><i class="fa fa-commenting-o"></i>
+                        系统提示 <span class="label label-info">0</span></a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);">系统报警 <span class="label label-danger">报警详情</span></a>
+                    <a href="sys/warn/detail"><i class="fa fa-exclamation-triangle"></i>
+                        系统报警 <span id="warn-count" class="label label-danger">0</span></a>
                 </li>
             </ul>
         </li>
@@ -52,5 +55,5 @@
             </ul>
         </li>
     </ul>
-
 </nav>
+<script type="text/javascript" src="js/common/topNav.js"></script>

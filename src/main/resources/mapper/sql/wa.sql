@@ -113,7 +113,7 @@ CREATE TABLE warn_record (
 id INT AUTO_INCREMENT NOT NULL COMMENT '报警记录编号',
 field_id VARCHAR(255) NOT NULL COMMENT '来源大棚编号',
 warn_type VARCHAR(255) NOT NULL COMMENT '报警类型',
-warn_val DOUBLE(5, 2) DEFAULT NULL COMMENT '报警值',
+warn_val DOUBLE(5, 2) NOT NULL COMMENT '报警值',
 warn_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '报警时间',
 handle_time TIMESTAMP NULL COMMENT '处理时间',
 flag VARCHAR(255) NOT NULL DEFAULT '0' COMMENT '处理标志 0-未处理 1-已处理 2-已忽略',
@@ -130,13 +130,27 @@ use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1i
 PRIMARY KEY (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='报警阈值';
 
+DROP TABLE IF EXISTS tmp_data;
+CREATE TABLE tmp_data(
+  field_id VARCHAR(255) COMMENT '大棚编号',
+  val DOUBLE(5, 2) COMMENT '数据值'
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='数据记录临时表';
 
------ trigger -----
 
--- 当数据记录表新增数据时，触发大棚状态表的相关字段更新
+/**********
+ * trigger
+**********/
+
+/*
+ * data_record新增记录-》即时更新大棚数据
+ */
 DELIMITER //
 DROP PROCEDURE IF EXISTS update_field_status;
-CREATE PROCEDURE update_field_status(IN type VARCHAR(255), IN val INT, IN f_id VARCHAR(255))
+/*
+ * 当数据记录表新增数据时，触发大棚状态表的相关字段更新
+ * 触发器中不支持使用动态sql！
+ */
+CREATE PROCEDURE update_field_status(IN type VARCHAR(255), IN val DOUBLE(5, 2), IN f_id VARCHAR(255))
   BEGIN
     CASE type
       WHEN '1'
@@ -204,6 +218,9 @@ CREATE PROCEDURE update_field_status(IN type VARCHAR(255), IN val INT, IN f_id V
     END CASE;
   END;
 
+/*
+ * data_record表触发器
+ */
 DROP TRIGGER IF EXISTS after_data_insert;
 CREATE TRIGGER after_data_insert
 AFTER INSERT ON data_record
@@ -218,8 +235,156 @@ FOR EACH ROW
 DELIMITER ;
 
 
------ data -----
--- block
+/**********
+ * procedure
+ **********/
+
+/*
+ * 新增大棚状态表模拟数据（空）
+ * ----- 生产环境删 -----
+ */
+ DELIMITER //
+ DROP PROCEDURE IF EXISTS add_field_status_data;
+ CREATE PROCEDURE add_field_status_data(IN prefix VARCHAR(255))
+  BEGIN
+    DECLARE i INT;
+    DECLARE f_id VARCHAR(255);
+    SET i = 1;
+    WHILE i <= 4 DO
+      SET f_id = CONCAT(prefix, i);
+      INSERT INTO field_status (field_id) VALUES (f_id);
+      SET i = i + 1;
+    END WHILE;
+  END;
+DELIMITER ;
+
+ /*
+  * 将对应数据类型编码转换为数据类型名称
+  */
+DELIMITER //
+DROP PROCEDURE IF EXISTS code_to_type;
+/* 将对应数据类型编码转换为数据类型名称 */
+CREATE PROCEDURE code_to_type(IN code VARCHAR(255), OUT type VARCHAR(255))
+  BEGIN
+    CASE code
+      WHEN '1'
+      THEN
+        SET type = 'temperature';
+      WHEN '2'
+      THEN
+        SET type = 'moisture';
+      WHEN '3'
+      THEN
+        SET type = 'soil_temperature';
+      WHEN '4'
+      THEN
+        SET type = 'soil_moisture';
+      WHEN '5'
+      THEN
+        SET type = 'light';
+      WHEN '6'
+      THEN
+        SET type = 'co2';
+      WHEN '7'
+      THEN
+        SET type = 'ph';
+      WHEN '8'
+      THEN
+        SET type = 'n';
+      WHEN '9'
+      THEN
+        SET type = 'p';
+      WHEN '10'
+      THEN
+        SET type = 'k';
+      WHEN '11'
+      THEN
+        SET type = 'hg';
+      WHEN '12'
+      THEN
+        SET type = 'pb';
+    ELSE
+      SET type = '';
+    END CASE;
+  END //
+DELIMITER ;
+
+/*
+ * 扫描大棚即时状态，将异常记录插入warn_record表
+ */
+DELIMITER //
+DROP PROCEDURE IF EXISTS check_warn;
+/* 获取阈值信息，并调用比较存储过程 */
+CREATE PROCEDURE check_warn()
+  BEGIN
+    DECLARE ts_code, ts_type VARCHAR(255);
+    DECLARE ts_floor, ts_ceil DOUBLE(5, 2);
+    DECLARE ts_end INT DEFAULT 0;
+    /* 定义warn_threshold的游标，获取每类阈值的上下限 */
+    DECLARE ts_cursor CURSOR FOR SELECT threshold_type, floor, ceil FROM warn_threshold;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET ts_end = 1;
+
+    OPEN ts_cursor;
+
+    WHILE ts_end != 1 DO
+      FETCH ts_cursor INTO ts_code, ts_floor, ts_ceil;
+
+      /* 将阈值编码转为阈值名称 */
+      CALL code_to_type(ts_code, ts_type);
+
+      /* 将该项阈值的所有数据插入临时表 */
+      SET @sql_exe = CONCAT('INSERT INTO tmp_data (SELECT field_id, ', ts_type, ' AS val FROM field_status)');
+      PREPARE stmt FROM @sql_exe;
+      EXECUTE stmt;
+
+      /* 调用比较存储过程 */
+      CALL check_warn_compare(ts_code, ts_floor, ts_ceil);
+
+    END WHILE;
+    CLOSE ts_cursor;
+  END;
+
+/* 比较阈值，将不在阈值范围内的数据插入warn_record表 */
+DROP PROCEDURE IF EXISTS check_warn_compare;
+CREATE PROCEDURE check_warn_compare(IN ts_code VARCHAR(255), IN ts_floor DOUBLE(5, 2), IN ts_ceil DOUBLE(5, 2))
+  BEGIN
+    DECLARE fs_id VARCHAR(255);
+    DECLARE fs_val DOUBLE(5, 2);
+    DECLARE val_end INT DEFAULT 0;
+
+    /* 定义该项阈值对应所有大棚即时状态数据游标 */
+    DECLARE val_cursor CURSOR FOR SELECT field_id, val FROM tmp_data;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET val_end = 1;
+
+    OPEN val_cursor;
+
+    WHILE val_end != 1 DO
+      FETCH val_cursor INTO fs_id, fs_val;
+      /* 数据值不为空时才比较 */
+      IF fs_val IS NOT NULL THEN
+        /* 不在规定阈值范围内 */
+        IF fs_val < ts_floor || fs_val > ts_ceil THEN
+          /* 向报警表中插入记录 */
+          INSERT INTO warn_record (field_id, warn_type, warn_val) VALUES (fs_id, ts_code, fs_val);
+        END IF;
+      END IF;
+    END WHILE;
+
+    CLOSE val_cursor;
+
+    /* 每遍历完成一类数据，将tmp_data表truncate */
+    TRUNCATE tmp_data;
+  END //
+DELIMITER ;
+
+
+/*********
+ * data
+ **********/
+
+/*
+ * block
+ */
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b01', '沛县现代农业产业园区', '朱寨镇、沛城镇、鹿楼镇、张寨镇、经济开发区', '近郊城市农业区');
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b02', '胡寨草庙千亩长茄示范园', '胡寨镇', '东部优质粮食主产区');
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b03', '沛城万亩精品农业示范园', '沛城镇', '近郊城市农业区');
@@ -230,7 +395,9 @@ INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b07', 
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b08', '敬安循环农业示范园', '敬安镇', '南部高效设施园艺区');
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b09', '安国生态农业观光园', '安国镇', '南部高效设施园艺区');
 
--- field
+/*
+ * field
+ */
 INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701001', '加温温室', 'b01', 'c001', '1', null);
 INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701002', '双屋面温室', 'b01', 'c002', '1', null);
 INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701003', '透光塑料大棚', 'b01', 'c003', '1', null);
@@ -248,56 +415,58 @@ INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field
 INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704003', '透光塑料大棚', 'b04', 'c003', '1', null);
 INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704004', '塑料大棚', 'b04', 'c004', '1', null);
 
--- crop
+/*
+ * crop
+ */
 INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c001', '玉米', null);
 INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c002', '生菜', null);
 INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c003', '花生', null);
 INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c004', '大豆', null);
 
--- employee
+/*
+ * employee
+ */
 INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e001', 'wch1', '15261861234', null, null, null, null);
 INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e002', 'wch2', '15261861234', null, null, null, null);
 INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e003', 'wch3', '15261861234', null, null, null, null);
 
--- sensor
+/*
+ * sensor
+ */
 INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-001', '1', 'abc001', 'f1701001', '1', null);
 INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-002', '1', 'abc001', 'f1701002', '1', null);
 INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-001', '2', 'abc002', 'f1701003', '1', null);
 INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-002', '2', 'abc002', 'f1701004', '1', null);
 
--- machine
+/*
+ * machine
+ */
 INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m001', 'cba001', 'b01', '0', null);
 INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m002', 'cba002', 'b02', '0', null);
 INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m003', 'cba003', 'b03', '0', null);
 INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m004', 'cba004', 'b04', '0', null);
 
--- vehicle
+/*
+ * vehicle
+ */
 INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v001', 'xyz001', 'b01', '0', null);
 INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v002', 'xyz002', 'b02', '0', null);
 INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v003', 'xyz003', 'b03', '0', null);
 INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v004', 'xyz004', 'b04', '0', null);
 
--- field_status
-DELIMITER //
-CREATE PROCEDURE add_field_status_data(IN prefix VARCHAR(255))
-  BEGIN
-    DECLARE i INT;
-    DECLARE f_id VARCHAR(255);
-    SET i = 1;
-    WHILE i <= 4 DO
-      SET f_id = CONCAT(prefix, i);
-      INSERT INTO field_status (field_id) VALUES (f_id);
-      SET i = i + 1;
-    END WHILE;
-  END //
-DELIMITER ;
-
+/*
+ * field_status
+ */
+ /* ----- 测试，生产删
 CALL add_field_status_data('f170100');
 CALL add_field_status_data('f170200');
 CALL add_field_status_data('f170300');
 CALL add_field_status_data('f170400');
+*/
 
--- data_record
+/*
+ * data_record
+ */
 TRUNCATE data_record;
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '1', 35.22, NULL);
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '2', 45.22, NULL);
@@ -312,7 +481,9 @@ INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '11', 15.3, NULL);
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '12', 96.8, NULL);
 
--- warn_threshold
+/*
+ * warn_threshold
+ */
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (1, '1', 12.22, 42.23, '1');
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (2, '2', 16.36, 86.35, '1');
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (3, '3', 15.36, 86.85, '1');
@@ -326,10 +497,14 @@ INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALU
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (11, '11', 0.35, 2.65, '1');
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (12, '12', 0.35, 2.65, '1');
 
--- warn_record
+/*
+ * warn_record
+ */
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (1, 'f1701001', '1', 1.23, '2017-09-20 20:25:09', null, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (2, 'f1701002', '2', 3.45, '2017-09-20 20:26:28', null, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (3, 'f1701003', '3', 5.98, '2017-09-20 20:26:28', null, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (4, 'f1701004', '4', 9.58, '2017-09-20 20:26:28', null, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
+/* 通过扫描field_status表插入数据 */
+/* CALL check_warn(); */
 

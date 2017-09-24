@@ -5,7 +5,7 @@
 
 <mapper namespace="com.njfu.wa.sys.mapper.WarnRecordMapper">
 
-    <insert id="insetWarnRecord">
+    <insert id="insertWarnRecord">
         INSERT INTO warn_record (field_id, warn_type, warn_val)
         VALUES (#{fieldId}, ${warnType}, ${warnVal})
     </insert>
@@ -54,8 +54,17 @@
 
     <update id="updateWarnRecord">
         UPDATE warn_record
-        SET flag = #{flag}
-        WHERE id = #{id}
+        SET flag = #{flag}, handle_time = NOW()
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </update>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(0)
+        FROM warn_record
+        WHERE flag = #{flag}
+    </select>
 
 </mapper>	

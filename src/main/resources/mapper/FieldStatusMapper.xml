@@ -19,7 +19,13 @@
     </select>
 
     <delete id="deleteFieldStatus">
-        DELETE FROM field_status WHERE field_id = #{fieldId}
+        DELETE
+        FROM field_status
+        WHERE field_id = #{fieldId}
     </delete>
 
-</mapper>	
+    <select id="getFieldStatusByColName" statementType="CALLABLE" resultType="FieldStatus">
+        CALL get_field_status(#{colName});
+    </select>
+
+</mapper>
