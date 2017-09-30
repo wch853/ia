@@ -10,7 +10,7 @@ public interface WarnRecordService {
     /**
      * 扫描大棚状态表，出现异常数据，插入报警记录
      */
-    void scanFieldStatus();
+    void scanFieldStatus() throws Exception;
 
     /**
      * 查询报警记录

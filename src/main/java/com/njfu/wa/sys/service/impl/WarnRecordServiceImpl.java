@@ -6,6 +6,7 @@ import com.njfu.wa.sys.domain.util.ResultFactory;
 import com.njfu.wa.sys.enums.WarnRecordFlagEnum;
 import com.njfu.wa.sys.mapper.WarnRecordMapper;
 import com.njfu.wa.sys.service.WarnRecordService;
+import com.njfu.wa.sys.websocket.TipHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +19,26 @@ public class WarnRecordServiceImpl implements WarnRecordService {
     private WarnRecordMapper warnRecordMapper;
 
     @Autowired
-    private ResultFactory<List<WarnRecord>> resultFactory;
+    private TipHandler tipHandler;
 
     @Autowired
-    private ResultFactory<Integer> integerResultFactory;
+    private ResultFactory<Object> resultFactory;
 
     /**
      * 扫描大棚状态表，出现异常数据，插入报警记录
      */
     @Override
-    public void scanFieldStatus() {
-       // TODO 调用 check_warn
+    // TODO 定时任务/测试
+    public void scanFieldStatus() throws Exception {
+        // 调用存储过程，扫描大棚状态并生成报警记录
+        warnRecordMapper.checkWarn();
+
+        WarnRecord warnRecord = new WarnRecord();
+        warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
+        // 查询未处理报警记录数量
+        int count = warnRecordMapper.selectCount(warnRecord);
+
+        tipHandler.broadcastWarnTip(resultFactory.dataResult("warnCount", count));
     }
 
     /**
@@ -88,7 +98,7 @@ public class WarnRecordServiceImpl implements WarnRecordService {
         warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
 
         int res = warnRecordMapper.selectCount(warnRecord);
-        return integerResultFactory.dataResult(res);
+        return resultFactory.dataResult(res);
     }
 
 }

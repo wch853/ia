@@ -51,4 +51,9 @@ public interface WarnRecordMapper {
      * @return row count
      */
     int selectCount(WarnRecord warnRecord);
+
+    /**
+     * 调用check_warn存储过程，扫描field_status并插入报警记录
+     */
+    void checkWarn();
 }

@@ -1,7 +1,10 @@
-package com.njfu.wa.sys.config;
+package com.njfu.wa.sys.websocket;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.njfu.wa.sys.domain.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -16,10 +19,15 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Service
 public class TipHandler extends AbstractWebSocketHandler {
 
-    // 用于存放所有WebSocket连接
+    /**
+     * 用于存放所有WebSocket连接
+     */
     private static final CopyOnWriteArraySet<WebSocketSession> webSocketSessions = new CopyOnWriteArraySet<>();
 
     private static final Logger log = LoggerFactory.getLogger(TipHandler.class);
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /**
      * 成功连接WebSocket后执行
@@ -64,12 +72,15 @@ public class TipHandler extends AbstractWebSocketHandler {
 
     /**
      * 广播报警消息
-     * @param message message
+     * @param result result
      * @throws Exception Exception
      */
-    public void broadcastWarnTip(String message) throws Exception {
+    public void broadcastWarnTip(Result result) throws Exception {
+        // 将Result对象转为json字符串
+        String res = objectMapper.writeValueAsString(result);
+
         for (WebSocketSession webSocketSession : webSocketSessions) {
-            webSocketSession.sendMessage(new TextMessage(message));
+            webSocketSession.sendMessage(new TextMessage(res));
         }
     }
 }

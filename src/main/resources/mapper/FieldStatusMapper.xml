@@ -24,8 +24,4 @@
         WHERE field_id = #{fieldId}
     </delete>
 
-    <select id="getFieldStatusByColName" statementType="CALLABLE" resultType="FieldStatus">
-        CALL get_field_status(#{colName});
-    </select>
-
 </mapper>

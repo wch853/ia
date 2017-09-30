@@ -1,4 +1,4 @@
-package com.njfu.wa.sys.config;
+package com.njfu.wa.sys.websocket;
 
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;

@@ -51,10 +51,4 @@ public class FieldStatusMapperTest {
         Assert.assertEquals(1, res);
     }
 
-    @Test
-    public void getFieldStatusByColName() throws Exception {
-        List<FieldStatus> fieldStatuses = fieldStatusMapper.getFieldStatusByColName("field_id");
-
-        log.info("fieldStatuses: {}", fieldStatuses);
-    }
 }

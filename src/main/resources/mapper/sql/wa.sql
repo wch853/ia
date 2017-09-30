@@ -1,4 +1,6 @@
------ DDL -----
+/**********
+ * DDL
+ *********/
 
 DROP TABLE IF EXISTS block;
 CREATE TABLE block (
@@ -15,7 +17,7 @@ field_id VARCHAR(255) NOT NULL COMMENT '大棚编号',
 field_name VARCHAR(255) NOT NULL COMMENT '大棚名称',
 block_id VARCHAR(255) NOT NULL COMMENT '所属地块编号',
 crop_id VARCHAR(255) DEFAULT NULL COMMENT '种植作物编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中',
 field_ps VARCHAR(255) DEFAULT NULL COMMENT '大棚备注',
 PRIMARY KEY (field_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='大棚';
@@ -54,7 +56,7 @@ sensor_id VARCHAR(255) NOT NULL COMMENT '传感器编号',
 sensor_func VARCHAR(255) NOT NULL COMMENT '传感器功能类型',
 sensor_type VARCHAR(255) NOT NULL COMMENT '传感器型号',
 field_id VARCHAR(255) DEFAULT NULL COMMENT '所属大棚编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse, 1inuse, 2error',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
 sensor_ps VARCHAR(255) DEFAULT NULL COMMENT '传感器备注',
 PRIMARY KEY (sensor_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='传感器';
@@ -64,7 +66,7 @@ CREATE TABLE machine (
 machine_id VARCHAR(255) NOT NULL COMMENT '机械编号',
 machine_type VARCHAR(255) NOT NULL COMMENT '机械型号',
 block_id VARCHAR(255) DEFAULT NULL COMMENT '所属地块编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse, 1inuse, 2error',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
 machine_ps VARCHAR(255) DEFAULT NULL COMMENT '机械备注',
 PRIMARY KEY (machine_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='机械';
@@ -74,7 +76,7 @@ CREATE TABLE vehicle (
 vehicle_id VARCHAR(255) NOT NULL COMMENT '车辆编号',
 vehicle_type VARCHAR(255) NOT NULL COMMENT '车辆型号',
 block_id VARCHAR(255) DEFAULT NULL COMMENT '所属地块编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse, 1inuse, 2error',
+use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
 vehicle_ps VARCHAR(255) DEFAULT NULL COMMENT '车辆备注',
 PRIMARY KEY (vehicle_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='车辆';
@@ -83,7 +85,7 @@ DROP TABLE IF EXISTS data_record;
 CREATE TABLE data_record (
 id INT AUTO_INCREMENT NOT NULL COMMENT '数据记录编号',
 sensor_id VARCHAR(255) NOT NULL COMMENT '来源传感器编号',
-data_type VARCHAR(255) NOT NULL COMMENT '数据类型 1-温度temperature 2-湿度moisture 3-土壤温度 soil_temperature 4-土壤水分soil_moisture 5-光照 light 6-二氧化碳 co2 7-pH ph 8-氮含量n 9-磷含量p 10-钾含量k 11-汞含量hg 12-铅含量pb',
+data_type VARCHAR(255) NOT NULL COMMENT '数据类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
 val DOUBLE(5, 2) NOT NULL COMMENT '数据记录值',
 record_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
 PRIMARY KEY (id)
@@ -112,18 +114,18 @@ DROP TABLE IF EXISTS warn_record;
 CREATE TABLE warn_record (
 id INT AUTO_INCREMENT NOT NULL COMMENT '报警记录编号',
 field_id VARCHAR(255) NOT NULL COMMENT '来源大棚编号',
-warn_type VARCHAR(255) NOT NULL COMMENT '报警类型',
+warn_type VARCHAR(255) NOT NULL COMMENT '报警类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
 warn_val DOUBLE(5, 2) NOT NULL COMMENT '报警值',
 warn_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '报警时间',
 handle_time TIMESTAMP NULL COMMENT '处理时间',
-flag VARCHAR(255) NOT NULL DEFAULT '0' COMMENT '处理标志 0-未处理 1-已处理 2-已忽略',
+flag VARCHAR(255) NOT NULL DEFAULT '0' COMMENT '处理标志：0-unhandle 未处理，1-handled 已处理，2-ignore 已忽略',
 PRIMARY KEY (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='报警记录';
 
 DROP TABLE IF EXISTS warn_threshold;
 CREATE TABLE warn_threshold (
 id INT AUTO_INCREMENT NOT NULL COMMENT '报警阈值编号',
-threshold_type VARCHAR(255) NOT NULL COMMENT '阈值类型',
+threshold_type VARCHAR(255) NOT NULL COMMENT '阈值类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
 floor DOUBLE(5, 2) NOT NULL COMMENT '阈值下限',
 ceil DOUBLE(5, 2) NOT NULL COMMENT '阈值上限',
 use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
@@ -132,9 +134,9 @@ PRIMARY KEY (id)
 
 DROP TABLE IF EXISTS tmp_data;
 CREATE TABLE tmp_data(
-  field_id VARCHAR(255) COMMENT '大棚编号',
-  val DOUBLE(5, 2) COMMENT '数据值'
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='数据记录临时表';
+  field_id VARCHAR(255) NOT NULL COMMENT '大棚编号',
+  val DOUBLE(5, 2) DEFAULT  NULL COMMENT '临时数据值'
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='大棚临时数据表';
 
 
 /**********
@@ -320,8 +322,8 @@ CREATE PROCEDURE check_warn()
     DECLARE ts_code, ts_type VARCHAR(255);
     DECLARE ts_floor, ts_ceil DOUBLE(5, 2);
     DECLARE ts_end INT DEFAULT 0;
-    /* 定义warn_threshold的游标，获取每类阈值的上下限 */
-    DECLARE ts_cursor CURSOR FOR SELECT threshold_type, floor, ceil FROM warn_threshold;
+    /* 定义warn_threshold的游标，获取状态为使用中的每类阈值的上下限 */
+    DECLARE ts_cursor CURSOR FOR SELECT threshold_type, floor, ceil FROM warn_threshold WHERE use_status = '1';
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET ts_end = 1;
 
     OPEN ts_cursor;
@@ -336,6 +338,7 @@ CREATE PROCEDURE check_warn()
       SET @sql_exe = CONCAT('INSERT INTO tmp_data (SELECT field_id, ', ts_type, ' AS val FROM field_status)');
       PREPARE stmt FROM @sql_exe;
       EXECUTE stmt;
+      DEALLOCATE PREPARE stmt;
 
       /* 调用比较存储过程 */
       CALL check_warn_compare(ts_code, ts_floor, ts_ceil);
@@ -457,39 +460,37 @@ INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_
 /*
  * field_status
  */
- /* ----- 测试，生产删
+ /* ----- 测试，生产删 ----- */
 CALL add_field_status_data('f170100');
 CALL add_field_status_data('f170200');
 CALL add_field_status_data('f170300');
 CALL add_field_status_data('f170400');
-*/
 
 /*
  * data_record
  */
-TRUNCATE data_record;
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '1', 35.22, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '2', 45.22, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '3', 23.69, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '4', 48.56, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '5', 27.36, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '6', 35.35, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '7', 56.23, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '8', 12.56, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '9', 25.5, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '10', 96.63, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '11', 15.3, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '12', 96.8, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '1', 19.15, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '2', 25.25, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '3', 25.25, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '4', 25.25, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '5', 25.25, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '6', 25.25, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '7', 1, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '8', 0.34, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '9', 0.35, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '10', 0.35, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '11', 0.35, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '12', 0.35, NULL);
 
 /*
  * warn_threshold
  */
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (1, '1', 12.22, 42.23, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (2, '2', 16.36, 86.35, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (3, '3', 15.36, 86.85, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (4, '4', 15.36, 56.35, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (5, '5', 56.36, 76.36, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (6, '6', 23.26, 43.36, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (1, '1', 20, 75, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (2, '2', 20, 75, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (3, '3', 20, 75, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (4, '4', 20, 75, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (5, '5', 20, 75, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (6, '6', 20, 75, '1');
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (7, '7', 3, 9, '1');
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (8, '8', 0.35, 2.65, '1');
 INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (9, '9', 0.35, 2.65, '1');
@@ -500,10 +501,10 @@ INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALU
 /*
  * warn_record
  */
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (1, 'f1701001', '1', 1.23, '2017-09-20 20:25:09', null, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (2, 'f1701002', '2', 3.45, '2017-09-20 20:26:28', null, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (3, 'f1701003', '3', 5.98, '2017-09-20 20:26:28', null, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (4, 'f1701004', '4', 9.58, '2017-09-20 20:26:28', null, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (1, 'f1701001', '1', 1.23, NULL, NULL, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (2, 'f1701002', '2', 3.45, NULL, NULL, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (3, 'f1701003', '3', 5.98, NULL, NULL, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (4, 'f1701004', '4', 9.58, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
 /* 通过扫描field_status表插入数据 */
 /* CALL check_warn(); */

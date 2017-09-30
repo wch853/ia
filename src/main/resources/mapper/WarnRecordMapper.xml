@@ -67,4 +67,8 @@
         WHERE flag = #{flag}
     </select>
 
+    <select id="com.njfu.wa.sys.mapper.WarnRecordMapper.checkWarn" statementType="CALLABLE">
+        CALL check_warn()
+    </select>
+
 </mapper>	

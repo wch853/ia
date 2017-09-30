@@ -20,8 +20,12 @@ public class ResultFactory<T> {
         return new Result(ResultEnum.FAIL.getCode(), message);
     }
 
-    public Result dataResult(T data) {
+    public Result<T> dataResult(T data) {
         return new Result<>(ResultEnum.DATA.getCode(), ResultEnum.DATA.getInfo(), data);
+    }
+
+    public Result<T> dataResult(String message, T data) {
+        return new Result<>(ResultEnum.DATA.getCode(), message, data);
     }
 
 }

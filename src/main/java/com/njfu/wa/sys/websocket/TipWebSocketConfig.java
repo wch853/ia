@@ -1,4 +1,4 @@
-package com.njfu.wa.sys.config;
+package com.njfu.wa.sys.websocket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

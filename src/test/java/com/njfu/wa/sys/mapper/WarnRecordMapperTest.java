@@ -69,4 +69,17 @@ public class WarnRecordMapperTest {
         Assert.assertNotEquals(1, res);
     }
 
+    @Test
+    public void selectCount() throws Exception {
+        WarnRecord warnRecord = new WarnRecord();
+        warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
+
+        int res = warnRecordMapper.selectCount(warnRecord);
+        log.info("res: {}", res);
+    }
+
+    @Test
+    public void checkWarn() throws Exception {
+        warnRecordMapper.checkWarn();
+    }
 }

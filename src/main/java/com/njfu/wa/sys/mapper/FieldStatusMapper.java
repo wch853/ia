@@ -35,7 +35,4 @@ public interface FieldStatusMapper {
      */
     int deleteFieldStatus(Field field);
 
-    // TODO 关于调用存储过程
-    List<FieldStatus> getFieldStatusByColName(String colName);
-
 }
