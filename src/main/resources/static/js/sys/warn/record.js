@@ -54,7 +54,10 @@ $("#recordTable").bootstrapTable({
         title: '报警值'
     }, {
         field: 'warnTime',
-        title: '报警时间'
+        title: '最近报警时间'
+    }, {
+        field: 'warnCount',
+        title: '报警计数'
     }, {
         field: 'handleTime',
         title: '处理时间'

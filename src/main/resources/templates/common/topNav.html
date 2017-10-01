@@ -17,7 +17,7 @@
     <!-- 导航栏右侧 -->
     <ul class="nav navbar-right top-nav">
         <!--消息提示下拉-->
-        <li class="dropdown">
+        <li class="dropdown" id="tip-li">
             <a href="javascript:void(0);" class="dropdown-toggle tip-view" data-toggle="dropdown">
                 <i class="fa fa-bell"></i>消息<i class="fa fa-caret-down"></i><i id="tip-view-point"></i>
             </a>
@@ -56,4 +56,6 @@
         </li>
     </ul>
 </nav>
+<#include "/common/bootbox.html"/>
+<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script type="text/javascript" src="js/common/topNav.js"></script>

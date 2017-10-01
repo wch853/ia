@@ -11,7 +11,7 @@
     </insert>
 
     <select id="selectWarnRecord" resultType="WarnRecord">
-        SELECT id, field_id, warn_type, warn_val, warn_time, handle_time, flag
+        SELECT id, field_id, warn_type, warn_val, warn_time, warn_count, handle_time, flag
         FROM warn_record
         <where>
             <if test="null != warnRecord.fieldId and !''.equals(warnRecord.fieldId)">
@@ -46,7 +46,7 @@
     </resultMap>
 
     <select id="selectWarnRecordByFlag" resultMap="recordMap">
-        SELECT id, field_id, warn_type, warn_val, warn_time, handle_time, flag
+        SELECT id, field_id, warn_type, warn_val, warn_time, warn_count, handle_time, flag
         FROM warn_record
         WHERE flag = #{flag}
         ORDER BY id DESC

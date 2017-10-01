@@ -132,6 +132,8 @@ function fillTimeline(list) {
         var dateTime = el.warnTime;
         var date = dateTime.split(' ')[0];
         var time = dateTime.split(' ')[1];
+        /** @namespace el.warnCount */
+        var count = el.warnCount;
         /** @namespace el.warnThreshold */
         var floor = el.warnThreshold.floor;
         var ceil = el.warnThreshold.ceil;
@@ -144,8 +146,8 @@ function fillTimeline(list) {
             '<p>报警记录编号：<span class="status-data">' + id + '</span></p><p>大棚编号：<span class="status-data">' +
             fieldId + '</span></p><p>类型：<span class="warn-type status-data">' + warnType + '</span></p>' +
             '<p>异常值：<span class="status-data-warn">' + val + '</span>' + ' ( 阈值范围：' + '<span class="status-data">' +
-            floor + '</span> ~ <span class="status-data">' + ceil + '</span> )' + '</p>' +
-            '<p>报警分析：<span class="status-data">' + analysis + '</span></p ></div></div></div>';
+            floor + '</span> ~ <span class="status-data">' + ceil + '</span> )' + '</p><p>报警计数：<span class="status-data-warn">' +
+            count + '</span></p><p>报警分析：<span class="status-data">' + analysis + '</span></p ></div></div></div>';
 
         $('.timeline').append(html);
     });

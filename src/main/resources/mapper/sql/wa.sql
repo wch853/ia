@@ -116,7 +116,8 @@ id INT AUTO_INCREMENT NOT NULL COMMENT '报警记录编号',
 field_id VARCHAR(255) NOT NULL COMMENT '来源大棚编号',
 warn_type VARCHAR(255) NOT NULL COMMENT '报警类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
 warn_val DOUBLE(5, 2) NOT NULL COMMENT '报警值',
-warn_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '报警时间',
+warn_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '最近报警时间',
+warn_count INT NOT NULL DEFAULT 1 COMMENT '报警计数',
 handle_time TIMESTAMP NULL COMMENT '处理时间',
 flag VARCHAR(255) NOT NULL DEFAULT '0' COMMENT '处理标志：0-unhandle 未处理，1-handled 已处理，2-ignore 已忽略',
 PRIMARY KEY (id)
@@ -323,13 +324,19 @@ CREATE PROCEDURE check_warn()
     DECLARE ts_floor, ts_ceil DOUBLE(5, 2);
     DECLARE ts_end INT DEFAULT 0;
     /* 定义warn_threshold的游标，获取状态为使用中的每类阈值的上下限 */
-    DECLARE ts_cursor CURSOR FOR SELECT threshold_type, floor, ceil FROM warn_threshold WHERE use_status = '1';
+    DECLARE ts_cursor CURSOR FOR SELECT
+                                   threshold_type,
+                                   floor,
+                                   ceil
+                                 FROM warn_threshold
+                                 WHERE use_status = '1';
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET ts_end = 1;
 
     OPEN ts_cursor;
 
     WHILE ts_end != 1 DO
-      FETCH ts_cursor INTO ts_code, ts_floor, ts_ceil;
+      FETCH ts_cursor
+      INTO ts_code, ts_floor, ts_ceil;
 
       /* 将阈值编码转为阈值名称 */
       CALL code_to_type(ts_code, ts_type);
@@ -353,7 +360,7 @@ CREATE PROCEDURE check_warn_compare(IN ts_code VARCHAR(255), IN ts_floor DOUBLE(
   BEGIN
     DECLARE fs_id VARCHAR(255);
     DECLARE fs_val DOUBLE(5, 2);
-    DECLARE val_end INT DEFAULT 0;
+    DECLARE val_end, record_id INT DEFAULT 0;
 
     /* 定义该项阈值对应所有大棚即时状态数据游标 */
     DECLARE val_cursor CURSOR FOR SELECT field_id, val FROM tmp_data;
@@ -364,11 +371,21 @@ CREATE PROCEDURE check_warn_compare(IN ts_code VARCHAR(255), IN ts_floor DOUBLE(
     WHILE val_end != 1 DO
       FETCH val_cursor INTO fs_id, fs_val;
       /* 数据值不为空时才比较 */
-      IF fs_val IS NOT NULL THEN
+      IF fs_val IS NOT NULL
+      THEN
         /* 不在规定阈值范围内 */
-        IF fs_val < ts_floor || fs_val > ts_ceil THEN
-          /* 向报警表中插入记录 */
-          INSERT INTO warn_record (field_id, warn_type, warn_val) VALUES (fs_id, ts_code, fs_val);
+        IF fs_val < ts_floor || fs_val > ts_ceil
+        THEN
+          /* 查找是否存在相应大棚未处理的同类型报警记录 */
+          SELECT id INTO record_id FROM warn_record WHERE field_id = fs_id AND warn_type = ts_code AND flag = '0';
+          IF record_id = 0 THEN
+            /* 不存在相应报警记录，向表中插入 */
+            INSERT INTO warn_record (field_id, warn_type, warn_val) VALUES (fs_id, ts_code, fs_val);
+          ELSE
+            /* 若存在，更新该报警记录 */
+            UPDATE warn_record SET warn_val = fs_val, warn_time = NOW(), warn_count = warn_count + 1
+            WHERE field_id = fs_id AND warn_type = ts_code AND flag = '0';
+          END IF;
         END IF;
       END IF;
     END WHILE;

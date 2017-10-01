@@ -38,6 +38,7 @@ public class TipHandler extends AbstractWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         webSocketSessions.add(session);
+        log.info("session {} open", session.getId());
     }
 
     /**
@@ -55,7 +56,7 @@ public class TipHandler extends AbstractWebSocketHandler {
         }
         webSocketSessions.remove(session);
 
-        log.error("session {} error, errorMessage: {}", exception.getMessage());
+        log.error("session {} error, errorMessage: {}", session.getId(), exception.getMessage());
     }
 
     /**

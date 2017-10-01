@@ -100,7 +100,7 @@ function convertData(i, el) {
             html = '<li>汞含量: ' + '<span class="status-data">' + el + '</span>' + ' mg/kg</li>';
             break;
         case 'pb':
-            html = '<li>铅含量: ' + '<span class="status-data">' + el + '</span>' + 'mg/kg</li>';
+            html = '<li>铅含量: ' + '<span class="status-data">' + el + '</span>' + ' mg/kg</li>';
             break;
         default:
             html = '';

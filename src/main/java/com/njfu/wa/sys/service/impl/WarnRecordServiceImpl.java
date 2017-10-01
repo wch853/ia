@@ -8,11 +8,14 @@ import com.njfu.wa.sys.mapper.WarnRecordMapper;
 import com.njfu.wa.sys.service.WarnRecordService;
 import com.njfu.wa.sys.websocket.TipHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@EnableScheduling
 public class WarnRecordServiceImpl implements WarnRecordService {
 
     @Autowired
@@ -28,6 +31,7 @@ public class WarnRecordServiceImpl implements WarnRecordService {
      * 扫描大棚状态表，出现异常数据，插入报警记录
      */
     @Override
+    @Scheduled(cron = "0 0/10 * * * ?")
     // TODO 定时任务/测试
     public void scanFieldStatus() throws Exception {
         // 调用存储过程，扫描大棚状态并生成报警记录

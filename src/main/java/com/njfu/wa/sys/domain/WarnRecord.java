@@ -21,9 +21,12 @@ public class WarnRecord {
     // 报警值
     private Double warnVal;
 
-    // 报警时间
+    // 最近报警时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date warnTime;
+
+    // 报警计数
+    private Integer warnCount;
 
     // 处理时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -78,6 +81,14 @@ public class WarnRecord {
         this.warnTime = warnTime;
     }
 
+    public Integer getWarnCount() {
+        return warnCount;
+    }
+
+    public void setWarnCount(Integer warnCount) {
+        this.warnCount = warnCount;
+    }
+
     public Date getHandleTime() {
         return handleTime;
     }
@@ -110,6 +121,7 @@ public class WarnRecord {
                 ", warnType='" + warnType + '\'' +
                 ", warnVal=" + warnVal +
                 ", warnTime=" + warnTime +
+                ", warnCount=" + warnCount +
                 ", handleTime=" + handleTime +
                 ", flag='" + flag + '\'' +
                 ", warnThreshold=" + warnThreshold +
