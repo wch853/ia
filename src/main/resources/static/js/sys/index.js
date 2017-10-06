@@ -21,7 +21,7 @@ $('.field-card').hover(function () {
             fieldId: fieldId
         },
         beforesend: function () {
-            $card.popover({
+            $card.popover('destroy').popover({
                 title: '大棚编号：' + fieldId,
                 placement: 'auto',
                 html: true,

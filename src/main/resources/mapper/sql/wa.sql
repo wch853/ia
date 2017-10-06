@@ -116,7 +116,7 @@ id INT AUTO_INCREMENT NOT NULL COMMENT '报警记录编号',
 field_id VARCHAR(255) NOT NULL COMMENT '来源大棚编号',
 warn_type VARCHAR(255) NOT NULL COMMENT '报警类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
 warn_val DOUBLE(5, 2) NOT NULL COMMENT '报警值',
-warn_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '最近报警时间',
+warn_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '最早报警时间',
 warn_count INT NOT NULL DEFAULT 1 COMMENT '报警计数',
 handle_time TIMESTAMP NULL COMMENT '处理时间',
 flag VARCHAR(255) NOT NULL DEFAULT '0' COMMENT '处理标志：0-unhandle 未处理，1-handled 已处理，2-ignore 已忽略',
@@ -324,12 +324,7 @@ CREATE PROCEDURE check_warn()
     DECLARE ts_floor, ts_ceil DOUBLE(5, 2);
     DECLARE ts_end INT DEFAULT 0;
     /* 定义warn_threshold的游标，获取状态为使用中的每类阈值的上下限 */
-    DECLARE ts_cursor CURSOR FOR SELECT
-                                   threshold_type,
-                                   floor,
-                                   ceil
-                                 FROM warn_threshold
-                                 WHERE use_status = '1';
+    DECLARE ts_cursor CURSOR FOR SELECT threshold_type, floor, ceil FROM warn_threshold WHERE use_status = '1';
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET ts_end = 1;
 
     OPEN ts_cursor;
@@ -383,7 +378,7 @@ CREATE PROCEDURE check_warn_compare(IN ts_code VARCHAR(255), IN ts_floor DOUBLE(
             INSERT INTO warn_record (field_id, warn_type, warn_val) VALUES (fs_id, ts_code, fs_val);
           ELSE
             /* 若存在，更新该报警记录 */
-            UPDATE warn_record SET warn_val = fs_val, warn_time = NOW(), warn_count = warn_count + 1
+            UPDATE warn_record SET warn_val = fs_val, warn_count = warn_count + 1
             WHERE field_id = fs_id AND warn_type = ts_code AND flag = '0';
           END IF;
         END IF;
@@ -518,11 +513,13 @@ INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALU
 /*
  * warn_record
  */
+ /*
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (1, 'f1701001', '1', 1.23, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (2, 'f1701002', '2', 3.45, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (3, 'f1701003', '3', 5.98, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (4, 'f1701004', '4', 9.58, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
+ */
 /* 通过扫描field_status表插入数据 */
 /* CALL check_warn(); */
 

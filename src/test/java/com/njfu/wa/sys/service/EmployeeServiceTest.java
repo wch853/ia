@@ -18,7 +18,7 @@ import java.util.List;
 @Transactional
 public class EmployeeServiceTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(EmployeeServiceTest.class);
 
     @Autowired
     private EmployeeService employeeService;

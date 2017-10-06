@@ -1,10 +1,9 @@
 package com.njfu.wa.sys.websocket;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.njfu.wa.sys.domain.util.JsonUtil;
 import com.njfu.wa.sys.domain.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -25,9 +24,6 @@ public class TipHandler extends AbstractWebSocketHandler {
     private static final CopyOnWriteArraySet<WebSocketSession> webSocketSessions = new CopyOnWriteArraySet<>();
 
     private static final Logger log = LoggerFactory.getLogger(TipHandler.class);
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     /**
      * 成功连接WebSocket后执行
@@ -78,10 +74,15 @@ public class TipHandler extends AbstractWebSocketHandler {
      */
     public void broadcastWarnTip(Result result) throws Exception {
         // 将Result对象转为json字符串
-        String res = objectMapper.writeValueAsString(result);
+        String res = JsonUtil.toJsonString(result);
 
-        for (WebSocketSession webSocketSession : webSocketSessions) {
-            webSocketSession.sendMessage(new TextMessage(res));
+        if (null != res) {
+            for (WebSocketSession webSocketSession : webSocketSessions) {
+                // TODO 识别权限发送消息
+                webSocketSession.sendMessage(new TextMessage(res));
+            }
+        } else {
+            log.error("报警消息为空，广播报警消息失败！");
         }
     }
 }

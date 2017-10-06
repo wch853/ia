@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class BlockMapperTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(BlockMapperTest.class);
 
     @Autowired
     private BlockMapper blockMapper;

@@ -18,7 +18,7 @@ import java.util.List;
 @Transactional
 public class CropServiceTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(CropServiceTest.class);
 
     @Autowired
     private CropService cropService;

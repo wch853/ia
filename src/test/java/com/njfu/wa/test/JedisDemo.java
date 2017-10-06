@@ -9,7 +9,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 public class JedisDemo {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(JedisDemo.class);
 
     /**
      * 单实例

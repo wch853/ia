@@ -19,7 +19,7 @@ import java.util.List;
 @SpringBootTest
 @Transactional
 public class FieldMapperTest {
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(FieldMapperTest.class);
 
     @Autowired
     private FieldMapper fieldMapper;

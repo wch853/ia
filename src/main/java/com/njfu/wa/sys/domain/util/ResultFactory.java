@@ -24,8 +24,8 @@ public class ResultFactory<T> {
         return new Result<>(ResultEnum.DATA.getCode(), ResultEnum.DATA.getInfo(), data);
     }
 
-    public Result<T> dataResult(String message, T data) {
-        return new Result<>(ResultEnum.DATA.getCode(), message, data);
+    public Result<T> warnResult(T data) {
+        return new Result<>(ResultEnum.WARN.getCode(), ResultEnum.WARN.getInfo(), data);
     }
 
 }

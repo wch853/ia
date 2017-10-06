@@ -119,45 +119,44 @@ $('.selectpicker').selectpicker({
     width: '180.67px'
 });
 
-var $range = $('#threshold-range');
-
 function modifyWarnThreshold(id, thresholdType, floor, ceil, useStatus) {
     $('#modifyThresholdId').text(id);
     $('#modifyThresholdType').text(convertThresholdType(thresholdType));
     $('#modifyUseStatus').selectpicker('val', useStatus);
 
-    $range.ionRangeSlider({
-        min: 0,
-        max: 100,
-        type: 'double',
-        from: floor,
-        to: ceil,
-        step: 0.01,
-        grid: true,
-        grid_num: 10,
-        drag_interval: true
-    });
+    $('#range-floor').val(floor);
+    $('#range-ceil').val(ceil);
 
     $('#modifyModal').modal('show');
 }
 
 $('#saveModify').click(function () {
     var id = $('#modifyThresholdId').text();
-    var floor = $range.data('from');
-    var ceil = $range.data('to');
+    var floor = $('#range-floor').val();
+    var ceil = $('#range-ceil').val();
     var useStatus = $('#modifyUseStatus').val();
 
     $('#modifyModal').modal('hide');
 
-    bootbox.confirm({
-        title: '提示',
-        message: '确认修改阈值信息',
-        callback: function (flag) {
-            if (flag) {
-                deliverData('sys/warn/modifyWarnThreshold', id, floor, ceil, useStatus);
+    var reg = /^[0-9]+([.]{1}[0-9]{1,2})?$/;
+
+    if (reg.test(floor) && reg.test(ceil)) {
+        bootbox.confirm({
+            title: '提示',
+            message: '确认修改阈值信息',
+            callback: function (flag) {
+                if (flag) {
+                    deliverData('sys/warn/modifyWarnThreshold', id, floor, ceil, useStatus);
+                }
             }
-        }
-    });
+        });
+    } else {
+        bootbox.alert({
+            title: '提示',
+            message: '阈值上下限应为正数（至多保留两位小数点）！'
+        });
+    }
+
 });
 
 function deliverData(path, id, floor, ceil, useStatus) {

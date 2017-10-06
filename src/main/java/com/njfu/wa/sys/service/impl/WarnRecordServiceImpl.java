@@ -7,6 +7,8 @@ import com.njfu.wa.sys.enums.WarnRecordFlagEnum;
 import com.njfu.wa.sys.mapper.WarnRecordMapper;
 import com.njfu.wa.sys.service.WarnRecordService;
 import com.njfu.wa.sys.websocket.TipHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,22 +29,32 @@ public class WarnRecordServiceImpl implements WarnRecordService {
     @Autowired
     private ResultFactory<Object> resultFactory;
 
+    private static final Logger log = LoggerFactory.getLogger(WarnRecordServiceImpl.class);
+
     /**
      * 扫描大棚状态表，出现异常数据，插入报警记录
      */
     @Override
-    @Scheduled(cron = "0 0/10 * * * ?")
-    // TODO 定时任务/测试
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void scanFieldStatus() throws Exception {
+
+        long start = System.currentTimeMillis();
+        log.info("start check warn: {}", start);
         // 调用存储过程，扫描大棚状态并生成报警记录
         warnRecordMapper.checkWarn();
+        long end = System.currentTimeMillis();
+        log.info("end check warn: {}, spend: {}", end, end - start);
 
         WarnRecord warnRecord = new WarnRecord();
         warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
         // 查询未处理报警记录数量
         int count = warnRecordMapper.selectCount(warnRecord);
+        log.info("warn count: {}", count);
 
-        tipHandler.broadcastWarnTip(resultFactory.dataResult("warnCount", count));
+        if (count > 0) {
+            tipHandler.broadcastWarnTip(resultFactory.warnResult(count));
+        }
+
     }
 
     /**

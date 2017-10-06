@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class SensorMapperTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(SensorMapperTest.class);
 
     @Autowired
     private SensorMapper sensorMapper;

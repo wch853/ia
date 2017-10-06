@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class VehicleServiceTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(VehicleServiceTest.class);
 
     @Autowired
     private VehicleService vehicleService;

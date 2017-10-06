@@ -24,10 +24,6 @@ public class WarnRecordServiceTest {
     private static final Logger log = LoggerFactory.getLogger(WarnRecordServiceTest.class);
 
     @Test
-    public void scanFieldStatus() throws Exception {
-    }
-
-    @Test
     public void getWarnRecord() throws Exception {
         WarnRecord warnRecord = new WarnRecord();
 
@@ -53,4 +49,9 @@ public class WarnRecordServiceTest {
         log.info("result: {}", result);
     }
 
+    @Test
+    public void getUnhandleRecordCount() throws Exception {
+        Result result = warnRecordService.getUnhandleRecordCount();
+        log.info("result: {}", result);
+    }
 }

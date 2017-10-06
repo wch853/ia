@@ -37,7 +37,7 @@ nav {
     }
 
     #page-wrapper {
-        padding: 15px 0px 0px 30px;
+        padding: 15px 0 0 30px;
     }
 }
 
@@ -181,7 +181,7 @@ nav > ul > li > a,
 
 /*icon*/
 i {
-    margin: 0px 7px;
+    margin: 0 7px;
 }
 
 nav i,
@@ -396,4 +396,15 @@ nav i,
 
 .alert-dropdown > li > a > i {
     margin-left: 0;
+}
+
+nav {
+    position: relative;
+}
+
+.pop-tip {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 40px;
 }

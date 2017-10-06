@@ -20,7 +20,7 @@ import java.util.List;
 @Transactional
 public class FieldServiceTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(FieldServiceTest.class);
 
     @Autowired
     private FieldService fieldService;

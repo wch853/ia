@@ -18,7 +18,7 @@ import java.util.List;
 @Transactional
 public class EmployeeMapperTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(EmployeeMapperTest.class);
 
     @Autowired
     private EmployeeMapper employeeMapper;

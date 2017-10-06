@@ -33,7 +33,7 @@ public class TipHandShakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                    WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-        // TODO 验证用户是否有权限收到该类消息
+        // TODO 验证用户
 
         // 获取HttpSession
         ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
@@ -46,13 +46,6 @@ public class TipHandShakeInterceptor implements HandshakeInterceptor {
         if (null == username) {
             log.error("Invalid User!");
             return false;
-        } else {
-            // 将用户信息放入WebSocketSession中
-            attributes.put("username", username);
-            // httpSessionId用于唯一确定连接客户端的身份
-            attributes.put("httpSessionId", session.getId());
-            attributes.put("host", request.getRemoteAddress().getHostString());
-            return true;
         }
          */
 

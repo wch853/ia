@@ -18,7 +18,7 @@ import java.util.List;
 @Transactional
 public class BlockServiceTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(BlockServiceTest.class);
 
     @Autowired
     private BlockService blockService;

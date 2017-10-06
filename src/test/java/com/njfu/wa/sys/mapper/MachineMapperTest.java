@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class MachineMapperTest {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(MachineMapperTest.class);
 
     @Autowired
     private MachineMapper machineMapper;
