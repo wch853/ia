@@ -55,6 +55,7 @@ public class WarnRecordServiceImpl implements WarnRecordService {
             tipHandler.broadcastWarnTip(resultFactory.warnResult(count));
         }
 
+        // TODO 邮件推送
     }
 
     /**

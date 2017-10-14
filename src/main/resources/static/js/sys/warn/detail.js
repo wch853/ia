@@ -66,8 +66,9 @@ function verifyCheck() {
     var flag = false;
     $('.timeline-check').each(function () {
         if ($(this).is(':checked')) {
+            console.log(1);
             flag = true;
-            return;
+            return false;
         }
     });
 
@@ -198,6 +199,7 @@ function deliverData(ids, flag) {
         },
         success: function (res) {
             initTimeline();
+            verifyCheck();
             bootbox.alert({
                title: '提示',
                message: res.message

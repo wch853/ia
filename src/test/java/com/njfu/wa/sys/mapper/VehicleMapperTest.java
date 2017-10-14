@@ -54,7 +54,7 @@ public class VehicleMapperTest {
         vehicle.setUseStatus("0");
         vehicle.setBlock(new Block());
 
-        int res = vehicleMapper.updateVehicle(new Vehicle());
+        int res = vehicleMapper.updateVehicle(vehicle);
 
         Assert.assertEquals(1, res);
     }

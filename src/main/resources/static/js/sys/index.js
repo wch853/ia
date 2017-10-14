@@ -1,3 +1,16 @@
+/**
+ * 加载遮罩
+ */
+$("#fakeLoader").fakeLoader({
+    timeToHide: 3000,
+    zIndex: 999,
+    spinner: 'spinner1',
+    bgColor: '#575e75'
+});
+
+/**
+ * 收缩/展开地块
+ */
 $('.index-bread').click(function () {
     $(this).siblings('.row').toggle(300);
     var $icon = $(this).find('.icon-collapse');
@@ -41,6 +54,8 @@ $('.field-card').hover(function () {
     });
 }, function () {
     $(this).popover('destroy');
+    sc
+
 });
 
 function appendStatus(data, fieldName) {
@@ -48,9 +63,7 @@ function appendStatus(data, fieldName) {
     var html = '<ul><li>名称: ' + '<span class="status-data">' + fieldName + '</span></li>';
 
     $.each(data, function (i, el) {
-        var statusItem = convertData(i, el);
-
-        html += statusItem;
+        html += convertData(i, el);
     });
 
     return html + '</ul>';
@@ -64,7 +77,7 @@ function convertData(i, el) {
     var html = '';
     switch (i) {
         case 'updateTime':
-            html ='<li>更新时间: ' + '<span class="status-data">' + el + '</span>' + '</li>';
+            html = '<li>更新时间: ' + '<span class="status-data">' + el + '</span>' + '</li>';
             break;
         case 'temperature':
             html = '<li>温度: ' + '<span class="status-data">' + el + '</span>' + ' °C</li>';

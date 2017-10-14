@@ -6,6 +6,7 @@ function popTip(count) {
     $popTip.find('span').text(count);
     $popTip.fadeIn(500);
 }
+
 /**
  * 获取系统提示
  */
@@ -45,7 +46,7 @@ function getConnect() {
 
     // 配置WebSocket连接生命周期
     websocket.onopen = function () {
-
+        console.log('WebSocket连接成功！');
     };
 
     websocket.onmessage = function (event) {
@@ -61,23 +62,11 @@ function getConnect() {
     };
 
     websocket.onerror = function () {
-        bootbox.alert({
-            title: '提示',
-            message: 'WebSocket连接异常，请刷新页面！',
-            callback: function () {
-                window.location.reload();
-            }
-        });
+        console.log('WebSocket连接异常！');
     };
 
     websocket.onclose = function () {
-        bootbox.alert({
-            title: '提示',
-            message: 'WebSocket连接断开，请刷新页面！',
-            callback: function () {
-                window.location.reload();
-            }
-        });
+        console.log('WebSocket连接断开，请刷新页面！');
     };
 
     window.onbeforeunload = function () {
