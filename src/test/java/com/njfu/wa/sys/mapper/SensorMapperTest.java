@@ -7,11 +7,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -19,9 +19,9 @@ import java.util.List;
 @Transactional
 public class SensorMapperTest {
 
-    private static final Logger log = LoggerFactory.getLogger(SensorMapperTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SensorMapperTest.class);
 
-    @Autowired
+    @Resource
     private SensorMapper sensorMapper;
 
     @Test
@@ -31,7 +31,7 @@ public class SensorMapperTest {
 
         List<Sensor> sensors = sensorMapper.selectSensors(sensor);
 
-        log.info("sensors: {}", sensors);
+        LOGGER.info("sensors: {}", sensors);
     }
 
     @Test
@@ -74,4 +74,10 @@ public class SensorMapperTest {
         Assert.assertEquals(1, res);
     }
 
+    @Test
+    public void updateSensorField() throws Exception {
+        int res = sensorMapper.updateSensorField("f1701001");
+
+        Assert.assertNotEquals(0, res);
+    }
 }

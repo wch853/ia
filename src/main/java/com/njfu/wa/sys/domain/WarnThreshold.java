@@ -8,19 +8,29 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarnThreshold {
 
-    // 阈值编号
+    /**
+     * 阈值编号
+     */
     private Integer id;
 
-    // 阈值类型
+    /**
+     * 阈值类型
+     */
     private String thresholdType;
 
-    // 阈值下限
+    /**
+     * 阈值下限
+     */
     private Double floor;
 
-    // 阈值上限
+    /**
+     * 阈值上限
+     */
     private Double ceil;
 
-    // 使用状态
+    /**
+     * 使用状态
+     */
     private String useStatus;
 
     public WarnThreshold() {

@@ -201,8 +201,8 @@ function deliverData(ids, flag) {
             initTimeline();
             verifyCheck();
             bootbox.alert({
-               title: '提示',
-               message: res.message
+                title: '提示',
+                message: res.message
             });
         }
     });

@@ -5,23 +5,16 @@ package com.njfu.wa.sys.enums;
  */
 public enum SensorFunctionEnum {
 
-    TEMPERATURE("1", "温度传感器"),
-    MOISTURE("2", "湿度传感器");
+    TEMPERATURE("1"),
+    MOISTURE("2");
 
     private String code;
 
-    private String type;
-
-    SensorFunctionEnum(String code, String type) {
+    SensorFunctionEnum(String code) {
         this.code = code;
-        this.type = type;
     }
 
     public String getCode() {
         return code;
-    }
-
-    public String getType() {
-        return type;
     }
 }

@@ -1,18 +1,19 @@
 package com.njfu.wa.sys.web;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.njfu.wa.sys.domain.*;
-import com.njfu.wa.sys.domain.util.Result;
-import com.njfu.wa.sys.domain.util.PaginationResult;
 import com.njfu.wa.sys.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.njfu.wa.sys.utils.PaginationResult;
+import com.njfu.wa.sys.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,25 +23,25 @@ import java.util.List;
 @RequestMapping("/sys/file")
 public class FileController {
 
-    @Autowired
+    @Resource
     private BlockService blockService;
 
-    @Autowired
+    @Resource
     private FieldService fieldService;
 
-    @Autowired
+    @Resource
     private CropService cropService;
 
-    @Autowired
+    @Resource
     private EmployeeService employeeService;
 
-    @Autowired
+    @Resource
     private MachineService machineService;
 
-    @Autowired
+    @Resource
     private VehicleService vehicleService;
 
-    @Autowired
+    @Resource
     private SensorService sensorService;
 
     /**
@@ -48,7 +49,7 @@ public class FileController {
      *
      * @return page
      */
-    @RequestMapping
+    @GetMapping
     public String file() {
         return "sys/file/file";
     }
@@ -58,7 +59,7 @@ public class FileController {
      *
      * @return page
      */
-    @RequestMapping("/block")
+    @GetMapping("/block")
     public String blockFile() {
         return "sys/file/blockFile";
     }
@@ -71,12 +72,13 @@ public class FileController {
      * @param block  blockId blockName
      * @return json data
      */
-    @RequestMapping("/getBlocks")
+    @GetMapping("/getBlocks")
     public @ResponseBody
     PaginationResult getBlocks(int offset, int limit, Block block) {
-        Page<Object> page = PageHelper.offsetPage(offset, limit);
+        PageHelper.offsetPage(offset, limit);
         List<Block> blocks = blockService.getBlocks(block);
-        return new PaginationResult(page.getTotal(), blocks);
+        PageInfo<Block> page = new PageInfo<>(blocks);
+        return new PaginationResult<>(page.getTotal(), blocks);
     }
 
     /**
@@ -121,7 +123,7 @@ public class FileController {
      * @param model blocks crops
      * @return page
      */
-    @RequestMapping("/field")
+    @GetMapping("/field")
     public String fieldFile(Model model) {
         List<Block> blocks = blockService.getBlocks(new Block());
         List<Crop> crops = cropService.getCrops(new Crop());
@@ -140,12 +142,13 @@ public class FileController {
      * @param crop   cropId
      * @return json data
      */
-    @RequestMapping("/getFields")
+    @GetMapping("/getFields")
     public @ResponseBody
     PaginationResult getFields(int offset, int limit, Field field, Block block, Crop crop) {
-        Page<Object> page = PageHelper.offsetPage(offset, limit);
+        PageHelper.offsetPage(offset, limit);
         List<Field> fields = fieldService.getFields(field, block, crop);
-        return new PaginationResult(page.getTotal(), fields);
+        PageInfo<Field> page = new PageInfo<>(fields);
+        return new PaginationResult<>(page.getTotal(), fields);
     }
 
     /**
@@ -193,7 +196,7 @@ public class FileController {
      *
      * @return page
      */
-    @RequestMapping("/crop")
+    @GetMapping("/crop")
     public String cropFile() {
         return "sys/file/cropFile";
     }
@@ -206,12 +209,13 @@ public class FileController {
      * @param crop   cropId cropName
      * @return json data
      */
-    @RequestMapping("/getCrops")
+    @GetMapping("/getCrops")
     public @ResponseBody
     PaginationResult getCrops(int offset, int limit, Crop crop) {
-        Page<Object> page = PageHelper.offsetPage(offset, limit);
+        PageHelper.offsetPage(offset, limit);
         List<Crop> crops = cropService.getCrops(crop);
-        return new PaginationResult(page.getTotal(), crops);
+        PageInfo<Crop> page = new PageInfo<>(crops);
+        return new PaginationResult<>(page.getTotal(), crops);
     }
 
     /**
@@ -255,7 +259,7 @@ public class FileController {
      *
      * @return page
      */
-    @RequestMapping("/employee")
+    @GetMapping("/employee")
     public String employeeFile() {
         return "sys/file/employeeFile";
     }
@@ -268,12 +272,13 @@ public class FileController {
      * @param employee empId empName
      * @return json data
      */
-    @RequestMapping("/getEmployees")
+    @GetMapping("/getEmployees")
     public @ResponseBody
     PaginationResult getEmployees(int offset, int limit, Employee employee) {
-        Page<Object> page = PageHelper.offsetPage(offset, limit);
+        PageHelper.offsetPage(offset, limit);
         List<Employee> employees = employeeService.getEmployees(employee);
-        return new PaginationResult(page.getTotal(), employees);
+        PageInfo<Employee> page = new PageInfo<>(employees);
+        return new PaginationResult<>(page.getTotal(), employees);
     }
 
     /**
@@ -318,7 +323,7 @@ public class FileController {
      * @param model blocks
      * @return page
      */
-    @RequestMapping("/machine")
+    @GetMapping("/machine")
     public String machineFile(Model model) {
         List<Block> blocks = blockService.getBlocks(new Block());
         model.addAttribute("blocks", blocks);
@@ -334,12 +339,13 @@ public class FileController {
      * @param block   blockId
      * @return json data
      */
-    @RequestMapping("/getMachines")
+    @GetMapping("/getMachines")
     public @ResponseBody
     PaginationResult getMachines(int offset, int limit, Machine machine, Block block) {
-        Page<Object> page = PageHelper.offsetPage(offset, limit);
+        PageHelper.offsetPage(offset, limit);
         List<Machine> machines = machineService.getMachines(machine, block);
-        return new PaginationResult(page.getTotal(), machines);
+        PageInfo<Machine> page = new PageInfo<>(machines);
+        return new PaginationResult<>(page.getTotal(), machines);
     }
 
     /**
@@ -385,7 +391,7 @@ public class FileController {
      *
      * @return page
      */
-    @RequestMapping("/vehicle")
+    @GetMapping("/vehicle")
     public String vehicleFile(Model model) {
         List<Block> blocks = blockService.getBlocks(new Block());
         model.addAttribute("blocks", blocks);
@@ -401,12 +407,13 @@ public class FileController {
      * @param block   blockId
      * @return json data
      */
-    @RequestMapping("/getVehicles")
+    @GetMapping("/getVehicles")
     public @ResponseBody
     PaginationResult getVehicles(int offset, int limit, Vehicle vehicle, Block block) {
-        Page<Object> page = PageHelper.offsetPage(offset, limit);
+        PageHelper.offsetPage(offset, limit);
         List<Vehicle> vehicles = vehicleService.getVehicles(vehicle, block);
-        return new PaginationResult(page.getTotal(), vehicles);
+        PageInfo<Vehicle> page = new PageInfo<>(vehicles);
+        return new PaginationResult<>(page.getTotal(), vehicles);
     }
 
     /**
@@ -416,7 +423,7 @@ public class FileController {
      * @param block   blockId
      * @return json message
      */
-    @RequestMapping("/addVehicle")
+    @PostMapping("/addVehicle")
     public @ResponseBody
     Result addVehicle(Vehicle vehicle, Block block) {
         return vehicleService.addVehicle(vehicle, block);
@@ -429,7 +436,7 @@ public class FileController {
      * @param block   blockId
      * @return json message
      */
-    @RequestMapping("/modifyVehicle")
+    @PostMapping("/modifyVehicle")
     public @ResponseBody
     Result modifyVehicle(Vehicle vehicle, Block block) {
         return vehicleService.modifyVehicle(vehicle, block);
@@ -441,7 +448,7 @@ public class FileController {
      * @param vehicle vehicleId
      * @return json message
      */
-    @RequestMapping("/removeVehicle")
+    @PostMapping("/removeVehicle")
     public @ResponseBody
     Result removeVehicle(Vehicle vehicle) {
         return vehicleService.removeVehicle(vehicle);
@@ -452,7 +459,7 @@ public class FileController {
      *
      * @return page
      */
-    @RequestMapping("/sensor")
+    @GetMapping("/sensor")
     public String sensorFile(Model model) {
         List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
         model.addAttribute("fields", fields);
@@ -468,12 +475,13 @@ public class FileController {
      * @param field  fieldId
      * @return json data
      */
-    @RequestMapping("/getSensors")
+    @GetMapping("/getSensors")
     public @ResponseBody
     PaginationResult getSensors(int offset, int limit, Sensor sensor, Field field) {
-        Page<Object> page = PageHelper.offsetPage(offset, limit);
+        PageHelper.offsetPage(offset, limit);
         List<Sensor> sensors = sensorService.getSensors(sensor, field);
-        return new PaginationResult(page.getTotal(), sensors);
+        PageInfo<Sensor> page = new PageInfo<>(sensors);
+        return new PaginationResult<>(page.getTotal(), sensors);
     }
 
     /**
@@ -483,7 +491,7 @@ public class FileController {
      * @param field  fieldId
      * @return json message
      */
-    @RequestMapping("/addSensor")
+    @PostMapping("/addSensor")
     public @ResponseBody
     Result addSensor(Sensor sensor, Field field) {
         return sensorService.addSensor(sensor, field);
@@ -496,7 +504,7 @@ public class FileController {
      * @param field  fieldId
      * @return json message
      */
-    @RequestMapping("/modifySensor")
+    @PostMapping("/modifySensor")
     public @ResponseBody
     Result modifySensor(Sensor sensor, Field field) {
         return sensorService.modifySensor(sensor, field);
@@ -508,7 +516,7 @@ public class FileController {
      * @param sensor sensorId
      * @return json message
      */
-    @RequestMapping("/removeSensor")
+    @PostMapping("/removeSensor")
     public @ResponseBody
     Result removeSensor(Sensor sensor) {
         return sensorService.removeSensor(sensor);

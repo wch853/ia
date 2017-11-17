@@ -9,8 +9,8 @@ $('#queryDate').daterangepicker({
         applyLabel: '确认',
         cancelLabel: '取消',
         format: 'YYYY-MM-DD',
-        customRangeLabel : '自定义',
-        separator : ' 至 '
+        customRangeLabel: '自定义',
+        separator: ' 至 '
     },
     ranges: {
         '今天': [moment(), moment()],
@@ -76,7 +76,7 @@ $("#recordTable").bootstrapTable({
             return format;
         },
         title: '处理标志'
-    } ],
+    }],
     striped: true,
     pagination: true,
     sidePagination: 'server',

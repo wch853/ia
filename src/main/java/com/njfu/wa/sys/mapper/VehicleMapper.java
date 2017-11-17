@@ -2,12 +2,11 @@ package com.njfu.wa.sys.mapper;
 
 import com.njfu.wa.sys.domain.Vehicle;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-@Repository
 public interface VehicleMapper {
 
     /**
@@ -41,4 +40,12 @@ public interface VehicleMapper {
      * @return
      */
     int deleteVehicle(Vehicle vehicle);
+
+    /**
+     * 将属于某地块下的车辆所属大棚置空
+     *
+     * @param blockId
+     * @return
+     */
+    int updateVehicleByBlock(@Param("blockId") String blockId);
 }

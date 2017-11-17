@@ -26,6 +26,10 @@ function checkTip() {
 
 checkTip();
 
+$('.pop-tip').click(function () {
+    $(this).hide();
+});
+
 var websocket;
 
 /**

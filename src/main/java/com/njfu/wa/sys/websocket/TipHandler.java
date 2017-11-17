@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.websocket;
 
-import com.njfu.wa.sys.domain.util.JsonUtil;
-import com.njfu.wa.sys.domain.util.Result;
+import com.njfu.wa.sys.utils.JsonUtils;
+import com.njfu.wa.sys.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class TipHandler extends AbstractWebSocketHandler {
      */
     private static final CopyOnWriteArraySet<WebSocketSession> webSocketSessions = new CopyOnWriteArraySet<>();
 
-    private static final Logger log = LoggerFactory.getLogger(TipHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TipHandler.class);
 
     /**
      * 成功连接WebSocket后执行
@@ -34,7 +34,7 @@ public class TipHandler extends AbstractWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         webSocketSessions.add(session);
-        log.info("session {} open", session.getId());
+        LOGGER.info("session {} open", session.getId());
     }
 
     /**
@@ -52,7 +52,7 @@ public class TipHandler extends AbstractWebSocketHandler {
         }
         webSocketSessions.remove(session);
 
-        log.error("session {} error, errorMessage: {}", session.getId(), exception.getMessage());
+        LOGGER.error("session {} error, errorMessage: {}", session.getId(), exception.getMessage());
     }
 
     /**
@@ -69,20 +69,25 @@ public class TipHandler extends AbstractWebSocketHandler {
 
     /**
      * 广播报警消息
+     *
      * @param result result
      * @throws Exception Exception
      */
-    public void broadcastWarnTip(Result result) throws Exception {
-        // 将Result对象转为json字符串
-        String res = JsonUtil.toJsonString(result);
+    public void broadcastWarnTip(Result result) {
+        try {
+            // 将Result对象转为json字符串
+            String res = JsonUtils.toJsonString(result);
 
-        if (null != res) {
-            for (WebSocketSession webSocketSession : webSocketSessions) {
-                // TODO 识别权限发送消息
-                webSocketSession.sendMessage(new TextMessage(res));
+            if (null != res) {
+                for (WebSocketSession webSocketSession : webSocketSessions) {
+                    // TODO 识别权限发送消息
+                    webSocketSession.sendMessage(new TextMessage(res));
+                }
+            } else {
+                LOGGER.error("报警消息为空，广播报警消息失败！");
             }
-        } else {
-            log.error("报警消息为空，广播报警消息失败！");
+        } catch (Exception e) {
+            LOGGER.error("广播报警消息异常", e);
         }
     }
 }

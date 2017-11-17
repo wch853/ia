@@ -3,11 +3,9 @@ package com.njfu.wa.sys.mapper;
 import com.njfu.wa.sys.domain.WarnRecord;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 @Mapper
 public interface WarnRecordMapper {
 

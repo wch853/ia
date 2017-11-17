@@ -4,12 +4,8 @@ import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.domain.FieldStatus;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Mapper
-@Repository
 public interface FieldStatusMapper {
 
     /**
@@ -23,9 +19,10 @@ public interface FieldStatusMapper {
     /**
      * 获取当前大棚状态
      *
-     * @return data
+     * @param fieldId fieldId
+     * @return FieldStatus
      */
-    List<FieldStatus> selectFieldStatus(@Param("fieldId") String fieldId);
+    FieldStatus selectFieldStatus(@Param("fieldId") String fieldId);
 
     /**
      * 删除大棚数据项

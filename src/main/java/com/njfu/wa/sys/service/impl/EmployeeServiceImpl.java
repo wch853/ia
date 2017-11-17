@@ -1,23 +1,19 @@
 package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Employee;
-import com.njfu.wa.sys.domain.util.Result;
-import com.njfu.wa.sys.domain.util.ResultFactory;
+import com.njfu.wa.sys.utils.Result;
 import com.njfu.wa.sys.mapper.EmployeeMapper;
 import com.njfu.wa.sys.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
+    @Resource
     private EmployeeMapper employeeMapper;
-
-    @Autowired
-    private ResultFactory resultFactory;
 
     /**
      * 查询员工列表
@@ -43,10 +39,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         int res = employeeMapper.insertEmployee(employee);
 
         if (res == 0) {
-            return resultFactory.failMessage("新增员工信息失败，请检查新增编号是否存在！");
+            return Result.fail("新增员工信息失败，请检查新增编号是否存在！");
         }
 
-        return resultFactory.successMessage("新增员工信息成功！");
+        return Result.success("新增员工信息成功！");
     }
 
     /**
@@ -62,10 +58,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         int res = employeeMapper.updateEmployee(employee);
 
         if (res == 0) {
-            return resultFactory.failMessage("修改员工信息失败！");
+            return Result.fail("修改员工信息失败！");
         }
 
-        return resultFactory.successMessage("修改员工信息成功！");
+        return Result.success("修改员工信息成功！");
     }
 
     /**
@@ -79,10 +75,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         int res = employeeMapper.deleteEmployee(employee);
 
         if (res == 0) {
-            return resultFactory.failMessage("删除员工信息失败！");
+            return Result.fail("删除员工信息失败！");
         }
 
-        return resultFactory.successMessage("删除员工信息成功！");
+        return Result.success("删除员工信息成功！");
     }
 
     /**

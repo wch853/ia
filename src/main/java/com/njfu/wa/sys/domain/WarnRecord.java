@@ -9,33 +9,49 @@ import java.util.Date;
  */
 public class WarnRecord {
 
-    // 记录编号
+    /**
+     * 记录编号
+     */
     private Integer id;
 
-    // 来源大棚编号
+    /**
+     * 来源大棚编号
+     */
     private String fieldId;
 
-    // 报警类型
+    /**
+     * 报警类型
+     */
     private String warnType;
 
-    // 报警值
+    /**
+     * 报警类型
+     */
     private Double warnVal;
 
     // 最近报警时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date warnTime;
 
-    // 报警计数
+    /**
+     * 报警计数
+     */
     private Integer warnCount;
 
-    // 处理时间
+    /**
+     * 处理时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date handleTime;
 
-    // 处理标志 0-未处理 1-已处理 2-已忽略
+    /**
+     * 处理标志 0-未处理 1-已处理 2-已忽略
+     */
     private String flag;
 
-    // 对应阈值信息
+    /**
+     * 对应阈值信息
+     */
     private WarnThreshold warnThreshold;
 
     public WarnRecord() {

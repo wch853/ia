@@ -48,4 +48,10 @@
         DELETE FROM machine
         WHERE machine_id = #{machineId}
     </delete>
+
+    <update id="updateMachineByBlock">
+        UPDATE machine
+        SET block_id = NULL
+        WHERE block_id = #{blockId}
+    </update>
 </mapper>	

@@ -3,30 +3,32 @@ package com.njfu.wa.sys.service.impl;
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.domain.Field;
-import com.njfu.wa.sys.domain.util.Result;
-import com.njfu.wa.sys.domain.util.ResultFactory;
 import com.njfu.wa.sys.mapper.FieldMapper;
 import com.njfu.wa.sys.mapper.FieldStatusMapper;
+import com.njfu.wa.sys.mapper.SensorMapper;
 import com.njfu.wa.sys.service.FieldService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.njfu.wa.sys.utils.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class FieldServiceImpl implements FieldService {
 
-    @Autowired
+    @Resource
     private FieldMapper fieldMapper;
 
-    @Autowired
+    @Resource
     private FieldStatusMapper fieldStatusMapper;
 
-    @Autowired
-    private ResultFactory resultFactory;
+    @Resource
+    private SensorMapper sensorMapper;
 
     /**
+     * 获取大棚列表
+     *
      * @param field fieldName useStatus
      * @param block blockId
      * @param crop  cropId
@@ -56,13 +58,13 @@ public class FieldServiceImpl implements FieldService {
 
         int res = fieldMapper.insertField(field);
         if (res == 0) {
-            return resultFactory.failMessage("新增大棚信息失败，请检查新增编号是否存在！");
+            return Result.fail("新增大棚信息失败，请检查新增编号是否存在！");
         }
 
         // 新增大棚状态数据项
         fieldStatusMapper.insertFieldStatus(field);
 
-        return resultFactory.successMessage("新增大棚信息成功！");
+        return Result.success("新增大棚信息成功！");
     }
 
     /**
@@ -78,13 +80,12 @@ public class FieldServiceImpl implements FieldService {
         this.convertNull(field, crop);
 
         field.setBlock(block);
-
         int res = fieldMapper.updateField(field);
         if (res == 0) {
-            return resultFactory.failMessage("修改大棚信息失败！");
+            return Result.fail("修改大棚信息失败！");
         }
 
-        return resultFactory.successMessage("修改大棚信息成功！");
+        return Result.success("修改大棚信息成功！");
     }
 
     /**
@@ -99,13 +100,14 @@ public class FieldServiceImpl implements FieldService {
         int res = fieldMapper.deleteField(field);
 
         if (res == 0) {
-            return resultFactory.failMessage("删除大棚信息失败！");
+            return Result.fail("删除大棚信息失败！");
         }
 
         // 删除大棚状态数据项
         fieldStatusMapper.deleteFieldStatus(field);
-
-        return resultFactory.successMessage("删除大棚信息成功！");
+        // 将该大棚下的传感器所属大棚置空
+        sensorMapper.updateSensorField(field.getFieldId());
+        return Result.success("删除大棚信息成功！");
     }
 
     /**

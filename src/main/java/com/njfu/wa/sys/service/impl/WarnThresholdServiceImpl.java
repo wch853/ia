@@ -1,23 +1,19 @@
 package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.WarnThreshold;
-import com.njfu.wa.sys.domain.util.Result;
-import com.njfu.wa.sys.domain.util.ResultFactory;
+import com.njfu.wa.sys.utils.Result;
 import com.njfu.wa.sys.mapper.WarnThresholdMapper;
 import com.njfu.wa.sys.service.WarnThresholdService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class WarnThresholdServiceImpl implements WarnThresholdService {
 
-    @Autowired
+    @Resource
     private WarnThresholdMapper warnThresholdMapper;
-
-    @Autowired
-    private ResultFactory resultFactory;
 
     /**
      * 获取阈值信息
@@ -42,9 +38,9 @@ public class WarnThresholdServiceImpl implements WarnThresholdService {
         int res = warnThresholdMapper.updateWarnThreshold(warnThreshold);
 
         if (res == 0) {
-            return resultFactory.failMessage("更新阈值失败！");
+            return Result.fail("更新阈值失败！");
         }
 
-        return resultFactory.successMessage("更新阈值成功！");
+        return Result.success("更新阈值成功！");
     }
 }

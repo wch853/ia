@@ -2,12 +2,11 @@ package com.njfu.wa.sys.mapper;
 
 import com.njfu.wa.sys.domain.Sensor;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-@Repository
 public interface SensorMapper {
 
     /**
@@ -41,4 +40,12 @@ public interface SensorMapper {
      * @return row count
      */
     int deleteSensor(Sensor sensor);
+
+    /**
+     * 将对应传感器的fieldId置空
+     *
+     * @param fieldId
+     * @return
+     */
+    int updateSensorField(@Param("fieldId") String fieldId);
 }

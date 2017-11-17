@@ -3,19 +3,14 @@ package com.njfu.wa.sys.web;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.njfu.wa.sys.domain.*;
-import com.njfu.wa.sys.domain.util.PaginationResult;
-import com.njfu.wa.sys.domain.util.Result;
-import com.njfu.wa.sys.domain.util.ResultFactory;
 import com.njfu.wa.sys.service.FieldService;
 import com.njfu.wa.sys.service.WarnRecordService;
 import com.njfu.wa.sys.service.WarnThresholdService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.njfu.wa.sys.utils.PaginationResult;
+import com.njfu.wa.sys.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -24,24 +19,21 @@ import java.util.List;
 @RequestMapping("sys/warn")
 public class WarnController {
 
-    @Autowired
+    @Resource
     private WarnThresholdService warnThresholdService;
 
-    @Autowired
+    @Resource
     private WarnRecordService warnRecordService;
 
     @Resource
     private FieldService fieldService;
-
-    @Autowired
-    private ResultFactory resultFactory;
 
     /**
      * 阈值设置页面
      *
      * @return page
      */
-    @RequestMapping("/threshold")
+    @GetMapping("/threshold")
     public String threshold() {
         return "sys/warn/thresholdSet";
     }
@@ -54,7 +46,7 @@ public class WarnController {
      * @param warnThreshold thresholdType
      * @return json data
      */
-    @RequestMapping("/getWarnThreshold")
+    @GetMapping("/getWarnThreshold")
     public @ResponseBody
     PaginationResult getWarnThreshold(int offset, int limit, WarnThreshold warnThreshold) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
@@ -79,7 +71,7 @@ public class WarnController {
      *
      * @return page
      */
-    @RequestMapping("/record")
+    @GetMapping("/record")
     public String record(Model model) {
         List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
         model.addAttribute("fields", fields);
@@ -96,7 +88,7 @@ public class WarnController {
      * @param end        end
      * @return json data
      */
-    @RequestMapping("/getWarnRecord")
+    @GetMapping("/getWarnRecord")
     public @ResponseBody
     PaginationResult getWarnRecord(int limit, int offset, WarnRecord warnRecord, String start, String end) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
@@ -109,7 +101,7 @@ public class WarnController {
      *
      * @return page
      */
-    @RequestMapping("/detail")
+    @GetMapping("/detail")
     public String detail() {
         return "sys/warn/detail";
     }
@@ -119,7 +111,7 @@ public class WarnController {
      *
      * @return json data
      */
-    @RequestMapping("/getUnHandleRecord")
+    @GetMapping("/getUnHandleRecord")
     public @ResponseBody
     Result getUnHandleRecord() {
         return warnRecordService.getUnHandleWarnRecord();
@@ -143,7 +135,7 @@ public class WarnController {
      *
      * @return json data
      */
-    @RequestMapping("/getUnhandleRecordCount")
+    @GetMapping("/getUnhandleRecordCount")
     public @ResponseBody
     Result getUnhandleRecordCount() {
         return warnRecordService.getUnhandleRecordCount();

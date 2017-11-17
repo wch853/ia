@@ -1,11 +1,12 @@
 package com.njfu.wa.sys.websocket;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+
+import javax.annotation.Resource;
 
 /**
  * 系统提示WebSocket配置
@@ -17,10 +18,10 @@ public class TipWebSocketConfig implements WebSocketConfigurer {
     @Value("${websocket.origin}")
     private String origin;
 
-    @Autowired
+    @Resource
     private TipHandler tipHandler;
 
-    @Autowired
+    @Resource
     private TipHandShakeInterceptor tipHandShakeInterceptor;
 
     /**

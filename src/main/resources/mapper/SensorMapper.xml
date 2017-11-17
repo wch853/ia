@@ -52,4 +52,10 @@
         DELETE FROM sensor
         WHERE sensor_id = #{sensorId}
     </delete>
+
+    <update id="updateSensorField">
+        UPDATE sensor
+        SET field_id = NULL
+        WHERE field_id = #{fieldId}
+    </update>
 </mapper>	

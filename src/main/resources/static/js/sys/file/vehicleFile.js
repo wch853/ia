@@ -148,12 +148,12 @@ $('#saveAdd').click(function () {
     } else if (vehiclePs.length > 80) {
         bootbox.alert({
             title: '提示',
-            message: '机械备注限输入80个字符！'
+            message: '车辆备注限输入80个字符！'
         });
     } else {
         bootbox.confirm({
             title: '提示',
-            message: '确认新增机械信息',
+            message: '确认新增车辆信息',
             callback: function (flag) {
                 if (flag) {
                     deliverData('sys/file/addVehicle', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
@@ -191,12 +191,12 @@ $('#saveModify').click(function () {
     } else if (vehiclePs.length > 80) {
         bootbox.alert({
             title: '提示',
-            message: '机械备注限输入80个字符！'
+            message: '车辆备注限输入80个字符！'
         });
     } else {
         bootbox.confirm({
             title: '提示',
-            message: '确认修改机械信息',
+            message: '确认修改车辆信息',
             callback: function (flag) {
                 if (flag) {
                     deliverData('sys/file/modifyVehicle', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
@@ -210,7 +210,7 @@ $('#saveModify').click(function () {
 function removeVehicle(vehicleId) {
     bootbox.confirm({
         title: '提示',
-        message: '确认删除大棚信息',
+        message: '确认删除车辆信息',
         callback: function (flag) {
             if (flag) {
                 deliverData('sys/file/removeVehicle', vehicleId);

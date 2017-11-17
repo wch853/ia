@@ -11,11 +11,23 @@
     </insert>
 
     <select id="selectFieldStatus" resultType="FieldStatus">
-        SELECT field_id, update_time, temperature, moisture, soil_temperature, soil_moisture, light, co2, ph, n, p, k, hg, pb
+        SELECT
+            field_id,
+            update_time,
+            temperature,
+            moisture,
+            soil_temperature,
+            soil_moisture,
+            light,
+            co2,
+            ph,
+            n,
+            p,
+            k,
+            hg,
+            pb
         FROM field_status
-        <if test="null != fieldId and !''.equals(fieldId)">
-            WHERE field_id = #{fieldId}
-        </if>
+        WHERE field_id = #{fieldId}
     </select>
 
     <delete id="deleteFieldStatus">

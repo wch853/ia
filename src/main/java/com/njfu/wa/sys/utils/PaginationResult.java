@@ -1,20 +1,26 @@
-package com.njfu.wa.sys.domain.util;
+package com.njfu.wa.sys.utils;
 
 import java.util.List;
 
 /**
  * 用于返回分页结果
  */
-public class PaginationResult {
+public class PaginationResult<T> {
 
+    /**
+     * 数据总数
+     */
     private long total;
 
-    private List<?> rows;
+    /**
+     * 返回数据
+     */
+    private List<T> rows;
 
     public PaginationResult() {
     }
 
-    public PaginationResult(long total, List<?> rows) {
+    public PaginationResult(long total, List<T> rows) {
         this.total = total;
         this.rows = rows;
     }
@@ -31,7 +37,7 @@ public class PaginationResult {
         return rows;
     }
 
-    public void setRows(List<?> rows) {
+    public void setRows(List<T> rows) {
         this.rows = rows;
     }
 

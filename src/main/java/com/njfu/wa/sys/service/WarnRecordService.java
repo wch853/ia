@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.WarnRecord;
-import com.njfu.wa.sys.domain.util.Result;
+import com.njfu.wa.sys.utils.Result;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface WarnRecordService {
     /**
      * 扫描大棚状态表，出现异常数据，插入报警记录
      */
-    void scanFieldStatus() throws Exception;
+    void scanFieldStatus();
 
     /**
      * 查询报警记录

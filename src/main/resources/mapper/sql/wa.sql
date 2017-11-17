@@ -4,140 +4,252 @@
 
 DROP TABLE IF EXISTS block;
 CREATE TABLE block (
-block_id VARCHAR(255) NOT NULL COMMENT '地块编号',
-block_name VARCHAR(255) NOT NULL COMMENT '地块名称',
-block_loc VARCHAR(255) NOT NULL COMMENT '地块位置',
-block_ps VARCHAR(255) DEFAULT NULL COMMENT '地块备注',
-PRIMARY KEY (block_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='地块';
+  block_id   VARCHAR(255) NOT NULL
+  COMMENT '地块编号',
+  block_name VARCHAR(255) NOT NULL
+  COMMENT '地块名称',
+  block_loc  VARCHAR(255) NOT NULL
+  COMMENT '地块位置',
+  block_ps   VARCHAR(255) DEFAULT NULL
+  COMMENT '地块备注',
+  PRIMARY KEY (block_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='地块';
 
 DROP TABLE IF EXISTS field;
 CREATE TABLE field (
-field_id VARCHAR(255) NOT NULL COMMENT '大棚编号',
-field_name VARCHAR(255) NOT NULL COMMENT '大棚名称',
-block_id VARCHAR(255) NOT NULL COMMENT '所属地块编号',
-crop_id VARCHAR(255) DEFAULT NULL COMMENT '种植作物编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中',
-field_ps VARCHAR(255) DEFAULT NULL COMMENT '大棚备注',
-PRIMARY KEY (field_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='大棚';
+  field_id   VARCHAR(255)             NOT NULL
+  COMMENT '大棚编号',
+  field_name VARCHAR(255)             NOT NULL
+  COMMENT '大棚名称',
+  block_id   VARCHAR(255)             NULL
+  COMMENT '所属地块编号',
+  crop_id    VARCHAR(255) DEFAULT NULL
+  COMMENT '种植作物编号',
+  use_status VARCHAR(255) DEFAULT '0' NOT NULL
+  COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中',
+  field_ps   VARCHAR(255) DEFAULT NULL
+  COMMENT '大棚备注',
+  PRIMARY KEY (field_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='大棚';
 
 DROP TABLE IF EXISTS crop;
 CREATE TABLE crop (
-crop_id VARCHAR(255) NOT NULL COMMENT '作物编号',
-crop_name VARCHAR(255) NOT NULL COMMENT '作物名称',
-crop_ps VARCHAR(255) DEFAULT NULL COMMENT '作物备注',
-PRIMARY KEY (crop_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='作物';
+  crop_id   VARCHAR(255) NOT NULL
+  COMMENT '作物编号',
+  crop_name VARCHAR(255) NOT NULL
+  COMMENT '作物名称',
+  crop_ps   VARCHAR(255) DEFAULT NULL
+  COMMENT '作物备注',
+  PRIMARY KEY (crop_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='作物';
 
 DROP TABLE IF EXISTS admin;
 CREATE TABLE admin (
-admin_id INT NOT NULL auto_increment COMMENT '管理员编号',
-username VARCHAR(255) NOT NULL COMMENT '用户名',
-password VARCHAR(255) NOT NULL COMMENT '密码',
-PRIMARY KEY (admin_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='管理员';
+  admin_id INT          NOT NULL AUTO_INCREMENT
+  COMMENT '管理员编号',
+  username VARCHAR(255) NOT NULL
+  COMMENT '用户名',
+  password VARCHAR(255) NOT NULL
+  COMMENT '密码',
+  PRIMARY KEY (admin_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='管理员';
 
 DROP TABLE IF EXISTS employee;
 CREATE TABLE employee (
-emp_id VARCHAR(255) NOT NULL COMMENT '员工编号',
-emp_name VARCHAR(255) NOT NULL COMMENT '员工姓名',
-emp_tel VARCHAR(255) NOT NULL COMMENT '员工联系方式',
-emp_position VARCHAR(255) DEFAULT NULL COMMENT '员工职位',
-emp_age INT DEFAULT NULL COMMENT '员工年龄',
-emp_sex VARCHAR(255) DEFAULT NULL COMMENT '员工性别',
-emp_ps VARCHAR(255) DEFAULT NULL COMMENT '员工备注',
-PRIMARY KEY (emp_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='员工';
+  emp_id       VARCHAR(255) NOT NULL
+  COMMENT '员工编号',
+  emp_name     VARCHAR(255) NOT NULL
+  COMMENT '员工姓名',
+  emp_tel      VARCHAR(255) NOT NULL
+  COMMENT '员工联系方式',
+  emp_position VARCHAR(255) DEFAULT NULL
+  COMMENT '员工职位',
+  emp_age      INT          DEFAULT NULL
+  COMMENT '员工年龄',
+  emp_sex      VARCHAR(255) DEFAULT NULL
+  COMMENT '员工性别',
+  emp_ps       VARCHAR(255) DEFAULT NULL
+  COMMENT '员工备注',
+  PRIMARY KEY (emp_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='员工';
 
 DROP TABLE IF EXISTS sensor;
 CREATE TABLE sensor (
-sensor_id VARCHAR(255) NOT NULL COMMENT '传感器编号',
-sensor_func VARCHAR(255) NOT NULL COMMENT '传感器功能类型',
-sensor_type VARCHAR(255) NOT NULL COMMENT '传感器型号',
-field_id VARCHAR(255) DEFAULT NULL COMMENT '所属大棚编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
-sensor_ps VARCHAR(255) DEFAULT NULL COMMENT '传感器备注',
-PRIMARY KEY (sensor_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='传感器';
+  sensor_id   VARCHAR(255)             NOT NULL
+  COMMENT '传感器编号',
+  sensor_func VARCHAR(255)             NOT NULL
+  COMMENT '传感器功能类型',
+  sensor_type VARCHAR(255)             NOT NULL
+  COMMENT '传感器型号',
+  field_id    VARCHAR(255) DEFAULT NULL
+  COMMENT '所属大棚编号',
+  use_status  VARCHAR(255) DEFAULT '0' NOT NULL
+  COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
+  sensor_ps   VARCHAR(255) DEFAULT NULL
+  COMMENT '传感器备注',
+  PRIMARY KEY (sensor_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='传感器';
 
 DROP TABLE IF EXISTS machine;
 CREATE TABLE machine (
-machine_id VARCHAR(255) NOT NULL COMMENT '机械编号',
-machine_type VARCHAR(255) NOT NULL COMMENT '机械型号',
-block_id VARCHAR(255) DEFAULT NULL COMMENT '所属地块编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
-machine_ps VARCHAR(255) DEFAULT NULL COMMENT '机械备注',
-PRIMARY KEY (machine_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='机械';
+  machine_id   VARCHAR(255)             NOT NULL
+  COMMENT '机械编号',
+  machine_type VARCHAR(255)             NOT NULL
+  COMMENT '机械型号',
+  block_id     VARCHAR(255) DEFAULT NULL
+  COMMENT '所属地块编号',
+  use_status   VARCHAR(255) DEFAULT '0' NOT NULL
+  COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
+  machine_ps   VARCHAR(255) DEFAULT NULL
+  COMMENT '机械备注',
+  PRIMARY KEY (machine_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='机械';
 
 DROP TABLE IF EXISTS vehicle;
 CREATE TABLE vehicle (
-vehicle_id VARCHAR(255) NOT NULL COMMENT '车辆编号',
-vehicle_type VARCHAR(255) NOT NULL COMMENT '车辆型号',
-block_id VARCHAR(255) DEFAULT NULL COMMENT '所属地块编号',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
-vehicle_ps VARCHAR(255) DEFAULT NULL COMMENT '车辆备注',
-PRIMARY KEY (vehicle_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='车辆';
+  vehicle_id   VARCHAR(255)             NOT NULL
+  COMMENT '车辆编号',
+  vehicle_type VARCHAR(255)             NOT NULL
+  COMMENT '车辆型号',
+  block_id     VARCHAR(255) DEFAULT NULL
+  COMMENT '所属地块编号',
+  use_status   VARCHAR(255) DEFAULT '0' NOT NULL
+  COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
+  vehicle_ps   VARCHAR(255) DEFAULT NULL
+  COMMENT '车辆备注',
+  PRIMARY KEY (vehicle_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='车辆';
 
 DROP TABLE IF EXISTS data_record;
 CREATE TABLE data_record (
-id INT AUTO_INCREMENT NOT NULL COMMENT '数据记录编号',
-sensor_id VARCHAR(255) NOT NULL COMMENT '来源传感器编号',
-data_type VARCHAR(255) NOT NULL COMMENT '数据类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
-val DOUBLE(5, 2) NOT NULL COMMENT '数据记录值',
-record_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
-PRIMARY KEY (id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='数据记录';
+  id          INT AUTO_INCREMENT NOT NULL
+  COMMENT '数据记录编号',
+  sensor_id   VARCHAR(255)       NOT NULL
+  COMMENT '来源传感器编号',
+  data_type   VARCHAR(255)       NOT NULL
+  COMMENT '数据类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
+  val         DOUBLE(5, 2)       NOT NULL
+  COMMENT '数据记录值',
+  record_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  COMMENT '记录时间',
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='数据记录';
 
 DROP TABLE IF EXISTS field_status;
 CREATE TABLE field_status (
-field_id VARCHAR(255) NOT NULL COMMENT '大棚编号',
-update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '状态更新时间',
-temperature DOUBLE(5, 2) DEFAULT NULL COMMENT '温度',
-moisture DOUBLE(5, 2) DEFAULT NULL COMMENT '湿度',
-soil_temperature DOUBLE(5, 2) DEFAULT NULL COMMENT '土壤温度',
-soil_moisture DOUBLE(5, 2) DEFAULT NULL COMMENT '土壤湿度',
-light DOUBLE(5, 2) DEFAULT NULL COMMENT '光照度',
-co2 DOUBLE(5, 2) DEFAULT NULL COMMENT '二氧化碳浓度',
-ph DOUBLE(5, 2) DEFAULT NULL COMMENT 'ph',
-n DOUBLE(5, 2) DEFAULT NULL COMMENT '氮含量',
-p DOUBLE(5, 2) DEFAULT NULL COMMENT '磷含量',
-k DOUBLE(5, 2) DEFAULT NULL COMMENT '钾含量',
-hg DOUBLE(5, 2) DEFAULT NULL COMMENT '汞含量',
-pb DOUBLE(5, 2) DEFAULT NULL COMMENT '铅含量',
-PRIMARY KEY (field_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='大棚状态';
+  field_id         VARCHAR(255) NOT NULL
+  COMMENT '大棚编号',
+  update_time      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  COMMENT '状态更新时间',
+  temperature      DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '温度',
+  moisture         DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '湿度',
+  soil_temperature DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '土壤温度',
+  soil_moisture    DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '土壤湿度',
+  light            DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '光照度',
+  co2              DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '二氧化碳浓度',
+  ph               DOUBLE(5, 2) DEFAULT NULL
+  COMMENT 'ph',
+  n                DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '氮含量',
+  p                DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '磷含量',
+  k                DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '钾含量',
+  hg               DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '汞含量',
+  pb               DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '铅含量',
+  PRIMARY KEY (field_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='大棚状态';
 
 DROP TABLE IF EXISTS warn_record;
 CREATE TABLE warn_record (
-id INT AUTO_INCREMENT NOT NULL COMMENT '报警记录编号',
-field_id VARCHAR(255) NOT NULL COMMENT '来源大棚编号',
-warn_type VARCHAR(255) NOT NULL COMMENT '报警类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
-warn_val DOUBLE(5, 2) NOT NULL COMMENT '报警值',
-warn_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '最早报警时间',
-warn_count INT NOT NULL DEFAULT 1 COMMENT '报警计数',
-handle_time TIMESTAMP NULL COMMENT '处理时间',
-flag VARCHAR(255) NOT NULL DEFAULT '0' COMMENT '处理标志：0-unhandle 未处理，1-handled 已处理，2-ignore 已忽略',
-PRIMARY KEY (id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='报警记录';
+  id          INT AUTO_INCREMENT NOT NULL
+  COMMENT '报警记录编号',
+  field_id    VARCHAR(255)       NOT NULL
+  COMMENT '来源大棚编号',
+  warn_type   VARCHAR(255)       NOT NULL
+  COMMENT '报警类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
+  warn_val    DOUBLE(5, 2)       NOT NULL
+  COMMENT '报警值',
+  warn_time   TIMESTAMP                   DEFAULT CURRENT_TIMESTAMP
+  COMMENT '最早报警时间',
+  warn_count  INT                NOT NULL DEFAULT 1
+  COMMENT '报警计数',
+  handle_time TIMESTAMP          NULL
+  COMMENT '处理时间',
+  flag        VARCHAR(255)       NOT NULL DEFAULT '0'
+  COMMENT '处理标志：0-unhandle 未处理，1-handled 已处理，2-ignore 已忽略',
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='报警记录';
 
 DROP TABLE IF EXISTS warn_threshold;
 CREATE TABLE warn_threshold (
-id INT AUTO_INCREMENT NOT NULL COMMENT '报警阈值编号',
-threshold_type VARCHAR(255) NOT NULL COMMENT '阈值类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
-floor DOUBLE(5, 2) NOT NULL COMMENT '阈值下限',
-ceil DOUBLE(5, 2) NOT NULL COMMENT '阈值上限',
-use_status VARCHAR(255) DEFAULT '0' NOT NULL COMMENT '使用状态，0unuse，1inuse',
-PRIMARY KEY (id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='报警阈值';
+  id             INT AUTO_INCREMENT       NOT NULL
+  COMMENT '报警阈值编号',
+  threshold_type VARCHAR(255)             NOT NULL
+  COMMENT '阈值类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
+  floor          DOUBLE(5, 2)             NOT NULL
+  COMMENT '阈值下限',
+  ceil           DOUBLE(5, 2)             NOT NULL
+  COMMENT '阈值上限',
+  use_status     VARCHAR(255) DEFAULT '0' NOT NULL
+  COMMENT '使用状态，0unuse，1inuse',
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='报警阈值';
 
 DROP TABLE IF EXISTS tmp_data;
-CREATE TABLE tmp_data(
-  field_id VARCHAR(255) NOT NULL COMMENT '大棚编号',
-  val DOUBLE(5, 2) DEFAULT  NULL COMMENT '临时数据值'
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='大棚临时数据表';
+CREATE TABLE tmp_data (
+  field_id VARCHAR(255) NOT NULL
+  COMMENT '大棚编号',
+  val      DOUBLE(5, 2) DEFAULT NULL
+  COMMENT '临时数据值'
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='大棚临时数据表';
 
 
 /**********
@@ -246,9 +358,9 @@ DELIMITER ;
  * 新增大棚状态表模拟数据（空）
  * ----- 生产环境删 -----
  */
- DELIMITER //
- DROP PROCEDURE IF EXISTS add_field_status_data;
- CREATE PROCEDURE add_field_status_data(IN prefix VARCHAR(255))
+DELIMITER //
+DROP PROCEDURE IF EXISTS add_field_status_data;
+CREATE PROCEDURE add_field_status_data(IN prefix VARCHAR(255))
   BEGIN
     DECLARE i INT;
     DECLARE f_id VARCHAR(255);
@@ -261,9 +373,9 @@ DELIMITER ;
   END;
 DELIMITER ;
 
- /*
-  * 将对应数据类型编码转换为数据类型名称
-  */
+/*
+ * 将对应数据类型编码转换为数据类型名称
+ */
 DELIMITER //
 DROP PROCEDURE IF EXISTS code_to_type;
 /* 将对应数据类型编码转换为数据类型名称 */
@@ -324,7 +436,12 @@ CREATE PROCEDURE check_warn()
     DECLARE ts_floor, ts_ceil DOUBLE(5, 2);
     DECLARE ts_end INT DEFAULT 0;
     /* 定义warn_threshold的游标，获取状态为使用中的每类阈值的上下限 */
-    DECLARE ts_cursor CURSOR FOR SELECT threshold_type, floor, ceil FROM warn_threshold WHERE use_status = '1';
+    DECLARE ts_cursor CURSOR FOR SELECT
+                                   threshold_type,
+                                   floor,
+                                   ceil
+                                 FROM warn_threshold
+                                 WHERE use_status = '1';
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET ts_end = 1;
 
     OPEN ts_cursor;
@@ -358,13 +475,17 @@ CREATE PROCEDURE check_warn_compare(IN ts_code VARCHAR(255), IN ts_floor DOUBLE(
     DECLARE val_end, record_id INT DEFAULT 0;
 
     /* 定义该项阈值对应所有大棚即时状态数据游标 */
-    DECLARE val_cursor CURSOR FOR SELECT field_id, val FROM tmp_data;
+    DECLARE val_cursor CURSOR FOR SELECT
+                                    field_id,
+                                    val
+                                  FROM tmp_data;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET val_end = 1;
 
     OPEN val_cursor;
 
     WHILE val_end != 1 DO
-      FETCH val_cursor INTO fs_id, fs_val;
+      FETCH val_cursor
+      INTO fs_id, fs_val;
       /* 数据值不为空时才比较 */
       IF fs_val IS NOT NULL
       THEN
@@ -372,13 +493,18 @@ CREATE PROCEDURE check_warn_compare(IN ts_code VARCHAR(255), IN ts_floor DOUBLE(
         IF fs_val < ts_floor || fs_val > ts_ceil
         THEN
           /* 查找是否存在相应大棚未处理的同类型报警记录 */
-          SELECT id INTO record_id FROM warn_record WHERE field_id = fs_id AND warn_type = ts_code AND flag = '0';
-          IF record_id = 0 THEN
+          SELECT id
+          INTO record_id
+          FROM warn_record
+          WHERE field_id = fs_id AND warn_type = ts_code AND flag = '0';
+          IF record_id = 0
+          THEN
             /* 不存在相应报警记录，向表中插入 */
             INSERT INTO warn_record (field_id, warn_type, warn_val) VALUES (fs_id, ts_code, fs_val);
           ELSE
             /* 若存在，更新该报警记录 */
-            UPDATE warn_record SET warn_val = fs_val, warn_count = warn_count + 1
+            UPDATE warn_record
+            SET warn_val = fs_val, warn_count = warn_count + 1
             WHERE field_id = fs_id AND warn_type = ts_code AND flag = '0';
           END IF;
         END IF;
@@ -400,7 +526,8 @@ DELIMITER ;
 /*
  * block
  */
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b01', '沛县现代农业产业园区', '朱寨镇、沛城镇、鹿楼镇、张寨镇、经济开发区', '近郊城市农业区');
+INSERT INTO wa.block (block_id, block_name, block_loc, block_ps)
+VALUES ('b01', '沛县现代农业产业园区', '朱寨镇、沛城镇、鹿楼镇、张寨镇、经济开发区', '近郊城市农业区');
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b02', '胡寨草庙千亩长茄示范园', '胡寨镇', '东部优质粮食主产区');
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b03', '沛城万亩精品农业示范园', '沛城镇', '近郊城市农业区');
 INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b04', '张寨万亩农业生态园', '张寨镇', '南部高效设施园艺区');
@@ -413,66 +540,97 @@ INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b09', 
 /*
  * field
  */
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701001', '加温温室', 'b01', 'c001', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701002', '双屋面温室', 'b01', 'c002', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701003', '透光塑料大棚', 'b01', 'c003', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1701004', '塑料大棚', 'b01', 'c004', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702001', '加温温室', 'b02', 'c001', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702002', '双屋面温室', 'b02', 'c002', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702003', '透光塑料大棚', 'b02', 'c003', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1702004', '塑料大棚', 'b02', 'c004', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703001', '加温温室', 'b03', 'c001', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703002', '双屋面温室', 'b03', 'c002', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703003', '透光塑料大棚', 'b03', 'c003', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1703004', '塑料大棚', 'b03', 'c004', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704001', '加温温室', 'b04', 'c001', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704002', '双屋面温室', 'b04', 'c002', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704003', '透光塑料大棚', 'b04', 'c003', '1', null);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps) VALUES ('f1704004', '塑料大棚', 'b04', 'c004', '1', null);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1701001', '加温温室', 'b01', 'c001', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1701002', '双屋面温室', 'b01', 'c002', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1701003', '透光塑料大棚', 'b01', 'c003', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1701004', '塑料大棚', 'b01', 'c004', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1702001', '加温温室', 'b02', 'c001', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1702002', '双屋面温室', 'b02', 'c002', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1702003', '透光塑料大棚', 'b02', 'c003', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1702004', '塑料大棚', 'b02', 'c004', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1703001', '加温温室', 'b03', 'c001', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1703002', '双屋面温室', 'b03', 'c002', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1703003', '透光塑料大棚', 'b03', 'c003', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1703004', '塑料大棚', 'b03', 'c004', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1704001', '加温温室', 'b04', 'c001', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1704002', '双屋面温室', 'b04', 'c002', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1704003', '透光塑料大棚', 'b04', 'c003', '1', NULL);
+INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+VALUES ('f1704004', '塑料大棚', 'b04', 'c004', '1', NULL);
 
 /*
  * crop
  */
-INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c001', '玉米', null);
-INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c002', '生菜', null);
-INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c003', '花生', null);
-INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c004', '大豆', null);
+INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c001', '玉米', NULL);
+INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c002', '生菜', NULL);
+INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c003', '花生', NULL);
+INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c004', '大豆', NULL);
 
 /*
  * employee
  */
-INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e001', 'wch1', '15261861234', null, null, null, null);
-INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e002', 'wch2', '15261861234', null, null, null, null);
-INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps) VALUES ('e003', 'wch3', '15261861234', null, null, null, null);
+INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps)
+VALUES ('e001', 'wch1', '15261861234', NULL, NULL, NULL, NULL);
+INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps)
+VALUES ('e002', 'wch2', '15261861234', NULL, NULL, NULL, NULL);
+INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps)
+VALUES ('e003', 'wch3', '15261861234', NULL, NULL, NULL, NULL);
 
 /*
  * sensor
  */
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-001', '1', 'abc001', 'f1701001', '1', null);
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-01-002', '1', 'abc001', 'f1701002', '1', null);
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-001', '2', 'abc002', 'f1701003', '1', null);
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps) VALUES ('s-02-002', '2', 'abc002', 'f1701004', '1', null);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
+VALUES ('s-01-001', '1', 'abc001', 'f1701001', '1', NULL);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
+VALUES ('s-01-002', '1', 'abc001', 'f1701002', '1', NULL);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
+VALUES ('s-02-001', '2', 'abc002', 'f1701003', '1', NULL);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
+VALUES ('s-02-002', '2', 'abc002', 'f1701004', '1', NULL);
 
 /*
  * machine
  */
-INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m001', 'cba001', 'b01', '0', null);
-INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m002', 'cba002', 'b02', '0', null);
-INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m003', 'cba003', 'b03', '0', null);
-INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps) VALUES ('m004', 'cba004', 'b04', '0', null);
+INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps)
+VALUES ('m001', 'cba001', 'b01', '0', NULL);
+INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps)
+VALUES ('m002', 'cba002', 'b02', '0', NULL);
+INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps)
+VALUES ('m003', 'cba003', 'b03', '0', NULL);
+INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps)
+VALUES ('m004', 'cba004', 'b04', '0', NULL);
 
 /*
  * vehicle
  */
-INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v001', 'xyz001', 'b01', '0', null);
-INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v002', 'xyz002', 'b02', '0', null);
-INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v003', 'xyz003', 'b03', '0', null);
-INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps) VALUES ('v004', 'xyz004', 'b04', '0', null);
+INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
+VALUES ('v001', 'xyz001', 'b01', '0', NULL);
+INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
+VALUES ('v002', 'xyz002', 'b02', '0', NULL);
+INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
+VALUES ('v003', 'xyz003', 'b03', '0', NULL);
+INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
+VALUES ('v004', 'xyz004', 'b04', '0', NULL);
 
 /*
  * field_status
  */
- /* ----- 测试，生产删 ----- */
+/* ----- 测试，生产删 ----- */
 CALL add_field_status_data('f170100');
 CALL add_field_status_data('f170200');
 CALL add_field_status_data('f170300');
@@ -513,13 +671,13 @@ INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALU
 /*
  * warn_record
  */
- /*
+/*
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (1, 'f1701001', '1', 1.23, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (2, 'f1701002', '2', 3.45, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (3, 'f1701003', '3', 5.98, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (4, 'f1701004', '4', 9.58, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
- */
+*/
 /* 通过扫描field_status表插入数据 */
 /* CALL check_warn(); */
 

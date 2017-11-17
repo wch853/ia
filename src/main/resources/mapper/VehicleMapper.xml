@@ -48,4 +48,10 @@
         DELETE FROM vehicle
         WHERE vehicle_id = #{vehicleId}
     </delete>
+
+    <update id="updateVehicleByBlock">
+        UPDATE vehicle
+        SET block_id = NULL
+        WHERE block_id = #{blockId}
+    </update>
 </mapper>	

@@ -5,24 +5,17 @@ package com.njfu.wa.sys.enums;
  */
 public enum WarnRecordFlagEnum {
 
-    UNHANDLE("0", "未处理"),
-    HANDLED("1", "已处理"),
-    IGNORE("2", "已忽略");
+    UNHANDLE("0"),
+    HANDLED("1"),
+    IGNORE("2");
 
     private String code;
 
-    private String info;
-
-    WarnRecordFlagEnum(String code, String info) {
+    WarnRecordFlagEnum(String code) {
         this.code = code;
-        this.info = info;
     }
 
     public String getCode() {
         return code;
-    }
-
-    public String getInfo() {
-        return info;
     }
 }

@@ -11,47 +11,75 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FieldStatus {
 
-    // 大棚编号
+    /**
+     * 大棚编号
+     */
     private String fieldId;
 
-    // 更新时间
+    /**
+     * 更新时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
-    // 温度
+    /**
+     * 温度
+     */
     private Double temperature;
 
-    // 湿度
+    /**
+     * 湿度
+     */
     private Double moisture;
 
-    // 土壤温度
+    /**
+     * 土壤温度
+     */
     private Double soilTemperature;
 
-    // 土壤湿度
+    /**
+     * 土壤湿度
+     */
     private Double soilMoisture;
 
-    // 光照度
+    /**
+     * 光照度
+     */
     private Double light;
 
-    // co2浓度
+    /**
+     * co2浓度
+     */
     private Double co2;
 
-    // pH
+    /**
+     * pH
+     */
     private Double ph;
 
-    // 氮含量
+    /**
+     * 氮含量
+     */
     private Double n;
 
-    // 磷含量
+    /**
+     * 磷含量
+     */
     private Double p;
 
-    // 钾含量
+    /**
+     * 钾含量
+     */
     private Double k;
 
-    // 汞含量
+    /**
+     * 汞含量
+     */
     private Double hg;
 
-    // 铅含量
+    /**
+     * 铅含量
+     */
     private Double pb;
 
     public FieldStatus() {

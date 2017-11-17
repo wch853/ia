@@ -2,12 +2,11 @@ package com.njfu.wa.sys.mapper;
 
 import com.njfu.wa.sys.domain.Machine;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-@Repository
 public interface MachineMapper {
 
     /**
@@ -41,4 +40,12 @@ public interface MachineMapper {
      * @return row count
      */
     int deleteMachine(Machine machine);
+
+    /**
+     * 将属于某地块下的机械所属大棚置空
+     *
+     * @param blockId
+     * @return
+     */
+    int updateMachineByBlock(@Param("blockId") String blockId);
 }

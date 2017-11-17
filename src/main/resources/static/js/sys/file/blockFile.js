@@ -169,7 +169,7 @@ $('#saveModify').click(function () {
 function removeBlock(blockId) {
     bootbox.confirm({
         title: '提示',
-        message: '确认删除地块信息',
+        message: '删除地块并删除该地块下的所有大棚？',
         callback: function (flag) {
             if (flag) {
                 deliverData('sys/file/removeBlock', blockId);

@@ -15,7 +15,9 @@ public class Block {
 
     private String blockPs;
 
-    // index页获取地块下各大棚
+    /**
+     * index页获取地块下各大棚
+     */
     private List<Field> fields;
 
     public Block() {

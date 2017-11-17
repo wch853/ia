@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Employee;
-import com.njfu.wa.sys.domain.util.Result;
+import com.njfu.wa.sys.utils.Result;
 
 import java.util.List;
 

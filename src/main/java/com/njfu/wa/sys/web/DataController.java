@@ -1,6 +1,7 @@
 package com.njfu.wa.sys.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -10,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/sys/data")
 public class DataController {
 
-    @RequestMapping("/query")
+    @GetMapping("/query")
     public String dataQuery() {
         return "sys/data/dataQuery";
     }
 
-    @RequestMapping("/analysis")
+    @GetMapping("/analysis")
     public String dataAnalysis() {
         return "sys/data/dataAnalysis";
     }

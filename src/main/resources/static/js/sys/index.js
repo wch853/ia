@@ -1,14 +1,4 @@
 /**
- * 加载遮罩
- */
-$("#fakeLoader").fakeLoader({
-    timeToHide: 3000,
-    zIndex: 999,
-    spinner: 'spinner1',
-    bgColor: '#575e75'
-});
-
-/**
  * 收缩/展开地块
  */
 $('.index-bread').click(function () {
@@ -21,8 +11,6 @@ $('.index-bread').click(function () {
     }
 });
 
-$('.field-card').popover('destroy');
-
 $('.field-card').hover(function () {
     var $card = $(this);
     var fieldId = $(this).attr('code');
@@ -33,30 +21,23 @@ $('.field-card').hover(function () {
         data: {
             fieldId: fieldId
         },
-        beforesend: function () {
-            $card.popover('destroy').popover({
-                title: '大棚编号：' + fieldId,
-                placement: 'auto',
-                html: true,
-                content: function () {
-                    return '<img alt="loading..." src="image/loading.gif">';
-                }
-            }).popover('show');
-        },
         success: function (res) {
             $card.popover('destroy').popover({
-                title: '大棚编号：' + fieldId,
+                title: '大棚编号：' + fieldId + '<span class="card-times close text-right">&times;</span>',
                 placement: 'auto',
                 html: true,
                 content: appendStatus(res.data, fieldName)
             }).popover('show');
+
+            $('.card-times').click(function () {
+                $(this).parents('.popover').prev().popover('destroy');
+            });
         }
     });
 }, function () {
     $(this).popover('destroy');
-    sc
-
 });
+
 
 function appendStatus(data, fieldName) {
 

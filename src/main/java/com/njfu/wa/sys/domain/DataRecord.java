@@ -7,10 +7,14 @@ import java.util.Date;
  */
 public class DataRecord {
 
-    // 记录编号
+    /**
+     * 记录编号
+     */
     private Integer id;
 
-    // 来源传感器编号
+    /**
+     * 来源传感器编号
+     */
     private String sensor_id;
 
     /**
@@ -21,10 +25,14 @@ public class DataRecord {
      */
     private String dataType;
 
-    // 数据值
+    /**
+     * 数据值
+     */
     private Double val;
 
-    // 记录时间
+    /**
+     * 记录时间
+     */
     private Date recordTime;
 
     public DataRecord() {

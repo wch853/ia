@@ -1,10 +1,9 @@
 package com.njfu.wa.sys.web;
 
-import com.njfu.wa.sys.domain.util.Result;
-import com.njfu.wa.sys.domain.util.ResultFactory;
+import com.njfu.wa.sys.enums.ResultEnum;
+import com.njfu.wa.sys.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,10 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class ExceptionController {
 
-    @Autowired
-    private ResultFactory resultFactory;
-
-    private static final Logger log = LoggerFactory.getLogger(ExceptionController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
 
     /**
      * 处理数据字符长度输入异常
@@ -27,7 +23,7 @@ public class ExceptionController {
     @ExceptionHandler({DataIntegrityViolationException.class, BindException.class})
     public @ResponseBody
     Result dataIntegrityViolationException() {
-        return resultFactory.failMessage("非法数据操作！");
+        return Result.response(ResultEnum.FAIL);
     }
 
     /**
@@ -38,7 +34,7 @@ public class ExceptionController {
      */
     @ExceptionHandler(Exception.class)
     public String exceptionHandler(Exception e) {
-        log.error("e: {}, message: {}", e.getClass().getName(), e.getMessage());
+        LOGGER.error(e.getMessage(), e);
         return "error";
     }
 }

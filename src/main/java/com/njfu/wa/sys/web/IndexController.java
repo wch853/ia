@@ -1,32 +1,33 @@
 package com.njfu.wa.sys.web;
 
 import com.njfu.wa.sys.domain.Block;
-import com.njfu.wa.sys.domain.util.Result;
 import com.njfu.wa.sys.service.BlockService;
 import com.njfu.wa.sys.service.FieldStatusService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.njfu.wa.sys.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Controller
 public class IndexController {
 
-    @Autowired
+    @Resource
     private BlockService blockService;
 
-    @Autowired
+    @Resource
     private FieldStatusService fieldStatusService;
 
     /**
      * 系统管理首页
+     *
      * @param model data
      * @return page
      */
-    @RequestMapping({"/", "/sys"})
+    @GetMapping({"/", "/sys"})
     public String index(Model model) {
         List<Block> blocks = blockService.getBlocksAndFields();
         model.addAttribute("blocks", blocks);
@@ -35,10 +36,11 @@ public class IndexController {
 
     /**
      * 首页悬浮获取大棚状态
+     *
      * @param fieldId fieldId
      * @return json data
      */
-    @RequestMapping("/sys/getFieldStatus")
+    @GetMapping("/sys/getFieldStatus")
     public @ResponseBody
     Result getFieldStatus(String fieldId) {
         return fieldStatusService.getFieldStatusById(fieldId);
