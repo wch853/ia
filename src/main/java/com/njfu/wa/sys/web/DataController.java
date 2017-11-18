@@ -11,11 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/sys/data")
 public class DataController {
 
+    /**
+     * 数据查询页面
+     *
+     * @return page
+     */
     @GetMapping("/query")
     public String dataQuery() {
         return "sys/data/dataQuery";
     }
 
+    /**
+     * 数据分析页面
+     *
+     * @return page
+     */
     @GetMapping("/analysis")
     public String dataAnalysis() {
         return "sys/data/dataAnalysis";

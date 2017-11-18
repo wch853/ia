@@ -2,7 +2,6 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.domain.Sensor;
-import com.njfu.wa.sys.utils.Result;
 
 import java.util.List;
 
@@ -22,24 +21,21 @@ public interface SensorService {
      *
      * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
      * @param field  fieldId
-     * @return message
      */
-    Result addSensor(Sensor sensor, Field field);
+    void addSensor(Sensor sensor, Field field);
 
     /**
      * 修改传感器信息
      *
      * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
      * @param field  fieldId
-     * @return message
      */
-    Result modifySensor(Sensor sensor, Field field);
+    void modifySensor(Sensor sensor, Field field);
 
     /**
      * 删除传感器信息
      *
      * @param sensor sensorId
-     * @return message
      */
-    Result removeSensor(Sensor sensor);
+    void removeSensor(Sensor sensor);
 }

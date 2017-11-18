@@ -1,7 +1,6 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Employee;
-import com.njfu.wa.sys.utils.Result;
 
 import java.util.List;
 
@@ -19,23 +18,20 @@ public interface EmployeeService {
      * 新增员工信息
      *
      * @param employee empId empName empTel empPosition empAge empSex empPs
-     * @return message
      */
-    Result addEmployee(Employee employee);
+    void addEmployee(Employee employee);
 
     /**
      * 修改员工信息
      *
      * @param employee empId empName empTel empPosition empAge empSex empPs
-     * @return message
      */
-    Result modifyEmployee(Employee employee);
+    void modifyEmployee(Employee employee);
 
     /**
      * 删除员工信息
      *
      * @param employee empId
-     * @return message
      */
-    Result removeEmployee(Employee employee);
+    void removeEmployee(Employee employee);
 }

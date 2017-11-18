@@ -22,18 +22,6 @@ public class Result<T> {
      */
     private T data;
 
-    public Result() {
-    }
-
-    public Result(String message) {
-        this.message = message;
-    }
-
-    public Result(Integer code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
     public Result(Integer code, String message, T data) {
         this.code = code;
         this.message = message;
@@ -65,27 +53,48 @@ public class Result<T> {
     }
 
     public static Result success(String message) {
-        return new Result<>(ResultEnum.SUCCESS.code(), message);
+        return new Result<>(ResultEnum.SUCCESS.code(), message, null);
     }
 
     public static Result fail(String message) {
-        return new Result<>(ResultEnum.FAIL.code(), message);
+        return new Result<>(ResultEnum.FAIL.code(), message, null);
     }
 
-    public static <T> Result<T> data(T data) {
-        return new Result<>(ResultEnum.DATA.code(), CommonConstants.DATA_FLAG, data);
-    }
-
-    public static <T> Result<T> warn(T warn) {
-        return new Result<>(ResultEnum.WARN.code(), CommonConstants.WARN_FLAG, warn);
-    }
-
+    /**
+     * 响应结果
+     *
+     * @param resultEnum resultEnum 结果代码
+     * @param message    message
+     * @param data       data
+     * @param <T>        T
+     * @return response
+     */
     public static <T> Result<T> response(ResultEnum resultEnum, String message, T data) {
         return new Result<>(resultEnum.code(), message, data);
     }
 
-    public static <T> Result<T> response(ResultEnum resultEnum) {
-        return response(resultEnum, null, null);
+    /**
+     * 响应结果
+     *
+     * @param resultEnum resultEnum 结果代码
+     * @param data       data
+     * @param <T>        T
+     * @return response
+     */
+    public static <T> Result<T> response(ResultEnum resultEnum, T data) {
+        return new Result<>(resultEnum.code(), null, data);
     }
+
+    /**
+     * 响应结果
+     *
+     * @param resultEnum resultEnum 结果代码
+     * @param <T>        T
+     * @return response
+     */
+    public static <T> Result<T> response(ResultEnum resultEnum) {
+        return response(resultEnum, null);
+    }
+
 
 }

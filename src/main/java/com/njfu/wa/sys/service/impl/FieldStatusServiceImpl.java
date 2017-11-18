@@ -1,11 +1,13 @@
 package com.njfu.wa.sys.service.impl;
 
+import com.njfu.wa.sys.domain.FieldStatus;
 import com.njfu.wa.sys.mapper.FieldStatusMapper;
 import com.njfu.wa.sys.service.FieldStatusService;
 import com.njfu.wa.sys.utils.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class FieldStatusServiceImpl implements FieldStatusService {
@@ -20,7 +22,7 @@ public class FieldStatusServiceImpl implements FieldStatusService {
      * @return Result
      */
     @Override
-    public Result getFieldStatusById(String fieldId) {
-        return Result.data(fieldStatusMapper.selectFieldStatus(fieldId));
+    public FieldStatus getFieldStatusById(String fieldId) {
+        return fieldStatusMapper.selectFieldStatus(fieldId);
     }
 }

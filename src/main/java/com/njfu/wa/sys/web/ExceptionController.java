@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 异常控制器
+ */
 @ControllerAdvice
 public class ExceptionController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
 
     /**
-     * 处理数据字符长度输入异常
+     * 处理非法数据输入异常
      *
      * @return json message
      */

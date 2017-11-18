@@ -2,7 +2,6 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Vehicle;
-import com.njfu.wa.sys.utils.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -37,9 +36,11 @@ public class VehicleServiceTest {
         vehicle.setVehicleType("xyz001");
         vehicle.setUseStatus("0");
 
-        Result result = vehicleService.addVehicle(vehicle, new Block());
-
-        log.info("result: {}", result);
+        try {
+            vehicleService.addVehicle(vehicle, new Block());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -49,8 +50,11 @@ public class VehicleServiceTest {
         vehicle.setVehicleType("xyz001");
         vehicle.setUseStatus("0");
 
-        Result result = vehicleService.modifyVehicle(vehicle, new Block());
-        log.info("result: {}", result);
+        try {
+            vehicleService.modifyVehicle(vehicle, new Block());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -58,8 +62,10 @@ public class VehicleServiceTest {
         Vehicle vehicle = new Vehicle();
         vehicle.setVehicleId("v001");
 
-        Result result = vehicleService.removeVehicle(vehicle);
-        log.info("result: {}", result);
+        try {
+            vehicleService.removeVehicle(vehicle);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
 }

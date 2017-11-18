@@ -27,7 +27,7 @@ public interface WarnRecordService {
      *
      * @return data
      */
-    Result getUnHandleWarnRecord();
+    List<WarnRecord> getUnHandleWarnRecord();
 
     /**
      * 修改报警记录处理标志
@@ -41,7 +41,7 @@ public interface WarnRecordService {
     /**
      * 获取未处理报警记录数量
      *
-     * @return data
+     * @return count
      */
-    Result getUnhandleRecordCount();
+    int getUnhandleRecordCount();
 }

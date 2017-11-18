@@ -1,7 +1,6 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
-import com.njfu.wa.sys.utils.Result;
 
 import java.util.List;
 
@@ -26,23 +25,20 @@ public interface BlockService {
      * 新增地块信息
      *
      * @param block blockId blockName blockLoc blockPs
-     * @return message
      */
-    Result addBlock(Block block);
+    void addBlock(Block block);
 
     /**
      * 修改地块信息
      *
      * @param block blockId blockName blockLoc blockPs
-     * @return message
      */
-    Result modifyBlock(Block block);
+    void modifyBlock(Block block);
 
     /**
      * 删除地块信息
      *
      * @param block blockId
-     * @return message
      */
-    Result removeBlock(Block block);
+    void removeBlock(Block block);
 }

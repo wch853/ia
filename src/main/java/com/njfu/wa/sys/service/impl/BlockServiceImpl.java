@@ -3,6 +3,7 @@ package com.njfu.wa.sys.service.impl;
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.domain.Field;
+import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.*;
 import com.njfu.wa.sys.service.BlockService;
 import com.njfu.wa.sys.utils.Result;
@@ -58,58 +59,47 @@ public class BlockServiceImpl implements BlockService {
      * 新增地块信息
      *
      * @param block blockId blockName blockLoc blockPs
-     * @return message
      */
     @Override
-    public Result addBlock(Block block) {
+    public void addBlock(Block block) {
         // 若blockPs为空字符串，转为null
         if ("".equals(block.getBlockPs())) {
             block.setBlockPs(null);
         }
-
-        int res = blockMapper.insertBlock(block);
-
-        if (res == 0) {
-            return Result.fail("新增地块信息失败，请检查新增编号是否存在！");
+        int count = blockMapper.insertBlock(block);
+        if (count <= 0) {
+            throw new BusinessException("新增地块信息失败");
         }
-        return Result.success("新增地块信息成功！");
     }
 
     /**
      * 修改地块信息
      *
      * @param block blockId blockName blockLoc blockPs
-     * @return message
      */
     @Override
-    public Result modifyBlock(Block block) {
+    public void modifyBlock(Block block) {
         // 若blockPs为空字符串，转为null
         if ("".equals(block.getBlockPs())) {
             block.setBlockPs(null);
         }
-
         int res = blockMapper.updateBlock(block);
-
-        if (res == 0) {
-            return Result.fail("修改地块信息失败!");
+        if (res <= 0) {
+            throw new BusinessException("修改地块信息失败!");
         }
-
-        return Result.success("修改地块信息成功!");
     }
 
     /**
      * 删除地块信息
      *
      * @param block blockId
-     * @return message
      */
     @Override
     @Transactional
-    public Result removeBlock(Block block) {
-        int res = blockMapper.deleteBlock(block);
-
-        if (res == 0) {
-            return Result.fail("删除地块信息失败!");
+    public void removeBlock(Block block) {
+        int delBlock = blockMapper.deleteBlock(block);
+        if (delBlock <= 0) {
+            throw new BusinessException("删除地块信息失败!");
         }
 
         // 删除大棚
@@ -119,18 +109,31 @@ public class BlockServiceImpl implements BlockService {
         List<Field> fields = fieldMapper.selectFields(field);
         for (Field f : fields) {
             // 删除大棚信息
-            fieldMapper.deleteField(f);
+            int delField = fieldMapper.deleteField(f);
+            if (delField <= 0) {
+                throw new BusinessException("删除大棚信息失败!");
+            }
             // 删除大棚数据项
-            fieldStatusMapper.deleteFieldStatus(f);
+            int delFieldStatus = fieldStatusMapper.deleteFieldStatus(f);
+            if (delFieldStatus <= 0) {
+                throw new BusinessException("删除大棚数据项信息失败!");
+            }
             // 将传感器所属大棚信息置空
-            sensorMapper.updateSensorField(f.getFieldId());
+            int updSensor = sensorMapper.updateSensorField(f.getFieldId());
+            if (updSensor <= 0) {
+                throw new BusinessException("传感器所属大棚信息置空失败!");
+            }
         }
 
         // 车辆、机械所属地块信息置空
         String blockId = block.getBlockId();
-        machineMapper.updateMachineByBlock(blockId);
-        vehicleMapper.updateVehicleByBlock(blockId);
-
-        return Result.success("删除地块信息成功!");
+        int updMachine = machineMapper.updateMachineByBlock(blockId);
+        if (updMachine <= 0) {
+            throw new BusinessException("机械所属地块信息置空失败!");
+        }
+        int updVehicle = vehicleMapper.updateVehicleByBlock(blockId);
+        if (updVehicle <= 0) {
+            throw new BusinessException("车辆所属地块信息置空失败!");
+        }
     }
 }

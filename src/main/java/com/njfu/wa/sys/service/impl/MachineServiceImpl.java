@@ -2,7 +2,7 @@ package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Machine;
-import com.njfu.wa.sys.utils.Result;
+import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.MachineMapper;
 import com.njfu.wa.sys.service.MachineService;
 import org.springframework.stereotype.Service;
@@ -34,19 +34,14 @@ public class MachineServiceImpl implements MachineService {
      *
      * @param machine machineId machineType useStatus machinePs
      * @param block   blockId
-     * @return message
      */
     @Override
-    public Result addMachine(Machine machine, Block block) {
+    public void addMachine(Machine machine, Block block) {
         this.convertNull(machine, block);
-
         int res = machineMapper.insertMachine(machine);
-
-        if (res == 0) {
-            return Result.fail("新增机械信息失败，请检查新增编号是否存在！");
+        if (res <= 0) {
+            throw new BusinessException("新增机械信息失败，请检查新增编号是否存在！");
         }
-
-        return Result.success("新增机械信息成功！");
     }
 
     /**
@@ -54,36 +49,27 @@ public class MachineServiceImpl implements MachineService {
      *
      * @param machine machineId machineType useStatus machinePs
      * @param block   blockId
-     * @return message
      */
     @Override
-    public Result modifyMachine(Machine machine, Block block) {
+    public void modifyMachine(Machine machine, Block block) {
         this.convertNull(machine, block);
-
         int res = machineMapper.updateMachine(machine);
-
-        if (res == 0) {
-            return Result.fail("修改机械信息失败！");
+        if (res <= 0) {
+            throw new BusinessException("修改机械信息失败！");
         }
-
-        return Result.success("修改机械信息成功！");
     }
 
     /**
      * 删除机械信息
      *
      * @param machine machineId
-     * @return message
      */
     @Override
-    public Result removeMachine(Machine machine) {
+    public void removeMachine(Machine machine) {
         int res = machineMapper.deleteMachine(machine);
-
-        if (res == 0) {
-            return Result.fail("删除机械信息失败！");
+        if (res <= 0) {
+            throw new BusinessException("删除机械信息失败！");
         }
-
-        return Result.success("删除机械信息成功！");
     }
 
     /**

@@ -73,9 +73,15 @@ function deliverData(path, cropId, cropName, cropPs) {
             cropPs: cropPs
         },
         success: function (res) {
+            var message;
+            if (res.code === 200) {
+                message = "操作成功！";
+            } else {
+                message = "操作失败！";
+            }
             bootbox.alert({
                 title: '提示',
-                message: res.message
+                message: message
             });
             $("#cropFileTable").bootstrapTable('selectPage', 1);
         }

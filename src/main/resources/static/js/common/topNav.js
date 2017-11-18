@@ -43,7 +43,7 @@ function getConnect() {
         console.log('Not Support WebSocket! It\'s recommended to use chrome!');
         bootbox.alert({
             title: '提示',
-            message: '您的浏览器不支持WebSocket，建议切换到chrome获取最佳体验！'
+            message: '您的浏览器不支持WebSocket，建议切换到谷歌浏览器获取最佳体验！'
         });
         websocket = new SockJS('http://' + path + '/sockjs-tipHandler')
     }
@@ -55,10 +55,10 @@ function getConnect() {
 
     websocket.onmessage = function (event) {
         var result = JSON.parse(event.data);
-        var message = result.message;
+        var code = result.code;
         var count = result.data;
 
-        if (message === 'warn') {
+        if (code === 202) {
             $('#tip-view-point').addClass('tip-view-point');
             $('#warn-count').text(count);
             popTip(count);

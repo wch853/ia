@@ -5,10 +5,26 @@ package com.njfu.wa.sys.enums;
  */
 public enum ResultEnum {
 
+    /**
+     * 成功
+     */
     SUCCESS(200),
+    /**
+     * 数据
+     */
     DATA(201),
-    FAIL(400),
-    WARN(301);
+    /**
+     * 警告数据
+     */
+    WARN(202),
+    /**
+     * 失败
+     */
+    FAIL(300),
+    /**
+     * 非法数据请求
+     */
+    BAD_REQUEST(400);
 
     /**
      * 结果代码

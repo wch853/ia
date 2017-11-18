@@ -1,14 +1,7 @@
-// 激活侧边栏
-$('[data-target="#warn-man"]').trigger('click').parent().find('li:eq(2) a').addClass('side-active');
-
 /**
- * 计算报警距离时间
+ * 激活侧边栏
  */
-$('.compute-time').each(function (i, el) {
-    var time = $(this).attr('time');
-
-    $(this).text(res);
-});
+$('[data-target="#warn-man"]').trigger('click').parent().find('li:eq(2) a').addClass('side-active');
 
 /**
  * 转换报警类型
@@ -106,14 +99,12 @@ function initTimeline() {
         url: 'sys/warn/getUnHandleRecord',
         success: function (res) {
             var list = res.data;
-
             if (null === list || 0 === list.length) {
                 var html = '<div class="alert alert-warning col-md-8"><a href="#" class="close" data-dismiss="alert">' +
                     '</a><strong>无待处理报警记录！</strong></div>';
                 $('.timeline').append(html);
             } else {
                 fillTimeline(list);
-
                 $('.timeline-check').change(function () {
                     verifyCheck();
                 });
@@ -133,6 +124,7 @@ function fillTimeline(list) {
         var dateTime = el.warnTime;
         var date = dateTime.split(' ')[0];
         var time = dateTime.split(' ')[1];
+        var timeGap = moment(dateTime, 'YYYY-MM-DD HH:mm:ss').fromNow();
         /** @namespace el.warnCount */
         var count = el.warnCount;
         /** @namespace el.warnThreshold */
@@ -142,13 +134,14 @@ function fillTimeline(list) {
 
         var html = '<div class="timeline-item"><div class="row"><div class="col-xs-3 timeline-date"><label>' +
             '<input type="checkbox" class="timeline-check" value="' + id + '">' + '<i class="fa fa-bell-o"></i><div>' +
-            date + '</div>' + '<div>' + time + '</div><small class="text-muted">' +
-            moment(dateTime, 'YYYY-MM-DD HH:mm:ss').fromNow() + '</small></label></div><div class="col-xs-7 timeline-content">' +
-            '<p>报警记录编号：<span class="status-data">' + id + '</span></p><p>大棚编号：<span class="status-data">' +
-            fieldId + '</span></p><p>类型：<span class="warn-type status-data">' + warnType + '</span></p>' +
-            '<p>异常值：<span class="status-data-warn">' + val + '</span>' + ' ( 阈值范围：' + '<span class="status-data">' +
-            floor + '</span> ~ <span class="status-data">' + ceil + '</span> )' + '</p><p>报警计数：<span class="status-data-warn">' +
-            count + '</span></p><p>报警分析：<span class="status-data">' + analysis + '</span></p ></div></div></div>';
+            date + '</div>' + '<div>' + time + '</div><small class="text-muted">' + timeGap + '</small></label></div>' +
+            '<div class="col-xs-7 timeline-content">' + '<p>报警记录编号：<span class="status-data">' + id + '</span>' +
+            '</p><p>大棚编号：<span class="status-data">' + fieldId + '</span></p><p>类型：' +
+            '<span class="warn-type status-data">' + warnType + '</span></p><p>异常值：' +
+            '<span class="status-data-warn">' + val + '</span>' + ' ( 阈值范围：' + '<span class="status-data">' +
+            floor + '</span> ~ <span class="status-data">' + ceil + '</span> )' + '</p><p>报警计数：' +
+            '<span class="status-data-warn">' + count + '</span></p><p>报警分析：<span class="status-data">' +
+            analysis + '</span></p ></div></div></div>';
 
         $('.timeline').append(html);
     });

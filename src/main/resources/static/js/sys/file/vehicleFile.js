@@ -109,9 +109,15 @@ function deliverData(path, vehicleId, vehicleType, blockId, useStatus, vehiclePs
             vehiclePs: vehiclePs
         },
         success: function (res) {
+            var message;
+            if (res.code === 200) {
+                message = "操作成功！";
+            } else {
+                message = "操作失败！";
+            }
             bootbox.alert({
                 title: '提示',
-                message: res.message
+                message: message
             });
             $("#vehicleFileTable").bootstrapTable('selectPage', 1);
         }

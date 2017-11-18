@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class WarnRecordMapperTest {
 
-    public static final Logger log = LoggerFactory.getLogger(WarnThresholdMapperTest.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(WarnThresholdMapperTest.class);
 
     @Resource
     private WarnRecordMapper warnRecordMapper;
@@ -43,17 +43,14 @@ public class WarnRecordMapperTest {
 
         List<WarnRecord> warnRecords = warnRecordMapper.selectWarnRecord(warnRecord, start, null);
 
-        log.info("warnRecords: {}", warnRecords);
+        LOGGER.info("warnRecords: {}", warnRecords);
     }
 
     @Test
     public void selectWarnRecordByFlag() throws Exception {
-        WarnRecord warnRecord = new WarnRecord();
-        warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
+        List<WarnRecord> warnRecords = warnRecordMapper.selectWarnRecordByFlag(WarnRecordFlagEnum.UNHANDLE.code());
 
-        List<WarnRecord> warnRecords = warnRecordMapper.selectWarnRecordByFlag(warnRecord);
-
-        log.info("warnRecords: {}", warnRecords);
+        LOGGER.info("warnRecords: {}", warnRecords);
     }
 
     @Test
@@ -71,11 +68,8 @@ public class WarnRecordMapperTest {
 
     @Test
     public void selectCount() throws Exception {
-        WarnRecord warnRecord = new WarnRecord();
-        warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
-
-        int res = warnRecordMapper.selectCount(warnRecord);
-        log.info("res: {}", res);
+        int res = warnRecordMapper.selectCount(WarnRecordFlagEnum.UNHANDLE.code());
+        LOGGER.info("res: {}", res);
     }
 
     @Test

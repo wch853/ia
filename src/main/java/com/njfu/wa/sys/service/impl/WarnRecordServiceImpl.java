@@ -1,10 +1,11 @@
 package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.WarnRecord;
-import com.njfu.wa.sys.utils.Result;
+import com.njfu.wa.sys.enums.ResultEnum;
 import com.njfu.wa.sys.enums.WarnRecordFlagEnum;
 import com.njfu.wa.sys.mapper.WarnRecordMapper;
 import com.njfu.wa.sys.service.WarnRecordService;
+import com.njfu.wa.sys.utils.Result;
 import com.njfu.wa.sys.websocket.TipHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,6 @@ import java.util.List;
 @Service
 @EnableScheduling
 public class WarnRecordServiceImpl implements WarnRecordService {
-
-    private static final Logger log = LoggerFactory.getLogger(WarnRecordServiceImpl.class);
 
     @Resource
     private WarnRecordMapper warnRecordMapper;
@@ -40,16 +39,14 @@ public class WarnRecordServiceImpl implements WarnRecordService {
             // 调用存储过程，扫描大棚状态并生成报警记录
             warnRecordMapper.checkWarn();
             long end = System.currentTimeMillis();
-            log.info("check warn spend: {}", end - start);
+            LOGGER.info("check warn spend: {}", end - start);
 
-            WarnRecord warnRecord = new WarnRecord();
-            warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
             // 查询未处理报警记录数量
-            Integer count = warnRecordMapper.selectCount(warnRecord);
-            log.info("warn count: {}", count);
+            Integer count = this.getUnhandleRecordCount();
+            LOGGER.info("warn count: {}", count);
 
             if (count > 0) {
-                tipHandler.broadcastWarnTip(Result.warn(count));
+                tipHandler.broadcastWarnTip(Result.response(ResultEnum.WARN, count));
             }
 
             // TODO 邮件推送
@@ -78,10 +75,8 @@ public class WarnRecordServiceImpl implements WarnRecordService {
      * @return data
      */
     @Override
-    public Result getUnHandleWarnRecord() {
-        WarnRecord warnRecord = new WarnRecord();
-        warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
-        return Result.data(warnRecordMapper.selectWarnRecordByFlag(warnRecord));
+    public List<WarnRecord> getUnHandleWarnRecord() {
+        return warnRecordMapper.selectWarnRecordByFlag(WarnRecordFlagEnum.UNHANDLE.code());
     }
 
     /**
@@ -106,15 +101,11 @@ public class WarnRecordServiceImpl implements WarnRecordService {
     /**
      * 获取未处理报警记录数量
      *
-     * @return data
+     * @return count
      */
     @Override
-    public Result getUnhandleRecordCount() {
-        WarnRecord warnRecord = new WarnRecord();
-        warnRecord.setFlag(WarnRecordFlagEnum.UNHANDLE.getCode());
-
-        int res = warnRecordMapper.selectCount(warnRecord);
-        return Result.data(res);
+    public int getUnhandleRecordCount() {
+        return warnRecordMapper.selectCount(WarnRecordFlagEnum.UNHANDLE.code());
     }
 
 }

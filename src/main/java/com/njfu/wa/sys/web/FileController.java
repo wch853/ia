@@ -3,9 +3,12 @@ package com.njfu.wa.sys.web;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.njfu.wa.sys.domain.*;
+import com.njfu.wa.sys.enums.ResultEnum;
 import com.njfu.wa.sys.service.*;
 import com.njfu.wa.sys.utils.PaginationResult;
 import com.njfu.wa.sys.utils.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,15 +47,7 @@ public class FileController {
     @Resource
     private SensorService sensorService;
 
-    /**
-     * 档案页首页
-     *
-     * @return page
-     */
-    @GetMapping
-    public String file() {
-        return "sys/file/file";
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
 
     /**
      * 地块档案页
@@ -90,7 +85,13 @@ public class FileController {
     @PostMapping("/addBlock")
     public @ResponseBody
     Result addBlock(Block block) {
-        return blockService.addBlock(block);
+        try {
+            blockService.addBlock(block);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("add block exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -102,7 +103,13 @@ public class FileController {
     @PostMapping("/modifyBlock")
     public @ResponseBody
     Result modifyBlock(Block block) {
-        return blockService.modifyBlock(block);
+        try {
+            blockService.modifyBlock(block);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("modify block exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -114,7 +121,13 @@ public class FileController {
     @PostMapping("/removeBlock")
     public @ResponseBody
     Result removeBlock(Block block) {
-        return blockService.removeBlock(block);
+        try {
+            blockService.removeBlock(block);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("remove block exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -162,7 +175,13 @@ public class FileController {
     @PostMapping("/addField")
     public @ResponseBody
     Result addField(Field field, Block block, Crop crop) {
-        return fieldService.addField(field, block, crop);
+        try {
+            fieldService.addField(field, block, crop);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("add field exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -176,7 +195,13 @@ public class FileController {
     @PostMapping("/modifyField")
     public @ResponseBody
     Result modifyField(Field field, Block block, Crop crop) {
-        return fieldService.modifyField(field, block, crop);
+        try {
+            fieldService.modifyField(field, block, crop);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("modify field exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -188,7 +213,13 @@ public class FileController {
     @PostMapping("/removeField")
     public @ResponseBody
     Result removeField(Field field) {
-        return fieldService.removeField(field);
+        try {
+            fieldService.removeField(field);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("remove field exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -227,7 +258,13 @@ public class FileController {
     @PostMapping("/addCrop")
     public @ResponseBody
     Result addCrop(Crop crop) {
-        return cropService.addCrop(crop);
+        try {
+            cropService.addCrop(crop);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("add crop exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -239,7 +276,13 @@ public class FileController {
     @PostMapping("/modifyCrop")
     public @ResponseBody
     Result modifyCrop(Crop crop) {
-        return cropService.modifyCrop(crop);
+        try {
+            cropService.modifyCrop(crop);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("modify crop exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -251,7 +294,13 @@ public class FileController {
     @PostMapping("/removeCrop")
     public @ResponseBody
     Result removeCrop(Crop crop) {
-        return cropService.removeCrop(crop);
+        try {
+            cropService.removeCrop(crop);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("remove crop exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -290,7 +339,13 @@ public class FileController {
     @PostMapping("/addEmployee")
     public @ResponseBody
     Result addEmployee(Employee employee) {
-        return employeeService.addEmployee(employee);
+        try {
+            employeeService.addEmployee(employee);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("add emp exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -302,7 +357,13 @@ public class FileController {
     @PostMapping("/modifyEmployee")
     public @ResponseBody
     Result modifyEmployee(Employee employee) {
-        return employeeService.modifyEmployee(employee);
+        try {
+            employeeService.modifyEmployee(employee);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("modify emp exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -314,7 +375,13 @@ public class FileController {
     @PostMapping("/removeEmployee")
     public @ResponseBody
     Result removeEmployee(Employee employee) {
-        return employeeService.removeEmployee(employee);
+        try {
+            employeeService.removeEmployee(employee);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("remove emp exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -358,7 +425,13 @@ public class FileController {
     @PostMapping("/addMachine")
     public @ResponseBody
     Result addMachine(Machine machine, Block block) {
-        return machineService.addMachine(machine, block);
+        try {
+            machineService.addMachine(machine, block);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("add machine exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -371,7 +444,13 @@ public class FileController {
     @PostMapping("/modifyMachine")
     public @ResponseBody
     Result modifyMachine(Machine machine, Block block) {
-        return machineService.modifyMachine(machine, block);
+        try {
+            machineService.modifyMachine(machine, block);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("modify machine exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -383,7 +462,13 @@ public class FileController {
     @PostMapping("/removeMachine")
     public @ResponseBody
     Result removeMachine(Machine machine) {
-        return machineService.removeMachine(machine);
+        try {
+            machineService.removeMachine(machine);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("remove machine exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -426,7 +511,13 @@ public class FileController {
     @PostMapping("/addVehicle")
     public @ResponseBody
     Result addVehicle(Vehicle vehicle, Block block) {
-        return vehicleService.addVehicle(vehicle, block);
+        try {
+            vehicleService.addVehicle(vehicle, block);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("add vehicle exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -439,7 +530,13 @@ public class FileController {
     @PostMapping("/modifyVehicle")
     public @ResponseBody
     Result modifyVehicle(Vehicle vehicle, Block block) {
-        return vehicleService.modifyVehicle(vehicle, block);
+        try {
+            vehicleService.modifyVehicle(vehicle, block);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("modify vehicle exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -451,7 +548,13 @@ public class FileController {
     @PostMapping("/removeVehicle")
     public @ResponseBody
     Result removeVehicle(Vehicle vehicle) {
-        return vehicleService.removeVehicle(vehicle);
+        try {
+            vehicleService.removeVehicle(vehicle);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("remove vehicle exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -494,7 +597,13 @@ public class FileController {
     @PostMapping("/addSensor")
     public @ResponseBody
     Result addSensor(Sensor sensor, Field field) {
-        return sensorService.addSensor(sensor, field);
+        try {
+            sensorService.addSensor(sensor, field);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("add sensor exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -507,7 +616,13 @@ public class FileController {
     @PostMapping("/modifySensor")
     public @ResponseBody
     Result modifySensor(Sensor sensor, Field field) {
-        return sensorService.modifySensor(sensor, field);
+        try {
+            sensorService.modifySensor(sensor, field);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("modify sensor exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -519,6 +634,12 @@ public class FileController {
     @PostMapping("/removeSensor")
     public @ResponseBody
     Result removeSensor(Sensor sensor) {
-        return sensorService.removeSensor(sensor);
+        try {
+            sensorService.removeSensor(sensor);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error("remove sensor exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 }

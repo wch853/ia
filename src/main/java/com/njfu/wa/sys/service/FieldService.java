@@ -3,7 +3,6 @@ package com.njfu.wa.sys.service;
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.domain.Field;
-import com.njfu.wa.sys.utils.Result;
 
 import java.util.List;
 
@@ -23,9 +22,8 @@ public interface FieldService {
      * @param field fieldId fieldName useStatus fieldPs
      * @param block blockId
      * @param crop  cropId
-     * @return message
      */
-    Result addField(Field field, Block block, Crop crop);
+    void addField(Field field, Block block, Crop crop);
 
     /**
      * 修改大棚信息
@@ -33,15 +31,13 @@ public interface FieldService {
      * @param field fieldId fieldName useStatus fieldPs
      * @param block blockId
      * @param crop  cropId
-     * @return message
      */
-    Result modifyField(Field field, Block block, Crop crop);
+    void modifyField(Field field, Block block, Crop crop);
 
     /**
      * 删除大棚信息
      *
      * @param field field
-     * @return message
      */
-    Result removeField(Field field);
+    void removeField(Field field);
 }

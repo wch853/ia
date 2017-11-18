@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.wa.sys.mapper.MemoMapper">
+
+    <select id="getMemoList" resultType="Memo">
+        SELECT
+            id,
+            title
+        FROM memo
+        WHERE type = #{type}
+    </select>
+
+    <select id="getMemo" resultType="Memo">
+        SELECT
+            id,
+            title,
+            content,
+            update_time
+        FROM memo
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insertMemo">
+        INSERT INTO memo (title, type, content)
+        VALUES (#{title}, #{type}, #{content})
+    </insert>
+
+    <update id="updateMemo">
+        UPDATE memo
+        <set>
+            <if test="null != title and !''.equals(title)">
+                title = #{title}
+            </if>
+            <if test="null != content and !''.equals(content)">
+                content = #{content}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMemo">
+        DELETE FROM memo
+        WHERE id = #{id}
+    </delete>
+</mapper>	

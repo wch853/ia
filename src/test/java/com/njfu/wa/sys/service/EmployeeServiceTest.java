@@ -1,7 +1,6 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Employee;
-import com.njfu.wa.sys.utils.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -40,8 +39,11 @@ public class EmployeeServiceTest {
         employee.setEmpSex("男");
         employee.setEmpPs("test");
 
-        Result result = employeeService.addEmployee(employee);
-        log.info("result: {}", result);
+        try {
+            employeeService.addEmployee(employee);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -55,8 +57,11 @@ public class EmployeeServiceTest {
         employee.setEmpSex("男");
         employee.setEmpPs("test");
 
-        Result result = employeeService.modifyEmployee(employee);
-        log.info("result: {}", result);
+        try {
+            employeeService.modifyEmployee(employee);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -64,8 +69,11 @@ public class EmployeeServiceTest {
         Employee employee = new Employee();
         employee.setEmpId("e001");
 
-        Result result = employeeService.removeEmployee(employee);
-        log.info("result: {}", result);
+        try {
+            employeeService.removeEmployee(employee);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

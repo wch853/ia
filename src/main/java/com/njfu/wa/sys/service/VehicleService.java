@@ -2,7 +2,6 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Vehicle;
-import com.njfu.wa.sys.utils.Result;
 
 import java.util.List;
 
@@ -22,24 +21,21 @@ public interface VehicleService {
      *
      * @param vehicle vehicleId vehicleType useStatus vehiclePs
      * @param block   blockId
-     * @return message
      */
-    Result addVehicle(Vehicle vehicle, Block block);
+    void addVehicle(Vehicle vehicle, Block block);
 
     /**
      * 修改车辆信息
      *
      * @param vehicle vehicleId vehicleType useStatus vehiclePs
      * @param block   blockId
-     * @return message
      */
-    Result modifyVehicle(Vehicle vehicle, Block block);
+    void modifyVehicle(Vehicle vehicle, Block block);
 
     /**
      * 删除车辆信息
      *
      * @param vehicle vehicleId
-     * @return message
      */
-    Result removeVehicle(Vehicle vehicle);
+    void removeVehicle(Vehicle vehicle);
 }

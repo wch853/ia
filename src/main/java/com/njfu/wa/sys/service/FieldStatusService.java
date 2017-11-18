@@ -1,6 +1,6 @@
 package com.njfu.wa.sys.service;
 
-import com.njfu.wa.sys.utils.Result;
+import com.njfu.wa.sys.domain.FieldStatus;
 
 public interface FieldStatusService {
 
@@ -10,6 +10,6 @@ public interface FieldStatusService {
      * @param fieldId fieldId
      * @return Result
      */
-    Result getFieldStatusById(String fieldId);
+    FieldStatus getFieldStatusById(String fieldId);
 
 }

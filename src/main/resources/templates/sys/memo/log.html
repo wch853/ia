@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <title>记录管理</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>备忘录</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="">首页</a></li>
+                    <li><a href="sys/memo">备忘录</a></li>
+                </ol>
+            </div>
+
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="javascript:void(0)">日志</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">备忘录</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">注意事项</a>
+                    </li>
+                </ul>
+                <div class="log-content col-md-11">
+                    <div class="col-md-2 log-list">
+                        <ul>
+                            <li title="增加" id="add-memo">增加+</li>
+                            <li>2017.11.18日报qweeeeeeeeeeeeeee</li>
+                            <li>2017.11.18日报</li>
+                            <li>2017.11.18日报</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-7 memo-edit-div">
+                        <div class="form-inline form-group">
+                            <label for="memo-title">标题：</label>
+                            <input type="text" id="memo-title" class="form-control range-date" style="width: 500px">
+                        </div>
+                        <div class="memo-edit-area" contenteditable="true"></div>
+                        <div class="pull-right">
+                            <button class="btn btn-danger">删除</button>
+                            <button class="btn btn-success">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div><!--container-->
+        </div><!--page wrapped-->
+
+    </div><!--wrapped-->
+
+</body>
+<script type="text/javascript" src="js/sys/memo/log.js"></script>
+</html>

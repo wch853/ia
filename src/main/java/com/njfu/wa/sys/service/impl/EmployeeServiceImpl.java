@@ -1,7 +1,7 @@
 package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Employee;
-import com.njfu.wa.sys.utils.Result;
+import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.EmployeeMapper;
 import com.njfu.wa.sys.service.EmployeeService;
 import org.springframework.stereotype.Service;
@@ -30,55 +30,41 @@ public class EmployeeServiceImpl implements EmployeeService {
      * 新增员工信息
      *
      * @param employee empId empName empTel empPosition empAge empSex empPs
-     * @return message
      */
     @Override
-    public Result addEmployee(Employee employee) {
+    public void addEmployee(Employee employee) {
         this.convertNull(employee);
-
         int res = employeeMapper.insertEmployee(employee);
-
-        if (res == 0) {
-            return Result.fail("新增员工信息失败，请检查新增编号是否存在！");
+        if (res <= 0) {
+            throw new BusinessException("新增员工信息失败");
         }
-
-        return Result.success("新增员工信息成功！");
     }
 
     /**
      * 修改员工信息
      *
      * @param employee empId empName empTel empPosition empAge empSex empPs
-     * @return message
      */
     @Override
-    public Result modifyEmployee(Employee employee) {
+    public void modifyEmployee(Employee employee) {
         this.convertNull(employee);
-
         int res = employeeMapper.updateEmployee(employee);
-
         if (res == 0) {
-            return Result.fail("修改员工信息失败！");
+            throw new BusinessException("修改员工信息失败！");
         }
-
-        return Result.success("修改员工信息成功！");
     }
 
     /**
      * 删除员工信息
      *
      * @param employee empId
-     * @return message
      */
     @Override
-    public Result removeEmployee(Employee employee) {
+    public void removeEmployee(Employee employee) {
         int res = employeeMapper.deleteEmployee(employee);
-
         if (res == 0) {
-            return Result.fail("删除员工信息失败！");
+            throw new BusinessException("删除员工信息失败！");
         }
-
-        return Result.success("删除员工信息成功！");
     }
 
     /**

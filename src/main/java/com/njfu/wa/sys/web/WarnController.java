@@ -3,6 +3,7 @@ package com.njfu.wa.sys.web;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.njfu.wa.sys.domain.*;
+import com.njfu.wa.sys.enums.ResultEnum;
 import com.njfu.wa.sys.service.FieldService;
 import com.njfu.wa.sys.service.WarnRecordService;
 import com.njfu.wa.sys.service.WarnThresholdService;
@@ -93,7 +94,7 @@ public class WarnController {
     PaginationResult getWarnRecord(int limit, int offset, WarnRecord warnRecord, String start, String end) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
         List<WarnRecord> warnRecords = warnRecordService.getWarnRecord(warnRecord, start, end);
-        return new PaginationResult(page.getTotal(), warnRecords);
+        return new PaginationResult<>(page.getTotal(), warnRecords);
     }
 
     /**
@@ -114,7 +115,8 @@ public class WarnController {
     @GetMapping("/getUnHandleRecord")
     public @ResponseBody
     Result getUnHandleRecord() {
-        return warnRecordService.getUnHandleWarnRecord();
+        List<WarnRecord> unHandleWarnRecords = warnRecordService.getUnHandleWarnRecord();
+        return Result.response(ResultEnum.DATA, unHandleWarnRecords);
     }
 
     /**
@@ -138,6 +140,7 @@ public class WarnController {
     @GetMapping("/getUnhandleRecordCount")
     public @ResponseBody
     Result getUnhandleRecordCount() {
-        return warnRecordService.getUnhandleRecordCount();
+        int count = warnRecordService.getUnhandleRecordCount();
+        return Result.response(ResultEnum.WARN, count);
     }
 }

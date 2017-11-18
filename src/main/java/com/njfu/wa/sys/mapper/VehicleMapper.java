@@ -37,15 +37,15 @@ public interface VehicleMapper {
      * 删除车辆信息
      *
      * @param vehicle vehicleId
-     * @return
+     * @return row count
      */
     int deleteVehicle(Vehicle vehicle);
 
     /**
      * 将属于某地块下的车辆所属大棚置空
      *
-     * @param blockId
-     * @return
+     * @param blockId blockId
+     * @return row count
      */
     int updateVehicleByBlock(@Param("blockId") String blockId);
 }

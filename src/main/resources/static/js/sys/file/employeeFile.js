@@ -95,9 +95,15 @@ function deliverData(path, empId, empName, empTel, empPosition, empAge, empSex, 
             empPs: empPs
         },
         success: function (res) {
+            var message;
+            if (res.code === 200) {
+                message = "操作成功！";
+            } else {
+                message = "操作失败！";
+            }
             bootbox.alert({
                 title: '提示',
-                message: res.message
+                message: message
             });
             $("#employeeFileTable").bootstrapTable('selectPage', 1);
         }
@@ -127,11 +133,6 @@ $('#saveAdd').click(function () {
         bootbox.alert({
             title: '提示',
             message: '请输入完整信息！'
-        });
-    } else if (!/^1[0-9]{10}$/.test(empTel)) {
-        bootbox.alert({
-            title: '提示',
-            message: '联系方式输入有误！'
         });
     } else if ('' !== empAge && !/^[0-9]{1,3}$/.test(empAge)) {
         bootbox.alert({

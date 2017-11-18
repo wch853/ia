@@ -30,10 +30,10 @@ public interface WarnRecordMapper {
     /**
      * 通过处理标志查询报警记录极其对应阈值信息
      *
-     * @param warnRecord flag
+     * @param flag flag
      * @return data
      */
-    List<WarnRecord> selectWarnRecordByFlag(WarnRecord warnRecord);
+    List<WarnRecord> selectWarnRecordByFlag(String flag);
 
     /**
      * 修改报警记录处理标志
@@ -45,10 +45,10 @@ public interface WarnRecordMapper {
     /**
      * 获取报警记录数量
      *
-     * @param warnRecord flag
+     * @param flag flag
      * @return row count
      */
-    int selectCount(WarnRecord warnRecord);
+    int selectCount(@Param("flag") String flag);
 
     /**
      * 调用check_warn存储过程，扫描field_status并插入报警记录

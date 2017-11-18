@@ -1,6 +1,8 @@
 package com.njfu.wa.sys.web;
 
 import com.njfu.wa.sys.domain.Block;
+import com.njfu.wa.sys.domain.FieldStatus;
+import com.njfu.wa.sys.enums.ResultEnum;
 import com.njfu.wa.sys.service.BlockService;
 import com.njfu.wa.sys.service.FieldStatusService;
 import com.njfu.wa.sys.utils.Result;
@@ -43,7 +45,8 @@ public class IndexController {
     @GetMapping("/sys/getFieldStatus")
     public @ResponseBody
     Result getFieldStatus(String fieldId) {
-        return fieldStatusService.getFieldStatusById(fieldId);
+        FieldStatus status = fieldStatusService.getFieldStatusById(fieldId);
+        return Result.response(ResultEnum.DATA, status);
     }
 
 }

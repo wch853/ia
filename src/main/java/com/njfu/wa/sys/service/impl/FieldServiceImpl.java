@@ -3,6 +3,7 @@ package com.njfu.wa.sys.service.impl;
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.domain.Field;
+import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.FieldMapper;
 import com.njfu.wa.sys.mapper.FieldStatusMapper;
 import com.njfu.wa.sys.mapper.SensorMapper;
@@ -47,24 +48,22 @@ public class FieldServiceImpl implements FieldService {
      * @param field fieldId fieldName useStatus fieldPs
      * @param block blockId
      * @param crop  cropId
-     * @return message
      */
     @Override
     @Transactional
-    public Result addField(Field field, Block block, Crop crop) {
+    public void addField(Field field, Block block, Crop crop) {
         this.convertNull(field, crop);
-
         field.setBlock(block);
-
-        int res = fieldMapper.insertField(field);
-        if (res == 0) {
-            return Result.fail("新增大棚信息失败，请检查新增编号是否存在！");
+        int addField = fieldMapper.insertField(field);
+        if (addField <= 0) {
+            throw new BusinessException("新增大棚信息失败！");
         }
 
         // 新增大棚状态数据项
-        fieldStatusMapper.insertFieldStatus(field);
-
-        return Result.success("新增大棚信息成功！");
+        int addFieldStatus = fieldStatusMapper.insertFieldStatus(field);
+        if (addFieldStatus <= 0) {
+            throw new BusinessException("新增大棚数据项信息失败！");
+        }
     }
 
     /**
@@ -73,41 +72,39 @@ public class FieldServiceImpl implements FieldService {
      * @param field fieldId fieldName useStatus fieldPs
      * @param block blockId
      * @param crop  cropId
-     * @return message
      */
     @Override
-    public Result modifyField(Field field, Block block, Crop crop) {
+    public void modifyField(Field field, Block block, Crop crop) {
         this.convertNull(field, crop);
-
         field.setBlock(block);
         int res = fieldMapper.updateField(field);
-        if (res == 0) {
-            return Result.fail("修改大棚信息失败！");
+        if (res <= 0) {
+            throw new BusinessException("修改大棚信息失败！");
         }
-
-        return Result.success("修改大棚信息成功！");
     }
 
     /**
      * 删除大棚信息
      *
      * @param field field
-     * @return message
      */
     @Override
     @Transactional
-    public Result removeField(Field field) {
-        int res = fieldMapper.deleteField(field);
-
-        if (res == 0) {
-            return Result.fail("删除大棚信息失败！");
+    public void removeField(Field field) {
+        int delField = fieldMapper.deleteField(field);
+        if (delField <= 0) {
+            throw new BusinessException("删除大棚信息失败！");
         }
-
         // 删除大棚状态数据项
-        fieldStatusMapper.deleteFieldStatus(field);
+        int delFieldStatus = fieldStatusMapper.deleteFieldStatus(field);
+        if (delFieldStatus <= 0) {
+            throw new BusinessException("删除大棚数据项信息失败！");
+        }
         // 将该大棚下的传感器所属大棚置空
-        sensorMapper.updateSensorField(field.getFieldId());
-        return Result.success("删除大棚信息成功！");
+        int updSensor = sensorMapper.updateSensorField(field.getFieldId());
+        if (updSensor <= 0) {
+            throw new BusinessException("传感器所属大棚置空失败！");
+        }
     }
 
     /**

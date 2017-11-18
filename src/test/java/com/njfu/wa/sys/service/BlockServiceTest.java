@@ -1,7 +1,6 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
-import com.njfu.wa.sys.utils.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -38,13 +37,15 @@ public class BlockServiceTest {
     @Test
     public void addBlock() throws Exception {
         Block block = new Block();
-//        block.setBlockId("test");
-//        block.setBlockName("test");
-//        block.setBlockLoc("test");
-//        block.setBlockPs("test");
+        block.setBlockId("test");
+        block.setBlockName("test");
+        block.setBlockLoc("test");
 
-        Result result = blockService.addBlock(block);
-        log.info("result: {}", result);
+        try {
+            blockService.addBlock(block);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -55,8 +56,11 @@ public class BlockServiceTest {
         block.setBlockLoc("test");
         block.setBlockPs("test");
 
-        Result result = blockService.modifyBlock(block);
-        log.info("result: {}", result);
+        try {
+            blockService.modifyBlock(block);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -64,8 +68,11 @@ public class BlockServiceTest {
         Block block = new Block();
         block.setBlockId("b01");
 
-        Result result = blockService.removeBlock(block);
-        log.info("result: {}", result);
+        try {
+            blockService.removeBlock(block);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

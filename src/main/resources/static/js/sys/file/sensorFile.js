@@ -23,9 +23,23 @@ $("#sensorFileTable").bootstrapTable({
             var sensorFunc = row.sensorFunc;
             var format = '';
             if (sensorFunc === '1') {
-                format = '温度传感器'
+                format = '温度传感器';
             } else if (sensorFunc === '2') {
-                format = '湿度传感器'
+                format = '湿度传感器';
+            } else if (sensorFunc === '3') {
+                format = '土壤温度传感器';
+            } else if (sensorFunc === '4') {
+                format = '土壤湿度传感器';
+            } else if (sensorFunc === '5') {
+                format = '光照度传感器';
+            } else if (sensorFunc === '6') {
+                format = 'Co2传感器';
+            } else if (sensorFunc === '7') {
+                format = 'pH传感器';
+            } else if (sensorFunc === '8') {
+                format = '元素含量传感器';
+            } else {
+                format = null;
             }
             return format;
         },
@@ -124,9 +138,15 @@ function deliverData(path, sensorId, sensorFunc, sensorType, fieldId, useStatus,
             sensorPs: sensorPs
         },
         success: function (res) {
+            var message;
+            if (res.code === 200) {
+                message = "操作成功！";
+            } else {
+                message = "操作失败！";
+            }
             bootbox.alert({
                 title: '提示',
-                message: res.message
+                message: message
             });
             $("#sensorFileTable").bootstrapTable('selectPage', 1);
         }

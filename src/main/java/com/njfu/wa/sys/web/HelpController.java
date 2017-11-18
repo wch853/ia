@@ -10,20 +10,10 @@ public class HelpController {
     /**
      * 帮助文档页
      *
-     * @return
+     * @return page
      */
-    @RequestMapping("/document")
+    @RequestMapping
     public String document() {
         return "sys/help/document";
-    }
-
-    /**
-     * 联系页
-     *
-     * @return
-     */
-    @RequestMapping("/contact")
-    public String contact() {
-        return "sys/help/contact";
     }
 }

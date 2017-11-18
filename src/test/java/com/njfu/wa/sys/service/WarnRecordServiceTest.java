@@ -34,7 +34,7 @@ public class WarnRecordServiceTest {
 
     @Test
     public void getUnHandleWarnRecord() throws Exception {
-        Result result = warnRecordService.getUnHandleWarnRecord();
+        List<WarnRecord> result = warnRecordService.getUnHandleWarnRecord();
 
         log.info("result: {}", result);
     }
@@ -51,7 +51,7 @@ public class WarnRecordServiceTest {
 
     @Test
     public void getUnhandleRecordCount() throws Exception {
-        Result result = warnRecordService.getUnhandleRecordCount();
+        int result = warnRecordService.getUnhandleRecordCount();
         log.info("result: {}", result);
     }
 }

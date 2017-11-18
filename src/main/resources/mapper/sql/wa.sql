@@ -32,7 +32,10 @@ CREATE TABLE field (
   COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中',
   field_ps   VARCHAR(255) DEFAULT NULL
   COMMENT '大棚备注',
-  PRIMARY KEY (field_id)
+  PRIMARY KEY (field_id),
+  KEY idx_block_id(block_id),
+  KEY idx_crop_id(crop_id),
+  KEY idx_use_status(use_status)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -102,7 +105,9 @@ CREATE TABLE sensor (
   COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
   sensor_ps   VARCHAR(255) DEFAULT NULL
   COMMENT '传感器备注',
-  PRIMARY KEY (sensor_id)
+  PRIMARY KEY (sensor_id),
+  KEY idx_field_id(field_id),
+  KEY idx_use_status(use_status)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -120,7 +125,9 @@ CREATE TABLE machine (
   COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
   machine_ps   VARCHAR(255) DEFAULT NULL
   COMMENT '机械备注',
-  PRIMARY KEY (machine_id)
+  PRIMARY KEY (machine_id),
+  KEY idx_block_id(block_id),
+  KEY idx_use_status(use_status)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -138,7 +145,9 @@ CREATE TABLE vehicle (
   COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
   vehicle_ps   VARCHAR(255) DEFAULT NULL
   COMMENT '车辆备注',
-  PRIMARY KEY (vehicle_id)
+  PRIMARY KEY (vehicle_id),
+  KEY idx_block_id(block_id),
+  KEY idx_use_status(use_status)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -156,7 +165,9 @@ CREATE TABLE data_record (
   COMMENT '数据记录值',
   record_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   COMMENT '记录时间',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  KEY idx_sensor_id(sensor_id),
+  KEY idx_data_type(data_type)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -192,7 +203,8 @@ CREATE TABLE field_status (
   COMMENT '汞含量',
   pb               DOUBLE(5, 2) DEFAULT NULL
   COMMENT '铅含量',
-  PRIMARY KEY (field_id)
+  PRIMARY KEY (field_id),
+  KEY idx_update_time(update_time)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -216,7 +228,11 @@ CREATE TABLE warn_record (
   COMMENT '处理时间',
   flag        VARCHAR(255)       NOT NULL DEFAULT '0'
   COMMENT '处理标志：0-unhandle 未处理，1-handled 已处理，2-ignore 已忽略',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  KEY idx_field_id(field_id),
+  KEY idx_warn_type(warn_type),
+  KEY idx_warn_time(warn_time),
+  KEY idx_flag(flag)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -234,7 +250,9 @@ CREATE TABLE warn_threshold (
   COMMENT '阈值上限',
   use_status     VARCHAR(255) DEFAULT '0' NOT NULL
   COMMENT '使用状态，0unuse，1inuse',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  KEY idx_threshold_type(threshold_type),
+  KEY idx_use_status(use_status)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -251,6 +269,23 @@ CREATE TABLE tmp_data (
   DEFAULT CHARSET = utf8
   COMMENT ='大棚临时数据表';
 
+DROP TABLE IF EXISTS memo;
+CREATE TABLE memo (
+  id          INT AUTO_INCREMENT NOT NULL
+  COMMENT '记录编号',
+  title       VARCHAR(255)       NOT NULL
+  COMMENT '标题',
+  type        VARCHAR(255)       NOT NULL
+  COMMENT '类型，0-日志，1-备忘录，2-注意事项',
+  content     TEXT               NULL
+  COMMENT '内容',
+  update_time TIMESTAMP          NOT NULL ON UPDATE CURRENT_TIMESTAMP
+  COMMENT '更新时间',
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='记录表';
 
 /**********
  * trigger

@@ -2,7 +2,6 @@ package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Machine;
-import com.njfu.wa.sys.utils.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -35,15 +34,16 @@ public class MachineServiceTest {
         Machine machine = new Machine();
         machine.setMachineId("m000");
         machine.setMachineType("xyz");
-
         Block block = new Block();
         block.setBlockId("b01");
-
         machine.setUseStatus("0");
         machine.setMachinePs("test");
 
-        Result result = machineService.addMachine(machine, block);
-        log.info("result: {}", machine);
+        try {
+            machineService.addMachine(machine, block);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -58,8 +58,11 @@ public class MachineServiceTest {
         machine.setUseStatus("0");
         machine.setMachinePs("test");
 
-        Result result = machineService.modifyMachine(machine, block);
-        log.info("result: {}", machine);
+        try {
+            machineService.modifyMachine(machine, block);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -67,8 +70,11 @@ public class MachineServiceTest {
         Machine machine = new Machine();
         machine.setMachineId("m001");
 
-        Result result = machineService.removeMachine(machine);
-        log.info("result: {}", machine);
+        try {
+            machineService.removeMachine(machine);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

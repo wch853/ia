@@ -1,7 +1,6 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.Crop;
-import com.njfu.wa.sys.utils.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -36,8 +35,11 @@ public class CropServiceTest {
         crop.setCropName("test");
         crop.setCropPs("test");
 
-        Result result = cropService.addCrop(crop);
-        log.info("result: {}", result);
+        try {
+            cropService.addCrop(crop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -47,8 +49,11 @@ public class CropServiceTest {
         crop.setCropName("test");
         crop.setCropPs("test");
 
-        Result result = cropService.modifyCrop(crop);
-        log.info("result: {}", result);
+        try {
+            cropService.modifyCrop(crop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -56,8 +61,11 @@ public class CropServiceTest {
         Crop crop = new Crop();
         crop.setCropId("c001");
 
-        Result result = cropService.removeCrop(crop);
-        log.info("result: {}", result);
+        try {
+            cropService.removeCrop(crop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

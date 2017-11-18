@@ -3,7 +3,6 @@ package com.njfu.wa.sys.service;
 import com.njfu.wa.sys.domain.Block;
 import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.domain.Field;
-import com.njfu.wa.sys.utils.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -42,8 +41,11 @@ public class FieldServiceTest {
         Block block = new Block();
         block.setBlockId("b01");
 
-        Result result = fieldService.addField(field, block, new Crop());
-        log.info("result: {}", result);
+        try {
+            fieldService.addField(field, block, new Crop());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -57,8 +59,11 @@ public class FieldServiceTest {
         Block block = new Block();
         block.setBlockId("b01");
 
-        Result result = fieldService.modifyField(new Field(), block, new Crop());
-        log.info("result: {}", result);
+        try {
+            fieldService.modifyField(new Field(), block, new Crop());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -66,7 +71,10 @@ public class FieldServiceTest {
         Field field = new Field();
         field.setFieldId("f1701001");
 
-        Result result = fieldService.removeField(field);
-        log.info("result: {}", result);
+        try {
+            fieldService.removeField(field);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
