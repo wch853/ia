@@ -1,11 +1,21 @@
 package com.njfu.wa.sys.enums;
 
 /**
- * 存放使用状态及其描述
+ * 存放使用状态
  */
 public enum UseStatusEnum {
+
+    /**
+     * 未使用
+     */
     UNUSE("0"),
+    /**
+     * 使用中
+     */
     INUSE("1"),
+    /**
+     * 故障中
+     */
     ERROR("2");
 
     private String code;

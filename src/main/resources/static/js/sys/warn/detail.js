@@ -176,13 +176,13 @@ function handleWarn(flag) {
                 $('.timeline-check:checked').each(function (i, el) {
                     ids.push(el.value);
                 });
-                deliverData(ids, flag);
+                sendRequest(ids, flag);
             }
         }
     });
 }
 
-function deliverData(ids, flag) {
+function sendRequest(ids, flag) {
     $.ajax({
         url: 'sys/warn/modifyWarnRecord',
         type: 'post',

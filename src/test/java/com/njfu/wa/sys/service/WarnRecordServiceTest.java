@@ -1,7 +1,6 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.WarnRecord;
-import com.njfu.wa.sys.utils.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,7 +17,7 @@ import java.util.List;
 @Transactional
 public class WarnRecordServiceTest {
 
-    private static final Logger log = LoggerFactory.getLogger(WarnRecordServiceTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarnRecordServiceTest.class);
 
     @Resource
     private WarnRecordService warnRecordService;
@@ -29,14 +28,14 @@ public class WarnRecordServiceTest {
 
         List<WarnRecord> warnRecords = warnRecordService.getWarnRecord(warnRecord, null, null);
 
-        log.info("warnRecords: {}", warnRecords);
+        LOGGER.info("warnRecords: {}", warnRecords);
     }
 
     @Test
     public void getUnHandleWarnRecord() throws Exception {
         List<WarnRecord> result = warnRecordService.getUnHandleWarnRecord();
 
-        log.info("result: {}", result);
+        LOGGER.info("result: {}", result);
     }
 
     @Test
@@ -44,14 +43,16 @@ public class WarnRecordServiceTest {
         Integer[] ids = {1, 2, 3};
         String flag = "-2";
 
-        Result result = warnRecordService.modifyWarnRecord(ids, flag);
-
-        log.info("result: {}", result);
+        try {
+            warnRecordService.modifyWarnRecord(ids, flag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void getUnhandleRecordCount() throws Exception {
         int result = warnRecordService.getUnhandleRecordCount();
-        log.info("result: {}", result);
+        LOGGER.info("result: {}", result);
     }
 }

@@ -279,7 +279,7 @@ CREATE TABLE memo (
   COMMENT '类型，0-日志，1-备忘录，2-注意事项',
   content     TEXT               NULL
   COMMENT '内容',
-  update_time TIMESTAMP          NOT NULL ON UPDATE CURRENT_TIMESTAMP
+  update_time TIMESTAMP          NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   COMMENT '更新时间',
   PRIMARY KEY (id)
 )
@@ -553,6 +553,22 @@ CREATE PROCEDURE check_warn_compare(IN ts_code VARCHAR(255), IN ts_floor DOUBLE(
   END //
 DELIMITER ;
 
+/* 将某项阈值标为未使用后，将所有大棚数据项中的该项数据置空 */
+DELIMITER //
+DROP PROCEDURE IF EXISTS ignore_data;
+CREATE PROCEDURE ignore_data(IN ts_code VARCHAR(255))
+BEGIN
+  DECLARE ts_type VARCHAR(255);
+  /* 将阈值编码转为阈值名称 */
+  CALL code_to_type(ts_code, ts_type);
+
+  /* 将该项阈值的所有数据置空 */
+  SET @sql_exe = CONCAT('UPDATE field_status SET ', ts_type, ' = NULL');
+  PREPARE stmt FROM @sql_exe;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
+END //
+DELIMITER ;
 
 /*********
  * data

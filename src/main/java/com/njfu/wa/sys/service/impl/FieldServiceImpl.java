@@ -8,7 +8,6 @@ import com.njfu.wa.sys.mapper.FieldMapper;
 import com.njfu.wa.sys.mapper.FieldStatusMapper;
 import com.njfu.wa.sys.mapper.SensorMapper;
 import com.njfu.wa.sys.service.FieldService;
-import com.njfu.wa.sys.utils.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -15,7 +15,7 @@ public interface MemoMapper {
      * @param type type
      * @return data
      */
-    List<Memo> getMemoList(@Param("type") String type);
+    List<Memo> selectMemoList(@Param("type") String type);
 
     /**
      * 根据id获取记录
@@ -23,7 +23,7 @@ public interface MemoMapper {
      * @param id id
      * @return Memo
      */
-    Memo getMemo(@Param("id") int id);
+    Memo selectMemo(@Param("id") int id);
 
     /**
      * 新增记录
@@ -34,7 +34,7 @@ public interface MemoMapper {
     int insertMemo(Memo memo);
 
     /**
-     * 更新记录
+     * 修改记录
      *
      * @param memo memo
      * @return count

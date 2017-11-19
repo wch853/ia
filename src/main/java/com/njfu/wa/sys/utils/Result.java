@@ -28,38 +28,6 @@ public class Result<T> {
         this.data = data;
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public static Result success(String message) {
-        return new Result<>(ResultEnum.SUCCESS.code(), message, null);
-    }
-
-    public static Result fail(String message) {
-        return new Result<>(ResultEnum.FAIL.code(), message, null);
-    }
-
     /**
      * 响应结果
      *
@@ -96,5 +64,27 @@ public class Result<T> {
         return response(resultEnum, null);
     }
 
+    public Integer getCode() {
+        return code;
+    }
 
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
 }

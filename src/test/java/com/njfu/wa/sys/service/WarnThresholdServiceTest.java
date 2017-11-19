@@ -1,7 +1,6 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.WarnThreshold;
-import com.njfu.wa.sys.utils.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -40,9 +39,11 @@ public class WarnThresholdServiceTest {
         warnThreshold.setFloor(32.22);
         warnThreshold.setUseStatus("1");
 
-        Result result = warnThresholdService.modifyWarnThreshold(warnThreshold);
-
-        log.info("result: {}", result);
+        try {
+            warnThresholdService.modifyWarnThreshold(warnThreshold);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

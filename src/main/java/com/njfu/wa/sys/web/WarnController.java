@@ -9,6 +9,8 @@ import com.njfu.wa.sys.service.WarnRecordService;
 import com.njfu.wa.sys.service.WarnThresholdService;
 import com.njfu.wa.sys.utils.PaginationResult;
 import com.njfu.wa.sys.utils.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,8 @@ public class WarnController {
 
     @Resource
     private FieldService fieldService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarnController.class);
 
     /**
      * 阈值设置页面
@@ -52,7 +56,7 @@ public class WarnController {
     PaginationResult getWarnThreshold(int offset, int limit, WarnThreshold warnThreshold) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
         List<WarnThreshold> warnThresholds = warnThresholdService.getWarnThreshold(warnThreshold);
-        return new PaginationResult(page.getTotal(), warnThresholds);
+        return new PaginationResult<>(page.getTotal(), warnThresholds);
     }
 
     /**
@@ -64,7 +68,13 @@ public class WarnController {
     @PostMapping("/modifyWarnThreshold")
     public @ResponseBody
     Result modifyWarnThreshold(WarnThreshold warnThreshold) {
-        return warnThresholdService.modifyWarnThreshold(warnThreshold);
+        try {
+            warnThresholdService.modifyWarnThreshold(warnThreshold);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -129,7 +139,13 @@ public class WarnController {
     @PostMapping("/modifyWarnRecord")
     public @ResponseBody
     Result modifyWarnRecord(@RequestParam("ids[]") Integer[] ids, String flag) {
-        return warnRecordService.modifyWarnRecord(ids, flag);
+        try {
+            warnRecordService.modifyWarnRecord(ids, flag);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**

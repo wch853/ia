@@ -97,7 +97,7 @@ $('.selectpicker').selectpicker({
 });
 
 // 数据提交
-function deliverData(path, vehicleId, vehicleType, blockId, useStatus, vehiclePs) {
+function sendRequest(path, vehicleId, vehicleType, blockId, useStatus, vehiclePs) {
     $.ajax({
         url: path,
         type: 'post',
@@ -162,7 +162,7 @@ $('#saveAdd').click(function () {
             message: '确认新增车辆信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/addVehicle', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
+                    sendRequest('sys/file/addVehicle', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
                 }
             }
         });
@@ -205,7 +205,7 @@ $('#saveModify').click(function () {
             message: '确认修改车辆信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/modifyVehicle', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
+                    sendRequest('sys/file/modifyVehicle', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
                 }
             }
         });
@@ -219,7 +219,7 @@ function removeVehicle(vehicleId) {
         message: '确认删除车辆信息',
         callback: function (flag) {
             if (flag) {
-                deliverData('sys/file/removeVehicle', vehicleId);
+                sendRequest('sys/file/removeVehicle', vehicleId);
             }
         }
     });

@@ -12,17 +12,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class FieldStatusMapperTest {
 
-    public static final Logger log = LoggerFactory.getLogger(FieldStatusMapperTest.class);
-
     @Resource
     private FieldStatusMapper fieldStatusMapper;
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(FieldStatusMapperTest.class);
 
     @Test
     public void insertFieldStatus() throws Exception {
@@ -38,7 +37,7 @@ public class FieldStatusMapperTest {
     public void selectFieldStatus() throws Exception {
         FieldStatus fieldStatuses = fieldStatusMapper.selectFieldStatus("f1701001");
 
-        log.info("fieldStatuses: {}", fieldStatuses);
+        LOGGER.info("fieldStatuses: {}", fieldStatuses);
     }
 
     @Test
@@ -49,6 +48,15 @@ public class FieldStatusMapperTest {
         int res = fieldStatusMapper.deleteFieldStatus(field);
 
         Assert.assertEquals(1, res);
+    }
+
+    @Test
+    public void updateFieldStatus() throws Exception {
+        try {
+            fieldStatusMapper.updateFieldStatus("12");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

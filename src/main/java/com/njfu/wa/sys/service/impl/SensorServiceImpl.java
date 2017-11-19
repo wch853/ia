@@ -3,7 +3,6 @@ package com.njfu.wa.sys.service.impl;
 import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.domain.Sensor;
 import com.njfu.wa.sys.exception.BusinessException;
-import com.njfu.wa.sys.utils.Result;
 import com.njfu.wa.sys.mapper.SensorMapper;
 import com.njfu.wa.sys.service.SensorService;
 import org.springframework.stereotype.Service;

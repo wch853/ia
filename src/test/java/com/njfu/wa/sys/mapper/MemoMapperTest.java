@@ -24,15 +24,14 @@ public class MemoMapperTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MemoMapperTest.class);
 
     @Test
-    public void getMemoList() throws Exception {
-        List<Memo> memoList = memoMapper.getMemoList("1");
+    public void selectMemoList() throws Exception {
+        List<Memo> memoList = memoMapper.selectMemoList("1");
         LOGGER.info("memoList: {}", memoList);
     }
 
     @Test
-    public void getMemo() throws Exception {
-        // TODO
-        Memo memo = memoMapper.getMemo(1);
+    public void selectMemo() throws Exception {
+        Memo memo = memoMapper.selectMemo(1);
         LOGGER.info("memo: {}", memo);
     }
 
@@ -51,6 +50,7 @@ public class MemoMapperTest {
         Memo memo = new Memo();
         memo.setId(1);
         memo.setTitle("test");
+        memo.setContent("test");
         int res = memoMapper.updateMemo(memo);
         Assert.assertEquals(1, res);
     }

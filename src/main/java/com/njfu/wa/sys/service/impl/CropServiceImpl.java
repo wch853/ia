@@ -2,7 +2,6 @@ package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Crop;
 import com.njfu.wa.sys.exception.BusinessException;
-import com.njfu.wa.sys.utils.Result;
 import com.njfu.wa.sys.mapper.CropMapper;
 import com.njfu.wa.sys.service.CropService;
 import org.springframework.stereotype.Service;

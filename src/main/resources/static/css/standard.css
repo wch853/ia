@@ -421,7 +421,7 @@ nav {
     margin-top: 20px;
 }
 
-.log-list {
+.log-list-parent {
     border-right: 2px solid #999999;
 }
 
@@ -435,15 +435,31 @@ nav {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .log-list li:hover {
     background-color: #d9d3ff;
 }
 
+#memo-title {
+    width: 400px;
+}
+
 .memo-edit-area {
-    min-height: 300px;
+    min-height: 360px;
     font-size: 16px;
     border: 2px solid #cbd3d4;
     margin: 5px 0;
+    width: 100%;
+}
+
+#add-memo {
+    background-color: #337ab7;
+    color: white;
+    font-weight: 600;
+}
+
+#add-memo i {
+    margin-top: 4px;
 }

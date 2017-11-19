@@ -66,7 +66,7 @@ $('#resetBtn').click(function () {
 });
 
 // 数据提交
-function deliverData(path, blockId, blockName, blockLoc, blockPs) {
+function sendRequest(path, blockId, blockName, blockLoc, blockPs) {
     $.ajax({
         url: path,
         type: 'post',
@@ -123,7 +123,7 @@ $('#saveAdd').click(function () {
             message: '确认新增地块信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/addBlock', blockId, blockName, blockLoc, blockPs);
+                    sendRequest('sys/file/addBlock', blockId, blockName, blockLoc, blockPs);
                 }
             }
         });
@@ -164,7 +164,7 @@ $('#saveModify').click(function () {
             message: '确认修改地块信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/modifyBlock', blockId, blockName, blockLoc, blockPs);
+                    sendRequest('sys/file/modifyBlock', blockId, blockName, blockLoc, blockPs);
                 }
             }
         });
@@ -178,7 +178,7 @@ function removeBlock(blockId) {
         message: '删除地块并删除该地块下的所有大棚？',
         callback: function (flag) {
             if (flag) {
-                deliverData('sys/file/removeBlock', blockId);
+                sendRequest('sys/file/removeBlock', blockId);
             }
         }
     });

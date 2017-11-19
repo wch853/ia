@@ -3,6 +3,7 @@ package com.njfu.wa.sys.service.impl;
 import com.njfu.wa.sys.domain.WarnRecord;
 import com.njfu.wa.sys.enums.ResultEnum;
 import com.njfu.wa.sys.enums.WarnRecordFlagEnum;
+import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.WarnRecordMapper;
 import com.njfu.wa.sys.service.WarnRecordService;
 import com.njfu.wa.sys.utils.Result;
@@ -84,18 +85,13 @@ public class WarnRecordServiceImpl implements WarnRecordService {
      *
      * @param ids  id
      * @param flag flag
-     * @return message
      */
     @Override
-    public Result modifyWarnRecord(Integer[] ids, String flag) {
-
+    public void modifyWarnRecord(Integer[] ids, String flag) {
         int res = warnRecordMapper.updateWarnRecord(ids, flag);
-
-        if (res == 0) {
-            return Result.fail("修改报警记录处理标志失败！");
+        if (res <= 0) {
+            throw new BusinessException("修改报警记录处理标志失败！");
         }
-
-        return Result.success("修改报警记录处理标志成功！");
     }
 
     /**

@@ -3,11 +3,9 @@ package com.njfu.wa.sys.service.impl;
 import com.njfu.wa.sys.domain.FieldStatus;
 import com.njfu.wa.sys.mapper.FieldStatusMapper;
 import com.njfu.wa.sys.service.FieldStatusService;
-import com.njfu.wa.sys.utils.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class FieldStatusServiceImpl implements FieldStatusService {

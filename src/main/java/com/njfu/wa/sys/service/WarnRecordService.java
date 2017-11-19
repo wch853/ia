@@ -1,7 +1,6 @@
 package com.njfu.wa.sys.service;
 
 import com.njfu.wa.sys.domain.WarnRecord;
-import com.njfu.wa.sys.utils.Result;
 
 import java.util.List;
 
@@ -34,9 +33,8 @@ public interface WarnRecordService {
      *
      * @param ids  id
      * @param flag flag
-     * @return message
      */
-    Result modifyWarnRecord(Integer[] ids, String flag);
+    void modifyWarnRecord(Integer[] ids, String flag);
 
     /**
      * 获取未处理报警记录数量

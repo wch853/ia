@@ -19,13 +19,15 @@
     </select>
 
     <select id="selectCropById" resultType="Crop">
-        SELECT crop_id, crop_name
+        SELECT
+            crop_id,
+            crop_name
         FROM crop
         WHERE crop_id = #{crop_id}
     </select>
 
     <insert id="insertCrop">
-        INSERT INTO crop(crop_id, crop_name, crop_ps)
+        INSERT INTO crop (crop_id, crop_name, crop_ps)
         VALUES (#{cropId}, #{cropName}, #{cropPs})
     </insert>
 

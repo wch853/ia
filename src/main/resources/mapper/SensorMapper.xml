@@ -58,4 +58,16 @@
         SET field_id = NULL
         WHERE field_id = #{fieldId}
     </update>
+
+    <select id="selectFieldBySensor" resultType="java.lang.String">
+        SELECT field_id
+        FROM sensor
+        WHERE sensor_id = #{sensor_id}
+    </select>
+
+    <select id="selectSensorsByField" resultType="java.lang.String">
+        SELECT sensor_id
+        FROM sensor
+        WHERE field_id = #{fieldId}
+    </select>
 </mapper>	

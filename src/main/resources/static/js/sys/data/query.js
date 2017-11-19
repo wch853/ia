@@ -1,5 +1,5 @@
 // 激活侧边栏
-$('[data-target="#warn-man"]').trigger('click').parent().find('li:eq(1) a').addClass('side-active');
+$('[data-target="#data-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
 
 $('#queryDate').daterangepicker({
     locale: {
@@ -20,67 +20,47 @@ $('#queryDate').daterangepicker({
 }).val('');
 
 $("#recordTable").bootstrapTable({
-    url: 'sys/warn/getWarnRecord',
+    url: 'sys/data/getDataRecord',
     queryParams: function (params) {
         return {
             offset: params.offset,
             limit: params.limit,
+            sensorId: $('#querySensorId').val(),
             fieldId: $('#queryFieldId').val(),
-            warnType: $('#queryWarnType').val(),
+            dataType: $('#queryWarnType').val(),
             start: getTime(0),
-            end: getTime(1),
-            flag: $('#queryFlag').val()
+            end: getTime(1)
         }
     },
     columns: [{
         field: 'id',
         title: '记录编号'
     }, {
+        field: 'sensorId',
+        title: '大棚编号'
+    }, {
         field: 'fieldId',
         title: '大棚编号'
     }, {
         formatter: function (value, row, index) {
-            return convertWarnType(row.warnType);
+            return convertDataType(row.dataType);
         },
-        title: '报警类型'
+        title: '数据类型'
     }, {
-        field: 'warnVal',
-        title: '报警值'
+        field: 'val',
+        title: '数据值'
     }, {
-        field: 'warnTime',
-        title: '最早报警时间'
+        field: 'recordTime',
+        title: '记录时间'
     }, {
         field: 'warnCount',
         title: '报警计数'
-    }, {
-        field: 'handleTime',
-        title: '处理时间'
-    }, {
-        formatter: function (value, row, index) {
-            /** @namespace row.flag */
-            var flag = row.flag;
-            var format = '';
-            if (flag === '0') {
-                format = '未处理';
-            } else if (flag === '1') {
-                format = '已处理';
-            } else if (flag === '2') {
-                format = '已忽略';
-            }
-            return format;
-        },
-        title: '处理标志'
     }],
     striped: true,
     pagination: true,
     sidePagination: 'server',
     pageSize: 10,
     pageList: [5, 10, 25, 50]
-});
-
-// 设置bootstrap-select大小
-$('#queryToolBar .selectpicker').selectpicker({
-    width: '180.67px'
 });
 
 /**
@@ -97,12 +77,17 @@ function getTime(index) {
     }
 }
 
+// 设置bootstrap-select大小
+$('#queryToolBar .selectpicker').selectpicker({
+    width: '180.67px'
+});
+
 /**
- * 转换报警类型
+ * 转换数据类型
  */
-function convertWarnType(warnType) {
+function convertDataType(dataType) {
     var type = '';
-    switch (warnType) {
+    switch (dataType) {
         case '1':
             type = '温度';
             break;

@@ -32,4 +32,10 @@ public interface FieldStatusMapper {
      */
     int deleteFieldStatus(Field field);
 
+    /**
+     * 将指定阈值类型的大棚数据置空
+     *
+     * @param thresholdType thresholdType
+     */
+    void updateFieldStatus(@Param("thresholdType") String thresholdType);
 }

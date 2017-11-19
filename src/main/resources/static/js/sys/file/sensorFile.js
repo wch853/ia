@@ -125,7 +125,7 @@ $('#queryToolBar .selectpicker').selectpicker({
 });
 
 // 数据提交
-function deliverData(path, sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs) {
+function sendRequest(path, sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs) {
     $.ajax({
         url: path,
         type: 'post',
@@ -192,7 +192,7 @@ $('#saveAdd').click(function () {
             message: '确认新增传感器信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/addSensor', sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs);
+                    sendRequest('sys/file/addSensor', sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs);
                 }
             }
         });
@@ -237,7 +237,7 @@ $('#saveModify').click(function () {
             message: '确认修改传感器信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/modifySensor', sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs);
+                    sendRequest('sys/file/modifySensor', sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs);
                 }
             }
         });
@@ -251,7 +251,7 @@ function removeSensor(sensorId) {
         message: '确认删除传感器信息',
         callback: function (flag) {
             if (flag) {
-                deliverData('sys/file/removeSensor', sensorId);
+                sendRequest('sys/file/removeSensor', sensorId);
             }
         }
     });

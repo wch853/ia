@@ -89,7 +89,7 @@ public class FileController {
             blockService.addBlock(block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("add block exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -107,7 +107,7 @@ public class FileController {
             blockService.modifyBlock(block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("modify block exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -125,7 +125,7 @@ public class FileController {
             blockService.removeBlock(block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("remove block exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -179,7 +179,7 @@ public class FileController {
             fieldService.addField(field, block, crop);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("add field exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -199,7 +199,7 @@ public class FileController {
             fieldService.modifyField(field, block, crop);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("modify field exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -217,7 +217,7 @@ public class FileController {
             fieldService.removeField(field);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("remove field exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -262,7 +262,7 @@ public class FileController {
             cropService.addCrop(crop);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("add crop exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -280,7 +280,7 @@ public class FileController {
             cropService.modifyCrop(crop);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("modify crop exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -298,7 +298,7 @@ public class FileController {
             cropService.removeCrop(crop);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("remove crop exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -343,7 +343,7 @@ public class FileController {
             employeeService.addEmployee(employee);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("add emp exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -361,7 +361,7 @@ public class FileController {
             employeeService.modifyEmployee(employee);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("modify emp exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -379,7 +379,7 @@ public class FileController {
             employeeService.removeEmployee(employee);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("remove emp exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -429,7 +429,7 @@ public class FileController {
             machineService.addMachine(machine, block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("add machine exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -448,7 +448,7 @@ public class FileController {
             machineService.modifyMachine(machine, block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("modify machine exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -466,7 +466,7 @@ public class FileController {
             machineService.removeMachine(machine);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("remove machine exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -515,7 +515,7 @@ public class FileController {
             vehicleService.addVehicle(vehicle, block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("add vehicle exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -534,7 +534,7 @@ public class FileController {
             vehicleService.modifyVehicle(vehicle, block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("modify vehicle exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -552,7 +552,7 @@ public class FileController {
             vehicleService.removeVehicle(vehicle);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("remove vehicle exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -601,7 +601,7 @@ public class FileController {
             sensorService.addSensor(sensor, field);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("add sensor exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -620,7 +620,7 @@ public class FileController {
             sensorService.modifySensor(sensor, field);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("modify sensor exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -638,7 +638,7 @@ public class FileController {
             sensorService.removeSensor(sensor);
             return Result.response(ResultEnum.SUCCESS);
         } catch (Exception e) {
-            LOGGER.error("remove sensor exception", e);
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
     }

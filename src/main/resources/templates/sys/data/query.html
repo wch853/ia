@@ -6,7 +6,7 @@
     <#include "/common/bootstrap-table.html"/>
     <#include "/common/bootstrap-select.html"/>
     <#include "/common/bootstrap-daterangepicker.html"/>
-    <title>报警记录</title>
+    <title>数据查询</title>
 </head>
 <body>
 <div id="wrapper">
@@ -20,13 +20,13 @@
     <div id="page-wrapper">
         <div class="container-fluid">
             <div class="page-header">
-                <h2>报警记录</h2>
+                <h2>数据查询</h2>
             </div>
 
             <div class="row col-md-12">
                 <ol class="breadcrumb">
                     <li><a href="">首页</a></li>
-                    <li><a href="sys/warn/record"></a></li>
+                    <li><a href="sys/data/query">数据查询</a></li>
                 </ol>
             </div>
 
@@ -35,6 +35,15 @@
                 <div class="form-group">
                     <label for="queryDate">起止时间：</label>
                     <input type="text" id="queryDate" class="form-control range-date">
+                </div>
+                <div class="form-group">
+                    <label for="querySensorId">传感器编号：</label>
+                    <select id="querySensorId" class="selectpicker" data-live-search="true">
+                        <option value="" class="hide-option">请选择传感器编号</option>
+                        <#list sensors as sensor>
+                            <option value="${(sensor.sensorId)!}">NO.${(sensor.sensorId)!}</option>
+                        </#list>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="queryFieldId">大棚编号：</label>
@@ -46,8 +55,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="queryWarnType">报警类型：</label>
-                    <select id="queryWarnType" class="selectpicker" data-live-search="true">
+                    <label for="queryDataType">数据类型：</label>
+                    <select id="queryDataType" class="selectpicker" data-live-search="true">
                         <option value="" class="hide-option">请选择报警类型</option>
                         <option value="1">温度</option>
                         <option value="2">湿度</option>
@@ -63,15 +72,6 @@
                         <option value="12">Pb（铅含量）</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="queryFlag">处理标志：</label>
-                    <select id="queryFlag" class="selectpicker">
-                        <option value="" class="hide-option">请选择处理标志</option>
-                        <option value="0">未处理</option>
-                        <option value="1">已处理</option>
-                        <option value="2">已忽略</option>
-                    </select>
-                </div>
                 <button class="btn btn-primary" id="queryBtn">查询</button>
                 <button class="btn btn-success" id="resetBtn">重置</button>
             </div>
@@ -84,5 +84,5 @@
 
 </div><!--wrapped-->
 </body>
-<script type="text/javascript" src="js/sys/warn/record.js"></script>
+<script type="text/javascript" src="js/sys/data/query.js"></script>
 </html>

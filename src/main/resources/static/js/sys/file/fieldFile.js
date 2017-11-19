@@ -102,7 +102,7 @@ $('#queryToolBar .selectpicker').selectpicker({
 });
 
 // 数据提交
-function deliverData(path, fieldId, fieldName, blockId, cropId, useStatus, fieldPs) {
+function sendRequest(path, fieldId, fieldName, blockId, cropId, useStatus, fieldPs) {
     $.ajax({
         url: path,
         type: 'post',
@@ -169,7 +169,7 @@ $('#saveAdd').click(function () {
             message: '确认新增大棚信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/addField', fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
+                    sendRequest('sys/file/addField', fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
                 }
             }
         });
@@ -214,7 +214,7 @@ $('#saveModify').click(function () {
             message: '确认修改大棚信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/modifyField', fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
+                    sendRequest('sys/file/modifyField', fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
                 }
             }
         });
@@ -228,7 +228,7 @@ function removeField(fieldId) {
         message: '确认删除大棚信息',
         callback: function (flag) {
             if (flag) {
-                deliverData('sys/file/removeField', fieldId);
+                sendRequest('sys/file/removeField', fieldId);
             }
         }
     });

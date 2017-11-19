@@ -1,5 +1,7 @@
 package com.njfu.wa.sys.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -27,6 +29,7 @@ public class Memo {
     /**
      * 更新时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date updateTime;
 
     public int getId() {
@@ -67,5 +70,16 @@ public class Memo {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Memo{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", type='" + type + '\'' +
+                ", content='" + content + '\'' +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

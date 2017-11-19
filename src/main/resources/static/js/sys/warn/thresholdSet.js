@@ -138,15 +138,19 @@ $('#saveModify').click(function () {
 
     $('#modifyModal').modal('hide');
 
-    var reg = /^[0-9]+([.]{1}[0-9]{1,2})?$/;
+    var reg = /^[0-9]+([.][0-9]{1,2})?$/;
+
+    var message;
+    useStatus === '0' ? message = '将阈值设为不可用，报警系统将忽略此类信息！' :
+        message = '确认修改阈值信息';
 
     if (reg.test(floor) && reg.test(ceil)) {
         bootbox.confirm({
             title: '提示',
-            message: '确认修改阈值信息',
+            message: message,
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/warn/modifyWarnThreshold', id, floor, ceil, useStatus);
+                    sendRequest('sys/warn/modifyWarnThreshold', id, floor, ceil, useStatus);
                 }
             }
         });
@@ -159,7 +163,7 @@ $('#saveModify').click(function () {
 
 });
 
-function deliverData(path, id, floor, ceil, useStatus) {
+function sendRequest(path, id, floor, ceil, useStatus) {
     $.ajax({
         url: path,
         type: 'post',

@@ -81,7 +81,7 @@ $('.selectpicker').selectpicker({
 });
 
 // 数据提交
-function deliverData(path, empId, empName, empTel, empPosition, empAge, empSex, empPs) {
+function sendRequest(path, empId, empName, empTel, empPosition, empAge, empSex, empPs) {
     $.ajax({
         url: path,
         type: 'post',
@@ -150,7 +150,7 @@ $('#saveAdd').click(function () {
             message: '确认新增员工信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/addEmployee', empId, empName, empTel, empPosition, empAge, empSex, empPs);
+                    sendRequest('sys/file/addEmployee', empId, empName, empTel, empPosition, empAge, empSex, empPs);
                 }
             }
         });
@@ -186,11 +186,6 @@ $('#saveModify').click(function () {
             title: '提示',
             message: '请输入完整信息！'
         });
-    } else if (!/^1[0-9]{10}$/.test(empTel)) {
-        bootbox.alert({
-            title: '提示',
-            message: '联系方式输入有误！'
-        });
     } else if ('' !== empAge && !/^[0-9]{1,3}$/.test(empAge)) {
         bootbox.alert({
             title: '提示',
@@ -207,7 +202,7 @@ $('#saveModify').click(function () {
             message: '确认修改员工信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/modifyEmployee', empId, empName, empTel, empPosition, empAge, empSex, empPs);
+                    sendRequest('sys/file/modifyEmployee', empId, empName, empTel, empPosition, empAge, empSex, empPs);
                 }
             }
         });
@@ -221,7 +216,7 @@ function removeEmp(empId) {
         message: '确认删除员工信息',
         callback: function (flag) {
             if (flag) {
-                deliverData('sys/file/removeEmployee', empId);
+                sendRequest('sys/file/removeEmployee', empId);
             }
         }
     });

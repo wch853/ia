@@ -21,10 +21,10 @@
                 AND warn_type = #{warnRecord.warnType}
             </if>
             <if test="null != start and !''.equals(start)">
-                AND warn_time >= DATE_FORMAT(#{start}, '%Y:%m:%d')
+                AND warn_time &gt;= DATE_FORMAT(#{start}, '%Y:%m:%d')
             </if>
             <if test="null != end and !''.equals(end)">
-                AND DATE_FORMAT(#{end}, '%Y:%m:%d') >= warn_time
+                AND warn_time &lt;= DATE_FORMAT(#{end}, '%Y:%m:%d')
             </if>
             <if test="null != warnRecord.flag and !''.equals(warnRecord.flag)">
                 AND flag = #{warnRecord.flag}
@@ -67,7 +67,7 @@
         WHERE flag = #{flag}
     </select>
 
-    <select id="com.njfu.wa.sys.mapper.WarnRecordMapper.checkWarn" statementType="CALLABLE">
+    <select id="checkWarn" statementType="CALLABLE">
         CALL check_warn()
     </select>
 

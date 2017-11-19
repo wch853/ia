@@ -6,7 +6,6 @@ import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.*;
 import com.njfu.wa.sys.service.BlockService;
-import com.njfu.wa.sys.utils.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

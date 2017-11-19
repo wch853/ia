@@ -97,7 +97,7 @@ $('.selectpicker').selectpicker({
 });
 
 // 数据提交
-function deliverData(path, machineId, machineType, blockId, useStatus, machinePs) {
+function sendRequest(path, machineId, machineType, blockId, useStatus, machinePs) {
     $.ajax({
         url: path,
         type: 'post',
@@ -162,7 +162,7 @@ $('#saveAdd').click(function () {
             message: '确认新增机械信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/addMachine', machineId, machineType, blockId, useStatus, machinePs);
+                    sendRequest('sys/file/addMachine', machineId, machineType, blockId, useStatus, machinePs);
                 }
             }
         });
@@ -205,7 +205,7 @@ $('#saveModify').click(function () {
             message: '确认修改机械信息',
             callback: function (flag) {
                 if (flag) {
-                    deliverData('sys/file/modifyMachine', machineId, machineType, blockId, useStatus, machinePs);
+                    sendRequest('sys/file/modifyMachine', machineId, machineType, blockId, useStatus, machinePs);
                 }
             }
         });
@@ -219,7 +219,7 @@ function removeMachine(machineId) {
         message: '确认删除机械信息',
         callback: function (flag) {
             if (flag) {
-                deliverData('sys/file/removeMachine', machineId);
+                sendRequest('sys/file/removeMachine', machineId);
             }
         }
     });

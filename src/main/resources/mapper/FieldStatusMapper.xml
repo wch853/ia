@@ -36,4 +36,10 @@
         WHERE field_id = #{fieldId}
     </delete>
 
+    <select id="updateFieldStatus" statementType="CALLABLE">
+        CALL ignore_data(
+            #{thresholdType, jdbcType = VARCHAR, mode = IN}
+        )
+    </select>
+
 </mapper>

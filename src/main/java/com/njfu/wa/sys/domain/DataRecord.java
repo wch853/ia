@@ -1,5 +1,7 @@
 package com.njfu.wa.sys.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -15,7 +17,12 @@ public class DataRecord {
     /**
      * 来源传感器编号
      */
-    private String sensor_id;
+    private String sensorId;
+
+    /**
+     * 所属大棚编号
+     */
+    private String fieldId;
 
     /**
      * 数据类型
@@ -33,6 +40,7 @@ public class DataRecord {
     /**
      * 记录时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date recordTime;
 
     public DataRecord() {
@@ -46,12 +54,20 @@ public class DataRecord {
         this.id = id;
     }
 
-    public String getSensor_id() {
-        return sensor_id;
+    public String getSensorId() {
+        return sensorId;
     }
 
-    public void setSensor_id(String sensor_id) {
-        this.sensor_id = sensor_id;
+    public void setSensorId(String sensorId) {
+        this.sensorId = sensorId;
+    }
+
+    public String getFieldId() {
+        return fieldId;
+    }
+
+    public void setFieldId(String fieldId) {
+        this.fieldId = fieldId;
     }
 
     public String getDataType() {
@@ -82,7 +98,8 @@ public class DataRecord {
     public String toString() {
         return "DataRecord{" +
                 "id=" + id +
-                ", sensor_id='" + sensor_id + '\'' +
+                ", sensorId='" + sensorId + '\'' +
+                ", fieldId='" + fieldId + '\'' +
                 ", dataType='" + dataType + '\'' +
                 ", val=" + val +
                 ", recordTime=" + recordTime +

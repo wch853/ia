@@ -44,8 +44,15 @@ public interface SensorMapper {
     /**
      * 将对应传感器的fieldId置空
      *
-     * @param fieldId
-     * @return
+     * @param fieldId fieldId
+     * @return count
      */
     int updateSensorField(@Param("fieldId") String fieldId);
+
+    /**
+     * 查询指定fieldId对应的sensorId
+     * @param fieldId fieldId
+     * @return data
+     */
+    List<String> selectSensorsByField(@Param("fieldId") String fieldId);
 }
