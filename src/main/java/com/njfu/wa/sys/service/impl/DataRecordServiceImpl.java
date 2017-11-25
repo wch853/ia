@@ -1,18 +1,20 @@
 package com.njfu.wa.sys.service.impl;
 
+import com.njfu.wa.sys.domain.ChartData;
 import com.njfu.wa.sys.domain.DataRecord;
+import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.DataRecordMapper;
 import com.njfu.wa.sys.mapper.SensorMapper;
 import com.njfu.wa.sys.service.DataRecordService;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DataRecordServiceImpl implements DataRecordService {
@@ -22,6 +24,11 @@ public class DataRecordServiceImpl implements DataRecordService {
 
     @Resource
     private SensorMapper sensorMapper;
+
+    /**
+     * 一周小时数
+     */
+    private static int HOURS_OF_A_WEEK = 7 * 24;
 
     /**
      * 查询数据记录列表
@@ -52,5 +59,138 @@ public class DataRecordServiceImpl implements DataRecordService {
         map.put("start", start);
         map.put("end", end);
         return dataRecordMapper.selectDataRecords(map);
+    }
+
+    /**
+     * 查询生成图标所需的数据
+     *
+     * @param dataTypes dataTypes
+     * @param fieldId   fieldId
+     * @return data
+     */
+    @Override
+    public ChartData getChartData(String[] dataTypes, String fieldId) throws BusinessException {
+        ChartData chartData = new ChartData();
+        // 获取查询记录日期列表
+        List<Date> dateList = this.getDateList(HOURS_OF_A_WEEK);
+        List<String> sensorIds = sensorMapper.selectSensorsByField(fieldId);
+        if (CollectionUtils.isEmpty(sensorIds)) {
+            throw new BusinessException("该大棚下没有关联传感器，无法获取数据！");
+        }
+
+        // 处理查询参数
+        List<String> types = Arrays.asList(dataTypes);
+        Map<String, Object> map = new HashMap<>();
+        map.put("dataTypes", types);
+        map.put("sensorIds", sensorIds);
+        map.put("date", dateList.get(0));
+
+        List<DataRecord> dataRecords = dataRecordMapper.selectChartData(map);
+        this.classifyData(chartData, dataRecords, types, dateList);
+        return chartData;
+    }
+
+    /**
+     * 通过指定小时数获取日期列表
+     *
+     * @param hours hours
+     * @return list
+     */
+    private List<Date> getDateList(int hours) {
+        List<Date> dateList = new ArrayList<>();
+        // 当前时间整点
+        Date now = DateUtils.round(new Date(), Calendar.HOUR);
+        // 距离指定小时数的整点
+        Date earliestDate = DateUtils.addHours(now, -hours);
+        // 递增小时获取日期列表
+        for (Date date = earliestDate; date.compareTo(now) < 0; date = DateUtils.addHours(date, 1)) {
+            dateList.add(date);
+        }
+        return dateList;
+    }
+
+    /**
+     * 将DateList转为指定格式的StringList
+     *
+     * @param dateList dateList
+     * @param pattern  pattern
+     * @return list
+     */
+    private List<String> formatDateList(List<Date> dateList, String pattern) {
+        List<String> formatDateList = new ArrayList<>();
+        for (Date date : dateList) {
+            String format = DateFormatUtils.format(date, pattern);
+            formatDateList.add(format);
+        }
+        return formatDateList;
+    }
+
+    /**
+     * 整理数据
+     *
+     * @param chartData   chartData
+     * @param dataRecords dataRecords
+     * @param dataTypes   dataTypes
+     * @param dateList    dateList
+     * @throws BusinessException BusinessException
+     */
+    private void classifyData(ChartData chartData, List<DataRecord> dataRecords,
+                              List<String> dataTypes, List<Date> dateList) throws BusinessException {
+        if (CollectionUtils.isEmpty(dataRecords)) {
+            throw new BusinessException("该大棚未上传此类有效数据！");
+        }
+        // 数据类型-时间点-数据值
+        Map<String, Map<Date, Double>> typeToDateToValue = new HashMap<>(dataTypes.size());
+
+        // 根据查询数据类型初始化查询结果容器
+        for (String dataType : dataTypes) {
+            typeToDateToValue.put(dataType, new HashMap<>());
+        }
+
+        // 获取当前时间整点
+        Date now = DateUtils.round(new Date(), Calendar.HOUR);
+
+        // 对传入的所有数据记录进行过滤
+        for (DataRecord dataRecord : dataRecords) {
+            // 获取记录类型
+            String dataType = dataRecord.getDataType();
+            if (!typeToDateToValue.containsKey(dataType)) {
+                // 该条记录不在此次查询任务范围内，跳过
+                continue;
+            }
+            // 获取记录时间整点
+            Date recordTime = DateUtils.round(dataRecord.getRecordTime(), Calendar.HOUR);
+            if (now.compareTo(recordTime) == 0) {
+                // 滤去当前时间点
+                continue;
+            }
+            // 存放查询结果
+            typeToDateToValue.get(dataType).put(recordTime, dataRecord.getVal());
+        }
+
+        for (String dataType : dataTypes) {
+            Map<Date, Double> dateToValue = typeToDateToValue.get(dataType);
+            for (Date date : dateList) {
+                if (!dateToValue.containsKey(date)) {
+                    // 该时间点没有数据，需要用0补全
+                    dateToValue.put(date, Double.NaN);
+                }
+            }
+        }
+
+        // 将 数据类型-时间点-数据值 拆分为 时间点列表、数据类型-数据值
+        Map<String, List<Double>> typeToValue = new HashMap<>();
+        for (Map.Entry<String, Map<Date, Double>> entry : typeToDateToValue.entrySet()) {
+            String dataType = entry.getKey();
+            Map<Date, Double> dateToValue = entry.getValue();
+            List<Double> values = new ArrayList<>();
+            // 逐一遍历每个时间点，将对应的值加入集合
+            for (Date date : dateList) {
+                values.add(dateToValue.get(date));
+            }
+            typeToValue.put(dataType, values);
+        }
+        chartData.setDateList(formatDateList(dateList, "yyyy-MM-dd HH:mm"));
+        chartData.setDataMap(typeToValue);
     }
 }

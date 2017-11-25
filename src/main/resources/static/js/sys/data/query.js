@@ -27,7 +27,7 @@ $("#recordTable").bootstrapTable({
             limit: params.limit,
             sensorId: $('#querySensorId').val(),
             fieldId: $('#queryFieldId').val(),
-            dataType: $('#queryWarnType').val(),
+            dataType: $('#queryDataType').val(),
             start: getTime(0),
             end: getTime(1)
         }

@@ -2,6 +2,7 @@ package com.njfu.wa.sys.web;
 
 import com.njfu.wa.sys.domain.Memo;
 import com.njfu.wa.sys.enums.ResultEnum;
+import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.service.MemoService;
 import com.njfu.wa.sys.utils.Result;
 import org.slf4j.Logger;
@@ -70,6 +71,8 @@ public class MemoController {
         try {
             memoService.addMemo(memo);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -88,6 +91,8 @@ public class MemoController {
         try {
             memoService.modifyMemo(memo);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -106,6 +111,8 @@ public class MemoController {
         try {
             memoService.removeMemo(id);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);

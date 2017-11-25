@@ -1,5 +1,6 @@
 package com.njfu.wa.sys.service;
 
+import com.njfu.wa.sys.domain.ChartData;
 import com.njfu.wa.sys.domain.DataRecord;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,4 +31,11 @@ public class DataRecordServiceTest {
         LOGGER.info("dataRecords: {}", dataRecords);
     }
 
+    @Test
+    public void getChartData() throws Exception {
+        String[] dataTypes = {"1", "2", "3", "4"};
+        ChartData chartData = dataRecordService.getChartData(dataTypes, "f1701001");
+        LOGGER.info("dateSize: {}, dataSize: {}, valueSize: {}",
+                chartData.getDateList().size(), chartData.getDataMap().size(), chartData.getDataMap().get("1").size());
+    }
 }

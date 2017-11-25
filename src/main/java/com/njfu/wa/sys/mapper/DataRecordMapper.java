@@ -11,8 +11,17 @@ public interface DataRecordMapper {
 
     /**
      * 查询数据记录
+     *
      * @param map map
      * @return data
      */
     List<DataRecord> selectDataRecords(Map<String, Object> map);
+
+    /**
+     * 查询生成图表所需的数据
+     *
+     * @param map map
+     * @return data
+     */
+    List<DataRecord> selectChartData(Map<String, Object> map);
 }

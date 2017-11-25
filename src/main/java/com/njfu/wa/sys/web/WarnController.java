@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.njfu.wa.sys.domain.*;
 import com.njfu.wa.sys.enums.ResultEnum;
+import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.service.FieldService;
 import com.njfu.wa.sys.service.WarnRecordService;
 import com.njfu.wa.sys.service.WarnThresholdService;
@@ -71,6 +72,8 @@ public class WarnController {
         try {
             warnThresholdService.modifyWarnThreshold(warnThreshold);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -142,6 +145,8 @@ public class WarnController {
         try {
             warnRecordService.modifyWarnRecord(ids, flag);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);

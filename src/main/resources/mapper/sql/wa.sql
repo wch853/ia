@@ -161,7 +161,7 @@ CREATE TABLE data_record (
   COMMENT '来源传感器编号',
   data_type   VARCHAR(255)       NOT NULL
   COMMENT '数据类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
-  val         DOUBLE(5, 2)       NOT NULL
+  val         DOUBLE(8, 2)       NOT NULL
   COMMENT '数据记录值',
   record_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   COMMENT '记录时间',
@@ -179,29 +179,29 @@ CREATE TABLE field_status (
   COMMENT '大棚编号',
   update_time      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   COMMENT '状态更新时间',
-  temperature      DOUBLE(5, 2) DEFAULT NULL
+  temperature      DOUBLE(8, 2) DEFAULT NULL
   COMMENT '温度',
-  moisture         DOUBLE(5, 2) DEFAULT NULL
+  moisture         DOUBLE(8, 2) DEFAULT NULL
   COMMENT '湿度',
-  soil_temperature DOUBLE(5, 2) DEFAULT NULL
+  soil_temperature DOUBLE(8, 2) DEFAULT NULL
   COMMENT '土壤温度',
-  soil_moisture    DOUBLE(5, 2) DEFAULT NULL
+  soil_moisture    DOUBLE(8, 2) DEFAULT NULL
   COMMENT '土壤湿度',
-  light            DOUBLE(5, 2) DEFAULT NULL
+  light            DOUBLE(8, 2) DEFAULT NULL
   COMMENT '光照度',
-  co2              DOUBLE(5, 2) DEFAULT NULL
+  co2              DOUBLE(8, 2) DEFAULT NULL
   COMMENT '二氧化碳浓度',
-  ph               DOUBLE(5, 2) DEFAULT NULL
+  ph               DOUBLE(8, 2) DEFAULT NULL
   COMMENT 'ph',
-  n                DOUBLE(5, 2) DEFAULT NULL
+  n                DOUBLE(8, 2) DEFAULT NULL
   COMMENT '氮含量',
-  p                DOUBLE(5, 2) DEFAULT NULL
+  p                DOUBLE(8, 2) DEFAULT NULL
   COMMENT '磷含量',
-  k                DOUBLE(5, 2) DEFAULT NULL
+  k                DOUBLE(8, 2) DEFAULT NULL
   COMMENT '钾含量',
-  hg               DOUBLE(5, 2) DEFAULT NULL
+  hg               DOUBLE(8, 2) DEFAULT NULL
   COMMENT '汞含量',
-  pb               DOUBLE(5, 2) DEFAULT NULL
+  pb               DOUBLE(8, 2) DEFAULT NULL
   COMMENT '铅含量',
   PRIMARY KEY (field_id),
   KEY idx_update_time(update_time)
@@ -218,7 +218,7 @@ CREATE TABLE warn_record (
   COMMENT '来源大棚编号',
   warn_type   VARCHAR(255)       NOT NULL
   COMMENT '报警类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
-  warn_val    DOUBLE(5, 2)       NOT NULL
+  warn_val    DOUBLE(8, 2)       NOT NULL
   COMMENT '报警值',
   warn_time   TIMESTAMP                   DEFAULT CURRENT_TIMESTAMP
   COMMENT '最早报警时间',
@@ -244,9 +244,9 @@ CREATE TABLE warn_threshold (
   COMMENT '报警阈值编号',
   threshold_type VARCHAR(255)             NOT NULL
   COMMENT '阈值类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
-  floor          DOUBLE(5, 2)             NOT NULL
+  floor          DOUBLE(8, 2)             NOT NULL
   COMMENT '阈值下限',
-  ceil           DOUBLE(5, 2)             NOT NULL
+  ceil           DOUBLE(8, 2)             NOT NULL
   COMMENT '阈值上限',
   use_status     VARCHAR(255) DEFAULT '0' NOT NULL
   COMMENT '使用状态，0unuse，1inuse',
@@ -262,7 +262,7 @@ DROP TABLE IF EXISTS tmp_data;
 CREATE TABLE tmp_data (
   field_id VARCHAR(255) NOT NULL
   COMMENT '大棚编号',
-  val      DOUBLE(5, 2) DEFAULT NULL
+  val      DOUBLE(8, 2) DEFAULT NULL
   COMMENT '临时数据值'
 )
   ENGINE = INNODB
@@ -288,11 +288,11 @@ CREATE TABLE memo (
   COMMENT ='记录表';
 
 /**********
- * trigger
+ * trigger / procedure
 **********/
 
 /*
- * data_record新增记录-》即时更新大棚数据
+ * data_record新增记录->即时更新大棚数据
  */
 DELIMITER //
 DROP PROCEDURE IF EXISTS update_field_status;
@@ -300,72 +300,83 @@ DROP PROCEDURE IF EXISTS update_field_status;
  * 当数据记录表新增数据时，触发大棚状态表的相关字段更新
  * 触发器中不支持使用动态sql！
  */
-CREATE PROCEDURE update_field_status(IN type VARCHAR(255), IN val DOUBLE(5, 2), IN f_id VARCHAR(255))
+CREATE PROCEDURE update_field_status(IN type VARCHAR(255), IN val DOUBLE(8, 2), IN f_id VARCHAR(255))
   BEGIN
-    CASE type
-      WHEN '1'
-      THEN
-        UPDATE field_status
-        SET temperature = val
-        WHERE field_id = f_id;
-      WHEN '2'
-      THEN
-        UPDATE field_status
-        SET moisture = val
-        WHERE field_id = f_id;
-      WHEN '3'
-      THEN
-        UPDATE field_status
-        SET soil_temperature = val
-        WHERE field_id = f_id;
-      WHEN '4'
-      THEN
-        UPDATE field_status
-        SET soil_moisture = val
-        WHERE field_id = f_id;
-      WHEN '5'
-      THEN
-        UPDATE field_status
-        SET light = val
-        WHERE field_id = f_id;
-      WHEN '6'
-      THEN
-        UPDATE field_status
-        SET co2 = val
-        WHERE field_id = f_id;
-      WHEN '7'
-      THEN
-        UPDATE field_status
-        SET ph = val
-        WHERE field_id = f_id;
-      WHEN '8'
-      THEN
-        UPDATE field_status
-        SET n = val
-        WHERE field_id = f_id;
-      WHEN '9'
-      THEN
-        UPDATE field_status
-        SET p = val
-        WHERE field_id = f_id;
-      WHEN '10'
-      THEN
-        UPDATE field_status
-        SET k = val
-        WHERE field_id = f_id;
-      WHEN '11'
-      THEN
-        UPDATE field_status
-        SET hg = val
-        WHERE field_id = f_id;
-      WHEN '12'
-      THEN
-        UPDATE field_status
-        SET pb = val
-        WHERE field_id = f_id;
+    DECLARE u_status VARCHAR(255);
+    SELECT use_status
+    INTO u_status
+    FROM warn_threshold
+    WHERE threshold_type = type;
+    /* 若该阈值启用，更新即时状态 */
+    IF u_status = '1'
+    THEN
+      CASE type
+        WHEN '1'
+        THEN
+          UPDATE field_status
+          SET temperature = val
+          WHERE field_id = f_id;
+        WHEN '2'
+        THEN
+          UPDATE field_status
+          SET moisture = val
+          WHERE field_id = f_id;
+        WHEN '3'
+        THEN
+          UPDATE field_status
+          SET soil_temperature = val
+          WHERE field_id = f_id;
+        WHEN '4'
+        THEN
+          UPDATE field_status
+          SET soil_moisture = val
+          WHERE field_id = f_id;
+        WHEN '5'
+        THEN
+          UPDATE field_status
+          SET light = val
+          WHERE field_id = f_id;
+        WHEN '6'
+        THEN
+          UPDATE field_status
+          SET co2 = val
+          WHERE field_id = f_id;
+        WHEN '7'
+        THEN
+          UPDATE field_status
+          SET ph = val
+          WHERE field_id = f_id;
+        WHEN '8'
+        THEN
+          UPDATE field_status
+          SET n = val
+          WHERE field_id = f_id;
+        WHEN '9'
+        THEN
+          UPDATE field_status
+          SET p = val
+          WHERE field_id = f_id;
+        WHEN '10'
+        THEN
+          UPDATE field_status
+          SET k = val
+          WHERE field_id = f_id;
+        WHEN '11'
+        THEN
+          UPDATE field_status
+          SET hg = val
+          WHERE field_id = f_id;
+        WHEN '12'
+        THEN
+          UPDATE field_status
+          SET pb = val
+          WHERE field_id = f_id;
+      ELSE
+        SET f_id = '';
+      END CASE;
     ELSE
-      SET f_id = '';
-    END CASE;
+      SET u_status = '0';
+    END IF;
   END;
 
 /*
@@ -383,11 +394,6 @@ FOR EACH ROW
     CALL update_field_status(NEW.data_type, NEW.val, f_id);
   END //
 DELIMITER ;
-
-
-/**********
- * procedure
- **********/
 
 /*
  * 新增大棚状态表模拟数据（空）
@@ -468,7 +474,7 @@ DROP PROCEDURE IF EXISTS check_warn;
 CREATE PROCEDURE check_warn()
   BEGIN
     DECLARE ts_code, ts_type VARCHAR(255);
-    DECLARE ts_floor, ts_ceil DOUBLE(5, 2);
+    DECLARE ts_floor, ts_ceil DOUBLE(8, 2);
     DECLARE ts_end INT DEFAULT 0;
     /* 定义warn_threshold的游标，获取状态为使用中的每类阈值的上下限 */
     DECLARE ts_cursor CURSOR FOR SELECT
@@ -503,10 +509,10 @@ CREATE PROCEDURE check_warn()
 
 /* 比较阈值，将不在阈值范围内的数据插入warn_record表 */
 DROP PROCEDURE IF EXISTS check_warn_compare;
-CREATE PROCEDURE check_warn_compare(IN ts_code VARCHAR(255), IN ts_floor DOUBLE(5, 2), IN ts_ceil DOUBLE(5, 2))
+CREATE PROCEDURE check_warn_compare(IN ts_code VARCHAR(255), IN ts_floor DOUBLE(8, 2), IN ts_ceil DOUBLE(8, 2))
   BEGIN
     DECLARE fs_id VARCHAR(255);
-    DECLARE fs_val DOUBLE(5, 2);
+    DECLARE fs_val DOUBLE(8, 2);
     DECLARE val_end, record_id INT DEFAULT 0;
 
     /* 定义该项阈值对应所有大棚即时状态数据游标 */
@@ -557,17 +563,41 @@ DELIMITER ;
 DELIMITER //
 DROP PROCEDURE IF EXISTS ignore_data;
 CREATE PROCEDURE ignore_data(IN ts_code VARCHAR(255))
-BEGIN
-  DECLARE ts_type VARCHAR(255);
-  /* 将阈值编码转为阈值名称 */
-  CALL code_to_type(ts_code, ts_type);
+  BEGIN
+    DECLARE ts_type VARCHAR(255);
+    /* 将阈值编码转为阈值名称 */
+    CALL code_to_type(ts_code, ts_type);
 
-  /* 将该项阈值的所有数据置空 */
-  SET @sql_exe = CONCAT('UPDATE field_status SET ', ts_type, ' = NULL');
-  PREPARE stmt FROM @sql_exe;
-  EXECUTE stmt;
-  DEALLOCATE PREPARE stmt;
-END //
+    /* 将该项阈值的所有数据置空 */
+    SET @sql_exe = CONCAT('UPDATE field_status SET ', ts_type, ' = NULL');
+    PREPARE stmt FROM @sql_exe;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+  END //
+DELIMITER ;
+
+/* 插入图表测试数据，生产删 */
+DELIMITER //
+DROP PROCEDURE IF EXISTS insert_test_chart_data;
+CREATE PROCEDURE insert_test_chart_data()
+  BEGIN
+    DECLARE now, r_time, e_time TIMESTAMP;
+    DECLARE random_value DOUBLE;
+    SELECT CURRENT_TIMESTAMP INTO now;
+    SELECT DATE_ADD(now, INTERVAL - 7 DAY) INTO r_time;
+    SELECT DATE_ADD(now, INTERVAL 1 HOUR) INTO e_time;
+    WHILE r_time < e_time DO
+      SET random_value = RAND() * 10 + 15;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 1, random_value, r_time);
+      SET random_value = RAND() * 10 + 15;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 2, random_value, r_time);
+      SET random_value = RAND() * 10 + 15;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 3, random_value, r_time);
+      SET random_value = RAND() * 10 + 15;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 4, random_value, r_time);
+      SELECT DATE_ADD(r_time, INTERVAL 1 HOUR) INTO r_time;
+    END WHILE;
+  END //
 DELIMITER ;
 
 /*********
@@ -690,34 +720,40 @@ CALL add_field_status_data('f170400');
 /*
  * data_record
  */
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '1', 19.15, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '1', 14.15, NULL);
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '2', 25.25, NULL);
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '3', 25.25, NULL);
 INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '4', 25.25, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '5', 25.25, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '6', 25.25, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '7', 1, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '8', 0.34, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '9', 0.35, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '10', 0.35, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '11', 0.35, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '12', 0.35, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '5', 2000, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '6', 800, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '7', 7, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '8', 40, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '9', 40, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '10', 40, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '11', 1, NULL);
+INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '12', 40, NULL);
+
+/*
+ * data_record
+ * ----- 测试，生产删 -----
+ * CALL insert_test_chart_data();
+ */
 
 /*
  * warn_threshold
  */
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (1, '1', 20, 75, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (2, '2', 20, 75, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (3, '3', 20, 75, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (4, '4', 20, 75, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (5, '5', 20, 75, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (6, '6', 20, 75, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (7, '7', 3, 9, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (8, '8', 0.35, 2.65, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (9, '9', 0.35, 2.65, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (10, '10', 0.35, 2.65, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (11, '11', 0.35, 2.65, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (12, '12', 0.35, 2.65, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (1, '1', 15, 45, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (2, '2', 15, 45, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (3, '3', 15, 45, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (4, '4', 15, 45, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (5, '5', 3000, 60000, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (6, '6', 800, 6000, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (7, '7', 6.5, 7.5, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (8, '8', 30, 100, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (9, '9', 5, 30, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (10, '10', 30, 160, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (11, '11', 0.15, 1.5, '1');
+INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (12, '12', 35, 500, '1');
 
 /*
  * warn_record

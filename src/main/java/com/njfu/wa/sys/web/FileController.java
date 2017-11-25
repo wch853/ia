@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.njfu.wa.sys.domain.*;
 import com.njfu.wa.sys.enums.ResultEnum;
+import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.service.*;
 import com.njfu.wa.sys.utils.PaginationResult;
 import com.njfu.wa.sys.utils.Result;
@@ -88,6 +89,8 @@ public class FileController {
         try {
             blockService.addBlock(block);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -106,6 +109,8 @@ public class FileController {
         try {
             blockService.modifyBlock(block);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -124,6 +129,8 @@ public class FileController {
         try {
             blockService.removeBlock(block);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -178,6 +185,8 @@ public class FileController {
         try {
             fieldService.addField(field, block, crop);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -198,6 +207,8 @@ public class FileController {
         try {
             fieldService.modifyField(field, block, crop);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -216,6 +227,8 @@ public class FileController {
         try {
             fieldService.removeField(field);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -261,6 +274,8 @@ public class FileController {
         try {
             cropService.addCrop(crop);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -279,6 +294,8 @@ public class FileController {
         try {
             cropService.modifyCrop(crop);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -297,6 +314,8 @@ public class FileController {
         try {
             cropService.removeCrop(crop);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -342,6 +361,8 @@ public class FileController {
         try {
             employeeService.addEmployee(employee);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -360,6 +381,8 @@ public class FileController {
         try {
             employeeService.modifyEmployee(employee);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -378,6 +401,8 @@ public class FileController {
         try {
             employeeService.removeEmployee(employee);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -428,6 +453,8 @@ public class FileController {
         try {
             machineService.addMachine(machine, block);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -447,6 +474,8 @@ public class FileController {
         try {
             machineService.modifyMachine(machine, block);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -465,6 +494,8 @@ public class FileController {
         try {
             machineService.removeMachine(machine);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -514,6 +545,8 @@ public class FileController {
         try {
             vehicleService.addVehicle(vehicle, block);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -533,6 +566,8 @@ public class FileController {
         try {
             vehicleService.modifyVehicle(vehicle, block);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -551,6 +586,8 @@ public class FileController {
         try {
             vehicleService.removeVehicle(vehicle);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -600,6 +637,8 @@ public class FileController {
         try {
             sensorService.addSensor(sensor, field);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -619,6 +658,8 @@ public class FileController {
         try {
             sensorService.modifySensor(sensor, field);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -637,6 +678,8 @@ public class FileController {
         try {
             sensorService.removeSensor(sensor);
             return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
