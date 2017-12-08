@@ -579,12 +579,12 @@ DELIMITER ;
 /* 插入图表测试数据，生产删 */
 DELIMITER //
 DROP PROCEDURE IF EXISTS insert_test_chart_data;
-CREATE PROCEDURE insert_test_chart_data()
+CREATE PROCEDURE insert_test_chart_data(IN days INT)
   BEGIN
     DECLARE now, r_time, e_time TIMESTAMP;
-    DECLARE random_value DOUBLE;
+    DECLARE random_value DOUBLE(8, 2);
     SELECT CURRENT_TIMESTAMP INTO now;
-    SELECT DATE_ADD(now, INTERVAL - 7 DAY) INTO r_time;
+    SELECT DATE_ADD(now, INTERVAL - days DAY) INTO r_time;
     SELECT DATE_ADD(now, INTERVAL 1 HOUR) INTO e_time;
     WHILE r_time < e_time DO
       SET random_value = RAND() * 10 + 15;
@@ -595,6 +595,22 @@ CREATE PROCEDURE insert_test_chart_data()
       INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 3, random_value, r_time);
       SET random_value = RAND() * 10 + 15;
       INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 4, random_value, r_time);
+      SET random_value = RAND() * 10000 + 3000;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 5, random_value, r_time);
+      SET random_value = RAND() * 1000 + 800;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 6, random_value, r_time);
+      SET random_value = RAND() * 1 + 6.5;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 7, random_value, r_time);
+      SET random_value = RAND() * 10 + 30;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 8, random_value, r_time);
+      SET random_value = RAND() * 10 + 5;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 9, random_value, r_time);
+      SET random_value = RAND() * 100 + 30;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 10, random_value, r_time);
+      SET random_value = RAND() * 1 + 0.15;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 11, random_value, r_time);
+      SET random_value = RAND() * 100 + 35;
+      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 12, random_value, r_time);
       SELECT DATE_ADD(r_time, INTERVAL 1 HOUR) INTO r_time;
     END WHILE;
   END //
