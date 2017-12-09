@@ -463,3 +463,15 @@ nav {
 #add-memo i {
     margin-top: 4px;
 }
+
+.error-back {
+    width: 100px;
+}
+
+.lg-label {
+    width: 83px;
+}
+
+.tab-content {
+    padding-top: 20px;
+}

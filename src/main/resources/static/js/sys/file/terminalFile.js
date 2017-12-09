@@ -3,13 +3,13 @@ $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
 $("#terminalFileTable").bootstrapTable({
-    url: 'sys/file/getTerminals',
+    url: 'sys/file/terminal/data',
     queryParams: function (params) {
         return {
             offset: params.offset,
             limit: params.limit,
-            terminalId: $('#queryVehicleId').val().trim(),
-            terminalType: $('#queryVehicleType').val().trim(),
+            terminalId: $('#queryTerminalId').val().trim(),
+            terminalType: $('#queryTerminalType').val().trim(),
             useStatus: $('#queryUseStatus').val()
         }
     },
@@ -126,13 +126,13 @@ $('#addBtn').click(function () {
 
 $('#saveAdd').click(function () {
     var terminalId = $('#addTerminalId').val().trim();
-    var terminalType = $('#addVehicleType').val().trim();
+    var terminalType = $('#addTerminalType').val().trim();
     var useStatus = $('#addUseStatus').val();
     var terminalPs = $('#addTerminalPs').val().trim();
 
     $('#addModal').modal('hide');
 
-    if (terminalId === '' || terminalType === '') {
+    if (terminalId === '' || terminalType === '' || useStatus === '') {
         bootbox.alert({
             title: '提示',
             message: '请输入完整信息！'
@@ -148,7 +148,7 @@ $('#saveAdd').click(function () {
             message: '确认新增终端信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/addTerminal', terminalId, terminalType, useStatus, terminalPs);
+                    sendRequest('sys/file/terminal/add', terminalId, terminalType, useStatus, terminalPs);
                 }
             }
         });
@@ -189,7 +189,7 @@ $('#saveModify').click(function () {
             message: '确认修改终端信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/modifyTerminal', terminalId, terminalType, useStatus, terminalPs);
+                    sendRequest('sys/file/terminal/modify', terminalId, terminalType, useStatus, terminalPs);
                 }
             }
         });
@@ -197,13 +197,13 @@ $('#saveModify').click(function () {
 });
 
 // 删除
-function removeVehicle(terminalId) {
+function removeTerminal(terminalId) {
     bootbox.confirm({
         title: '提示',
         message: '确认删除终端信息',
         callback: function (flag) {
             if (flag) {
-                sendRequest('sys/file/removeTerminal', terminalId);
+                sendRequest('sys/file/terminal/remove', terminalId);
             }
         }
     });

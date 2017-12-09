@@ -33,12 +33,12 @@ public class TipWebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 
-        registry.addHandler(tipHandler, "/tipHandler")
+        registry.addHandler(tipHandler, "/tip/handler")
                 .addInterceptors(tipHandShakeInterceptor)
                 .setAllowedOrigins(origin);
 
         // 当浏览器不支持WebSocket，使用SockJs支持
-        registry.addHandler(tipHandler, "/sockjs-tipHandler")
+        registry.addHandler(tipHandler, "/sockjs/tip/handler")
                 .addInterceptors(tipHandShakeInterceptor)
                 .setAllowedOrigins(origin)
                 .withSockJS();

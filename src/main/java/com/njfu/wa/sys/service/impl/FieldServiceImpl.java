@@ -10,6 +10,7 @@ import com.njfu.wa.sys.mapper.SensorMapper;
 import com.njfu.wa.sys.service.FieldService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -100,9 +101,13 @@ public class FieldServiceImpl implements FieldService {
             throw new BusinessException("删除大棚数据项信息失败！");
         }
         // 将该大棚下的传感器所属大棚置空
-        int updSensor = sensorMapper.updateSensorField(field.getFieldId());
-        if (updSensor <= 0) {
-            throw new BusinessException("传感器所属大棚置空失败！");
+        String fieldId = field.getFieldId();
+        List<String> sensorIds = sensorMapper.selectSensorsByField(fieldId);
+        if (!CollectionUtils.isEmpty(sensorIds)) {
+            int updSensor = sensorMapper.updateSensorField(fieldId);
+            if (updSensor <= 0) {
+                throw new BusinessException("传感器所属大棚置空失败！");
+            }
         }
     }
 

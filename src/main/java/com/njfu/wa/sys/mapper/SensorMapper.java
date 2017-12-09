@@ -51,6 +51,7 @@ public interface SensorMapper {
 
     /**
      * 查询指定fieldId对应的sensorId
+     *
      * @param fieldId fieldId
      * @return data
      */

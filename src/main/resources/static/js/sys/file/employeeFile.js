@@ -3,7 +3,7 @@ $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
 $("#employeeFileTable").bootstrapTable({
-    url: 'sys/file/getEmployees',
+    url: 'sys/file/employee/data',
     queryParams: function (params) {
         return {
             offset: params.offset,
@@ -150,7 +150,7 @@ $('#saveAdd').click(function () {
             message: '确认新增员工信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/addEmployee', empId, empName, empTel, empPosition, empAge, empSex, empPs);
+                    sendRequest('sys/file/employee/add', empId, empName, empTel, empPosition, empAge, empSex, empPs);
                 }
             }
         });
@@ -202,7 +202,7 @@ $('#saveModify').click(function () {
             message: '确认修改员工信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/modifyEmployee', empId, empName, empTel, empPosition, empAge, empSex, empPs);
+                    sendRequest('sys/file/employee/modify', empId, empName, empTel, empPosition, empAge, empSex, empPs);
                 }
             }
         });
@@ -216,7 +216,7 @@ function removeEmp(empId) {
         message: '确认删除员工信息',
         callback: function (flag) {
             if (flag) {
-                sendRequest('sys/file/removeEmployee', empId);
+                sendRequest('sys/file/employee/remove', empId);
             }
         }
     });

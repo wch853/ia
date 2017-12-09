@@ -11,7 +11,7 @@ var initMemo = {
         $list.empty();
         var html = '<li title="记录列表" id="add-memo" mid="0">记录列表<i class="fa fa-plus pull-right"></i></li>';
         $.ajax({
-            url: 'sys/memo/getMemoList',
+            url: 'sys/memo/list',
             data: {
                 type: type
             },
@@ -38,7 +38,7 @@ var initMemo = {
                 initMemo.fillMemoArea(mid, '', '', '');
             } else {
                 $.ajax({
-                    url: 'sys/memo/getMemo',
+                    url: 'sys/memo/data',
                     data: {
                         id: mid
                     },
@@ -136,10 +136,10 @@ var initMemo = {
         } else {
             if (type !== undefined) {
                 if (mid !== '0') {
-                    initMemo.sendRequest('sys/memo/modifyMemo', mid, title, type, content);
+                    initMemo.sendRequest('sys/memo/modify', mid, title, type, content);
                 } else {
                     // 新增
-                    initMemo.sendRequest('sys/memo/addMemo', mid, title, type, content);
+                    initMemo.sendRequest('sys/memo/add', mid, title, type, content);
                 }
             }
         }
@@ -161,7 +161,7 @@ var initMemo = {
                 message: '确认删除记录',
                 callback: function (res) {
                     if (res) {
-                        initMemo.sendRequest('sys/memo/removeMemo', mid, null, type);
+                        initMemo.sendRequest('sys/memo/remove', mid, null, type);
                     }
                 }
             });

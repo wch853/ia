@@ -3,7 +3,7 @@ $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
 $("#machineFileTable").bootstrapTable({
-    url: 'sys/file/getMachines',
+    url: 'sys/file/machine/data',
     queryParams: function (params) {
         return {
             offset: params.offset,
@@ -162,7 +162,7 @@ $('#saveAdd').click(function () {
             message: '确认新增机械信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/addMachine', machineId, machineType, blockId, useStatus, machinePs);
+                    sendRequest('sys/file/machine/add', machineId, machineType, blockId, useStatus, machinePs);
                 }
             }
         });
@@ -205,7 +205,7 @@ $('#saveModify').click(function () {
             message: '确认修改机械信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/modifyMachine', machineId, machineType, blockId, useStatus, machinePs);
+                    sendRequest('sys/file/machine/modify', machineId, machineType, blockId, useStatus, machinePs);
                 }
             }
         });
@@ -219,7 +219,7 @@ function removeMachine(machineId) {
         message: '确认删除机械信息',
         callback: function (flag) {
             if (flag) {
-                sendRequest('sys/file/removeMachine', machineId);
+                sendRequest('sys/file/machine/remove', machineId);
             }
         }
     });

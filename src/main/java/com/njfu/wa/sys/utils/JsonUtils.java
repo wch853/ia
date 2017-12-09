@@ -35,9 +35,10 @@ public class JsonUtils {
 
     /**
      * json格式字符串转Bean
-     * @param json json
+     *
+     * @param json  json
      * @param clazz Class.Type
-     * @param <T> T
+     * @param <T>   T
      * @return T
      */
     public static <T> T toBean(String json, Class<T> clazz) {

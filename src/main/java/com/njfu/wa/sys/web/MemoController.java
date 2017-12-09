@@ -23,12 +23,14 @@ import java.util.List;
 @RequestMapping("sys/memo")
 public class MemoController {
 
+    // TODO 新增用户、新建时间
+
     @Resource
     private MemoService memoService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemoController.class);
 
-    @RequestMapping
+    @RequestMapping("")
     public String memo() {
         return "sys/memo/log";
     }
@@ -39,7 +41,7 @@ public class MemoController {
      * @param type type
      * @return data
      */
-    @GetMapping("/getMemoList")
+    @GetMapping("/list")
     public @ResponseBody
     Result getMemoList(String type) {
         List<Memo> memoList = memoService.getMemoList(type);
@@ -52,7 +54,7 @@ public class MemoController {
      * @param id id
      * @return data
      */
-    @GetMapping("/getMemo")
+    @GetMapping("/data")
     public @ResponseBody
     Result getMemo(Integer id) {
         Memo memo = memoService.getMemo(id);
@@ -65,7 +67,7 @@ public class MemoController {
      * @param memo memo
      * @return message
      */
-    @PostMapping("/addMemo")
+    @PostMapping("/add")
     public @ResponseBody
     Result addMemo(Memo memo) {
         try {
@@ -85,7 +87,7 @@ public class MemoController {
      * @param memo memo
      * @return message
      */
-    @PostMapping("/modifyMemo")
+    @PostMapping("/modify")
     public @ResponseBody
     Result modifyMemo(Memo memo) {
         try {
@@ -105,7 +107,7 @@ public class MemoController {
      * @param id id
      * @return message
      */
-    @PostMapping("/removeMemo")
+    @PostMapping("/remove")
     public @ResponseBody
     Result removeMemo(Integer id) {
         try {

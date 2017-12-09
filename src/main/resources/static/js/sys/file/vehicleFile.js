@@ -3,7 +3,7 @@ $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
 $("#vehicleFileTable").bootstrapTable({
-    url: 'sys/file/getVehicles',
+    url: 'sys/file/vehicle/data',
     queryParams: function (params) {
         return {
             offset: params.offset,
@@ -162,7 +162,7 @@ $('#saveAdd').click(function () {
             message: '确认新增车辆信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/addVehicle', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
+                    sendRequest('sys/file/vehicle/add', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
                 }
             }
         });
@@ -205,7 +205,7 @@ $('#saveModify').click(function () {
             message: '确认修改车辆信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/modifyVehicle', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
+                    sendRequest('sys/file/vehicle/modify', vehicleId, vehicleType, blockId, useStatus, vehiclePs);
                 }
             }
         });
@@ -219,7 +219,7 @@ function removeVehicle(vehicleId) {
         message: '确认删除车辆信息',
         callback: function (flag) {
             if (flag) {
-                sendRequest('sys/file/removeVehicle', vehicleId);
+                sendRequest('sys/file/vehicle/remove', vehicleId);
             }
         }
     });

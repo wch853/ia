@@ -13,6 +13,8 @@ public class Sensor {
 
     private Field field;
 
+    private String terminalId;
+
     private String useStatus;
 
     private String sensorPs;
@@ -52,6 +54,14 @@ public class Sensor {
         this.field = field;
     }
 
+    public String getTerminalId() {
+        return terminalId;
+    }
+
+    public void setTerminalId(String terminalId) {
+        this.terminalId = terminalId;
+    }
+
     public String getUseStatus() {
         return useStatus;
     }
@@ -75,6 +85,7 @@ public class Sensor {
                 ", sensorFunc='" + sensorFunc + '\'' +
                 ", sensorType='" + sensorType + '\'' +
                 ", field=" + field +
+                ", terminalId='" + terminalId + '\'' +
                 ", useStatus='" + useStatus + '\'' +
                 ", sensorPs='" + sensorPs + '\'' +
                 '}';

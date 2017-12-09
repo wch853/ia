@@ -9,13 +9,14 @@
         <id property="sensorId" column="sensor_id"/>
         <result property="sensorFunc" column="sensor_func"/>
         <result property="sensorType" column="sensor_type"/>
+        <result property="terminalId" column="terminal_id"/>
         <result property="useStatus" column="use_status"/>
         <result property="sensorPs" column="sensor_ps"/>
         <association property="field" column="field_id" select="com.njfu.wa.sys.mapper.FieldMapper.selectFieldById"/>
     </resultMap>
 
     <select id="selectSensors" resultMap="sensorMap">
-        SELECT sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps
+        SELECT sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps
         FROM sensor
         <where>
             <if test="null != sensorId and !''.equals(sensorId)">
@@ -30,6 +31,9 @@
             <if test="null != field.fieldId and !''.equals(field.fieldId)">
                 AND field_id = #{field.fieldId}
             </if>
+            <if test="null != terminalId and !''.equals(terminalId)">
+                AND terminal_id = #{terminalId}
+            </if>
             <if test="null != useStatus and !''.equals(useStatus)">
                 AND use_status = #{useStatus}
             </if>
@@ -37,14 +41,14 @@
     </select>
 
     <insert id="insertSensor">
-        INSERT INTO sensor(sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
-        VALUES (#{sensorId}, #{sensorFunc}, #{sensorType}, #{field.fieldId}, #{useStatus}, #{sensorPs})
+        INSERT INTO sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
+        VALUES (#{sensorId}, #{sensorFunc}, #{sensorType}, #{field.fieldId}, #{terminalId}, #{useStatus}, #{sensorPs})
     </insert>
 
     <update id="updateSensor">
         UPDATE sensor
         SET sensor_func = #{sensorFunc}, sensor_type = #{sensorType}, field_id = #{field.fieldId},
-        use_status = #{useStatus}, sensor_ps = #{sensorPs}
+            terminal_id = #{terminalId}, use_status = #{useStatus}, sensor_ps = #{sensorPs}
         WHERE sensor_id = #{sensorId}
     </update>
 

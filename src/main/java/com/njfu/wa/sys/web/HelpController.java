@@ -10,9 +10,9 @@ public class HelpController {
     /**
      * 帮助文档页
      *
-     * @return page
+     * @return Page
      */
-    @RequestMapping
+    @RequestMapping("")
     public String document() {
         return "sys/help/document";
     }

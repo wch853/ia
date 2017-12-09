@@ -3,7 +3,7 @@ $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
 $("#cropFileTable").bootstrapTable({
-    url: 'sys/file/getCrops',
+    url: 'sys/file/crop/data',
     queryParams: function (params) {
         return {
             offset: params.offset,
@@ -118,7 +118,7 @@ $('#saveAdd').click(function () {
             message: '确认新增作物信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/addCrop', cropId, cropName, cropPs);
+                    sendRequest('sys/file/crop/add', cropId, cropName, cropPs);
                 }
             }
         });
@@ -157,7 +157,7 @@ $('#saveModify').click(function () {
             message: '确认修改作物信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/modifyCrop', cropId, cropName, cropPs);
+                    sendRequest('sys/file/crop/modify', cropId, cropName, cropPs);
                 }
             }
         });
@@ -171,7 +171,7 @@ function removeCrop(cropId) {
         message: '确认删除作物信息',
         callback: function (flag) {
             if (flag) {
-                sendRequest('sys/file/removeCrop', cropId);
+                sendRequest('sys/file/crop/remove', cropId);
             }
         }
     });

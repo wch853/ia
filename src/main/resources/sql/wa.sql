@@ -1,6 +1,9 @@
 /**********
  * DDL
  *********/
+DROP DATABASE IF EXISTS wa;
+CREATE DATABASE wa;
+USE wa;
 
 DROP TABLE IF EXISTS block;
 CREATE TABLE block (
@@ -55,20 +58,6 @@ CREATE TABLE crop (
   DEFAULT CHARSET = utf8
   COMMENT ='作物';
 
-DROP TABLE IF EXISTS admin;
-CREATE TABLE admin (
-  admin_id INT          NOT NULL AUTO_INCREMENT
-  COMMENT '管理员编号',
-  username VARCHAR(255) NOT NULL
-  COMMENT '用户名',
-  password VARCHAR(255) NOT NULL
-  COMMENT '密码',
-  PRIMARY KEY (admin_id)
-)
-  ENGINE = INNODB
-  DEFAULT CHARSET = utf8
-  COMMENT ='管理员';
-
 DROP TABLE IF EXISTS employee;
 CREATE TABLE employee (
   emp_id       VARCHAR(255) NOT NULL
@@ -101,12 +90,15 @@ CREATE TABLE sensor (
   COMMENT '传感器型号',
   field_id    VARCHAR(255) DEFAULT NULL
   COMMENT '所属大棚编号',
+  terminal_id VARCHAR(255) DEFAULT NULL
+  COMMENT '所属终端编号',
   use_status  VARCHAR(255) DEFAULT '0' NOT NULL
   COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
   sensor_ps   VARCHAR(255) DEFAULT NULL
   COMMENT '传感器备注',
   PRIMARY KEY (sensor_id),
   KEY idx_field_id(field_id),
+  KEY idx_terminal_id(terminal_id),
   KEY idx_use_status(use_status)
 )
   ENGINE = INNODB
@@ -152,6 +144,23 @@ CREATE TABLE vehicle (
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
   COMMENT ='车辆';
+
+DROP TABLE IF EXISTS terminal;
+CREATE TABLE terminal (
+  terminal_id   VARCHAR(255)             NOT NULL
+  COMMENT '终端编号',
+  terminal_type VARCHAR(255)             NOT NULL
+  COMMENT '终端型号',
+  use_status    VARCHAR(255) DEFAULT '0' NOT NULL
+  COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
+  termial_ps    VARCHAR(255) DEFAULT NULL
+  COMMENT '终端备注',
+  PRIMARY KEY (terminal_id),
+  KEY idx_use_status(use_status)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='终端';
 
 DROP TABLE IF EXISTS data_record;
 CREATE TABLE data_record (
@@ -286,6 +295,79 @@ CREATE TABLE memo (
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
   COMMENT ='记录表';
+
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
+  id       INT          NOT NULL AUTO_INCREMENT
+  COMMENT '用户编号',
+  name     VARCHAR(255) NOT NULL
+  COMMENT '用户名称',
+  username VARCHAR(255) NOT NULL
+  COMMENT '账号',
+  password VARCHAR(255) NOT NULL
+  COMMENT '密码',
+  salt     VARCHAR(255) NOT NULL
+  COMMENT '盐',
+  status   TINYINT      NOT NULL DEFAULT 1
+  COMMENT '账号状态 0-无效，1-有效',
+  PRIMARY KEY (id),
+  UNIQUE KEY (username)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT = '用户';
+
+DROP TABLE IF EXISTS role;
+CREATE TABLE role (
+  id        INT          NOT NULL AUTO_INCREMENT
+  COMMENT '角色编号',
+  role_name VARCHAR(255) NOT NULL
+  COMMENT '角色名称',
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT = '角色';
+
+DROP TABLE IF EXISTS permission;
+CREATE TABLE permission (
+  id       INT          NOT NULL AUTO_INCREMENT
+  COMMENT '权限编号',
+  url      VARCHAR(255) NOT NULL
+  COMMENT 'url地址',
+  url_name VARCHAR(255) NOT NULL
+  COMMENT 'url描述',
+  perm     VARCHAR(255) NOT NULL
+  COMMENT '权限标识符',
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT = '权限';
+
+DROP TABLE IF EXISTS user_roles;
+CREATE TABLE user_roles (
+  user_id INT NOT NULL
+  COMMENT '用户编号',
+  role_id INT NOT NULL
+  COMMENT '角色编号',
+  PRIMARY KEY (user_id, role_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT = '用户-角色';
+
+DROP TABLE IF EXISTS role_permissions;
+CREATE TABLE role_permissions (
+  role_id       INT NOT NULL
+  COMMENT '角色编号',
+  permission_id INT NOT NULL
+  COMMENT '权限编号',
+  PRIMARY KEY (role_id, permission_id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT = '角色-权限';
 
 /**********
  * trigger / procedure
@@ -583,9 +665,12 @@ CREATE PROCEDURE insert_test_chart_data(IN days INT)
   BEGIN
     DECLARE now, r_time, e_time TIMESTAMP;
     DECLARE random_value DOUBLE(8, 2);
-    SELECT CURRENT_TIMESTAMP INTO now;
-    SELECT DATE_ADD(now, INTERVAL - days DAY) INTO r_time;
-    SELECT DATE_ADD(now, INTERVAL 1 HOUR) INTO e_time;
+    SELECT CURRENT_TIMESTAMP
+    INTO now;
+    SELECT DATE_ADD(now, INTERVAL -days DAY)
+    INTO r_time;
+    SELECT DATE_ADD(now, INTERVAL 1 HOUR)
+    INTO e_time;
     WHILE r_time < e_time DO
       SET random_value = RAND() * 10 + 15;
       INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 1, random_value, r_time);
@@ -611,7 +696,8 @@ CREATE PROCEDURE insert_test_chart_data(IN days INT)
       INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 11, random_value, r_time);
       SET random_value = RAND() * 100 + 35;
       INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 12, random_value, r_time);
-      SELECT DATE_ADD(r_time, INTERVAL 1 HOUR) INTO r_time;
+      SELECT DATE_ADD(r_time, INTERVAL 1 HOUR)
+      INTO r_time;
     END WHILE;
   END //
 DELIMITER ;
@@ -691,14 +777,14 @@ VALUES ('e003', 'wch3', '15261861234', NULL, NULL, NULL, NULL);
 /*
  * sensor
  */
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
-VALUES ('s-01-001', '1', 'abc001', 'f1701001', '1', NULL);
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
-VALUES ('s-01-002', '1', 'abc001', 'f1701002', '1', NULL);
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
-VALUES ('s-02-001', '2', 'abc002', 'f1701003', '1', NULL);
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, use_status, sensor_ps)
-VALUES ('s-02-002', '2', 'abc002', 'f1701004', '1', NULL);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
+VALUES ('s-01-001', '1', 'abc001', 'f1701001', 't01', '1', NULL);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
+VALUES ('s-01-002', '1', 'abc001', 'f1701002', 't01', '1', NULL);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
+VALUES ('s-02-001', '2', 'abc002', 'f1701003', 't01', '1', NULL);
+INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
+VALUES ('s-02-002', '2', 'abc002', 'f1701004', 't01', '1', NULL);
 
 /*
  * machine
@@ -723,6 +809,13 @@ INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_
 VALUES ('v003', 'xyz003', 'b03', '0', NULL);
 INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
 VALUES ('v004', 'xyz004', 'b04', '0', NULL);
+
+/*
+ * terminal
+ */
+INSERT INTO wa.terminal (terminal_id, terminal_type, use_status, termial_ps) VALUES ('t01', 't001', '1', NULL);
+INSERT INTO wa.terminal (terminal_id, terminal_type, use_status, termial_ps) VALUES ('t02', 't002', '1', NULL);
+INSERT INTO wa.terminal (terminal_id, terminal_type, use_status, termial_ps) VALUES ('t03', 't003', '1', NULL);
 
 /*
  * field_status
@@ -774,13 +867,47 @@ INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALU
 /*
  * warn_record
  */
-/*
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (1, 'f1701001', '1', 1.23, NULL, NULL, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (2, 'f1701002', '2', 3.45, NULL, NULL, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (3, 'f1701003', '3', 5.98, NULL, NULL, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (4, 'f1701004', '4', 9.58, NULL, NULL, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag) VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
-*/
 /* 通过扫描field_status表插入数据 */
 /* CALL check_warn(); */
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+VALUES (1, 'f1701001', '1', 1.23, NULL, NULL, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+VALUES (2, 'f1701002', '2', 3.45, NULL, NULL, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+VALUES (3, 'f1701003', '3', 5.98, NULL, NULL, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+VALUES (4, 'f1701004', '4', 9.58, NULL, NULL, '0');
+INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
 
+INSERT INTO wa.memo (id, title, type, content, update_time) VALUES (3, '日志1', '0', '日志1', '2017-12-06 19:33:19');
+INSERT INTO wa.memo (id, title, type, content, update_time) VALUES (4, '备忘录1', '1', '备忘录1', '2017-12-06 19:33:33');
+INSERT INTO wa.memo (id, title, type, content, update_time) VALUES (5, '注意事项1', '2', '注意事项1', '2017-12-06 19:33:49');
+
+
+/* user */
+INSERT INTO wa.user (id, name, username, password, salt, status)
+VALUES (1, 'root', 'wch853', '6991b327c9a016bbfc7fbe905d08a82e', '!@#', 1);
+
+/* role */
+INSERT INTO wa.role (id, role_name) VALUES (1, '超级管理员');
+
+/* permission */
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (1, '/**', 'full authority', '*');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (2, '/sys/file/**', 'file query', 'sys:file:query');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (3, '/sys/file/*/add', 'file add', 'sys:file:add');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (4, '/sys/file/*/modify', 'file modify', 'sys:file:modify');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (5, '/sys/file/*/remove', 'file remove', 'sys:file:remove');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (6, '/sys/data/**', 'data query', 'sys:data:query');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (7, '/sys/warn/**', 'warn query', 'sys:warn:query');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (8, '/sys/warn/modify', 'warn modify', 'sys:warn:modify');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (9, '/sys/memo/**', 'memo query', 'sys:memo:query');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (10, '/sys/memo/add', 'memo add', 'sys:memo:add');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (11, '/sys/memo/modify', 'memo modify', 'sys:memo:modify');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (12, '/sys/memo/remove', 'memo remove', 'sys:memo:remove');
+
+/* user_roles */
+INSERT INTO wa.user_roles (user_id, role_id) VALUES (1, 1);
+
+/* role_permissions */
+INSERT INTO wa.role_permissions (role_id, permission_id) VALUES (1, 1);

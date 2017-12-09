@@ -19,7 +19,7 @@ public interface DataRecordService {
     List<DataRecord> getDataRecords(DataRecord dataRecord, String start, String end);
 
     /**
-     * 查询生成图标所需的数据
+     * 查询生成图表所需的数据
      *
      * @param dataTypes dataTypes
      * @param fieldId   fieldId

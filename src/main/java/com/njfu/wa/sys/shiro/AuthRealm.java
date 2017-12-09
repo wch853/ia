@@ -1,7 +1,7 @@
-package com.wch.test.shiro;
+package com.njfu.wa.sys.shiro;
 
-import com.wch.test.domain.User;
-import com.wch.test.service.SecurityService;
+import com.njfu.wa.sys.domain.User;
+import com.njfu.wa.sys.service.SecurityService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -36,7 +37,7 @@ public class AuthRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         String username = upToken.getUsername();
-        User user = securityService.getPasswordAndSalt(username);
+        User user = securityService.getUser(username);
 
         if (null == user) {
             throw new UnknownAccountException("不存在该账户！");
@@ -61,17 +62,17 @@ public class AuthRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        SimpleAuthorizationInfo info = null;
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        Set<String> permissions = new HashSet<>();
         try {
             // 获取身份信息
             User user = (User) principals.getPrimaryPrincipal();
             // 查询权限信息
-            Set<String> permissions = securityService.getStringPermissions(user.getId());
-            info = new SimpleAuthorizationInfo();
-            info.addStringPermissions(permissions);
+            permissions.addAll(securityService.getStringPermissions(user.getId()));
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
+        info.addStringPermissions(permissions);
         return info;
     }
 
@@ -79,6 +80,7 @@ public class AuthRealm extends AuthorizingRealm {
      * 用户权限发生变动，调用此方法清除缓存
      */
     public void clearCache() {
+        // TODO 权限变动，调用
         PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
         super.clearCache(principals);
     }

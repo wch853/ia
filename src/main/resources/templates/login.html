@@ -2,34 +2,65 @@
 <html>
 <head>
     <!-- headers -->
-    <#include "/common/standard.html"/>
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/wa/">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>登录-欢迎使用智慧农业管理系统</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://www.17sucai.com/preview/668095/2017-07-19/perfect/css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="http://www.17sucai.com/preview/668095/2017-07-19/perfect/css/demo.css"/>
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" href="http://www.17sucai.com/preview/668095/2017-07-19/perfect/css/component.css"/>
+
 </head>
 <body>
-<div id="wrapper">
-    <!-- top navigation-->
-    <#include "/common/topNav.html"/>
-
-    <!-- side navigation -->
-    <#include "/sys/sysSideNav.html"/>
-
-    <!-- page content -->
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            <div class="page-header">
-                <h2></h2>
+<div class="container demo-1">
+    <div class="content">
+        <div id="large-header" class="large-header">
+            <canvas id="demo-canvas"></canvas>
+            <div class="logo_box">
+                <h3>欢迎使用智慧农业管理系统</h3>
+                <form>
+                    <div class="input_outer">
+                        <span class="u_user"></span>
+                        <input id="username" name="logname" class="text" style="color: #FFFFFF !important" type="text"
+                               placeholder="请输入账户">
+                    </div>
+                    <div class="input_outer">
+                        <span class="us_uer"></span>
+                        <input id="password" name="logpass" class="text"
+                               style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
+                               type="password" placeholder="请输入密码">
+                    </div>
+                    <div class="mb2" id="submit"><a class="act-but submit" href="javascript:;" style="color: #FFFFFF">登录</a></div>
+                </form>
             </div>
-
-            <div class="row col-md-12">
-                <ol class="breadcrumb">
-                    <li><a href="">首页</a></li>
-                    <li><a href=""></a></li>
-                </ol>
-            </div>
-        </div><!--container-->
-    </div><!--page wrapped-->
-
-</div><!--wrapped-->
-
+        </div>
+    </div>
+</div><!-- /container -->
 </body>
+<script src="http://www.17sucai.com/preview/668095/2017-07-19/perfect/js/TweenLite.min.js"></script>
+<script src="http://www.17sucai.com/preview/668095/2017-07-19/perfect/js/EasePack.min.js"></script>
+<script src="http://www.17sucai.com/preview/668095/2017-07-19/perfect/js/rAF.js"></script>
+<script src="http://www.17sucai.com/preview/668095/2017-07-19/perfect/js/demo-1.js"></script>
+<script type="text/javascript">
+    $('#submit').click(function () {
+        $.ajax({
+            url: 'login',
+            type: 'POST',
+            data: {
+                username: $('#username').val().trim(),
+                password: $('#password').val().trim()
+            },
+            success: function (res) {
+                if (res.code === 200) {
+                    window.location.href = 'sys'
+                } else {
+                    alert("Login Failed!");
+                }
+            }
+        });
+    });
+</script>
 </html>

@@ -46,6 +46,9 @@ public class FileController {
     private VehicleService vehicleService;
 
     @Resource
+    private TerminalService terminalService;
+
+    @Resource
     private SensorService sensorService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
@@ -53,7 +56,7 @@ public class FileController {
     /**
      * 地块档案页
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/block")
     public String blockFile() {
@@ -68,7 +71,7 @@ public class FileController {
      * @param block  blockId blockName
      * @return json data
      */
-    @GetMapping("/getBlocks")
+    @GetMapping("/block/data")
     public @ResponseBody
     PaginationResult getBlocks(int offset, int limit, Block block) {
         PageHelper.offsetPage(offset, limit);
@@ -81,9 +84,9 @@ public class FileController {
      * 新增地块信息
      *
      * @param block blockId blockName blockLoc blockPs
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/addBlock")
+    @PostMapping("/block/add")
     public @ResponseBody
     Result addBlock(Block block) {
         try {
@@ -101,9 +104,9 @@ public class FileController {
      * 修改地块信息
      *
      * @param block blockId blockName blockLoc blockPs
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/modifyBlock")
+    @PostMapping("/block/modify")
     public @ResponseBody
     Result modifyBlock(Block block) {
         try {
@@ -121,9 +124,9 @@ public class FileController {
      * 删除地块信息
      *
      * @param block blockId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/removeBlock")
+    @PostMapping("/block/remove")
     public @ResponseBody
     Result removeBlock(Block block) {
         try {
@@ -141,7 +144,7 @@ public class FileController {
      * 大棚档案页
      *
      * @param model blocks crops
-     * @return page
+     * @return Page
      */
     @GetMapping("/field")
     public String fieldFile(Model model) {
@@ -162,7 +165,7 @@ public class FileController {
      * @param crop   cropId
      * @return json data
      */
-    @GetMapping("/getFields")
+    @GetMapping("/field/data")
     public @ResponseBody
     PaginationResult getFields(int offset, int limit, Field field, Block block, Crop crop) {
         PageHelper.offsetPage(offset, limit);
@@ -177,9 +180,9 @@ public class FileController {
      * @param field fieldId fieldName useStatus fieldPs
      * @param block blockId
      * @param crop  cropId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/addField")
+    @PostMapping("/field/add")
     public @ResponseBody
     Result addField(Field field, Block block, Crop crop) {
         try {
@@ -199,9 +202,9 @@ public class FileController {
      * @param field fieldId fieldName useStatus fieldPs
      * @param block blockId
      * @param crop  cropId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/modifyField")
+    @PostMapping("/field/modify")
     public @ResponseBody
     Result modifyField(Field field, Block block, Crop crop) {
         try {
@@ -219,9 +222,9 @@ public class FileController {
      * 移除大棚信息
      *
      * @param field fieldId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/removeField")
+    @PostMapping("/field/remove")
     public @ResponseBody
     Result removeField(Field field) {
         try {
@@ -238,7 +241,7 @@ public class FileController {
     /**
      * 作物档案页
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/crop")
     public String cropFile() {
@@ -253,7 +256,7 @@ public class FileController {
      * @param crop   cropId cropName
      * @return json data
      */
-    @GetMapping("/getCrops")
+    @GetMapping("/crop/data")
     public @ResponseBody
     PaginationResult getCrops(int offset, int limit, Crop crop) {
         PageHelper.offsetPage(offset, limit);
@@ -266,9 +269,9 @@ public class FileController {
      * 新增作物信息
      *
      * @param crop cropId cropName cropPs
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/addCrop")
+    @PostMapping("/crop/add")
     public @ResponseBody
     Result addCrop(Crop crop) {
         try {
@@ -286,9 +289,9 @@ public class FileController {
      * 修改作物信息
      *
      * @param crop cropId cropName cropPs
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/modifyCrop")
+    @PostMapping("/crop/modify")
     public @ResponseBody
     Result modifyCrop(Crop crop) {
         try {
@@ -306,9 +309,9 @@ public class FileController {
      * 删除作物信息
      *
      * @param crop cropId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/removeCrop")
+    @PostMapping("/crop/remove")
     public @ResponseBody
     Result removeCrop(Crop crop) {
         try {
@@ -325,7 +328,7 @@ public class FileController {
     /**
      * 员工档案页
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/employee")
     public String employeeFile() {
@@ -340,7 +343,7 @@ public class FileController {
      * @param employee empId empName
      * @return json data
      */
-    @GetMapping("/getEmployees")
+    @GetMapping("/employee/data")
     public @ResponseBody
     PaginationResult getEmployees(int offset, int limit, Employee employee) {
         PageHelper.offsetPage(offset, limit);
@@ -353,9 +356,9 @@ public class FileController {
      * 新增员工信息
      *
      * @param employee empId empName empTel empPosition empAge empSex empPs
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/addEmployee")
+    @PostMapping("/employee/add")
     public @ResponseBody
     Result addEmployee(Employee employee) {
         try {
@@ -373,9 +376,9 @@ public class FileController {
      * 修改员工信息
      *
      * @param employee empId empName empTel empPosition empAge empSex empPs
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/modifyEmployee")
+    @PostMapping("/employee/modify")
     public @ResponseBody
     Result modifyEmployee(Employee employee) {
         try {
@@ -393,9 +396,9 @@ public class FileController {
      * 删除员工信息
      *
      * @param employee empId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/removeEmployee")
+    @PostMapping("/employee/remove")
     public @ResponseBody
     Result removeEmployee(Employee employee) {
         try {
@@ -413,7 +416,7 @@ public class FileController {
      * 机械档案页
      *
      * @param model blocks
-     * @return page
+     * @return Page
      */
     @GetMapping("/machine")
     public String machineFile(Model model) {
@@ -431,7 +434,7 @@ public class FileController {
      * @param block   blockId
      * @return json data
      */
-    @GetMapping("/getMachines")
+    @GetMapping("/machine/data")
     public @ResponseBody
     PaginationResult getMachines(int offset, int limit, Machine machine, Block block) {
         PageHelper.offsetPage(offset, limit);
@@ -445,9 +448,9 @@ public class FileController {
      *
      * @param machine 　machineId machineType useStatus machinePs
      * @param block   　blockId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/addMachine")
+    @PostMapping("/machine/add")
     public @ResponseBody
     Result addMachine(Machine machine, Block block) {
         try {
@@ -466,9 +469,9 @@ public class FileController {
      *
      * @param machine 　machineId machineType useStatus machinePs
      * @param block   　blockId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/modifyMachine")
+    @PostMapping("/machine/modify")
     public @ResponseBody
     Result modifyMachine(Machine machine, Block block) {
         try {
@@ -486,9 +489,9 @@ public class FileController {
      * 删除机械信息
      *
      * @param machine 　machineId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/removeMachine")
+    @PostMapping("/machine/remove")
     public @ResponseBody
     Result removeMachine(Machine machine) {
         try {
@@ -505,7 +508,7 @@ public class FileController {
     /**
      * 车辆档案页
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/vehicle")
     public String vehicleFile(Model model) {
@@ -523,7 +526,7 @@ public class FileController {
      * @param block   blockId
      * @return json data
      */
-    @GetMapping("/getVehicles")
+    @GetMapping("/vehicle/data")
     public @ResponseBody
     PaginationResult getVehicles(int offset, int limit, Vehicle vehicle, Block block) {
         PageHelper.offsetPage(offset, limit);
@@ -537,9 +540,9 @@ public class FileController {
      *
      * @param vehicle vehicleId vehicleType useStatus vehiclePs
      * @param block   blockId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/addVehicle")
+    @PostMapping("/vehicle/add")
     public @ResponseBody
     Result addVehicle(Vehicle vehicle, Block block) {
         try {
@@ -558,9 +561,9 @@ public class FileController {
      *
      * @param vehicle vehicleId vehicleType useStatus vehiclePs
      * @param block   blockId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/modifyVehicle")
+    @PostMapping("/vehicle/modify")
     public @ResponseBody
     Result modifyVehicle(Vehicle vehicle, Block block) {
         try {
@@ -578,9 +581,9 @@ public class FileController {
      * 删除车辆档案
      *
      * @param vehicle vehicleId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/removeVehicle")
+    @PostMapping("/vehicle/remove")
     public @ResponseBody
     Result removeVehicle(Vehicle vehicle) {
         try {
@@ -595,14 +598,103 @@ public class FileController {
     }
 
     /**
+     * 终端档案页
+     *
+     * @return Page
+     */
+    @GetMapping("/terminal")
+    public String terminalFile() {
+        return "sys/file/terminal";
+    }
+
+    /**
+     * 获取终端列表
+     *
+     * @param terminal terminalId terminalType useStatus
+     * @param offset   offset
+     * @param limit    limit
+     * @return json data
+     */
+    @RequestMapping("terminal/data")
+    public @ResponseBody
+    PaginationResult getTerminals(Terminal terminal, int offset, int limit) {
+        PageHelper.offsetPage(offset, limit);
+        List<Terminal> terminals = terminalService.getTerminals(terminal);
+        PageInfo<Terminal> page = new PageInfo<>(terminals);
+        return new PaginationResult<>(page.getTotal(), terminals);
+    }
+
+    /**
+     * 新增终端
+     *
+     * @param terminal terminal
+     * @return json Result
+     */
+    @RequestMapping("/terminal/add")
+    public @ResponseBody
+    Result addTerminal(Terminal terminal) {
+        try {
+            terminalService.addTerminal(terminal);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 修改终端信息
+     *
+     * @param terminal terminal
+     * @return json Result
+     */
+    @RequestMapping("/terminal/modify")
+    public @ResponseBody
+    Result modifyTerminal(Terminal terminal) {
+        try {
+            terminalService.modifyTerminal(terminal);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 删除终端
+     *
+     * @param terminalId terminalId
+     * @return json Result
+     */
+    @RequestMapping("/terminal/remove")
+    public @ResponseBody
+    Result removeTerminal(String terminalId) {
+        try {
+            terminalService.removeTerminal(terminalId);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            return Result.response(ResultEnum.FAIL);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
      * 传感器档案页
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/sensor")
     public String sensorFile(Model model) {
         List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
+        List<Terminal> terminals = terminalService.getTerminals(new Terminal());
         model.addAttribute("fields", fields);
+        model.addAttribute("terminals", terminals);
         return "sys/file/sensorFile";
     }
 
@@ -615,7 +707,7 @@ public class FileController {
      * @param field  fieldId
      * @return json data
      */
-    @GetMapping("/getSensors")
+    @GetMapping("/sensor/data")
     public @ResponseBody
     PaginationResult getSensors(int offset, int limit, Sensor sensor, Field field) {
         PageHelper.offsetPage(offset, limit);
@@ -629,9 +721,9 @@ public class FileController {
      *
      * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
      * @param field  fieldId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/addSensor")
+    @PostMapping("/sensor/add")
     public @ResponseBody
     Result addSensor(Sensor sensor, Field field) {
         try {
@@ -650,9 +742,9 @@ public class FileController {
      *
      * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
      * @param field  fieldId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/modifySensor")
+    @PostMapping("/sensor/modify")
     public @ResponseBody
     Result modifySensor(Sensor sensor, Field field) {
         try {
@@ -670,9 +762,9 @@ public class FileController {
      * 删除传感器信息
      *
      * @param sensor sensorId
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/removeSensor")
+    @PostMapping("/sensor/remove")
     public @ResponseBody
     Result removeSensor(Sensor sensor) {
         try {

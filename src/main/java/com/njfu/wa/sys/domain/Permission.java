@@ -1,4 +1,4 @@
-package com.wch.test.domain;
+package com.njfu.wa.sys.domain;
 
 /**
  * 权限

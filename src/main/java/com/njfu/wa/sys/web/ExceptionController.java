@@ -19,7 +19,7 @@ public class ExceptionController {
     /**
      * 统一异常处理
      *
-     * @return json message
+     * @return json Result
      */
     @ExceptionHandler(Exception.class)
     public @ResponseBody

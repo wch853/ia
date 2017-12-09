@@ -2,7 +2,7 @@
 $('[data-target="#warn-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
 
 $("#thresholdTable").bootstrapTable({
-    url: 'sys/warn/getWarnThreshold',
+    url: 'sys/warn/threshold/data',
     queryParams: function (params) {
         return {
             offset: params.offset,
@@ -141,8 +141,7 @@ $('#saveModify').click(function () {
     var reg = /^[0-9]+([.][0-9]{1,2})?$/;
 
     var message;
-    useStatus === '0' ? message = '将阈值设为不可用，报警系统将忽略此类信息！' :
-        message = '确认修改阈值信息';
+    useStatus === '0' ? message = '将阈值设为不可用，报警系统将忽略此类信息！' : message = '确认修改阈值信息';
 
     if (reg.test(floor) && reg.test(ceil)) {
         bootbox.confirm({
@@ -150,7 +149,7 @@ $('#saveModify').click(function () {
             message: message,
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/warn/modifyWarnThreshold', id, floor, ceil, useStatus);
+                    sendRequest('sys/warn/threshold/modify', id, floor, ceil, useStatus);
                 }
             }
         });

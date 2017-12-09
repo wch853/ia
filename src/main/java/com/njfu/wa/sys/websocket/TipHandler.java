@@ -51,7 +51,6 @@ public class TipHandler extends AbstractWebSocketHandler {
             session.close();
         }
         webSocketSessions.remove(session);
-
         LOGGER.error("session {} error, errorMessage: {}", session.getId(), exception.getMessage());
     }
 
@@ -71,7 +70,6 @@ public class TipHandler extends AbstractWebSocketHandler {
      * 广播报警消息
      *
      * @param result result
-     * @throws Exception Exception
      */
     public void broadcastWarnTip(Result result) {
         try {
@@ -80,7 +78,6 @@ public class TipHandler extends AbstractWebSocketHandler {
 
             if (null != res) {
                 for (WebSocketSession webSocketSession : webSocketSessions) {
-                    // TODO 识别权限发送消息
                     webSocketSession.sendMessage(new TextMessage(res));
                 }
             } else {

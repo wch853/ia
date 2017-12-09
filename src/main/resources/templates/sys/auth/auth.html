@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-table.html"/>
+    <#include "/common/bootstrap-select.html"/>
+    <#include "/common/multi-select.html"/>
+    <title>权限管理</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>权限管理</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="sys">首页</a></li>
+                    <li><a href="sys/auth">权限管理</a></li>
+                </ol>
+            </div>
+
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="active" id="user-man">
+                        <a href="javascript:void(0)">用户管理</a>
+                    </li>
+                    <li id="role-man">
+                        <a href="javascript:void(0)">角色管理</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <!-- 查询工具栏 -->
+                    <div class="form-inline" id="queryToolBar">
+                        <div class="form-group">
+                            <label for="query-name" id="query-name-label"></label>
+                            <input type="text" id="query-name" class="form-control">
+                        </div>
+                        <button class="btn btn-primary" id="queryBtn">查询</button>
+                        <button class="btn btn-success" id="resetBtn">重置</button>
+                        <button class="btn btn-danger" id="addBtn">新增</button>
+                    </div>
+                    <hr>
+                    <table id="auth-table"></table>
+                </div>
+            </div>
+
+            <!-- 新增用户modal -->
+            <div class="modal fade" id="user-add-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">新增用户</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="add-username">用户账号：</label>
+                                    <input id="add-username" class="form-control" placeholder="用户账号为6~16位字母数字组合">
+                                </div>
+                                <div class="form-group">
+                                    <label for="add-name">用户名称：</label>
+                                    <input id="add-name" class="form-control" placeholder="用户名称不可为空">
+                                </div>
+                            </div>
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="add-password">用户密码：</label>
+                                    <p id="add-password" class="form-control-static">@wa-user（默认）</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add-status">使用状态：</label>
+                                    <select id="add-status" class="selectpicker">
+                                        <option value="1">有效</option>
+                                        <option value="0">无效</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="save-add-user">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 角色管理modal -->
+            <div class="modal fade" id="role-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">分配角色</h4>
+                        </div>
+                        <div class="modal-body">
+                            <select id="role-select" multiple="multiple"></select>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="saveAdd">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--container-->
+    </div><!--page wrapped-->
+
+</div><!--wrapped-->
+</body>
+<script type="text/javascript" src="js/sys/auth/auth.js"></script>
+</html>

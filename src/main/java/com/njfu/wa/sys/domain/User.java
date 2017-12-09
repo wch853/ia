@@ -1,4 +1,6 @@
-package com.wch.test.domain;
+package com.njfu.wa.sys.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 用户
@@ -23,15 +25,17 @@ public class User {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
 
     /**
      * 盐
      */
+    @JsonIgnore
     private String salt;
 
     /**
-     * 用户状态 0-无效，1-有效
+     * 账号状态 0-无效，1-有效
      */
     private Short status;
 

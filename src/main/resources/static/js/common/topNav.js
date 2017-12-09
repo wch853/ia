@@ -12,7 +12,7 @@ function popTip(count) {
  */
 function checkTip() {
     $.ajax({
-        url: 'sys/warn/getUnhandleRecordCount',
+        url: 'sys/warn/record/unhandle/count',
         success: function (res) {
             var count = res.data;
             if (count > 0) {
@@ -26,6 +26,19 @@ function checkTip() {
 
 checkTip();
 
+function getUserInfo() {
+    $.ajax({
+        url: 'sys/user/info',
+        success: function (res) {
+            if (res.code === 201) {
+                $('#user-info').empty().text(res.data);
+            }
+        }
+    });
+}
+
+getUserInfo();
+
 $('.pop-tip').click(function () {
     $(this).hide();
 });
@@ -38,14 +51,14 @@ var websocket;
 function getConnect() {
     var path = window.location.hostname + ":8000/wa";
     if (window.WebSocket) {
-        websocket = new WebSocket('ws://' + path + '/tipHandler');
+        websocket = new WebSocket('ws://' + path + '/tip/handler');
     } else {
         console.log('Not Support WebSocket! It\'s recommended to use chrome!');
         bootbox.alert({
             title: '提示',
             message: '您的浏览器不支持WebSocket，建议切换到谷歌浏览器获取最佳体验！'
         });
-        websocket = new SockJS('http://' + path + '/sockjs-tipHandler')
+        websocket = new SockJS('http://' + path + '/sockjs/tip/handler')
     }
 
     // 配置WebSocket连接生命周期

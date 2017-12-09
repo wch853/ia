@@ -26,11 +26,6 @@ public class DataRecordServiceImpl implements DataRecordService {
     private SensorMapper sensorMapper;
 
     /**
-     * 一周小时数
-     */
-    private static int HOURS_OF_A_WEEK = 7 * 24;
-
-    /**
      * 查询数据记录列表
      *
      * @param dataRecord dataRecord
@@ -62,7 +57,7 @@ public class DataRecordServiceImpl implements DataRecordService {
     }
 
     /**
-     * 查询生成图标所需的数据
+     * 查询生成图表所需的数据
      *
      * @param dataTypes dataTypes
      * @param fieldId   fieldId
@@ -71,8 +66,9 @@ public class DataRecordServiceImpl implements DataRecordService {
     @Override
     public ChartData getChartData(String[] dataTypes, String fieldId) throws BusinessException {
         ChartData chartData = new ChartData();
-        // 获取查询记录日期列表
-        List<Date> dateList = this.getDateList(HOURS_OF_A_WEEK);
+        // 一周小时数
+        int hoursOfAWeek = 7 * 24;
+        List<Date> dateList = this.getDateList(hoursOfAWeek);
         List<String> sensorIds = sensorMapper.selectSensorsByField(fieldId);
         if (CollectionUtils.isEmpty(sensorIds)) {
             throw new BusinessException("该大棚下没有关联传感器，无法获取数据！");
@@ -113,13 +109,12 @@ public class DataRecordServiceImpl implements DataRecordService {
      * 将DateList转为指定格式的StringList
      *
      * @param dateList dateList
-     * @param pattern  pattern
      * @return list
      */
-    private List<String> formatDateList(List<Date> dateList, String pattern) {
+    private List<String> formatDateList(List<Date> dateList) {
         List<String> formatDateList = new ArrayList<>();
         for (Date date : dateList) {
-            String format = DateFormatUtils.format(date, pattern);
+            String format = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm");
             formatDateList.add(format);
         }
         return formatDateList;
@@ -160,37 +155,30 @@ public class DataRecordServiceImpl implements DataRecordService {
             }
             // 获取记录时间整点
             Date recordTime = DateUtils.round(dataRecord.getRecordTime(), Calendar.HOUR);
-            if (now.compareTo(recordTime) == 0) {
-                // 滤去当前时间点
+            if (now.compareTo(recordTime) <= 0) {
+                // 滤去大于等于当前时间点的数据
                 continue;
             }
             // 存放查询结果
             typeToDateToValue.get(dataType).put(recordTime, dataRecord.getVal());
         }
 
-        for (String dataType : dataTypes) {
-            Map<Date, Double> dateToValue = typeToDateToValue.get(dataType);
-            for (Date date : dateList) {
-                if (!dateToValue.containsKey(date)) {
-                    // 该时间点没有数据，需要用0补全
-                    dateToValue.put(date, Double.NaN);
-                }
-            }
-        }
-
         // 将 数据类型-时间点-数据值 拆分为 时间点列表、数据类型-数据值
         Map<String, List<Double>> typeToValue = new HashMap<>();
         for (Map.Entry<String, Map<Date, Double>> entry : typeToDateToValue.entrySet()) {
+            // 数据类型
             String dataType = entry.getKey();
+            // 时间点-数值
             Map<Date, Double> dateToValue = entry.getValue();
             List<Double> values = new ArrayList<>();
             // 逐一遍历每个时间点，将对应的值加入集合
             for (Date date : dateList) {
-                values.add(dateToValue.get(date));
+                // 该时间点没有数据，需要用0补全
+                values.add(dateToValue.getOrDefault(date, Double.NaN));
             }
             typeToValue.put(dataType, values);
         }
-        chartData.setDateList(formatDateList(dateList, "yyyy-MM-dd HH:mm"));
+        chartData.setDateList(formatDateList(dateList));
         chartData.setDataMap(typeToValue);
     }
 }

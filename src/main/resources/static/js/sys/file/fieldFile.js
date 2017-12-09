@@ -3,7 +3,7 @@ $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
 $("#fieldFileTable").bootstrapTable({
-    url: 'sys/file/getFields',
+    url: 'sys/file//field/data',
     queryParams: function (params) {
         return {
             offset: params.offset,
@@ -169,7 +169,7 @@ $('#saveAdd').click(function () {
             message: '确认新增大棚信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/addField', fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
+                    sendRequest('sys/file/field/add', fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
                 }
             }
         });
@@ -214,7 +214,7 @@ $('#saveModify').click(function () {
             message: '确认修改大棚信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/modifyField', fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
+                    sendRequest('sys/file/field/modify', fieldId, fieldName, blockId, cropId, useStatus, fieldPs);
                 }
             }
         });
@@ -228,7 +228,7 @@ function removeField(fieldId) {
         message: '确认删除大棚信息',
         callback: function (flag) {
             if (flag) {
-                sendRequest('sys/file/removeField', fieldId);
+                sendRequest('sys/file/field/remove', fieldId);
             }
         }
     });

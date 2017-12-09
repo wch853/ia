@@ -24,7 +24,11 @@ public enum ResultEnum {
     /**
      * 非法数据请求
      */
-    BAD_REQUEST(400);
+    BAD_REQUEST(400),
+    /**
+     * 无权限
+     */
+    UNAUTHORIZED(403);
 
     /**
      * 结果代码

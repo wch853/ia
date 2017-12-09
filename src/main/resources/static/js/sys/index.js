@@ -17,7 +17,7 @@ $('.field-card').hover(function () {
     var fieldName = $(this).find('.card-body-content').text();
 
     $.ajax({
-        url: 'sys/getFieldStatus',
+        url: 'sys/status',
         data: {
             fieldId: fieldId
         },

@@ -1,8 +1,8 @@
-package com.wch.test.service;
+package com.njfu.wa.sys.service;
 
-import com.wch.test.domain.Permission;
-import com.wch.test.domain.Role;
-import com.wch.test.domain.User;
+import com.njfu.wa.sys.domain.Permission;
+import com.njfu.wa.sys.domain.Role;
+import com.njfu.wa.sys.domain.User;
 
 import java.util.List;
 import java.util.Set;
@@ -15,15 +15,16 @@ public interface SecurityService {
      * @param username username
      * @return User
      */
-    User getPasswordAndSalt(String username);
+    User getUser(String username);
 
     /**
      * 查询指定账号对应的角色
      *
+     * @param roleName roleName
      * @param userId userId
      * @return Roles
      */
-    List<Role> getRoles(int userId);
+    List<Role> getRoles(String roleName, Integer userId);
 
     /**
      * 查询指定角色对应的权限
@@ -40,4 +41,25 @@ public interface SecurityService {
      * @return StringPermissions
      */
     Set<String> getStringPermissions(int userId);
+
+    /**
+     * 获取系统所有注册权限
+     *
+     * @return Permissions
+     */
+    List<Permission> getPermissions();
+
+    /**
+     * 获取用户信息
+     *
+     * @param username username
+     * @return Users
+     */
+    List<User> getUsers(String username);
+
+    /**
+     * 新增用户
+     * @param user user
+     */
+    void addUser(User user);
 }

@@ -43,7 +43,7 @@ public class DataController {
     /**
      * 数据查询页面
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/query")
     public String dataQuery(Model model) {
@@ -64,7 +64,7 @@ public class DataController {
      * @param end        end
      * @return json data
      */
-    @GetMapping("/getDataRecord")
+    @GetMapping("/record")
     public @ResponseBody
     PaginationResult getDataRecord(int offset, int limit, DataRecord dataRecord, String start, String end) {
         PageHelper.offsetPage(offset, limit);
@@ -76,7 +76,7 @@ public class DataController {
     /**
      * 数据分析页面
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/analysis")
     public String dataAnalysis(Model model) {
@@ -92,7 +92,7 @@ public class DataController {
      * @param fieldId   fieldId
      * @return json data
      */
-    @GetMapping("/getChartData")
+    @GetMapping("/chart")
     public @ResponseBody
     Result<ChartData> getChartData(@RequestParam("dataTypes[]") String[] dataTypes, String fieldId) {
         try {

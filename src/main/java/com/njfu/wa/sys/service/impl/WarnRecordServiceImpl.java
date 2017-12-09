@@ -33,7 +33,7 @@ public class WarnRecordServiceImpl implements WarnRecordService {
      * 扫描大棚状态表，出现异常数据，插入报警记录
      */
     @Override
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 0 0/1 * * ?")
     public void scanFieldStatus() {
         try {
             long start = System.currentTimeMillis();

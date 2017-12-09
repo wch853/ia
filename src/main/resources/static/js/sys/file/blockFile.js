@@ -3,7 +3,7 @@ $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
 $("#blockFileTable").bootstrapTable({
-    url: 'sys/file/getBlocks',
+    url: 'sys/file/block/data',
     queryParams: function (params) {
         return {
             offset: params.offset,
@@ -123,7 +123,7 @@ $('#saveAdd').click(function () {
             message: '确认新增地块信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/addBlock', blockId, blockName, blockLoc, blockPs);
+                    sendRequest('sys/file/block/add', blockId, blockName, blockLoc, blockPs);
                 }
             }
         });
@@ -178,7 +178,7 @@ function removeBlock(blockId) {
         message: '删除地块并删除该地块下的所有大棚？',
         callback: function (flag) {
             if (flag) {
-                sendRequest('sys/file/removeBlock', blockId);
+                sendRequest('sys/file/block/remove', blockId);
             }
         }
     });

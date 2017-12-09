@@ -20,7 +20,7 @@ $('#queryDate').daterangepicker({
 }).val('');
 
 $("#recordTable").bootstrapTable({
-    url: 'sys/data/getDataRecord',
+    url: 'sys/data/record',
     queryParams: function (params) {
         return {
             offset: params.offset,

@@ -6,17 +6,6 @@ $('#queryToolBar .selectpicker').selectpicker({
     width: '180.67px'
 });
 
-var data = [10, 15.34, 17, 12];
-var category = ["2017/11/25 13:00", "2017/11/25 14:00", "2017/11/25 15:00", "2017/11/25 16:00",
-    "2017/11/26 13:00", "2017/11/26 14:00", "2017/11/26 15:00", "2017/11/26 16:00",
-    "2017/11/27 13:00", "2017/11/27 14:00", "2017/11/27 15:00", "2017/11/27 16:00",
-    "2017/11/28 13:00", "2017/11/28 14:00", "2017/11/28 15:00", "2017/11/28 16:00",
-    "2017/11/29 13:00", "2017/11/29 14:00", "2017/11/29 15:00", "2017/11/29 16:00"
-];
-var title = '我的图';
-
-var type = ['温度', '湿度'];
-
 var chart = {
     chartOption: echarts.init(document.getElementById('chart')),
     /**
@@ -56,7 +45,7 @@ var chart = {
             },
             dataZoom: [{
                 type: 'inside',
-                start: 0,
+                start: 80,
                 end: 100
             }, {
                 start: 0,
@@ -123,6 +112,55 @@ var chart = {
         return type;
     },
     /**
+     * 数据颜色
+     * @param dataType
+     * @returns {string}
+     */
+    convertColor: function (dataType) {
+        var type = '';
+        switch (dataType) {
+            case '1':
+                type = '#fff810';
+                break;
+            case '2':
+                type = '#269bff';
+                break;
+            case '3':
+                type = '#1cff12';
+                break;
+            case '4':
+                type = '#5a5385';
+                break;
+            case '5':
+                type = '#ffe605';
+                break;
+            case '6':
+                type = '#00e5e6';
+                break;
+            case '7':
+                type = '#cc3043';
+                break;
+            case '8':
+                type = '#dd7534';
+                break;
+            case '9':
+                type = '#f112d1';
+                break;
+            case '10':
+                type = '#a8fb21';
+                break;
+            case '11':
+                type = '#5e8eff';
+                break;
+            case '12':
+                type = '#57ff94';
+                break;
+            default:
+                type = '#000';
+        }
+        return type;
+    },
+    /**
      * 通过指定数据类型和大棚编号查询数据
      * @param types
      * @param fieldId
@@ -130,12 +168,13 @@ var chart = {
     sendRequest: function (types, fieldId) {
         var dataTypes = types.split(',');
         $.ajax({
-            url: 'sys/data/getChartData',
+            url: 'sys/data/chart',
             data: {
                 dataTypes: dataTypes,
                 fieldId: fieldId
             },
             success: function (res) {
+                chart.chartOption.clear();
                 if (200 === res.code) {
                     var data = res.data;
                     // 图例
@@ -147,7 +186,6 @@ var chart = {
                     var series = chart.getSeries(typeToData);
                     chart.initChart(legends, dateList, series);
                 } else if (300 === res.code) {
-                    $('#chart').empty();
                     if (res.message) {
                         bootbox.alert({
                             title: '提示',
@@ -178,22 +216,22 @@ var chart = {
     getSeries: function (typeToData) {
         var series = [];
         $.each(typeToData, function (i, el) {
+            var name = chart.convertDataType(i);
+            var color = chart.convertColor(i);
             var singleSeries = {
-                name: '',
+                name: name,
                 type: 'line',
                 smooth: true,
                 symbol: 'none',
                 sampling: 'average',
                 itemStyle: {
                     normal: {
-                        color: '#f2f'
+                        color: color
                     }
                 },
-                data: []
+                data: el
             };
-            singleSeries.name = chart.convertDataType(i);
-            singleSeries.data = el;
-            series.push(singleSeries);
+            series.push(singleSeries)
         });
         return series;
     }
@@ -206,10 +244,8 @@ $('#init-chart').click(function () {
         chart.sendRequest(types, fieldId);
     } else {
         bootbox.alert({
-           title: '提示',
-           message: '请选择数据类型和大棚编号！'
+            title: '提示',
+            message: '请选择数据类型和大棚编号！'
         });
     }
 });
-
-// TODO 不同数据使用不同颜色

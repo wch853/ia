@@ -1,13 +1,12 @@
 package com.njfu.wa.sys.service.impl;
 
-import com.njfu.wa.sys.domain.Block;
-import com.njfu.wa.sys.domain.Crop;
-import com.njfu.wa.sys.domain.Field;
+import com.njfu.wa.sys.domain.*;
 import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.*;
 import com.njfu.wa.sys.service.BlockService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -126,13 +125,25 @@ public class BlockServiceImpl implements BlockService {
 
         // 车辆、机械所属地块信息置空
         String blockId = block.getBlockId();
-        int updMachine = machineMapper.updateMachineByBlock(blockId);
-        if (updMachine <= 0) {
-            throw new BusinessException("机械所属地块信息置空失败!");
+
+        Machine machine = new Machine();
+        machine.setBlock(block);
+        List<Machine> machines = machineMapper.selectMachines(machine);
+        if (!CollectionUtils.isEmpty(machines)) {
+            int updMachine = machineMapper.updateMachineByBlock(blockId);
+            if (updMachine <= 0) {
+                throw new BusinessException("机械所属地块信息置空失败!");
+            }
         }
-        int updVehicle = vehicleMapper.updateVehicleByBlock(blockId);
-        if (updVehicle <= 0) {
-            throw new BusinessException("车辆所属地块信息置空失败!");
+
+        Vehicle vehicle = new Vehicle();
+        vehicle.setBlock(block);
+        List<Vehicle> vehicles = vehicleMapper.selectVehicles(vehicle);
+        if (!CollectionUtils.isEmpty(vehicles)) {
+            int updVehicle = vehicleMapper.updateVehicleByBlock(blockId);
+            if (updVehicle <= 0) {
+                throw new BusinessException("车辆所属地块信息置空失败!");
+            }
         }
     }
 }

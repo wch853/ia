@@ -3,7 +3,7 @@ $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
 $("#sensorFileTable").bootstrapTable({
-    url: 'sys/file/getSensors',
+    url: 'sys/file/sensor/data',
     queryParams: function (params) {
         return {
             offset: params.offset,
@@ -12,6 +12,7 @@ $("#sensorFileTable").bootstrapTable({
             sensorFunc: $('#querySensorFunc').val(),
             sensorType: $('#querySensorType').val().trim(),
             fieldId: $('#queryFieldId').val(),
+            terminalId: $('#queryTerminalId').val(),
             useStatus: $('#queryUseStatus').val()
         }
     },
@@ -51,6 +52,9 @@ $("#sensorFileTable").bootstrapTable({
         field: 'field.fieldId',
         title: '传感器所属大棚'
     }, {
+        field: 'terminalId',
+        title: '传感器所属终端'
+    }, {
         formatter: function (value, row, index) {
             var useStatus = row.useStatus;
             var format = '';
@@ -71,7 +75,7 @@ $("#sensorFileTable").bootstrapTable({
         formatter: function (value, row, index) {
             return [
                 '<a type="button" class="btn btn-operate" href="javascript:modifySensor(' + "'" + row.sensorId + "', '"
-                + row.sensorFunc + "', '" + row.sensorType + "', '" + convertFieldId(row.field) + "', '"
+                + row.sensorFunc + "', '" + row.sensorType + "', '" + convertFieldId(row.field) + "', '" + row.terminalId + "', '"
                 + row.useStatus + "', '" + convertNull(row.sensorPs) + "'" + ')">' +
                 '<i class="fa fa-pencil"></i> 修改' +
                 '</a>',
@@ -125,7 +129,7 @@ $('#queryToolBar .selectpicker').selectpicker({
 });
 
 // 数据提交
-function sendRequest(path, sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs) {
+function sendRequest(path, sensorId, sensorFunc, sensorType, fieldId, terminalId, useStatus, sensorPs) {
     $.ajax({
         url: path,
         type: 'post',
@@ -134,6 +138,7 @@ function sendRequest(path, sensorId, sensorFunc, sensorType, fieldId, useStatus,
             sensorFunc: sensorFunc,
             sensorType: sensorType,
             fieldId: fieldId,
+            terminalId: terminalId,
             useStatus: useStatus,
             sensorPs: sensorPs
         },
@@ -171,6 +176,7 @@ $('#saveAdd').click(function () {
     var sensorFunc = $('#addSensorFunc').val();
     var sensorType = $('#addSensorType').val().trim();
     var fieldId = $('#addFieldId').val();
+    var terminalId = $('#addTerminalId').val();
     var useStatus = $('#addUseStatus').val();
     var sensorPs = $('#addSensorPs').val().trim();
 
@@ -192,7 +198,7 @@ $('#saveAdd').click(function () {
             message: '确认新增传感器信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/addSensor', sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs);
+                    sendRequest('sys/file/sensor/add', sensorId, sensorFunc, sensorType, fieldId, terminalId, useStatus, sensorPs);
                 }
             }
         });
@@ -200,11 +206,12 @@ $('#saveAdd').click(function () {
 });
 
 // 修改
-function modifySensor(sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs) {
+function modifySensor(sensorId, sensorFunc, sensorType, fieldId, terminalId, useStatus, sensorPs) {
     $('#modifySensorId').text(sensorId);
     $('#modifySensorFunc').selectpicker('val', sensorFunc);
     $('#modifySensorType').val(sensorType);
     $('#modifyFieldId').selectpicker('val', fieldId);
+    $('#modifyTerminalId').selectpicker('val', terminalId);
     $('#modifyUseStatus').selectpicker('val', useStatus);
     $('#modifySensorPs').val(sensorPs);
 
@@ -216,6 +223,7 @@ $('#saveModify').click(function () {
     var sensorFunc = $('#modifySensorFunc').val();
     var sensorType = $('#modifySensorType').val().trim();
     var fieldId = $('#modifyFieldId').val();
+    var terminalId = $('#modifyTerminalId').val();
     var useStatus = $('#modifyUseStatus').val();
     var sensorPs = $('#modifySensorPs').val().trim();
 
@@ -237,7 +245,7 @@ $('#saveModify').click(function () {
             message: '确认修改传感器信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/modifySensor', sensorId, sensorFunc, sensorType, fieldId, useStatus, sensorPs);
+                    sendRequest('sys/file/sensor/modify', sensorId, sensorFunc, sensorType, fieldId, terminalId, useStatus, sensorPs);
                 }
             }
         });
@@ -251,7 +259,7 @@ function removeSensor(sensorId) {
         message: '确认删除传感器信息',
         callback: function (flag) {
             if (flag) {
-                sendRequest('sys/file/removeSensor', sensorId);
+                sendRequest('sys/file/sensor/remove', sensorId);
             }
         }
     });

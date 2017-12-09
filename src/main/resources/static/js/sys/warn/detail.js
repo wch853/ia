@@ -96,7 +96,7 @@ function initTimeline() {
     $('.timeline').empty();
 
     $.ajax({
-        url: 'sys/warn/getUnHandleRecord',
+        url: 'sys/warn/record/unhandle',
         success: function (res) {
             var list = res.data;
             if (null === list || 0 === list.length) {
@@ -184,7 +184,7 @@ function handleWarn(flag) {
 
 function sendRequest(ids, flag) {
     $.ajax({
-        url: 'sys/warn/modifyWarnRecord',
+        url: 'sys/warn/record/modify',
         type: 'post',
         data: {
             ids: ids,

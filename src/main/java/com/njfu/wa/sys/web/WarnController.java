@@ -37,11 +37,11 @@ public class WarnController {
     /**
      * 阈值设置页面
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/threshold")
     public String threshold() {
-        return "sys/warn/thresholdSet";
+        return "sys/warn/threshold";
     }
 
     /**
@@ -52,7 +52,7 @@ public class WarnController {
      * @param warnThreshold thresholdType
      * @return json data
      */
-    @GetMapping("/getWarnThreshold")
+    @GetMapping("/threshold/data")
     public @ResponseBody
     PaginationResult getWarnThreshold(int offset, int limit, WarnThreshold warnThreshold) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
@@ -66,7 +66,7 @@ public class WarnController {
      * @param warnThreshold ceil floor useStatus
      * @return message
      */
-    @PostMapping("/modifyWarnThreshold")
+    @PostMapping("/threshold/modify")
     public @ResponseBody
     Result modifyWarnThreshold(WarnThreshold warnThreshold) {
         try {
@@ -83,7 +83,7 @@ public class WarnController {
     /**
      * 报警记录页面
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/record")
     public String record(Model model) {
@@ -102,7 +102,7 @@ public class WarnController {
      * @param end        end
      * @return json data
      */
-    @GetMapping("/getWarnRecord")
+    @GetMapping("/record/data")
     public @ResponseBody
     PaginationResult getWarnRecord(int limit, int offset, WarnRecord warnRecord, String start, String end) {
         Page<Object> page = PageHelper.offsetPage(offset, limit);
@@ -113,7 +113,7 @@ public class WarnController {
     /**
      * 报警详情页面
      *
-     * @return page
+     * @return Page
      */
     @GetMapping("/detail")
     public String detail() {
@@ -125,7 +125,7 @@ public class WarnController {
      *
      * @return json data
      */
-    @GetMapping("/getUnHandleRecord")
+    @GetMapping("/record/unhandle")
     public @ResponseBody
     Result getUnHandleRecord() {
         List<WarnRecord> unHandleWarnRecords = warnRecordService.getUnHandleWarnRecord();
@@ -137,9 +137,9 @@ public class WarnController {
      *
      * @param ids  id
      * @param flag flag
-     * @return json message
+     * @return json Result
      */
-    @PostMapping("/modifyWarnRecord")
+    @PostMapping("/record/modify")
     public @ResponseBody
     Result modifyWarnRecord(@RequestParam("ids[]") Integer[] ids, String flag) {
         try {
@@ -158,7 +158,7 @@ public class WarnController {
      *
      * @return json data
      */
-    @GetMapping("/getUnhandleRecordCount")
+    @GetMapping("/record/unhandle/count")
     public @ResponseBody
     Result getUnhandleRecordCount() {
         int count = warnRecordService.getUnhandleRecordCount();
