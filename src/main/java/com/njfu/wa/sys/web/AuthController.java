@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 权限管理
@@ -69,6 +70,7 @@ public class AuthController {
             securityService.addUser(user);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -91,5 +93,177 @@ public class AuthController {
         List<Role> roles = securityService.getRoles(roleName, null);
         PageInfo<Role> page = new PageInfo<>(roles);
         return new PaginationResult<>(page.getTotal(), roles);
+    }
+
+    /**
+     * 查询所有角色/指定账户拥有的角色
+     *
+     * @param userId userId
+     * @return json Result
+     */
+    @GetMapping("/user/role")
+    public @ResponseBody
+    Result getPrivateRoles(Integer userId) {
+        try {
+            Map<String, List<Role>> classifyRoles = securityService.classifyRoles(userId);
+            return Result.response(ResultEnum.DATA, classifyRoles);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 重新保存用户权限
+     *
+     * @param userId  userId
+     * @param roleIds roleIds
+     * @return json Result
+     */
+    @PostMapping("/user/role/add")
+    public @ResponseBody
+    Result saveUserRoles(Integer userId,
+                         @RequestParam(value = "roleIds[]", required = false) List<Integer> roleIds) {
+        try {
+            securityService.saveUserRoles(userId, roleIds);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param user user
+     * @return json Result
+     */
+    @PostMapping("/user/modify")
+    public @ResponseBody
+    Result modifyUser(User user) {
+        try {
+            securityService.modifyUser(user);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param userId userId
+     * @return json Result
+     */
+    @PostMapping("/user/remove")
+    public @ResponseBody
+    Result removeUser(Integer userId) {
+        try {
+            securityService.removeUser(userId);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 新增角色
+     *
+     * @param role role
+     * @return json Result
+     */
+    @PostMapping("/role/add")
+    public @ResponseBody
+    Result addRole(Role role) {
+        try {
+            securityService.addRole(role);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 查询所有权限/已分配权限
+     *
+     * @param roleId roleId
+     * @return json Result
+     */
+    @GetMapping("/role/permission")
+    public @ResponseBody
+    Result getRolePermissions(Integer roleId) {
+        try {
+            Map<String, Object> map = securityService.classifyPermissions(roleId);
+            return Result.response(ResultEnum.DATA, map);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 保存角色权限
+     *
+     * @param roleId        roleId
+     * @param permissionIds permissionIds
+     * @return json Result
+     */
+    @PostMapping("/role/permission/add")
+    public @ResponseBody
+    Result addRolePermissions(Integer roleId,
+                              @RequestParam(value = "permissionIds[]", required = false) List<Integer> permissionIds) {
+        try {
+            securityService.saveRolePermissions(roleId, permissionIds);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 删除角色
+     *
+     * @param roleId roleId
+     * @return json Result
+     */
+    @PostMapping("/role/remove")
+    public @ResponseBody
+    Result removeRole(Integer roleId) {
+        try {
+            securityService.removeRole(roleId);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 }

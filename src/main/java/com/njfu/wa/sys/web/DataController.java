@@ -99,6 +99,7 @@ public class DataController {
             ChartData chartData = dataRecordService.getChartData(dataTypes, fieldId);
             return Result.response(ResultEnum.SUCCESS, null, chartData);
         } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

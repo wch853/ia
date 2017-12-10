@@ -64,7 +64,9 @@ public class ShiroConfig implements ApplicationContextAware {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(authRealm());
-        securityManager.setCacheManager(getEhCacheManager());
+        if (CommonConstants.USE_EHCACHE) {
+            securityManager.setCacheManager(getEhCacheManager());
+        }
         return securityManager;
     }
 
@@ -124,6 +126,9 @@ public class ShiroConfig implements ApplicationContextAware {
         filterChain.put("/login", "anon");
         // 配置登出路径
         filterChain.put("/logout", "logout");
+        filterChain.put("/js/**", "anon");
+        filterChain.put("/css/**", "anon");
+        filterChain.put("/", "anon");
 
         // 动态添加权限
         SecurityService securityService = null;
@@ -132,13 +137,25 @@ public class ShiroConfig implements ApplicationContextAware {
         }
         List<Permission> permissions = securityService.getPermissions();
         for (Permission permission : permissions) {
-            filterChain.put(permission.getUrl(), permission.getPerm());
+            filterChain.put(permission.getUrl(), this.adaptPerms(permission.getPerm()));
         }
 
         // 认证后访问
         filterChain.put("/**", "authc");
         filter.setFilterChainDefinitionMap(filterChain);
         return filter;
+    }
+
+    /**
+     * 适配拦截器权限标识符
+     *
+     * @param perm perm
+     * @return perms[]
+     */
+    private String adaptPerms(String perm) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("perms[").append(perm).append("]");
+        return sb.toString();
     }
 
     /**

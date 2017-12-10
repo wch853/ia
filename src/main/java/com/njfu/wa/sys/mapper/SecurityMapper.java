@@ -30,12 +30,12 @@ public interface SecurityMapper {
     List<Role> selectRoles(@Param("roleName") String roleName, @Param("userId") Integer userId);
 
     /**
-     * 查询指定角色拥有的权限
+     * 查询权限(除去id=1的全权)
      *
-     * @param roles roles
+     * @param roleId roleId
      * @return Permissions
      */
-    List<Permission> selectPermissionsByRoles(@Param("roles") List<Role> roles);
+    List<Permission> selectPermissions(@Param("roleId") Integer roleId);
 
     /**
      * 查询指定用户拥有的权限
@@ -44,13 +44,6 @@ public interface SecurityMapper {
      * @return StringPermissions
      */
     List<String> selectStringPermissions(@Param("userId") int userId);
-
-    /**
-     * 查询所有注册权限
-     *
-     * @return Permissions
-     */
-    List<Permission> selectPermissions();
 
     /**
      * 创建角色
@@ -93,9 +86,9 @@ public interface SecurityMapper {
     int insertUserRoles(Map<String, Object> map);
 
     /**
-     * 伤处用户角色
+     * 删除用户角色
      *
-     * @param map map
+     * @param map map userId roleIds(empty：delete all roles of this user)
      * @return count
      */
     int deleteUserRoles(Map<String, Object> map);

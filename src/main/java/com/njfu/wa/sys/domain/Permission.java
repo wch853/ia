@@ -1,5 +1,7 @@
 package com.njfu.wa.sys.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 权限
  */
@@ -13,6 +15,7 @@ public class Permission {
     /**
      * url地址
      */
+    @JsonIgnore
     private String url;
 
     /**
@@ -23,6 +26,7 @@ public class Permission {
     /**
      * 权限标识符
      */
+    @JsonIgnore
     private String perm;
 
     public Integer getId() {

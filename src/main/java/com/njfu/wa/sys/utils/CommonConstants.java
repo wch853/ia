@@ -21,7 +21,47 @@ public interface CommonConstants {
     String DEFAULT_PASSWORD = "@wa-user";
 
     /**
-     * 默认账号状态
+     * root账户id
      */
-    int DEFALUT_USER_STATUS = 1;
+    int ROOT_USER_ID = 1;
+
+    /**
+     * 超级管理员角色id
+     */
+    int SUPER_ROLE_ID = 1;
+
+    /**
+     * 账号状态-有效
+     */
+    short VALID_USER_STATUS = 1;
+
+    /**
+     * 账号状态-无效
+     */
+    short INVALID_USER_STATUS = 0;
+
+    /**
+     * 所有角色
+     */
+    String ALL_ROLES = "allRoles";
+
+    /**
+     * 拥有角色
+     */
+    String HAS_ROLES = "hasRoles";
+
+    /**
+     * 所有权限
+     */
+    String ALL_PERMISSIONS = "allPermissions";
+
+    /**
+     * 拥有权限
+     */
+    String HAS_PERMISSIONS = "hasPermissions";
+
+    /**
+     * 是否使用ehcache缓存
+     */
+    boolean USE_EHCACHE = true;
 }

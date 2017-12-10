@@ -323,7 +323,8 @@ CREATE TABLE role (
   COMMENT '角色编号',
   role_name VARCHAR(255) NOT NULL
   COMMENT '角色名称',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE KEY (role_name)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -893,18 +894,19 @@ VALUES (1, 'root', 'wch853', '6991b327c9a016bbfc7fbe905d08a82e', '!@#', 1);
 INSERT INTO wa.role (id, role_name) VALUES (1, '超级管理员');
 
 /* permission */
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (1, '/**', 'full authority', '*');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (2, '/sys/file/**', 'file query', 'sys:file:query');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (3, '/sys/file/*/add', 'file add', 'sys:file:add');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (4, '/sys/file/*/modify', 'file modify', 'sys:file:modify');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (5, '/sys/file/*/remove', 'file remove', 'sys:file:remove');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (6, '/sys/data/**', 'data query', 'sys:data:query');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (7, '/sys/warn/**', 'warn query', 'sys:warn:query');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (8, '/sys/warn/modify', 'warn modify', 'sys:warn:modify');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (9, '/sys/memo/**', 'memo query', 'sys:memo:query');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (10, '/sys/memo/add', 'memo add', 'sys:memo:add');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (11, '/sys/memo/modify', 'memo modify', 'sys:memo:modify');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (12, '/sys/memo/remove', 'memo remove', 'sys:memo:remove');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (1, '/**', '完全权限', '*');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (2, '/sys/file/*/add', '档案添加', 'sys:file:add');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (3, '/sys/file/*/modify', '档案修改', 'sys:file:modify');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (4, '/sys/file/*/remove', '档案删除', 'sys:file:remove');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (5, '/sys/file/**', '档案查询', 'sys:file:query');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (6, '/sys/auth/**', '权限管理', 'sys:auth');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (7, '/sys/data/**', '数据查询', 'sys:data:query');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (8, '/sys/warn/*/modify', '报警修改', 'sys:warn:modify');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (9, '/sys/warn/**', '报警查询', 'sys:warn:query');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (10, '/sys/memo/add', '备忘添加', 'sys:memo:add');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (11, '/sys/memo/modify', '备忘修改', 'sys:memo:modify');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (12, '/sys/memo/remove', '备忘删除', 'sys:memo:remove');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (13, '/sys/memo/**', '备忘查询', 'sys:memo:query');
 
 /* user_roles */
 INSERT INTO wa.user_roles (user_id, role_id) VALUES (1, 1);

@@ -80,8 +80,8 @@ public class AuthRealm extends AuthorizingRealm {
      * 用户权限发生变动，调用此方法清除缓存
      */
     public void clearCache() {
-        // TODO 权限变动，调用
         PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
         super.clearCache(principals);
+        LOGGER.info("ehcache clear");
     }
 }

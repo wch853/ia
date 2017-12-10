@@ -73,6 +73,7 @@ public class WarnController {
             warnThresholdService.modifyWarnThreshold(warnThreshold);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
             return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -146,6 +147,7 @@ public class WarnController {
             warnRecordService.modifyWarnRecord(ids, flag);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
             return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
