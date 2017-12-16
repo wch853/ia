@@ -189,6 +189,8 @@ var auth = {
         var message;
         if (res.code === 200) {
             message = "操作成功！";
+        } else if (res.code === 300 && res.message) {
+            message = res.message;
         } else {
             message = "操作失败！";
         }

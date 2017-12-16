@@ -24,14 +24,11 @@ import java.util.Map;
 @Transactional
 public class SecurityMapperTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityMapperTest.class);
+    private final String username = "wch853";
+    private final int id = 1;
     @Resource
     private SecurityMapper securityMapper;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityMapperTest.class);
-
-    private final String username = "wch853";
-
-    private final int id = 1;
 
     @Test
     public void selectUser() throws Exception {

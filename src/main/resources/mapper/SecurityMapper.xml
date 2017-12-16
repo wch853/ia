@@ -7,10 +7,11 @@
 
     <select id="selectUser" resultType="User">
         SELECT
-            id,
-            name,
-            password,
-            salt
+        id,
+        name,
+        password,
+        salt,
+        status
         FROM user
         WHERE username = #{username}
     </select>
@@ -35,7 +36,8 @@
         SELECT
         p.id AS id,
         p.url AS url,
-        p.url_name AS url_name
+        p.url_name AS url_name,
+        p.perm AS perm
         FROM permission p LEFT JOIN role_permissions rp ON rp.permission_id = p.id
         <where>
             id != 1
@@ -49,8 +51,8 @@
         SELECT p.perm
         FROM role_permissions rp LEFT JOIN permission p ON rp.permission_id = p.id
         WHERE rp.role_id IN (SELECT r.id
-                             FROM user_roles ur LEFT JOIN role r ON ur.role_id = r.id
-                             WHERE ur.user_id = #{userId})
+        FROM user_roles ur LEFT JOIN role r ON ur.role_id = r.id
+        WHERE ur.user_id = #{userId})
     </select>
 
     <insert id="insertRole">
@@ -109,8 +111,8 @@
         SELECT id, name, username, status
         FROM user
         <where>
-            <if test="null != username and !''.equals(username)">
-                username = #{username}
+            <if test="null != name and !''.equals(name)">
+                name LIKE CONCAT('%', #{name}, '%')
             </if>
         </where>
         ORDER BY id
@@ -133,7 +135,7 @@
             <if test="null != salt and !''.equals(salt)">
                 salt = #{salt},
             </if>
-            <if test="null != status and !''.equals(status)">
+            <if test="null != status">
                 status = #{status}
             </if>
         </set>

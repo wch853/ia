@@ -288,6 +288,8 @@ CREATE TABLE memo (
   COMMENT '类型，0-日志，1-备忘录，2-注意事项',
   content     TEXT               NULL
   COMMENT '内容',
+  update_user VARCHAR(255)       NOT NULL
+  COMMENT '更新人',
   update_time TIMESTAMP          NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   COMMENT '更新时间',
   PRIMARY KEY (id)
@@ -881,9 +883,9 @@ VALUES (4, 'f1701004', '4', 9.58, NULL, NULL, '0');
 INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
 VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
 
-INSERT INTO wa.memo (id, title, type, content, update_time) VALUES (3, '日志1', '0', '日志1', '2017-12-06 19:33:19');
-INSERT INTO wa.memo (id, title, type, content, update_time) VALUES (4, '备忘录1', '1', '备忘录1', '2017-12-06 19:33:33');
-INSERT INTO wa.memo (id, title, type, content, update_time) VALUES (5, '注意事项1', '2', '注意事项1', '2017-12-06 19:33:49');
+INSERT INTO wa.memo (id, title, type, content, update_user, update_time) VALUES (1, '日志1', '0', '日志1', 'root', NULL);
+INSERT INTO wa.memo (id, title, type, content, update_user, update_time) VALUES (2, '备忘录1', '1', '备忘录1', 'root', NULL);
+INSERT INTO wa.memo (id, title, type, content, update_user, update_time) VALUES (3, '注意事项1', '2', '注意事项1', 'root', NULL);
 
 
 /* user */

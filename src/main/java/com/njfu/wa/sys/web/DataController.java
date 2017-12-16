@@ -29,16 +29,13 @@ import java.util.List;
 @RequestMapping("/sys/data")
 public class DataController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataController.class);
     @Resource
     private DataRecordService dataRecordService;
-
     @Resource
     private FieldService fieldService;
-
     @Resource
     private SensorService sensorService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataController.class);
 
     /**
      * 数据查询页面

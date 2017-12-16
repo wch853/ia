@@ -8,23 +8,27 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <title>登录-欢迎使用智慧农业管理系统</title>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <link href="http://106.14.200.121/wa-login/login.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
 </head>
 <body>
 <div class="login">
-    <div class="message">智慧农业集成管理系统</div>
-    <div id="darkbannerwrap"></div>
-    <div>
-        <input name="username" placeholder="用户名" required="" type="text">
-        <hr class="hr15">
-        <input name="password" placeholder="密码" required="" type="password">
-        <hr class="hr15">
-        // TODO css
-        <input value="登录" id="submit" type="submit">
-        <hr class="hr20">
+    <div class="login-title">智慧农业集成管理系统</div>
+    <div class="wrap"></div>
+    <div id="login-area">
+        <div class="login-input-outer">
+            <i class="fa fa-user login-input-icon"></i>
+            <input id="username" placeholder="账号" class="login-input" type="text">
+        </div>
+        <div id="error-message">智慧农业集成</div>
+        <div class="login-input-outer">
+            <i class="fa fa-lock login-input-icon"></i>
+            <input id="password" placeholder="密码" class="login-input" type="password">
+        </div>
+        <input value="登录" id="submit" class="login-submit" type="submit">
     </div>
 </div>
-<div class="copyright">© 2017 智慧农业集成管理系统 <a href="">南京林业大学</a></div>
+<div class="login-copyright">© 2017 智慧农业集成管理系统 <a href="">南京林业大学</a></div>
 </body>
-<script type="javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
 </html>

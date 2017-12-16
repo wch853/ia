@@ -1,5 +1,6 @@
 package com.njfu.wa.sys.websocket;
 
+import com.njfu.wa.sys.utils.CommonConstants;
 import com.njfu.wa.sys.utils.JsonUtils;
 import com.njfu.wa.sys.utils.Result;
 import org.slf4j.Logger;
@@ -34,7 +35,6 @@ public class TipHandler extends AbstractWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         webSocketSessions.add(session);
-        LOGGER.info("session {} open", session.getId());
     }
 
     /**
@@ -67,18 +67,20 @@ public class TipHandler extends AbstractWebSocketHandler {
     }
 
     /**
-     * 广播报警消息
+     * 广播消息
      *
      * @param result result
      */
-    public void broadcastWarnTip(Result result) {
+    public void broadcastTip(Result result) {
         try {
             // 将Result对象转为json字符串
             String res = JsonUtils.toJsonString(result);
-
             if (null != res) {
                 for (WebSocketSession webSocketSession : webSocketSessions) {
-                    webSocketSession.sendMessage(new TextMessage(res));
+                    if (null != webSocketSession.getAttributes().get(CommonConstants.WARN_PERM)) {
+                        // 该连接有报警查询权限才推送消息
+                        webSocketSession.sendMessage(new TextMessage(res));
+                    }
                 }
             } else {
                 LOGGER.error("报警消息为空，广播报警消息失败！");

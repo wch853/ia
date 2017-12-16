@@ -19,11 +19,9 @@ import java.util.List;
 @Transactional
 public class SensorMapperTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SensorMapperTest.class);
     @Resource
     private SensorMapper sensorMapper;
-
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SensorMapperTest.class);
 
     @Test
     public void selectSensors() throws Exception {

@@ -2,6 +2,7 @@ package com.njfu.wa.sys.shiro;
 
 import com.njfu.wa.sys.domain.User;
 import com.njfu.wa.sys.service.SecurityService;
+import com.njfu.wa.sys.utils.CommonConstants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -21,10 +22,9 @@ import java.util.Set;
  */
 public class AuthRealm extends AuthorizingRealm {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthRealm.class);
     @Resource
     private SecurityService securityService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthRealm.class);
 
     /**
      * 认证
@@ -46,8 +46,14 @@ public class AuthRealm extends AuthorizingRealm {
         String name = user.getName();
         String password = user.getPassword();
         String salt = user.getSalt();
+        short status = user.getStatus();
+
         if (null == name || null == password || null == salt) {
             throw new AccountException("账户异常！");
+        }
+        if (CommonConstants.VALID_USER_STATUS != status) {
+            // 账号无效
+            throw new AccountException("无效账号！");
         }
 
         // 身份信息，密码（数据库中加密后的密码），salt，realmName

@@ -485,3 +485,26 @@ nav {
     border-radius: 5px 5px 0 0;
     font-size: 16px;
 }
+
+#tab-content-user {
+    width: 420px;
+    margin-top: 20px;
+}
+
+#name-modify input,
+#password-modify input {
+    width: 300px;
+}
+
+@media (min-width: 468px) {
+    #name-modify label,
+    #password-modify label {
+        width: 100px;
+        text-align: right;
+    }
+
+    .confirm-area {
+        width: 130px;
+        float: right;
+    }
+}

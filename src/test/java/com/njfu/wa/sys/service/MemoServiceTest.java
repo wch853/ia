@@ -18,10 +18,9 @@ import java.util.List;
 @Transactional
 public class MemoServiceTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemoServiceTest.class);
     @Resource
     private MemoService memoService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemoServiceTest.class);
 
     @Test
     public void getMemoList() throws Exception {
@@ -41,6 +40,7 @@ public class MemoServiceTest {
         memo.setTitle("test");
         memo.setType("1");
         memo.setContent("test");
+        memo.setUpdateUser("root");
 
         try {
             memoService.addMemo(memo);
@@ -54,6 +54,7 @@ public class MemoServiceTest {
         Memo memo = new Memo();
         memo.setId(1);
         memo.setTitle("test");
+        memo.setUpdateUser("root");
 
         try {
             memoService.modifyMemo(memo);

@@ -11,7 +11,6 @@
         <a class="navbar-brand" href="sys">智慧农业管理系统</a>
         <ul class="nav navbar-nav left-ul">
             <li><a href="sys"><i class="fa fa-paper-plane"></i>系统管理</a></li>
-            <li><a href="business"><i class="fa fa-truck"></i>商务管理</a></li>
         </ul>
     </div>
     <!-- 导航栏右侧 -->
@@ -23,10 +22,6 @@
             </a>
             <ul class="dropdown-menu alert-dropdown">
                 <li>
-                    <a href="javascript:void(0);"><i class="fa fa-commenting-o"></i>
-                        系统提示 <span class="label label-info">0</span></a>
-                </li>
-                <li>
                     <a href="sys/warn/detail"><i class="fa fa-exclamation-triangle"></i>
                         系统报警 <span id="warn-count" class="label label-danger">0</span></a>
                 </li>
@@ -35,11 +30,11 @@
         <!--用户信息下拉-->
         <li class="dropdown">
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-user"></i><span id="user-info">匿名用户</span><i class="fa fa-caret-down"></i>
+                <i class="fa fa-user"></i><span class="user-info-name">匿名用户</span><i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="sys/auth/user/edit"><i class="fa fa-fw fa-user"></i>个人信息</a>
+                    <a href="sys/user"><i class="fa fa-fw fa-user"></i>个人设置</a>
                 </li>
                 <li class="divider"></li>
                 <li>

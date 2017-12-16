@@ -27,6 +27,11 @@ public class Memo {
     private String content;
 
     /**
+     * 更新人
+     */
+    private String updateUser;
+
+    /**
      * 更新时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
@@ -64,6 +69,14 @@ public class Memo {
         this.content = content;
     }
 
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -79,6 +92,7 @@ public class Memo {
                 ", title='" + title + '\'' +
                 ", type='" + type + '\'' +
                 ", content='" + content + '\'' +
+                ", updateUser='" + updateUser + '\'' +
                 ", updateTime=" + updateTime +
                 '}';
     }

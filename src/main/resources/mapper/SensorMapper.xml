@@ -48,7 +48,7 @@
     <update id="updateSensor">
         UPDATE sensor
         SET sensor_func = #{sensorFunc}, sensor_type = #{sensorType}, field_id = #{field.fieldId},
-            terminal_id = #{terminalId}, use_status = #{useStatus}, sensor_ps = #{sensorPs}
+        terminal_id = #{terminalId}, use_status = #{useStatus}, sensor_ps = #{sensorPs}
         WHERE sensor_id = #{sensorId}
     </update>
 

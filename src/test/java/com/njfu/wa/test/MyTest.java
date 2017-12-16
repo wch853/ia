@@ -8,8 +8,8 @@ public class MyTest {
 
     @Test
     public void demo1() {
-        String source = "";
-        SimpleHash md5 = new SimpleHash("md5", source, ByteSource.Util.bytes("!@#"));
+        String source = "123456";
+        SimpleHash md5 = new SimpleHash("md5", source, ByteSource.Util.bytes("1513262685325"));
         System.out.println(md5);
     }
 

@@ -18,10 +18,9 @@ import java.util.List;
 @Transactional
 public class TerminalMapperTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMapperTest.class);
     @Resource
     private TerminalMapper terminalMapper;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalMapperTest.class);
 
     @Test
     public void selectTerminals() throws Exception {

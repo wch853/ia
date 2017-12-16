@@ -23,13 +23,11 @@ import java.util.List;
 @RequestMapping("/sys")
 public class IndexController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
     @Resource
     private BlockService blockService;
-
     @Resource
     private FieldStatusService fieldStatusService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
     /**
      * 系统管理首页
@@ -37,7 +35,7 @@ public class IndexController {
      * @param model data
      * @return Page
      */
-    @GetMapping
+    @GetMapping("")
     public String index(Model model) {
         List<Block> blocks = blockService.getBlocksAndFields();
         model.addAttribute("blocks", blocks);
@@ -73,5 +71,18 @@ public class IndexController {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         }
+    }
+
+    /**
+     * 跳转个人设置页
+     *
+     * @param model model
+     * @return Page
+     */
+    @GetMapping("/user")
+    public String user(Model model) {
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        model.addAttribute("user", user);
+        return "sys/auth/user";
     }
 }

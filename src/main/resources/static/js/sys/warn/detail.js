@@ -59,7 +59,6 @@ function verifyCheck() {
     var flag = false;
     $('.timeline-check').each(function () {
         if ($(this).is(':checked')) {
-            console.log(1);
             flag = true;
             return false;
         }

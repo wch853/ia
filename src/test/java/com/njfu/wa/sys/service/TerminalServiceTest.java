@@ -17,10 +17,9 @@ import java.util.List;
 @Transactional
 public class TerminalServiceTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalServiceTest.class);
     @Resource
     private TerminalService terminalService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TerminalServiceTest.class);
 
     @Test
     public void getTerminals() throws Exception {

@@ -19,14 +19,13 @@ import java.util.List;
 @Transactional
 public class MachineMapperTest {
 
+    private static final Logger log = LoggerFactory.getLogger(MachineMapperTest.class);
+    @Resource
+    private MachineMapper machineMapper;
+
     @Test
     public void updateVehicleByBlock() throws Exception {
     }
-
-    private static final Logger log = LoggerFactory.getLogger(MachineMapperTest.class);
-
-    @Resource
-    private MachineMapper machineMapper;
 
     @Test
     public void selectMachines() throws Exception {

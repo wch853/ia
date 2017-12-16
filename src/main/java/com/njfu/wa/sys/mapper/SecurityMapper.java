@@ -96,10 +96,10 @@ public interface SecurityMapper {
     /**
      * 查询用户
      *
-     * @param username username
+     * @param name name
      * @return Users
      */
-    List<User> selectUsers(@Param("username") String username);
+    List<User> selectUsers(@Param("name") String name);
 
     /**
      * 新增用户

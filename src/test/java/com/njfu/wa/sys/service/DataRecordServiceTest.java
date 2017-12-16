@@ -18,10 +18,9 @@ import java.util.List;
 @Transactional
 public class DataRecordServiceTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataRecordServiceTest.class);
     @Resource
     private DataRecordService dataRecordService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataRecordServiceTest.class);
 
     @Test
     public void getDataRecords() throws Exception {

@@ -7,25 +7,26 @@
 
     <select id="selectMemoList" resultType="Memo">
         SELECT
-            id,
-            title
+        id,
+        title
         FROM memo
         WHERE type = #{type}
     </select>
 
     <select id="selectMemo" resultType="Memo">
         SELECT
-            id,
-            title,
-            content,
-            update_time
+        id,
+        title,
+        content,
+        update_user,
+        update_time
         FROM memo
         WHERE id = #{id}
     </select>
 
     <insert id="insertMemo">
-        INSERT INTO memo (title, type, content)
-        VALUES (#{title}, #{type}, #{content})
+        INSERT INTO memo (title, type, content, update_user)
+        VALUES (#{title}, #{type}, #{content}, #{updateUser})
     </insert>
 
     <update id="updateMemo">
@@ -35,7 +36,10 @@
                 title = #{title},
             </if>
             <if test="null != content and !''.equals(content)">
-                content = #{content}
+                content = #{content},
+            </if>
+            <if test="null != updateUser and !''.equals(updateUser)">
+                update_user = #{updateUser}
             </if>
         </set>
         WHERE id = #{id}

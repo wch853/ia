@@ -1,0 +1,139 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: url(../img/login.jpg) no-repeat center;
+    background-size: cover;
+}
+
+a {
+    color: #27A9E3;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.login {
+    min-height: 420px;
+    max-width: 420px;
+    padding: 40px;
+    background-color: #ffffff;
+    margin: 150px auto 0;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+a.logo {
+    display: block;
+    height: 58px;
+    width: 167px;
+    margin: 0 auto 30px auto;
+    background-size: 167px 42px;
+}
+
+.login-title {
+    margin: 10px 0 0 -58px;
+    padding: 18px 10px 18px 60px;
+    background: #27A9E3;
+    position: relative;
+    color: #fff;
+    font-size: 20px;
+}
+
+.wrap {
+    background: url(../img/angle.png);
+    width: 18px;
+    height: 10px;
+    margin: 0 0 20px -58px;
+    position: relative;
+}
+
+.login-submit {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 12px 24px;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #3194d0;
+    border-radius: 25px;
+    border: none;
+    -webkit-appearance: none;
+    outline: none;
+    width: 100%;
+    margin: 5px 0 0;
+}
+
+.login-copyright {
+    font-size: 14px;
+    color: white;
+    display: block;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+.login-input-outer {
+    position: relative;
+    margin-bottom: 35px;
+}
+
+.login-input-icon {
+    width: 10%;
+    font-size: 20px;
+    position: absolute;
+    color: #858585;
+    left: 20px;
+    top: 15px;
+}
+
+.login-input {
+    border: 1px solid #DCDEE0;
+    vertical-align: middle;
+    border-radius: 3px;
+    height: 50px;
+    padding: 0 16px 0 50px;
+    font-size: 14px;
+    color: #555555;
+    outline: none;
+    width: 100%;
+}
+
+.login-input:focus {
+    border: 1px solid #3194d0;
+}
+
+#login-area {
+    position: relative;
+}
+
+#error-message {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-radius: 5px;
+    border: 1px solid #ea6f5a;
+    color: #ea6f5a;
+    width: 240px;
+    font-size: 13px;
+    text-align: center;
+    background-color: #ffffff;
+    padding: 8px;
+    font-weight: bold;
+    z-index: 100;
+}

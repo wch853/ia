@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Array;
 import java.util.*;
 
 @RunWith(SpringRunner.class)
@@ -19,10 +18,9 @@ import java.util.*;
 @Transactional
 public class DataRecordMapperTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataRecordMapperTest.class);
     @Resource
     private DataRecordMapper dataRecordMapper;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataRecordMapperTest.class);
 
     @Test
     public void selectDataRecords() throws Exception {

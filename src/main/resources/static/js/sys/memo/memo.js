@@ -30,7 +30,7 @@ var initMemo = {
      * 初始化记录内容
      */
     initMemoContent: function () {
-        initMemo.fillMemoArea('0', '', '', '');
+        initMemo.fillMemoArea('0', '', '', '', '');
 
         $('.log-list li').click(function () {
             var mid = $(this).attr('mid');
@@ -44,8 +44,9 @@ var initMemo = {
                     },
                     success: function (res) {
                         var data = res.data;
+                        /** @namespace data.updateUser */
                         /** @namespace data.updateTime */
-                        initMemo.fillMemoArea(mid, data.title, data.content, data.updateTime);
+                        initMemo.fillMemoArea(mid, data.title, data.content, data.updateUser, data.updateTime);
                     }
                 });
             }
@@ -56,14 +57,20 @@ var initMemo = {
      * @param mid
      * @param title
      * @param content
+     * @param updateUser
      * @param updateTime
      */
-    fillMemoArea: function (mid, title, content, updateTime) {
+    fillMemoArea: function (mid, title, content, updateUser, updateTime) {
+        var editInfo = '';
+        if (updateUser && updateUser.length > 0 && updateTime && updateTime.length > 0) {
+            editInfo = '<div>由 <span class="status-data">' + updateUser + '</span>&nbsp; 最后更新于：<span class="status-data">'
+                + updateTime + '</span></div>';
+        }
         var html = '<div class="form-inline form-group"><label for="memo-title">标题：</label>' +
             '<input type="text" id="memo-title" class="form-control" value="' + title + '" mid="' + mid + '"></div>' +
-            '<div>最后更新于：<span class="status-data">' + updateTime + '</span></div>' +
+            editInfo +
             '<textarea class="memo-edit-area">' + content + '</textarea><div class="pull-right">' +
-            '<button class="btn btn-danger" id="btn-del">删除</button><button class="btn btn-success" id="btn-save">' +
+            '<button class="btn btn-danger" id="btn-del">删除</button>&nbsp;<button class="btn btn-success" id="btn-save">' +
             '保存</button></div>';
         $('.memo-edit-div').empty().append(html);
         // 绑定事件
@@ -94,7 +101,9 @@ var initMemo = {
             },
             success: function (res) {
                 var message;
-                if (res.code === 200) {
+                if (!res.code) {
+                    message = "您没有权限，操作失败！";
+                } else if (res.code === 200) {
                     message = "操作成功！";
                 } else {
                     message = "操作失败！";
@@ -136,10 +145,23 @@ var initMemo = {
         } else {
             if (type !== undefined) {
                 if (mid !== '0') {
-                    initMemo.sendRequest('sys/memo/modify', mid, title, type, content);
+                    bootbox.confirm({
+                        title: '提示',
+                        message: '确认修改记录'
+                    }, callback(function (flag) {
+                        if (flag) {
+                            initMemo.sendRequest('sys/memo/modify', mid, title, type, content);
+                        }
+                    }));
                 } else {
-                    // 新增
-                    initMemo.sendRequest('sys/memo/add', mid, title, type, content);
+                    bootbox.confirm({
+                        title: '提示',
+                        message: '确认新增记录'
+                    }, callback(function (flag) {
+                        if (flag) {
+                            initMemo.sendRequest('sys/memo/add', mid, title, type, content);
+                        }
+                    }));
                 }
             }
         }

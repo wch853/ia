@@ -126,9 +126,12 @@ public class ShiroConfig implements ApplicationContextAware {
         filterChain.put("/login", "anon");
         // 配置登出路径
         filterChain.put("/logout", "logout");
+        // 静态资源处理
         filterChain.put("/js/**", "anon");
         filterChain.put("/css/**", "anon");
-        filterChain.put("/", "anon");
+        filterChain.put("/img/**", "anon");
+        // 账号管理
+        filterChain.put("/sys/auth/user/modify", "authc");
 
         // 动态添加权限
         SecurityService securityService = null;
@@ -159,7 +162,7 @@ public class ShiroConfig implements ApplicationContextAware {
     }
 
     /**
-     * 获取applicationContext
+     * 获取ApplicationContext
      *
      * @param applicationContext applicationContext
      * @throws BeansException BeansException

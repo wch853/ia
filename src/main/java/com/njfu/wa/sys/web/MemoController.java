@@ -23,16 +23,13 @@ import java.util.List;
 @RequestMapping("sys/memo")
 public class MemoController {
 
-    // TODO 新增用户、新建时间
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemoController.class);
     @Resource
     private MemoService memoService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemoController.class);
-
     @RequestMapping("")
     public String memo() {
-        return "sys/memo/log";
+        return "sys/memo/memo";
     }
 
     /**

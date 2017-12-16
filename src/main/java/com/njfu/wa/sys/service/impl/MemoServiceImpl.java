@@ -1,9 +1,11 @@
 package com.njfu.wa.sys.service.impl;
 
 import com.njfu.wa.sys.domain.Memo;
+import com.njfu.wa.sys.domain.User;
 import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.MemoMapper;
 import com.njfu.wa.sys.service.MemoService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -45,6 +47,7 @@ public class MemoServiceImpl implements MemoService {
      */
     @Override
     public void addMemo(Memo memo) throws BusinessException {
+        memo.setUpdateUser(this.getUpdateUser());
         int res = memoMapper.insertMemo(memo);
         if (res <= 0) {
             throw new BusinessException("新增记录失败！");
@@ -59,6 +62,7 @@ public class MemoServiceImpl implements MemoService {
      */
     @Override
     public void modifyMemo(Memo memo) throws BusinessException {
+        memo.setUpdateUser(this.getUpdateUser());
         int res = memoMapper.updateMemo(memo);
         if (res <= 0) {
             throw new BusinessException("新增记录失败！");
@@ -77,5 +81,15 @@ public class MemoServiceImpl implements MemoService {
         if (res <= 0) {
             throw new BusinessException("删除记录失败！");
         }
+    }
+
+    /**
+     * 获取编辑用户信息
+     *
+     * @return String
+     */
+    private String getUpdateUser() {
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        return user.getName();
     }
 }

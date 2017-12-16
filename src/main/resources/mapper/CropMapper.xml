@@ -20,8 +20,8 @@
 
     <select id="selectCropById" resultType="Crop">
         SELECT
-            crop_id,
-            crop_name
+        crop_id,
+        crop_name
         FROM crop
         WHERE crop_id = #{crop_id}
     </select>

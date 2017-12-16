@@ -12,20 +12,20 @@
 
     <select id="selectFieldStatus" resultType="FieldStatus">
         SELECT
-            field_id,
-            update_time,
-            temperature,
-            moisture,
-            soil_temperature,
-            soil_moisture,
-            light,
-            co2,
-            ph,
-            n,
-            p,
-            k,
-            hg,
-            pb
+        field_id,
+        update_time,
+        temperature,
+        moisture,
+        soil_temperature,
+        soil_moisture,
+        light,
+        co2,
+        ph,
+        n,
+        p,
+        k,
+        hg,
+        pb
         FROM field_status
         WHERE field_id = #{fieldId}
     </select>
@@ -38,7 +38,7 @@
 
     <select id="updateFieldStatus" statementType="CALLABLE">
         CALL ignore_data(
-            #{thresholdType, jdbcType = VARCHAR, mode = IN}
+        #{thresholdType, jdbcType = VARCHAR, mode = IN}
         )
     </select>
 

@@ -1,6 +1,10 @@
 package com.njfu.wa.sys.websocket;
 
+import com.njfu.wa.sys.utils.CommonConstants;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,8 @@ import java.util.Map;
 @Service
 public class TipHandShakeInterceptor implements HandshakeInterceptor {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TipHandShakeInterceptor.class);
+
     /**
      * 握手前
      *
@@ -28,8 +34,19 @@ public class TipHandShakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                    WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-        // 用户经过认证才能获取websocket连接
-        return SecurityUtils.getSubject().isAuthenticated();
+        Subject subject;
+        try {
+            // 用户经过认证才能获取websocket连接
+            subject = SecurityUtils.getSubject();
+            // 验证websocket推送权限
+            if (subject.isPermitted(CommonConstants.WARN_PERM)) {
+                attributes.put(CommonConstants.WARN_PERM, Boolean.TRUE);
+            }
+            return subject.isAuthenticated();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Boolean.FALSE;
+        }
     }
 
     /**

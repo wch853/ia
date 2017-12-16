@@ -1,6 +1,5 @@
 package com.njfu.wa.sys.service.impl;
 
-import com.njfu.wa.sys.domain.FieldStatus;
 import com.njfu.wa.sys.domain.WarnThreshold;
 import com.njfu.wa.sys.enums.UseStatusEnum;
 import com.njfu.wa.sys.exception.BusinessException;

@@ -1,3 +1,5 @@
+var top = {};
+
 /**
  * 弹出提示
  */
@@ -31,7 +33,7 @@ function getUserInfo() {
         url: 'sys/user/info',
         success: function (res) {
             if (res.code === 201) {
-                $('#user-info').empty().text(res.data);
+                $('.user-info-name').empty().text(res.data);
             }
         }
     });
@@ -53,7 +55,7 @@ function getConnect() {
     if (window.WebSocket) {
         websocket = new WebSocket('ws://' + path + '/tip/handler');
     } else {
-        console.log('Not Support WebSocket! It\'s recommended to use chrome!');
+        // console.log('Not Support WebSocket! It\'s recommended to use chrome!');
         bootbox.alert({
             title: '提示',
             message: '您的浏览器不支持WebSocket，建议切换到谷歌浏览器获取最佳体验！'
@@ -63,7 +65,7 @@ function getConnect() {
 
     // 配置WebSocket连接生命周期
     websocket.onopen = function () {
-        console.log('WebSocket连接成功！');
+        // console.log('WebSocket连接成功！');
     };
 
     websocket.onmessage = function (event) {
@@ -79,11 +81,11 @@ function getConnect() {
     };
 
     websocket.onerror = function () {
-        console.log('WebSocket连接异常！');
+        // console.log('WebSocket连接异常！');
     };
 
     websocket.onclose = function () {
-        console.log('WebSocket连接断开，请刷新页面！');
+        // console.log('WebSocket连接断开，请刷新页面！');
     };
 
     window.onbeforeunload = function () {

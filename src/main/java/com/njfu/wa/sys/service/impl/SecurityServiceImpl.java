@@ -9,11 +9,14 @@ import com.njfu.wa.sys.mapper.SecurityMapper;
 import com.njfu.wa.sys.service.SecurityService;
 import com.njfu.wa.sys.shiro.AuthRealm;
 import com.njfu.wa.sys.utils.CommonConstants;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -87,12 +90,12 @@ public class SecurityServiceImpl implements SecurityService {
     /**
      * 获取用户信息
      *
-     * @param username username
+     * @param name name
      * @return Users
      */
     @Override
-    public List<User> getUsers(String username) {
-        return securityMapper.selectUsers(username);
+    public List<User> getUsers(String name) {
+        return securityMapper.selectUsers(name);
     }
 
     /**
@@ -102,7 +105,7 @@ public class SecurityServiceImpl implements SecurityService {
      */
     @Override
     public void addUser(User user) {
-        this.setSaltAndPassword(user);
+        this.resetSaltAndPassword(user);
         user.setStatus(CommonConstants.VALID_USER_STATUS);
         int count = securityMapper.insertUser(user);
         if (count <= 0) {
@@ -115,10 +118,10 @@ public class SecurityServiceImpl implements SecurityService {
      *
      * @param user user
      */
-    private void setSaltAndPassword(User user) {
+    private void resetSaltAndPassword(User user) {
         // 以创建时间为salt
         String salt = String.valueOf(System.currentTimeMillis());
-        // 写入数据库中
+        // 重新hash生成密码
         String password = new SimpleHash(CommonConstants.HASH_CREDENTIAL_NAME, CommonConstants.DEFAULT_PASSWORD,
                 ByteSource.Util.bytes(salt), CommonConstants.HASH_ITERATIONS).toString();
         user.setSalt(salt);
@@ -184,9 +187,37 @@ public class SecurityServiceImpl implements SecurityService {
      */
     @Override
     public void modifyUser(User user) {
-        if (CommonConstants.ROOT_USER_ID == user.getId()) {
-            throw new BusinessException("root账号不可修改");
+        try {
+            // 获取当前用户
+            Subject subject = SecurityUtils.getSubject();
+            User currentUser = (User) subject.getPrincipal();
+            if (null != user.getStatus() && !subject.isPermitted(CommonConstants.AUTH_PERM)) {
+                throw new BusinessException("无权限修改用户账号状态");
+            }
+            if (null == user.getStatus()) {
+                // 用户有权修改自己的账号名称、密码
+                user.setId(currentUser.getId());
+            }
+        } catch (Exception e) {
+            throw new BusinessException("修改用户信息失败！");
         }
+
+        if (StringUtils.isEmpty(user.getName())) {
+            user.setName(null);
+        }
+        if (StringUtils.isEmpty(user.getPassword())) {
+            user.setPassword(null);
+        }
+
+        if (null != user.getName() && CommonConstants.ROOT_USER_ID == user.getId()) {
+            throw new BusinessException("root账号不可修改账号名称");
+        }
+
+        if (null != user.getPassword()) {
+            // 重置密码
+            this.resetSaltAndPassword(user);
+        }
+
         int count = securityMapper.updateUser(user);
         if (count <= 0) {
             throw new BusinessException("修改用户信息失败！");

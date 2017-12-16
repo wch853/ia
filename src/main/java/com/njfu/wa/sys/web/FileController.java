@@ -27,31 +27,23 @@ import java.util.List;
 @RequestMapping("/sys/file")
 public class FileController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
     @Resource
     private BlockService blockService;
-
     @Resource
     private FieldService fieldService;
-
     @Resource
     private CropService cropService;
-
     @Resource
     private EmployeeService employeeService;
-
     @Resource
     private MachineService machineService;
-
     @Resource
     private VehicleService vehicleService;
-
     @Resource
     private TerminalService terminalService;
-
     @Resource
     private SensorService sensorService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
 
     /**
      * 地块档案页

@@ -25,10 +25,10 @@ import java.util.Map;
 @RequestMapping("/sys/auth")
 public class AuthController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+    // TODO 优化返回信息
     @Resource
     private SecurityService securityService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
     /**
      * 权限管理页面
@@ -43,16 +43,16 @@ public class AuthController {
     /**
      * 获取用户列表
      *
-     * @param offset   offset
-     * @param limit    limit
-     * @param username username
+     * @param offset offset
+     * @param limit  limit
+     * @param name   name
      * @return json data
      */
     @GetMapping("/user")
     public @ResponseBody
-    PaginationResult<User> getUsers(int offset, int limit, @RequestParam("name") String username) {
+    PaginationResult<User> getUsers(int offset, int limit, String name) {
         PageHelper.offsetPage(offset, limit);
-        List<User> users = securityService.getUsers(username);
+        List<User> users = securityService.getUsers(name);
         PageInfo<User> page = new PageInfo<>(users);
         return new PaginationResult<>(page.getTotal(), users);
     }

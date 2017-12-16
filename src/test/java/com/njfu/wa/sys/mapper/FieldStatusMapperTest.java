@@ -18,10 +18,9 @@ import javax.annotation.Resource;
 @Transactional
 public class FieldStatusMapperTest {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(FieldStatusMapperTest.class);
     @Resource
     private FieldStatusMapper fieldStatusMapper;
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(FieldStatusMapperTest.class);
 
     @Test
     public void insertFieldStatus() throws Exception {

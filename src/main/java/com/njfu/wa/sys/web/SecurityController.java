@@ -4,7 +4,8 @@ package com.njfu.wa.sys.web;
 import com.njfu.wa.sys.enums.ResultEnum;
 import com.njfu.wa.sys.utils.Result;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.ShiroException;
+import org.apache.shiro.authc.AccountException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -50,9 +51,10 @@ public class SecurityController {
             subject.login(token);
             LOGGER.info("{} login", subject.getPrincipal());
             return Result.response(ResultEnum.SUCCESS);
-        } catch (ShiroException e) {
-            LOGGER.error("登录失败，{}，{}", e.getClass().getName(), e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+        } catch (AccountException e) {
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (IncorrectCredentialsException e) {
+            return Result.response(ResultEnum.FAIL, "密码错误！", null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);

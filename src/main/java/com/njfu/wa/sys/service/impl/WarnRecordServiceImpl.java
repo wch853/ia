@@ -6,6 +6,7 @@ import com.njfu.wa.sys.enums.WarnRecordFlagEnum;
 import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.WarnRecordMapper;
 import com.njfu.wa.sys.service.WarnRecordService;
+import com.njfu.wa.sys.utils.CommonConstants;
 import com.njfu.wa.sys.utils.Result;
 import com.njfu.wa.sys.websocket.TipHandler;
 import org.slf4j.Logger;
@@ -21,19 +22,17 @@ import java.util.List;
 @EnableScheduling
 public class WarnRecordServiceImpl implements WarnRecordService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarnRecordServiceImpl.class);
     @Resource
     private WarnRecordMapper warnRecordMapper;
-
     @Resource
     private TipHandler tipHandler;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WarnRecordServiceImpl.class);
 
     /**
      * 扫描大棚状态表，出现异常数据，插入报警记录
      */
     @Override
-    @Scheduled(cron = "0 0 0/1 * * ?")
+    @Scheduled(cron = CommonConstants.SCAN_FIELD_STATUS_CRON)
     public void scanFieldStatus() {
         try {
             long start = System.currentTimeMillis();
@@ -47,7 +46,7 @@ public class WarnRecordServiceImpl implements WarnRecordService {
             LOGGER.info("warn count: {}", count);
 
             if (count > 0) {
-                tipHandler.broadcastWarnTip(Result.response(ResultEnum.WARN, count));
+                tipHandler.broadcastTip(Result.response(ResultEnum.WARN, count));
             }
 
             // TODO 邮件推送

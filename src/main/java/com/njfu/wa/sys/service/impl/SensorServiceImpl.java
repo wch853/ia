@@ -15,7 +15,7 @@ public class SensorServiceImpl implements SensorService {
 
     @Resource
     private SensorMapper sensorMapper;
-    
+
     /**
      * 获取传感器列表
      *

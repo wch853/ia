@@ -18,10 +18,9 @@ import java.util.List;
 @Transactional
 public class MemoMapperTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemoMapperTest.class);
     @Resource
     private MemoMapper memoMapper;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemoMapperTest.class);
 
     @Test
     public void selectMemoList() throws Exception {
@@ -41,6 +40,7 @@ public class MemoMapperTest {
         memo.setTitle("test");
         memo.setType("1");
         memo.setContent("test");
+        memo.setUpdateUser("root");
         int res = memoMapper.insertMemo(memo);
         Assert.assertEquals(1, res);
     }
@@ -51,6 +51,7 @@ public class MemoMapperTest {
         memo.setId(1);
         memo.setTitle("test");
         memo.setContent("test");
+        memo.setUpdateUser("root");
         int res = memoMapper.updateMemo(memo);
         Assert.assertEquals(1, res);
     }

@@ -64,4 +64,16 @@ public interface CommonConstants {
      * 是否使用ehcache缓存
      */
     boolean USE_EHCACHE = true;
+
+    /**
+     * 权限管理标识符
+     */
+    String AUTH_PERM = "sys:auth";
+
+    /**
+     * 报警管理权限标识符
+     */
+    String WARN_PERM = "sys:warn:query";
+
+    String SCAN_FIELD_STATUS_CRON = "0 0 0/1 * * ?";
 }

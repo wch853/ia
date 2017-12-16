@@ -8,8 +8,10 @@ import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.service.FieldService;
 import com.njfu.wa.sys.service.WarnRecordService;
 import com.njfu.wa.sys.service.WarnThresholdService;
+import com.njfu.wa.sys.utils.CommonConstants;
 import com.njfu.wa.sys.utils.PaginationResult;
 import com.njfu.wa.sys.utils.Result;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,16 +25,13 @@ import java.util.List;
 @RequestMapping("sys/warn")
 public class WarnController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarnController.class);
     @Resource
     private WarnThresholdService warnThresholdService;
-
     @Resource
     private WarnRecordService warnRecordService;
-
     @Resource
     private FieldService fieldService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WarnController.class);
 
     /**
      * 阈值设置页面
@@ -163,7 +162,10 @@ public class WarnController {
     @GetMapping("/record/unhandle/count")
     public @ResponseBody
     Result getUnhandleRecordCount() {
-        int count = warnRecordService.getUnhandleRecordCount();
+        int count = 0;
+        if (SecurityUtils.getSubject().isPermitted(CommonConstants.WARN_PERM)) {
+            count = warnRecordService.getUnhandleRecordCount();
+        }
         return Result.response(ResultEnum.WARN, count);
     }
 }
