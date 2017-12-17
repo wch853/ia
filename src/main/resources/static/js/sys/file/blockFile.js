@@ -77,11 +77,11 @@ function sendRequest(path, blockId, blockName, blockLoc, blockPs) {
             blockPs: blockPs
         },
         success: function (res) {
-            var message;
+            var message = '操作失败';
             if (res.code === 200) {
                 message = "操作成功！";
-            } else {
-                message = "操作失败！";
+            } else if (res.code === 300 && res.message) {
+                message = res.message;
             }
             bootbox.alert({
                 title: '提示',
@@ -107,15 +107,18 @@ $('#saveAdd').click(function () {
 
     $('#addModal').modal('hide');
 
+    var alertMessage = '';
+
     if (blockId === '' || blockName === '' || blockLoc === '') {
-        bootbox.alert({
-            title: '提示',
-            message: '请输入完整信息！'
-        });
+        alertMessage = '请输入完整信息！';
     } else if (blockPs.length > 80) {
+        alertMessage = '地块备注限输入80个字符！';
+    }
+
+    if ('' !== alertMessage) {
         bootbox.alert({
             title: '提示',
-            message: '地块备注限输入80个字符！'
+            message: alertMessage
         });
     } else {
         bootbox.confirm({
@@ -148,15 +151,18 @@ $('#saveModify').click(function () {
 
     $('#modifyModal').modal('hide');
 
+    var alertMessage = '';
+
     if (blockName === '' || blockLoc === '') {
-        bootbox.alert({
-            title: '提示',
-            message: '请输入完整信息！'
-        });
+        alertMessage = '请输入完整信息！';
     } else if (blockPs.length > 80) {
+        alertMessage = '地块备注限输入80个字符！';
+    }
+
+    if ('' !== alertMessage) {
         bootbox.alert({
             title: '提示',
-            message: '地块备注限输入80个字符！'
+            message: alertMessage
         });
     } else {
         bootbox.confirm({
@@ -175,7 +181,7 @@ $('#saveModify').click(function () {
 function removeBlock(blockId) {
     bootbox.confirm({
         title: '提示',
-        message: '删除地块并删除该地块下的所有大棚？',
+        message: '删除地块并删除该地块下的所有大棚',
         callback: function (flag) {
             if (flag) {
                 sendRequest('sys/file/block/remove', blockId);

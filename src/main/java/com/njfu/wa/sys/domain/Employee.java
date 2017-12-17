@@ -17,6 +17,10 @@ public class Employee {
 
     private String empSex;
 
+    private String empMail;
+
+    private Short mailStatus;
+
     private String empPs;
 
     public Employee() {
@@ -70,6 +74,22 @@ public class Employee {
         this.empSex = empSex;
     }
 
+    public String getEmpMail() {
+        return empMail;
+    }
+
+    public void setEmpMail(String empMail) {
+        this.empMail = empMail;
+    }
+
+    public Short getMailStatus() {
+        return mailStatus;
+    }
+
+    public void setMailStatus(Short mailStatus) {
+        this.mailStatus = mailStatus;
+    }
+
     public String getEmpPs() {
         return empPs;
     }
@@ -87,6 +107,8 @@ public class Employee {
                 ", empPosition='" + empPosition + '\'' +
                 ", empAge=" + empAge +
                 ", empSex='" + empSex + '\'' +
+                ", empMail='" + empMail + '\'' +
+                ", mailStatus=" + mailStatus +
                 ", empPs='" + empPs + '\'' +
                 '}';
     }

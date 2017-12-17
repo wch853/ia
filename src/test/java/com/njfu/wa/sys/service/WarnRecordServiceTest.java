@@ -23,6 +23,15 @@ public class WarnRecordServiceTest {
     private WarnRecordService warnRecordService;
 
     @Test
+    public void scanFieldStatusTest() {
+        try {
+            warnRecordService.scanFieldStatus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void getWarnRecord() throws Exception {
         WarnRecord warnRecord = new WarnRecord();
 

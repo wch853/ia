@@ -26,7 +26,7 @@ import java.util.Map;
 public class AuthController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
-    // TODO 优化返回信息
+
     @Resource
     private SecurityService securityService;
 

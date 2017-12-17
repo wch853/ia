@@ -67,12 +67,6 @@ public class WarnRecordMapperTest {
     }
 
     @Test
-    public void selectCount() throws Exception {
-        int res = warnRecordMapper.selectCount(WarnRecordFlagEnum.UNHANDLE.code());
-        LOGGER.info("res: {}", res);
-    }
-
-    @Test
     public void checkWarn() throws Exception {
         warnRecordMapper.checkWarn();
     }

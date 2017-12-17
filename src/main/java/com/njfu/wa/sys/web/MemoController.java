@@ -72,7 +72,7 @@ public class MemoController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -93,7 +93,7 @@ public class MemoController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -113,7 +113,7 @@ public class MemoController {
             memoService.removeMemo(id);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);

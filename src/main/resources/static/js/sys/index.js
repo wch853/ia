@@ -22,16 +22,18 @@ $('.field-card').hover(function () {
             fieldId: fieldId
         },
         success: function (res) {
-            $card.popover('destroy').popover({
-                title: '大棚编号：' + fieldId + '<span class="card-times close text-right">&times;</span>',
-                placement: 'auto',
-                html: true,
-                content: appendStatus(res.data, fieldName)
-            }).popover('show');
+            if (res.code === 201) {
+                $card.popover('destroy').popover({
+                    title: '大棚编号：' + fieldId + '<span class="card-times close text-right">&times;</span>',
+                    placement: 'auto',
+                    html: true,
+                    content: appendStatus(res.data, fieldName)
+                }).popover('show');
 
-            $('.card-times').click(function () {
-                $(this).parents('.popover').prev().popover('destroy');
-            });
+                $('.card-times').click(function () {
+                    $(this).parents('.popover').prev().popover('destroy');
+                });
+            }
         }
     });
 }, function () {

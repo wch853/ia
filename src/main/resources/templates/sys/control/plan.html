@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-table.html"/>
+    <#include "/common/bootstrap-daterangepicker.html"/>
+    <title>排灌管理</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>排灌管理</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="sys">首页</a></li>
+                    <li><a href="sys/control/plan">排灌管理</a></li>
+                </ol>
+            </div>
+
+            <!-- 查询工具栏 -->
+            <div class="form-inline" id="queryToolBar">
+                <div class="form-group">
+                    <label for="query-id">方案编号：</label>
+                    <input type="text" id="query-id" class="form-control range-date">
+                </div>
+                <button class="btn btn-primary" id="queryBtn">查询</button>
+                <button class="btn btn-success" id="resetBtn">重置</button>
+                <button class="btn btn-danger" id="addBtn">新增</button>
+            </div>
+            <hr>
+
+            <table id="plan-table"></table>
+
+            <!-- 新增模态窗 -->
+            <div class="modal fade" id="addModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">新增排灌方案</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="addPlanVolume" class="lg-label-b">排灌量：</label>
+                                    <input id="addPlanVolume" class="form-control" placeholder="排灌量不可为空">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addDuration">持续时长：</label>
+                                    <input id="addDuration" class="form-control" placeholder="持续时长不可为空（分钟）">
+                                </div>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="addPlanPs">方案备注：</label>
+                                    <textarea id="addPlanPs" class="form-control" placeholder="限输入80个字符" rows="3"
+                                              cols="60"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="saveAdd">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 修改模态窗 -->
+            <div class="modal fade" id="modifyModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">修改排灌方案</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="modifyPlanVolume" class="lg-label-b">排灌量：</label>
+                                    <input id="modifyPlanVolume" class="form-control" placeholder="排灌量不可为空">
+                                </div>
+                                <div class="form-group">
+                                    <label for="modifyDuration">持续时长：</label>
+                                    <input id="modifyDuration" class="form-control" placeholder="持续时长不可为空（分钟）">
+                                </div>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="modifyPlanPs">方案备注：</label>
+                                    <textarea id="modifyPlanPs" class="form-control" placeholder="限输入80个字符" rows="3"
+                                              cols="60"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="saveModify">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 执行modal -->
+            <div class="modal fade" id="exe-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">执行排灌方案</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group form-inline">
+                                <label for="begin-date">开始时间：</label>
+                                <input type="text" id="begin-date" class="form-control range-date">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="plan-exe">执行</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--container-->
+    </div><!--page wrapped-->
+</div><!--wrapped-->
+</body>
+<script type="text/javascript" src="js/sys/control/plan.js"></script>
+</html>

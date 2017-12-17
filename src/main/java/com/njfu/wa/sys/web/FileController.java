@@ -27,23 +27,31 @@ import java.util.List;
 @RequestMapping("/sys/file")
 public class FileController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
     @Resource
     private BlockService blockService;
+
     @Resource
     private FieldService fieldService;
+
     @Resource
     private CropService cropService;
+
     @Resource
     private EmployeeService employeeService;
+
     @Resource
     private MachineService machineService;
+
     @Resource
     private VehicleService vehicleService;
+
     @Resource
     private TerminalService terminalService;
+
     @Resource
     private SensorService sensorService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
 
     /**
      * 地块档案页
@@ -86,7 +94,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -107,7 +115,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -128,7 +136,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -185,7 +193,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -208,7 +216,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -229,7 +237,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -277,7 +285,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -298,7 +306,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -319,7 +327,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -367,7 +375,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -388,7 +396,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -409,7 +417,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -462,7 +470,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -484,7 +492,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -505,7 +513,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -557,7 +565,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -579,7 +587,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -600,7 +608,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -648,7 +656,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -669,7 +677,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -690,7 +698,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -744,7 +752,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -766,7 +774,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
@@ -787,7 +795,7 @@ public class FileController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);

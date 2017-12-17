@@ -39,7 +39,7 @@ $("#machineFileTable").bootstrapTable({
         title: '使用状态'
     }, {
         field: 'machinePs',
-        title: '机械备注'
+        title: '备注'
     }, {
         formatter: function (value, row, index) {
             return [
@@ -109,11 +109,11 @@ function sendRequest(path, machineId, machineType, blockId, useStatus, machinePs
             machinePs: machinePs
         },
         success: function (res) {
-            var message;
+            var message = '操作失败';
             if (res.code === 200) {
                 message = "操作成功！";
-            } else {
-                message = "操作失败！";
+            } else if (res.code === 300 && res.message) {
+                message = res.message;
             }
             bootbox.alert({
                 title: '提示',
@@ -146,15 +146,18 @@ $('#saveAdd').click(function () {
 
     $('#addModal').modal('hide');
 
+    var alertMessage = '';
+
     if (machineId === '' || machineType === '') {
-        bootbox.alert({
-            title: '提示',
-            message: '请输入完整信息！'
-        });
+        alertMessage = '请输入完整信息！';
     } else if (machinePs.length > 80) {
+        alertMessage = '机械备注限输入80个字符！';
+    }
+
+    if ('' !== alertMessage) {
         bootbox.alert({
             title: '提示',
-            message: '机械备注限输入80个字符！'
+            message: alertMessage
         });
     } else {
         bootbox.confirm({
@@ -189,15 +192,18 @@ $('#saveModify').click(function () {
 
     $('#modifyModal').modal('hide');
 
+    var alertMessage = '';
+
     if (machineType === '') {
-        bootbox.alert({
-            title: '提示',
-            message: '请输入完整信息！'
-        });
+        alertMessage = '请输入完整信息！';
     } else if (machinePs.length > 80) {
+        alertMessage = '机械备注限输入80个字符！';
+    }
+
+    if ('' !== alertMessage) {
         bootbox.alert({
             title: '提示',
-            message: '机械备注限输入80个字符！'
+            message: alertMessage
         });
     } else {
         bootbox.confirm({

@@ -21,24 +21,20 @@ public enum DataTypeEnum {
     HG,
     PB;
 
-    private static Map<String, DataTypeEnum> reflectMap = new HashMap<>();
+    public static Map<String, String> reflectMap = new HashMap<>();
 
     static {
-        reflectMap.put("1", TEMPERATURE);
-        reflectMap.put("2", MOISTURE);
-        reflectMap.put("3", SOIL_TEMPERATURE);
-        reflectMap.put("4", SOIL_MOISTURE);
-        reflectMap.put("5", LIGHT);
-        reflectMap.put("6", CO2);
-        reflectMap.put("7", PH);
-        reflectMap.put("8", N);
-        reflectMap.put("9", P);
-        reflectMap.put("10", K);
-        reflectMap.put("11", HG);
-        reflectMap.put("12", PB);
-    }
-
-    public static Map<String, DataTypeEnum> getReflectMap() {
-        return reflectMap;
+        reflectMap.put("1", "温度");
+        reflectMap.put("2", "湿度");
+        reflectMap.put("3", "土壤温度");
+        reflectMap.put("4", "土壤湿度");
+        reflectMap.put("5", "光照度");
+        reflectMap.put("6", "二氧化碳");
+        reflectMap.put("7", "pH值");
+        reflectMap.put("8", "氮含量");
+        reflectMap.put("9", "磷含量");
+        reflectMap.put("10", "钾含量");
+        reflectMap.put("11", "汞含量");
+        reflectMap.put("12", "铅含量");
     }
 }

@@ -4,7 +4,7 @@ package com.njfu.wa.sys.utils;
  * 常量
  */
 public interface CommonConstants {
-
+    // TODO JMX
     /**
      * shiro加密方式
      */
@@ -41,6 +41,16 @@ public interface CommonConstants {
     short INVALID_USER_STATUS = 0;
 
     /**
+     * 邮件推送-是
+     */
+    short SEND_WARN_MAIL = 1;
+
+    /**
+     * 邮件推送报警次数最低限制
+     */
+    int SEND_MAIL_WARN_COUNT = 1;
+
+    /**
      * 所有角色
      */
     String ALL_ROLES = "allRoles";
@@ -66,6 +76,11 @@ public interface CommonConstants {
     boolean USE_EHCACHE = true;
 
     /**
+     * 是否开启报警邮件推送
+     */
+    boolean USE_WARN_MAIL = true;
+
+    /**
      * 权限管理标识符
      */
     String AUTH_PERM = "sys:auth";
@@ -75,5 +90,23 @@ public interface CommonConstants {
      */
     String WARN_PERM = "sys:warn:query";
 
+    /**
+     * 扫描定时任务设置
+     */
     String SCAN_FIELD_STATUS_CRON = "0 0 0/1 * * ?";
+
+    /**
+     * websocket origin
+     */
+    String WS_ORIGIN = "http://106.14.200.121";
+
+    /**
+     * Date字符串格式化patter(second)
+     */
+    String DATE_SECOND_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    /**
+     * Date字符串格式化patter(minute)
+     */
+    String DATE_MINUTE_FORMAT = "yyyy-MM-dd HH:mm";
 }

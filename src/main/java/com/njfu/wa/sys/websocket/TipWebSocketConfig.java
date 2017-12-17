@@ -1,6 +1,6 @@
 package com.njfu.wa.sys.websocket;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.njfu.wa.sys.utils.CommonConstants;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -14,9 +14,6 @@ import javax.annotation.Resource;
 @Configuration
 @EnableWebSocket
 public class TipWebSocketConfig implements WebSocketConfigurer {
-
-    @Value("${websocket.origin}")
-    private String origin;
 
     @Resource
     private TipHandler tipHandler;
@@ -32,6 +29,7 @@ public class TipWebSocketConfig implements WebSocketConfigurer {
      */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        String origin = CommonConstants.WS_ORIGIN;
 
         registry.addHandler(tipHandler, "/tip/handler")
                 .addInterceptors(tipHandShakeInterceptor)

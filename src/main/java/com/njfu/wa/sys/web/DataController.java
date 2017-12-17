@@ -30,10 +30,13 @@ import java.util.List;
 public class DataController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataController.class);
+
     @Resource
     private DataRecordService dataRecordService;
+
     @Resource
     private FieldService fieldService;
+
     @Resource
     private SensorService sensorService;
 

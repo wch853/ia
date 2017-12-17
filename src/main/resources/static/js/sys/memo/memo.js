@@ -16,13 +16,15 @@ var initMemo = {
                 type: type
             },
             success: function (res) {
-                $.each(res.data, function (i, el) {
-                    var id = el.id;
-                    var title = el.title;
-                    html += '<li mid="' + id + '" title="' + title + '">' + title + '</li>';
-                });
-                $list.append(html);
-                initMemo.initMemoContent();
+                if (res.code === 201) {
+                    $.each(res.data, function (i, el) {
+                        var id = el.id;
+                        var title = el.title;
+                        html += '<li mid="' + id + '" title="' + title + '">' + title + '</li>';
+                    });
+                    $list.append(html);
+                    initMemo.initMemoContent();
+                }
             }
         })
     },
@@ -43,10 +45,12 @@ var initMemo = {
                         id: mid
                     },
                     success: function (res) {
-                        var data = res.data;
-                        /** @namespace data.updateUser */
-                        /** @namespace data.updateTime */
-                        initMemo.fillMemoArea(mid, data.title, data.content, data.updateUser, data.updateTime);
+                        if (res.code === 201) {
+                            var data = res.data;
+                            /** @namespace data.updateUser */
+                            /** @namespace data.updateTime */
+                            initMemo.fillMemoArea(mid, data.title, data.content, data.updateUser, data.updateTime);
+                        }
                     }
                 });
             }
@@ -100,13 +104,11 @@ var initMemo = {
                 content: content
             },
             success: function (res) {
-                var message;
-                if (!res.code) {
-                    message = "您没有权限，操作失败！";
-                } else if (res.code === 200) {
+                var message = '操作失败';
+                if (res.code === 200) {
                     message = "操作成功！";
-                } else {
-                    message = "操作失败！";
+                } else if (res.code === 300 && res.message) {
+                    message = res.message;
                 }
                 bootbox.alert({
                     title: '提示',

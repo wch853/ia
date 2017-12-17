@@ -72,6 +72,10 @@ CREATE TABLE employee (
   COMMENT '员工年龄',
   emp_sex      VARCHAR(255) DEFAULT NULL
   COMMENT '员工性别',
+  emp_mail     VARCHAR(255) DEFAULT NULL
+  COMMENT '员工邮箱',
+  mail_status  TINYINT      DEFAULT 0
+  COMMENT '邮件推送 0-不推送 1-推送',
   emp_ps       VARCHAR(255) DEFAULT NULL
   COMMENT '员工备注',
   PRIMARY KEY (emp_id)
@@ -218,6 +222,17 @@ CREATE TABLE field_status (
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
   COMMENT ='大棚状态';
+
+DROP TABLE IF EXISTS irrigation_plan;
+CREATE TABLE irrigation_plan (
+  id INT AUTO_INCREMENT NOT NULL NULL COMMENT '排灌方案编号',
+  plan_volume DOUBLE(8, 2) NOT NULL  COMMENT '灌溉量(m3)',
+  duration INT NOT NULL COMMENT '灌溉持续时长(分钟)',
+  plan_ps VARCHAR(255) DEFAULT NULL COMMENT '方案备注',
+  PRIMARY KEY (id)
+)ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='排灌方案';
 
 DROP TABLE IF EXISTS warn_record;
 CREATE TABLE warn_record (
@@ -770,12 +785,12 @@ INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c004', '大豆', NULL
 /*
  * employee
  */
-INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps)
-VALUES ('e001', 'wch1', '15261861234', NULL, NULL, NULL, NULL);
-INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps)
-VALUES ('e002', 'wch2', '15261861234', NULL, NULL, NULL, NULL);
-INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps)
-VALUES ('e003', 'wch3', '15261861234', NULL, NULL, NULL, NULL);
+INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
+VALUES ('e001', 'wch1', '15261861234', NULL, NULL, NULL, 'wch853@163.com', 1, NULL);
+INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
+VALUES ('e002', 'wch2', '15261861234', NULL, NULL, NULL, 'wch853@163.com', 1, NULL);
+INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
+VALUES ('e003', 'wch3', '15261861234', NULL, NULL, NULL, 'wch853@163.com', 0, NULL);
 
 /*
  * sensor
@@ -885,7 +900,8 @@ VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
 
 INSERT INTO wa.memo (id, title, type, content, update_user, update_time) VALUES (1, '日志1', '0', '日志1', 'root', NULL);
 INSERT INTO wa.memo (id, title, type, content, update_user, update_time) VALUES (2, '备忘录1', '1', '备忘录1', 'root', NULL);
-INSERT INTO wa.memo (id, title, type, content, update_user, update_time) VALUES (3, '注意事项1', '2', '注意事项1', 'root', NULL);
+INSERT INTO wa.memo (id, title, type, content, update_user, update_time)
+VALUES (3, '注意事项1', '2', '注意事项1', 'root', NULL);
 
 
 /* user */

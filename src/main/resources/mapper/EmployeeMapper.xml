@@ -6,7 +6,7 @@
 <mapper namespace="com.njfu.wa.sys.mapper.EmployeeMapper">
 
     <select id="selectEmployees" resultType="Employee">
-        SELECT emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps
+        SELECT emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps
         FROM employee
         <where>
             <if test="null != empId and !''.equals(empId)">
@@ -15,18 +15,22 @@
             <if test="null != empName and !''.equals(empName)">
                 AND emp_name LIKE CONCAT('%', #{empName}, '%')
             </if>
+            <if test="null != mailStatus">
+                AND mail_status = #{mailStatus}
+            </if>
         </where>
     </select>
 
     <insert id="insertEmployee">
-        INSERT IGNORE INTO employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_ps)
-        VALUES (#{empId}, #{empName}, #{empTel}, #{empPosition}, #{empAge}, #{empSex}, #{empPs})
+        INSERT IGNORE INTO employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
+        VALUES
+            (#{empId}, #{empName}, #{empTel}, #{empPosition}, #{empAge}, #{empSex}, #{empMail}, #{mailStatus}, #{empPs})
     </insert>
 
     <update id="updateEmployee">
         UPDATE employee
-        SET emp_name = #{empName}, emp_tel = #{empTel}, emp_position = #{empPosition},
-        emp_age = #{empAge}, emp_sex = #{empSex}, emp_ps = #{empPs}
+        SET emp_name = #{empName}, emp_tel = #{empTel}, emp_position = #{empPosition}, emp_age = #{empAge},
+            emp_sex  = #{empSex}, emp_mail = #{empMail}, mail_status = #{mailStatus}, emp_ps = #{empPs}
         WHERE emp_id = #{empId}
     </update>
 

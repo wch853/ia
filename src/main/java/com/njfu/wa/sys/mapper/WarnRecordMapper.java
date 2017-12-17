@@ -33,7 +33,7 @@ public interface WarnRecordMapper {
      * @param flag flag
      * @return data
      */
-    List<WarnRecord> selectWarnRecordByFlag(String flag);
+    List<WarnRecord> selectWarnRecordByFlag(@Param("flag") String flag);
 
     /**
      * 修改报警记录处理标志

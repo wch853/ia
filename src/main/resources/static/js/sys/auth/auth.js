@@ -186,13 +186,11 @@ var auth = {
      * @param res
      */
     ajaxResponse: function (res) {
-        var message;
+        var message = '操作失败！';
         if (res.code === 200) {
             message = "操作成功！";
         } else if (res.code === 300 && res.message) {
             message = res.message;
-        } else {
-            message = "操作失败！";
         }
         bootbox.alert({
             title: '提示',
@@ -210,16 +208,19 @@ var auth = {
 
         $('#user-add-modal').modal('hide');
 
+        var alertMessage = '';
+
         var regex = /^[a-zA-Z0-9]{6,16}$/;
         if (!regex.test(username)) {
-            bootbox.alert({
-                title: '提示',
-                message: '用户账户应为6~16位字母数字组合！'
-            });
+            alertMessage = '用户账户应为6~16位字母数字组合！';
         } else if (name.length === 0) {
+            alertMessage = '用户名称不可为空！';
+        }
+
+        if ('' !== alertMessage) {
             bootbox.alert({
                 title: '提示',
-                message: '用户名称不可为空！'
+                message: alertMessage
             });
         } else {
             bootbox.confirm({
@@ -263,23 +264,25 @@ var auth = {
                 userId: id
             },
             success: function (res) {
-                /** @namespace res.data.allRoles */
-                var allRoles = res.data.allRoles;
-                /** @namespace res.data.hasRoles */
-                var hasRoles = res.data.hasRoles;
-                var hasRoleIds = [];
-                var options = [];
-                $.each(allRoles, function (i, el) {
-                    /** @namespace el.roleName */
-                    options += '<option value="' + el.id + '">' + el.roleName + '</option>'
-                });
-                $.each(hasRoles, function (i, el) {
-                    hasRoleIds.push(el.id.toString());
-                });
-                $('#role-select').empty().html(options).multiSelect({
-                    selectableHeader: '<div class="select-header">所有角色</div>',
-                    selectionHeader: '<div class="select-header">已有角色</div>'
-                }).multiSelect('deselect_all').multiSelect('select', hasRoleIds).multiSelect('refresh');
+                if (res.code && res.code === 201) {
+                    /** @namespace res.data.allRoles */
+                    var allRoles = res.data.allRoles;
+                    /** @namespace res.data.hasRoles */
+                    var hasRoles = res.data.hasRoles;
+                    var hasRoleIds = [];
+                    var options = [];
+                    $.each(allRoles, function (i, el) {
+                        /** @namespace el.roleName */
+                        options += '<option value="' + el.id + '">' + el.roleName + '</option>'
+                    });
+                    $.each(hasRoles, function (i, el) {
+                        hasRoleIds.push(el.id.toString());
+                    });
+                    $('#role-select').empty().html(options).multiSelect({
+                        selectableHeader: '<div class="select-header">所有角色</div>',
+                        selectionHeader: '<div class="select-header">已有角色</div>'
+                    }).multiSelect('deselect_all').multiSelect('select', hasRoleIds).multiSelect('refresh');
+                }
             }
         });
         $('#role-modal').modal('show');
@@ -434,23 +437,25 @@ var auth = {
                 roleId: id
             },
             success: function (res) {
-                /** @namespace res.data.allPermissions */
-                var allPermissions = res.data.allPermissions;
-                /** @namespace res.data.hasPermissions */
-                var hasPermissions = res.data.hasPermissions;
-                var hasPermissionIds = [];
-                var options = [];
-                $.each(allPermissions, function (i, el) {
-                    /** @namespace el.urlName */
-                    options += '<option value="' + el.id + '">' + el.urlName + '</option>'
-                });
-                $.each(hasPermissions, function (i, el) {
-                    hasPermissionIds.push(el.id.toString());
-                });
-                $('#permission-select').empty().html(options).multiSelect({
-                    selectableHeader: '<div class="select-header">所有权限</div>',
-                    selectionHeader: '<div class="select-header">已有权限</div>'
-                }).multiSelect('deselect_all').multiSelect('select', hasPermissionIds).multiSelect('refresh');
+                if (res.code && res.code === 201) {
+                    /** @namespace res.data.allPermissions */
+                    var allPermissions = res.data.allPermissions;
+                    /** @namespace res.data.hasPermissions */
+                    var hasPermissions = res.data.hasPermissions;
+                    var hasPermissionIds = [];
+                    var options = [];
+                    $.each(allPermissions, function (i, el) {
+                        /** @namespace el.urlName */
+                        options += '<option value="' + el.id + '">' + el.urlName + '</option>'
+                    });
+                    $.each(hasPermissions, function (i, el) {
+                        hasPermissionIds.push(el.id.toString());
+                    });
+                    $('#permission-select').empty().html(options).multiSelect({
+                        selectableHeader: '<div class="select-header">所有权限</div>',
+                        selectionHeader: '<div class="select-header">已有权限</div>'
+                    }).multiSelect('deselect_all').multiSelect('select', hasPermissionIds).multiSelect('refresh');
+                }
             }
         });
         $('#permission-modal').modal('show');

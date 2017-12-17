@@ -33,11 +33,9 @@ var login = {
                     if (res.code === 200) {
                         window.location.href = 'sys'
                     } else {
-                        var message;
+                        var message = '登录失败！';
                         if (res.message) {
                             message = res.message;
-                        } else {
-                            message = "登录失败！";
                         }
                         login.popErrorMessage(message);
                     }

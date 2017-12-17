@@ -147,7 +147,7 @@ public class WarnController {
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);

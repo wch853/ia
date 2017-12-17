@@ -173,9 +173,15 @@ function sendRequest(path, id, floor, ceil, useStatus) {
             useStatus: useStatus
         },
         success: function (res) {
+            var message = '操作失败';
+            if (res.code === 200) {
+                message = "操作成功！";
+            } else if (res.code === 300 && res.message) {
+                message = res.message;
+            }
             bootbox.alert({
                 title: '提示',
-                message: res.message
+                message: message
             });
             $("#thresholdTable").bootstrapTable('selectPage', 1);
         }

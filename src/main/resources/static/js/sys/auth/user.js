@@ -61,13 +61,11 @@ var user = {
                 password: password
             },
             success: function (res) {
-                var message;
+                var message = '操作失败！';
                 if (res.code === 200) {
                     message = "操作成功！";
                 } else if (res.code === 300 && res.message) {
                     message = res.message;
-                } else {
-                    message = "操作失败！";
                 }
                 bootbox.alert({
                     title: '提示',
@@ -105,20 +103,20 @@ var user = {
     modifyPassword: function () {
         var password = $('#password').val().trim();
         var rePassword = $('#re-password').val().trim();
+
+        var alertMessage = '';
         if (password.length === 0 || rePassword.length === 0) {
-            bootbox.alert({
-                title: '提示',
-                message: '密码不可为空！'
-            });
+            alertMessage = '密码不可为空！';
         } else if (password !== rePassword) {
-            bootbox.alert({
-                title: '提示',
-                message: '两次输入的密码不一致！'
-            });
+            alertMessage = '两次输入的密码不一致！';
         } else if (password.length < 6 || password.length > 16) {
+            alertMessage = '请输入6~16位密码';
+        }
+
+        if ('' !== alertMessage) {
             bootbox.alert({
                 title: '提示',
-                message: '请输入6~16位密码'
+                message: alertMessage
             });
         } else {
             bootbox.confirm({

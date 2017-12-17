@@ -115,11 +115,11 @@ function sendRequest(path, fieldId, fieldName, blockId, cropId, useStatus, field
             fieldPs: fieldPs
         },
         success: function (res) {
-            var message;
+            var message = '操作失败';
             if (res.code === 200) {
                 message = "操作成功！";
-            } else {
-                message = "操作失败！";
+            } else if (res.code === 300 && res.message) {
+                message = res.message;
             }
             bootbox.alert({
                 title: '提示',
@@ -153,15 +153,18 @@ $('#saveAdd').click(function () {
 
     $('#addModal').modal('hide');
 
+    var alertMessage = '';
+
     if (fieldId === '' || fieldName === '' || blockId === '') {
-        bootbox.alert({
-            title: '提示',
-            message: '请输入完整信息！'
-        });
+        alertMessage = '请输入完整信息！';
     } else if (fieldPs.length > 80) {
+        alertMessage = '大棚备注限输入80个字符！';
+    }
+
+    if ('' !== alertMessage) {
         bootbox.alert({
             title: '提示',
-            message: '大棚备注限输入80个字符！'
+            message: alertMessage
         });
     } else {
         bootbox.confirm({
@@ -198,15 +201,18 @@ $('#saveModify').click(function () {
 
     $('#modifyModal').modal('hide');
 
+    var alertMessage = '';
+
     if (fieldName === '' || blockId === '') {
-        bootbox.alert({
-            title: '提示',
-            message: '请输入完整信息！'
-        });
+        alertMessage = '请输入完整信息！';
     } else if (fieldPs.length > 80) {
+        alertMessage = '大棚备注限输入80个字符！';
+    }
+
+    if ('' !== alertMessage) {
         bootbox.alert({
             title: '提示',
-            message: '大棚备注限输入80个字符！'
+            message: alertMessage
         });
     } else {
         bootbox.confirm({

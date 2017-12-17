@@ -68,9 +68,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * 若empPosition、empSex、empPs为空字符串，转为null
+     * 若empPosition、empSex、empMail、empPs为空字符串，转为null
      *
-     * @param employee empPosition empSex empPs
+     * @param employee empPosition empSex empMail empPs
      */
     private void convertNull(Employee employee) {
         if ("".equals(employee.getEmpPosition())) {
@@ -78,6 +78,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         if ("".equals(employee.getEmpSex())) {
             employee.setEmpSex(null);
+        }
+        if ("".equals(employee.getEmpMail())) {
+            employee.setEmpMail(null);
         }
         if ("".equals(employee.getEmpPs())) {
             employee.setEmpPs(null);

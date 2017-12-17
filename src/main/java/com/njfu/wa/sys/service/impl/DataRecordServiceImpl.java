@@ -6,6 +6,7 @@ import com.njfu.wa.sys.exception.BusinessException;
 import com.njfu.wa.sys.mapper.DataRecordMapper;
 import com.njfu.wa.sys.mapper.SensorMapper;
 import com.njfu.wa.sys.service.DataRecordService;
+import com.njfu.wa.sys.utils.CommonConstants;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
@@ -114,7 +115,7 @@ public class DataRecordServiceImpl implements DataRecordService {
     private List<String> formatDateList(List<Date> dateList) {
         List<String> formatDateList = new ArrayList<>();
         for (Date date : dateList) {
-            String format = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm");
+            String format = DateFormatUtils.format(date, CommonConstants.DATE_MINUTE_FORMAT);
             formatDateList.add(format);
         }
         return formatDateList;

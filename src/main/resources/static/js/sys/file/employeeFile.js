@@ -20,25 +20,38 @@ $("#employeeFileTable").bootstrapTable({
         title: '员工姓名'
     }, {
         field: 'empTel',
-        title: '员工联系电话'
+        title: '联系电话'
     }, {
         field: 'empPosition',
-        title: '员工职位'
+        title: '职位'
     }, {
         field: 'empAge',
-        title: '员工年龄'
+        title: '年龄'
     }, {
         field: 'empSex',
-        title: '员工性别'
+        title: '性别'
+    }, {
+        field: 'empMail',
+        title: '邮箱'
+    }, {
+        formatter: function (value, row, index) {
+            var format;
+            /** @namespace row.mailStatus */
+            var status = row.mailStatus;
+            status === 1 ? format = '是' : format = '否';
+            return format;
+        },
+        title: '邮件推送'
     }, {
         field: 'empPs',
         title: '员工备注'
     }, {
         formatter: function (value, row, index) {
+            /** @namespace row.empMail */
             return [
                 '<a type="button" class="btn btn-operate" href="javascript:modifyEmp(' + "'" + row.empId + "', '"
                 + row.empName + "', '" + row.empTel + "', '" + convertNull(row.empPosition) + "', '" + convertNull(row.empAge)
-                + "', '" + convertNull(row.empSex) + "', '" + convertNull(row.empPs) + "'" + ')">' +
+                + "', '" + convertNull(row.empSex) + "', '" + convertNull(row.empMail) + "', '" + row.mailStatus + "', '" + convertNull(row.empPs) + "'" + ')">' +
                 '<i class="fa fa-pencil"></i> 修改' +
                 '</a>',
                 '<a type="button" class="btn btn-operate" href="javascript:removeEmp(' + "'" + row.empId + "'" + ')">' +
@@ -81,7 +94,7 @@ $('.selectpicker').selectpicker({
 });
 
 // 数据提交
-function sendRequest(path, empId, empName, empTel, empPosition, empAge, empSex, empPs) {
+function sendRequest(path, empId, empName, empTel, empPosition, empAge, empSex, empMail, mailStatus, empPs) {
     $.ajax({
         url: path,
         type: 'post',
@@ -92,14 +105,16 @@ function sendRequest(path, empId, empName, empTel, empPosition, empAge, empSex, 
             empPosition: empPosition,
             empAge: empAge,
             empSex: empSex,
+            empMail: empMail,
+            mailStatus: mailStatus,
             empPs: empPs
         },
         success: function (res) {
-            var message;
+            var message = '操作失败';
             if (res.code === 200) {
                 message = "操作成功！";
-            } else {
-                message = "操作失败！";
+            } else if (res.code === 300 && res.message) {
+                message = res.message;
             }
             bootbox.alert({
                 title: '提示',
@@ -125,24 +140,28 @@ $('#saveAdd').click(function () {
     var empPosition = $('#addEmpPosition').val().trim();
     var empAge = $('#addEmpAge').val().trim();
     var empSex = $('#addEmpSex').val();
+    var empMail = $('#addEmpMail').val().trim();
+    var mailStatus = $('#addMailStatus').val();
     var empPs = $('#addEmpPs').val().trim();
 
     $('#addModal').modal('hide');
 
+    var alertMessage = '';
+
     if (empId === '' || empName === '' || empTel === '') {
-        bootbox.alert({
-            title: '提示',
-            message: '请输入完整信息！'
-        });
+        alertMessage = '请输入完整信息！';
     } else if ('' !== empAge && !/^[0-9]{1,3}$/.test(empAge)) {
-        bootbox.alert({
-            title: '提示',
-            message: '年龄输入有误！'
-        });
+        alertMessage = '年龄输入有误！';
+    } else if ('' !== empMail && !/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+$/.test(empMail)) {
+        alertMessage = '邮箱输入有误！';
     } else if (empPs.length > 80) {
+        alertMessage = '员工备注限输入80个字符！';
+    }
+
+    if (alertMessage !== '') {
         bootbox.alert({
             title: '提示',
-            message: '员工备注限输入80个字符！'
+            message: alertMessage
         });
     } else {
         bootbox.confirm({
@@ -150,7 +169,7 @@ $('#saveAdd').click(function () {
             message: '确认新增员工信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/employee/add', empId, empName, empTel, empPosition, empAge, empSex, empPs);
+                    sendRequest('sys/file/employee/add', empId, empName, empTel, empPosition, empAge, empSex, empMail, mailStatus, empPs);
                 }
             }
         });
@@ -158,13 +177,15 @@ $('#saveAdd').click(function () {
 });
 
 // 修改
-function modifyEmp(empId, empName, empTel, empPosition, empAge, empSex, empPs) {
+function modifyEmp(empId, empName, empTel, empPosition, empAge, empSex, empMail, mailStatus, empPs) {
     $('#modifyEmpId').text(empId);
     $('#modifyEmpName').val(empName);
     $('#modifyEmpTel').val(empTel);
     $('#modifyEmpPosition').val(empPosition);
     $('#modifyEmpAge').val(empAge);
     $('#modifyEmpSex').selectpicker('val', empSex);
+    $('#modifyEmpMail').val(empMail);
+    $('#modifyMailStatus').selectpicker('val', mailStatus);
     $('#modifyEmpPs').val(empPs);
 
     $('#modifyModal').modal('show');
@@ -177,24 +198,28 @@ $('#saveModify').click(function () {
     var empPosition = $('#modifyEmpPosition').val().trim();
     var empAge = $('#modifyEmpAge').val().trim();
     var empSex = $('#modifyEmpSex').val();
+    var empMail = $('#modifyEmpMail').val().trim();
+    var mailStatus = $('#modifyMailStatus').val();
     var empPs = $('#modifyEmpPs').val().trim();
 
     $('#modifyModal').modal('hide');
 
+    var alertMessage = '';
+
     if (empName === '' || empTel === '') {
-        bootbox.alert({
-            title: '提示',
-            message: '请输入完整信息！'
-        });
+        alertMessage = '请输入完整信息！';
     } else if ('' !== empAge && !/^[0-9]{1,3}$/.test(empAge)) {
-        bootbox.alert({
-            title: '提示',
-            message: '年龄输入有误！'
-        });
+        alertMessage = '年龄输入有误！';
+    } else if ('' !== empMail && !/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+$/.test(empMail)) {
+        alertMessage = '邮箱输入有误！';
     } else if (empPs.length > 80) {
+        alertMessage = '员工备注限输入80个字符！';
+    }
+
+    if (alertMessage !== '') {
         bootbox.alert({
             title: '提示',
-            message: '员工备注限输入80个字符！'
+            message: alertMessage
         });
     } else {
         bootbox.confirm({
@@ -202,7 +227,7 @@ $('#saveModify').click(function () {
             message: '确认修改员工信息',
             callback: function (flag) {
                 if (flag) {
-                    sendRequest('sys/file/employee/modify', empId, empName, empTel, empPosition, empAge, empSex, empPs);
+                    sendRequest('sys/file/employee/modify', empId, empName, empTel, empPosition, empAge, empSex, empMail, mailStatus, empPs);
                 }
             }
         });

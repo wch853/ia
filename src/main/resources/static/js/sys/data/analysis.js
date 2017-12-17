@@ -175,7 +175,12 @@ var chart = {
             },
             success: function (res) {
                 chart.chartOption.clear();
-                if (200 === res.code) {
+                if (!res.code || 300 === res.code) {
+                    bootbox.alert({
+                        title: '提示',
+                        message: '获取数据失败！'
+                    });
+                } else if (200 === res.code) {
                     var data = res.data;
                     // 图例
                     var legends = chart.getLegends(dataTypes);
@@ -185,13 +190,6 @@ var chart = {
                     var typeToData = data.dataMap;
                     var series = chart.getSeries(typeToData);
                     chart.initChart(legends, dateList, series);
-                } else if (300 === res.code) {
-                    if (res.message) {
-                        bootbox.alert({
-                            title: '提示',
-                            message: res.message
-                        });
-                    }
                 }
             }
         });
