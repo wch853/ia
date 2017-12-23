@@ -2,9 +2,13 @@ package com.njfu.wa.sys.web;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.njfu.wa.sys.domain.Block;
+import com.njfu.wa.sys.domain.Crop;
+import com.njfu.wa.sys.domain.Field;
 import com.njfu.wa.sys.domain.IrrigationPlan;
 import com.njfu.wa.sys.enums.ResultEnum;
 import com.njfu.wa.sys.exception.BusinessException;
+import com.njfu.wa.sys.service.FieldService;
 import com.njfu.wa.sys.service.IrrigationPlanService;
 import com.njfu.wa.sys.utils.CommonConstants;
 import com.njfu.wa.sys.utils.PaginationResult;
@@ -13,6 +17,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +37,9 @@ public class ControlController {
     @Resource
     private IrrigationPlanService irrigationPlanService;
 
+    @Resource
+    private FieldService fieldService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlController.class);
 
     /**
@@ -40,7 +48,9 @@ public class ControlController {
      * @return Page
      */
     @GetMapping("/plan")
-    public String plan() {
+    public String plan(Model model) {
+        List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
+        model.addAttribute("fields", fields);
         return "sys/control/plan";
     }
 

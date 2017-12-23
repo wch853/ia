@@ -52,13 +52,14 @@ var user = {
     /**
      * 发送请求
      */
-    sendRequest: function (name, password) {
+    sendRequest: function (name, password, prePassword) {
         $.ajax({
             url: 'sys/auth/user/modify',
             type: 'post',
             data: {
                 name: name,
-                password: password
+                password: password,
+                prePassword: prePassword
             },
             success: function (res) {
                 var message = '操作失败！';
@@ -67,11 +68,13 @@ var user = {
                 } else if (res.code === 300 && res.message) {
                     message = res.message;
                 }
-                bootbox.alert({
+                bootbox.confirm({
                     title: '提示',
-                    message: message
+                    message: message,
+                    callback: function () {
+                        window.location.reload();
+                    }
                 });
-                window.location.reload();
             }
         })
     },
@@ -91,7 +94,7 @@ var user = {
                 message: '确认修改用户名称',
                 callback: function (flag) {
                     if (flag) {
-                        user.sendRequest(name, null);
+                        user.sendRequest(name, null, null);
                     }
                 }
             });
@@ -101,11 +104,12 @@ var user = {
      * 修改密码
      */
     modifyPassword: function () {
+        var prePassword = $('#pre-password').val().trim();
         var password = $('#password').val().trim();
         var rePassword = $('#re-password').val().trim();
 
         var alertMessage = '';
-        if (password.length === 0 || rePassword.length === 0) {
+        if (prePassword.length === 0 || password.length === 0 || rePassword.length === 0) {
             alertMessage = '密码不可为空！';
         } else if (password !== rePassword) {
             alertMessage = '两次输入的密码不一致！';
@@ -124,7 +128,7 @@ var user = {
                 message: '确认修改密码',
                 callback: function (flag) {
                     if (flag) {
-                        user.sendRequest(null, password);
+                        user.sendRequest(null, password, prePassword);
                     }
                 }
             });

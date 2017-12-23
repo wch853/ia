@@ -4,6 +4,7 @@
     <!-- headers -->
     <#include "/common/standard.html"/>
     <#include "/common/bootstrap-table.html"/>
+    <#include "/common/bootstrap-select.html"/>
     <#include "/common/bootstrap-daterangepicker.html"/>
     <title>排灌管理</title>
 </head>
@@ -122,9 +123,20 @@
                             <h4 class="modal-title">执行排灌方案</h4>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group form-inline">
-                                <label for="begin-date">开始时间：</label>
-                                <input type="text" id="begin-date" class="form-control range-date">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="addFieldId" class="lg-label">所属大棚：</label>
+                                    <select id="addFieldId" class="selectpicker" data-live-search="true">
+                                        <option value="" class="hide-option">请选择大棚编号</option>
+                                        <#list fields as field>
+                                            <option value="${field.fieldId!}">NO.${field.fieldId!}</option>
+                                        </#list>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="begin-date">开始时间：</label>
+                                    <input type="text" id="begin-date" class="form-control range-date">
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">

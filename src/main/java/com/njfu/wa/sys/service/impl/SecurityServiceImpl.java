@@ -122,10 +122,23 @@ public class SecurityServiceImpl implements SecurityService {
         // 以创建时间为salt
         String salt = String.valueOf(System.currentTimeMillis());
         // 重新hash生成密码
-        String password = new SimpleHash(CommonConstants.HASH_CREDENTIAL_NAME, CommonConstants.DEFAULT_PASSWORD,
-                ByteSource.Util.bytes(salt), CommonConstants.HASH_ITERATIONS).toString();
+        String originPassword = user.getPassword() == null ? CommonConstants.DEFAULT_PASSWORD : user.getPassword();
+        String password = this.hashPassword(originPassword, salt);
         user.setSalt(salt);
         user.setPassword(password);
+    }
+
+    /**
+     * 对原密码进行hash
+     *
+     * @param originPassword originPassword
+     * @param salt           salt
+     * @return password
+     *
+     */
+    private String hashPassword(String originPassword, String salt) {
+        return new SimpleHash(CommonConstants.HASH_CREDENTIAL_NAME, originPassword,
+                ByteSource.Util.bytes(salt), CommonConstants.HASH_ITERATIONS).toString();
     }
 
     /**
@@ -183,14 +196,16 @@ public class SecurityServiceImpl implements SecurityService {
     /**
      * 修改用户信息
      *
-     * @param user user
+     * @param user        user
+     * @param prePassword prePassword
      */
     @Override
-    public void modifyUser(User user) {
+    public void modifyUser(User user, String prePassword) {
+        User currentUser;
         try {
             // 获取当前用户
             Subject subject = SecurityUtils.getSubject();
-            User currentUser = (User) subject.getPrincipal();
+            currentUser = (User) subject.getPrincipal();
             if (null != user.getStatus() && !subject.isPermitted(CommonConstants.AUTH_PERM)) {
                 throw new BusinessException("无权限修改用户账号状态");
             }
@@ -214,6 +229,10 @@ public class SecurityServiceImpl implements SecurityService {
         }
 
         if (null != user.getPassword()) {
+            User dbUser = securityMapper.selectUser(currentUser.getUsername());
+            if (!dbUser.getPassword().equals(this.hashPassword(prePassword, dbUser.getSalt()))) {
+                throw new BusinessException("原密码输入不正确！");
+            }
             // 重置密码
             this.resetSaltAndPassword(user);
         }

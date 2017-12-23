@@ -84,9 +84,10 @@ public interface SecurityService {
     /**
      * 修改用户信息
      *
-     * @param user user
+     * @param user        user
+     * @param prePassword prePassword
      */
-    void modifyUser(User user);
+    void modifyUser(User user, String prePassword);
 
     /**
      * 删除用户

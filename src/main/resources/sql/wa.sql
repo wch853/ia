@@ -921,10 +921,11 @@ INSERT INTO wa.permission (id, url, url_name, perm) VALUES (6, '/sys/auth/**', '
 INSERT INTO wa.permission (id, url, url_name, perm) VALUES (7, '/sys/data/**', '数据查询', 'sys:data:query');
 INSERT INTO wa.permission (id, url, url_name, perm) VALUES (8, '/sys/warn/*/modify', '报警修改', 'sys:warn:modify');
 INSERT INTO wa.permission (id, url, url_name, perm) VALUES (9, '/sys/warn/**', '报警查询', 'sys:warn:query');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (10, '/sys/memo/add', '备忘添加', 'sys:memo:add');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (11, '/sys/memo/modify', '备忘修改', 'sys:memo:modify');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (12, '/sys/memo/remove', '备忘删除', 'sys:memo:remove');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (13, '/sys/memo/**', '备忘查询', 'sys:memo:query');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (10, '/sys/control/**', '控制管理', 'sys:ctrl');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (11, '/sys/memo/add', '备忘添加', 'sys:memo:add');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (12, '/sys/memo/modify', '备忘修改', 'sys:memo:modify');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (13, '/sys/memo/remove', '备忘删除', 'sys:memo:remove');
+INSERT INTO wa.permission (id, url, url_name, perm) VALUES (14, '/sys/memo/**', '备忘查询', 'sys:memo:query');
 
 /* user_roles */
 INSERT INTO wa.user_roles (user_id, role_id) VALUES (1, 1);

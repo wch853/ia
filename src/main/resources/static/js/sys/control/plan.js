@@ -4,7 +4,11 @@ var plan = {
      */
     init: function () {
         // 激活侧边栏
-        $('[data-target="#ctrl-man"]').trigger('click').parent().find('li:eq(1) a').addClass('side-active');
+        $('[data-target="#ctrl-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
+
+        $('.selectpicker').selectpicker({
+            width: '180.67px'
+        });
 
         $("#plan-table").bootstrapTable({
             url: 'sys/control/plan/data',
@@ -20,10 +24,10 @@ var plan = {
                 title: '方案编号'
             }, {
                 field: 'planVolume',
-                title: '排灌量'
+                title: '灌溉量（m³）'
             }, {
                 field: 'duration',
-                title: '持续时长'
+                title: '持续时长（分钟）'
             }, {
                 field: 'planPs',
                 title: '备注'

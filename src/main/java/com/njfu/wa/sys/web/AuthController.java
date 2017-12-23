@@ -147,9 +147,9 @@ public class AuthController {
      */
     @PostMapping("/user/modify")
     public @ResponseBody
-    Result modifyUser(User user) {
+    Result modifyUser(User user, String prePassword) {
         try {
-            securityService.modifyUser(user);
+            securityService.modifyUser(user, prePassword);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage());

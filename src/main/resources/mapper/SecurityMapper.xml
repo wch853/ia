@@ -7,11 +7,12 @@
 
     <select id="selectUser" resultType="User">
         SELECT
-        id,
-        name,
-        password,
-        salt,
-        status
+            id,
+            name,
+            username,
+            password,
+            salt,
+            status
         FROM user
         WHERE username = #{username}
     </select>

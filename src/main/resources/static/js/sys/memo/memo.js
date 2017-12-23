@@ -149,12 +149,13 @@ var initMemo = {
                 if (mid !== '0') {
                     bootbox.confirm({
                         title: '提示',
-                        message: '确认修改记录'
-                    }, callback(function (flag) {
-                        if (flag) {
-                            initMemo.sendRequest('sys/memo/modify', mid, title, type, content);
+                        message: '确认修改记录',
+                        callback: function (flag) {
+                            if (flag) {
+                                initMemo.sendRequest('sys/memo/modify', mid, title, type, content);
+                            }
                         }
-                    }));
+                    });
                 } else {
                     bootbox.confirm({
                         title: '提示',
@@ -167,7 +168,8 @@ var initMemo = {
                 }
             }
         }
-    },
+    }
+    ,
     /**
      * 删除记录
      */
@@ -197,6 +199,11 @@ var initMemo = {
  * 初始加载日志
  */
 initMemo.initMemoList(0);
+
+/**
+ * 激活侧边栏
+ */
+$('[data-target="#memo-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
 
 /**
  * 切换记录类型事件
