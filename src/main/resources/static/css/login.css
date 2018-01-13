@@ -9,7 +9,7 @@
 
 body, html {
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
 }
 
 body {
@@ -136,4 +136,9 @@ a.logo {
     padding: 8px;
     font-weight: bold;
     z-index: 100;
+}
+
+.content {
+    /*min-height: 600px;*/
+    /*position: relative;*/
 }

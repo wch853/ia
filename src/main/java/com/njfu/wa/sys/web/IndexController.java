@@ -24,8 +24,10 @@ import java.util.List;
 public class IndexController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
+
     @Resource
     private BlockService blockService;
+
     @Resource
     private FieldStatusService fieldStatusService;
 

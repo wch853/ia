@@ -128,7 +128,7 @@ nav > ul > li > a,
 
 @media (max-width: 484px) {
     #sidebar-collapse {
-        margin-top: 135px;
+        margin-top: -20px;
     }
 }
 

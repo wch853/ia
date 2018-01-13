@@ -3,6 +3,15 @@ var login = {
         login.getUser();
         login.ajaxLogin();
         $('#error-message').hide();
+
+        var height = $(window).height();
+        console.log(height);
+        if (height < 600) {
+            $('.content').css({
+                'position': 'relative',
+                'min-height': '600px'
+            })
+        }
     },
     /**
      * 查询用户事件

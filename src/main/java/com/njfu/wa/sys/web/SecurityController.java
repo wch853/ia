@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class SecurityController {
 
@@ -43,13 +45,13 @@ public class SecurityController {
      */
     @PostMapping(value = "/login")
     public @ResponseBody
-    Result login(String username, String password) {
+    Result login(String username, String password, HttpServletRequest request) {
         try {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
             // 登录失败：包括账户不存在、密码错误等，都会抛出ShiroException
             Subject subject = SecurityUtils.getSubject();
             subject.login(token);
-            LOGGER.info("{} login", subject.getPrincipal());
+            LOGGER.info("{} login, from {}", subject.getPrincipal(), request.getRemoteAddr());
             return Result.response(ResultEnum.SUCCESS);
         } catch (AccountException e) {
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
