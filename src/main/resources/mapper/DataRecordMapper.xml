@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.DataRecordMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.DataRecordMapper">
 
     <resultMap id="DataRecordMap" type="DataRecord">
         <id property="id" column="id"/>
@@ -12,7 +12,7 @@
         <result property="val" column="val"/>
         <result property="recordTime" column="record_time"/>
         <association property="fieldId" column="sensor_id"
-                     select="com.njfu.wa.sys.mapper.SensorMapper.selectFieldBySensor"/>
+                     select="com.njfu.ia.sys.mapper.SensorMapper.selectFieldBySensor"/>
     </resultMap>
 
     <select id="selectDataRecords" resultMap="DataRecordMap">

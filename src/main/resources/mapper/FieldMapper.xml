@@ -3,15 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.FieldMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.FieldMapper">
 
     <resultMap id="fieldMap" type="Field">
         <id property="fieldId" column="field_id"/>
         <result property="fieldName" column="field_name"/>
         <result property="useStatus" column="use_status"/>
         <result property="fieldPs" column="field_ps"/>
-        <association property="block" column="block_id" select="com.njfu.wa.sys.mapper.BlockMapper.selectBlockById"/>
-        <association property="crop" column="crop_id" select="com.njfu.wa.sys.mapper.CropMapper.selectCropById"/>
+        <association property="block" column="block_id" select="com.njfu.ia.sys.mapper.BlockMapper.selectBlockById"/>
+        <association property="crop" column="crop_id" select="com.njfu.ia.sys.mapper.CropMapper.selectCropById"/>
     </resultMap>
 
     <select id="selectFields" resultMap="fieldMap">

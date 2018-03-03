@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.IrrigationPlanMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.IrrigationPlanMapper">
 
     <select id="selectIrrigationPlans" resultType="IrrigationPlan">
         SELECT
-            id,
-            plan_volume,
-            duration,
-            plan_ps
+        id,
+        plan_volume,
+        duration,
+        plan_ps
         FROM irrigation_plan
         <where>
             <if test="null != id">

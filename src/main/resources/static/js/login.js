@@ -65,4 +65,7 @@ var login = {
             .css({top: '135px'});
     }
 };
+/**
+ * 启动
+ */
 login.init();

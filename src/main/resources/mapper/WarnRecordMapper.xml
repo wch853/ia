@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.WarnRecordMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.WarnRecordMapper">
 
     <insert id="insertWarnRecord">
         INSERT INTO warn_record (field_id, warn_type, warn_val)
@@ -42,7 +42,7 @@
         <result property="handleTime" column="handle_time"/>
         <result property="flag" column="flag"/>
         <association property="warnThreshold" column="warn_type"
-                     select="com.njfu.wa.sys.mapper.WarnThresholdMapper.selectWarnThresholdByThresholdType"/>
+                     select="com.njfu.ia.sys.mapper.WarnThresholdMapper.selectWarnThresholdByThresholdType"/>
     </resultMap>
 
     <select id="selectWarnRecordByFlag" resultMap="recordMap">

@@ -51,7 +51,7 @@ var websocket;
  * 建立WebSocket连接
  */
 function getConnect() {
-    var path = window.location.hostname + ":8000/wa";
+    var path = window.location.hostname + ":8000/ia";
     if (window.WebSocket) {
         websocket = new WebSocket('ws://' + path + '/tip/handler');
     } else {

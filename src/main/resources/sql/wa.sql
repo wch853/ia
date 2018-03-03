@@ -1,9 +1,9 @@
 /**********
  * DDL
  *********/
-DROP DATABASE IF EXISTS wa;
-CREATE DATABASE wa;
-USE wa;
+DROP DATABASE IF EXISTS ia;
+CREATE DATABASE ia;
+USE ia;
 
 DROP TABLE IF EXISTS block;
 CREATE TABLE block (
@@ -225,12 +225,17 @@ CREATE TABLE field_status (
 
 DROP TABLE IF EXISTS irrigation_plan;
 CREATE TABLE irrigation_plan (
-  id INT AUTO_INCREMENT NOT NULL NULL COMMENT '排灌方案编号',
-  plan_volume DOUBLE(8, 2) NOT NULL  COMMENT '灌溉量(m3)',
-  duration INT NOT NULL COMMENT '灌溉持续时长(分钟)',
-  plan_ps VARCHAR(255) DEFAULT NULL COMMENT '方案备注',
+  id          INT AUTO_INCREMENT NOT NULL
+  COMMENT '排灌方案编号',
+  plan_volume DOUBLE(8, 2)       NOT NULL
+  COMMENT '灌溉量(m3)',
+  duration    INT                NOT NULL
+  COMMENT '灌溉持续时长(分钟)',
+  plan_ps     VARCHAR(255) DEFAULT NULL
+  COMMENT '方案备注',
   PRIMARY KEY (id)
-)ENGINE = INNODB
+)
+  ENGINE = INNODB
   DEFAULT CHARSET = utf8
   COMMENT ='排灌方案';
 
@@ -292,6 +297,21 @@ CREATE TABLE tmp_data (
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
   COMMENT ='大棚临时数据表';
+  
+DROP TABLE IF EXISTS data_type;
+CREATE TABLE data_type (
+  id INT AUTO_INCREMENT NOT NULL
+  COMMENT '数据类型编号',
+  data_type_name      VARCHAR(255) NOT NULL
+  COMMENT '数据类型名称',
+  use_status   TINYINT      NOT NULL DEFAULT 1
+  COMMENT '使用状态 0-无效，1-有效',
+  PRIMARY KEY (id),
+  UNIQUE KEY (data_type_name)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='数据类型';
 
 DROP TABLE IF EXISTS memo;
 CREATE TABLE memo (
@@ -484,8 +504,9 @@ CREATE PROCEDURE update_field_status(IN type VARCHAR(255), IN val DOUBLE(8, 2), 
  */
 DROP TRIGGER IF EXISTS after_data_insert;
 CREATE TRIGGER after_data_insert
-AFTER INSERT ON data_record
-FOR EACH ROW
+  AFTER INSERT
+  ON data_record
+  FOR EACH ROW
   BEGIN
     DECLARE f_id VARCHAR(255) DEFAULT '';
     SET f_id = (SELECT field_id
@@ -727,113 +748,113 @@ DELIMITER ;
 /*
  * block
  */
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps)
+INSERT INTO ia.block (block_id, block_name, block_loc, block_ps)
 VALUES ('b01', '沛县现代农业产业园区', '朱寨镇、沛城镇、鹿楼镇、张寨镇、经济开发区', '近郊城市农业区');
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b02', '胡寨草庙千亩长茄示范园', '胡寨镇', '东部优质粮食主产区');
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b03', '沛城万亩精品农业示范园', '沛城镇', '近郊城市农业区');
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b04', '张寨万亩农业生态园', '张寨镇', '南部高效设施园艺区');
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b05', '朱寨现代农业科技示范园', '朱寨镇', '西部高效生态养殖区');
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b06', '鹿楼种养生态示范园', '鹿楼镇', '西部高效生态养殖区');
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b07', '河口设施农业示范园', '河口镇', '南部高效设施园艺区');
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b08', '敬安循环农业示范园', '敬安镇', '南部高效设施园艺区');
-INSERT INTO wa.block (block_id, block_name, block_loc, block_ps) VALUES ('b09', '安国生态农业观光园', '安国镇', '南部高效设施园艺区');
+INSERT INTO ia.block (block_id, block_name, block_loc, block_ps) VALUES ('b02', '胡寨草庙千亩长茄示范园', '胡寨镇', '东部优质粮食主产区');
+INSERT INTO ia.block (block_id, block_name, block_loc, block_ps) VALUES ('b03', '沛城万亩精品农业示范园', '沛城镇', '近郊城市农业区');
+INSERT INTO ia.block (block_id, block_name, block_loc, block_ps) VALUES ('b04', '张寨万亩农业生态园', '张寨镇', '南部高效设施园艺区');
+INSERT INTO ia.block (block_id, block_name, block_loc, block_ps) VALUES ('b05', '朱寨现代农业科技示范园', '朱寨镇', '西部高效生态养殖区');
+INSERT INTO ia.block (block_id, block_name, block_loc, block_ps) VALUES ('b06', '鹿楼种养生态示范园', '鹿楼镇', '西部高效生态养殖区');
+INSERT INTO ia.block (block_id, block_name, block_loc, block_ps) VALUES ('b07', '河口设施农业示范园', '河口镇', '南部高效设施园艺区');
+INSERT INTO ia.block (block_id, block_name, block_loc, block_ps) VALUES ('b08', '敬安循环农业示范园', '敬安镇', '南部高效设施园艺区');
+INSERT INTO ia.block (block_id, block_name, block_loc, block_ps) VALUES ('b09', '安国生态农业观光园', '安国镇', '南部高效设施园艺区');
 
 /*
  * field
  */
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1701001', '加温温室', 'b01', 'c001', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1701002', '双屋面温室', 'b01', 'c002', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1701003', '透光塑料大棚', 'b01', 'c003', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1701004', '塑料大棚', 'b01', 'c004', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1702001', '加温温室', 'b02', 'c001', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1702002', '双屋面温室', 'b02', 'c002', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1702003', '透光塑料大棚', 'b02', 'c003', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1702004', '塑料大棚', 'b02', 'c004', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1703001', '加温温室', 'b03', 'c001', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1703002', '双屋面温室', 'b03', 'c002', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1703003', '透光塑料大棚', 'b03', 'c003', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1703004', '塑料大棚', 'b03', 'c004', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1704001', '加温温室', 'b04', 'c001', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1704002', '双屋面温室', 'b04', 'c002', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1704003', '透光塑料大棚', 'b04', 'c003', '1', NULL);
-INSERT INTO wa.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
+INSERT INTO ia.field (field_id, field_name, block_id, crop_id, use_status, field_ps)
 VALUES ('f1704004', '塑料大棚', 'b04', 'c004', '1', NULL);
 
 /*
  * crop
  */
-INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c001', '玉米', NULL);
-INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c002', '生菜', NULL);
-INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c003', '花生', NULL);
-INSERT INTO wa.crop (crop_id, crop_name, crop_ps) VALUES ('c004', '大豆', NULL);
+INSERT INTO ia.crop (crop_id, crop_name, crop_ps) VALUES ('c001', '玉米', NULL);
+INSERT INTO ia.crop (crop_id, crop_name, crop_ps) VALUES ('c002', '生菜', NULL);
+INSERT INTO ia.crop (crop_id, crop_name, crop_ps) VALUES ('c003', '花生', NULL);
+INSERT INTO ia.crop (crop_id, crop_name, crop_ps) VALUES ('c004', '大豆', NULL);
 
 /*
  * employee
  */
-INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
+INSERT INTO ia.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
 VALUES ('e001', 'wch1', '15261861234', NULL, NULL, NULL, 'wch853@163.com', 1, NULL);
-INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
+INSERT INTO ia.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
 VALUES ('e002', 'wch2', '15261861234', NULL, NULL, NULL, 'wch853@163.com', 1, NULL);
-INSERT INTO wa.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
+INSERT INTO ia.employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
 VALUES ('e003', 'wch3', '15261861234', NULL, NULL, NULL, 'wch853@163.com', 0, NULL);
 
 /*
  * sensor
  */
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
+INSERT INTO ia.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
 VALUES ('s-01-001', '1', 'abc001', 'f1701001', 't01', '1', NULL);
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
+INSERT INTO ia.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
 VALUES ('s-01-002', '1', 'abc001', 'f1701002', 't01', '1', NULL);
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
+INSERT INTO ia.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
 VALUES ('s-02-001', '2', 'abc002', 'f1701003', 't01', '1', NULL);
-INSERT INTO wa.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
+INSERT INTO ia.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
 VALUES ('s-02-002', '2', 'abc002', 'f1701004', 't01', '1', NULL);
 
 /*
  * machine
  */
-INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps)
+INSERT INTO ia.machine (machine_id, machine_type, block_id, use_status, machine_ps)
 VALUES ('m001', 'cba001', 'b01', '0', NULL);
-INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps)
+INSERT INTO ia.machine (machine_id, machine_type, block_id, use_status, machine_ps)
 VALUES ('m002', 'cba002', 'b02', '0', NULL);
-INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps)
+INSERT INTO ia.machine (machine_id, machine_type, block_id, use_status, machine_ps)
 VALUES ('m003', 'cba003', 'b03', '0', NULL);
-INSERT INTO wa.machine (machine_id, machine_type, block_id, use_status, machine_ps)
+INSERT INTO ia.machine (machine_id, machine_type, block_id, use_status, machine_ps)
 VALUES ('m004', 'cba004', 'b04', '0', NULL);
 
 /*
  * vehicle
  */
-INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
+INSERT INTO ia.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
 VALUES ('v001', 'xyz001', 'b01', '0', NULL);
-INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
+INSERT INTO ia.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
 VALUES ('v002', 'xyz002', 'b02', '0', NULL);
-INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
+INSERT INTO ia.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
 VALUES ('v003', 'xyz003', 'b03', '0', NULL);
-INSERT INTO wa.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
+INSERT INTO ia.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
 VALUES ('v004', 'xyz004', 'b04', '0', NULL);
 
 /*
  * terminal
  */
-INSERT INTO wa.terminal (terminal_id, terminal_type, use_status, termial_ps) VALUES ('t01', 't001', '1', NULL);
-INSERT INTO wa.terminal (terminal_id, terminal_type, use_status, termial_ps) VALUES ('t02', 't002', '1', NULL);
-INSERT INTO wa.terminal (terminal_id, terminal_type, use_status, termial_ps) VALUES ('t03', 't003', '1', NULL);
+INSERT INTO ia.terminal (terminal_id, terminal_type, use_status, termial_ps) VALUES ('t01', 't001', '1', NULL);
+INSERT INTO ia.terminal (terminal_id, terminal_type, use_status, termial_ps) VALUES ('t02', 't002', '1', NULL);
+INSERT INTO ia.terminal (terminal_id, terminal_type, use_status, termial_ps) VALUES ('t03', 't003', '1', NULL);
 
 /*
  * field_status
@@ -847,18 +868,18 @@ CALL add_field_status_data('f170400');
 /*
  * data_record
  */
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '1', 14.15, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '2', 25.25, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '3', 25.25, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '4', 25.25, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '5', 2000, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '6', 800, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '7', 7, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '8', 40, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '9', 40, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '10', 40, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '11', 1, NULL);
-INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '12', 40, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '1', 14.15, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '2', 25.25, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '3', 25.25, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '4', 25.25, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '5', 2000, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '6', 800, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '7', 7, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '8', 40, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-001', '9', 40, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-01-002', '10', 40, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-001', '11', 1, NULL);
+INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (NULL, 's-02-002', '12', 40, NULL);
 
 /*
  * data_record
@@ -869,66 +890,78 @@ INSERT INTO wa.data_record (id, sensor_id, data_type, val, record_time) VALUES (
 /*
  * warn_threshold
  */
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (1, '1', 15, 45, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (2, '2', 15, 45, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (3, '3', 15, 45, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (4, '4', 15, 45, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (5, '5', 3000, 60000, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (6, '6', 800, 6000, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (7, '7', 6.5, 7.5, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (8, '8', 30, 100, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (9, '9', 5, 30, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (10, '10', 30, 160, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (11, '11', 0.15, 1.5, '1');
-INSERT INTO wa.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (12, '12', 35, 500, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (1, '1', 15, 45, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (2, '2', 15, 45, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (3, '3', 15, 45, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (4, '4', 15, 45, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (5, '5', 3000, 60000, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (6, '6', 800, 6000, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (7, '7', 6.5, 7.5, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (8, '8', 30, 100, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (9, '9', 5, 30, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (10, '10', 30, 160, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (11, '11', 0.15, 1.5, '1');
+INSERT INTO ia.warn_threshold (id, threshold_type, floor, ceil, use_status) VALUES (12, '12', 35, 500, '1');
 
 /*
  * warn_record
  */
 /* 通过扫描field_status表插入数据 */
 /* CALL check_warn(); */
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+INSERT INTO ia.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
 VALUES (1, 'f1701001', '1', 1.23, NULL, NULL, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+INSERT INTO ia.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
 VALUES (2, 'f1701002', '2', 3.45, NULL, NULL, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+INSERT INTO ia.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
 VALUES (3, 'f1701003', '3', 5.98, NULL, NULL, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+INSERT INTO ia.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
 VALUES (4, 'f1701004', '4', 9.58, NULL, NULL, '0');
-INSERT INTO wa.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
+INSERT INTO ia.warn_record (id, field_id, warn_type, warn_val, warn_time, handle_time, flag)
 VALUES (5, 'f1702001', '5', 5.25, NULL, NULL, '0');
 
-INSERT INTO wa.memo (id, title, type, content, update_user, update_time) VALUES (1, '日志1', '0', '日志1', 'root', NULL);
-INSERT INTO wa.memo (id, title, type, content, update_user, update_time) VALUES (2, '备忘录1', '1', '备忘录1', 'root', NULL);
-INSERT INTO wa.memo (id, title, type, content, update_user, update_time)
+/*
+ * memo
+ */
+INSERT INTO ia.memo (id, title, type, content, update_user, update_time) VALUES (1, '日志1', '0', '日志1', 'root', NULL);
+INSERT INTO ia.memo (id, title, type, content, update_user, update_time) VALUES (2, '备忘录1', '1', '备忘录1', 'root', NULL);
+INSERT INTO ia.memo (id, title, type, content, update_user, update_time)
 VALUES (3, '注意事项1', '2', '注意事项1', 'root', NULL);
 
-
-/* user */
-INSERT INTO wa.user (id, name, username, password, salt, status)
+/*
+ * user
+ */
+INSERT INTO ia.user (id, name, username, password, salt, status)
 VALUES (1, 'root', 'wch853', '6991b327c9a016bbfc7fbe905d08a82e', '!@#', 1);
 
-/* role */
-INSERT INTO wa.role (id, role_name) VALUES (1, '超级管理员');
+/*
+ * role
+ */
+INSERT INTO ia.role (id, role_name) VALUES (1, '超级管理员');
 
-/* permission */
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (1, '/**', '完全权限', '*');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (2, '/sys/file/*/add', '档案添加', 'sys:file:add');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (3, '/sys/file/*/modify', '档案修改', 'sys:file:modify');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (4, '/sys/file/*/remove', '档案删除', 'sys:file:remove');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (5, '/sys/file/**', '档案查询', 'sys:file:query');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (6, '/sys/auth/**', '权限管理', 'sys:auth');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (7, '/sys/data/**', '数据查询', 'sys:data:query');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (8, '/sys/warn/*/modify', '报警修改', 'sys:warn:modify');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (9, '/sys/warn/**', '报警查询', 'sys:warn:query');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (10, '/sys/control/**', '控制管理', 'sys:ctrl');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (11, '/sys/memo/add', '备忘添加', 'sys:memo:add');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (12, '/sys/memo/modify', '备忘修改', 'sys:memo:modify');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (13, '/sys/memo/remove', '备忘删除', 'sys:memo:remove');
-INSERT INTO wa.permission (id, url, url_name, perm) VALUES (14, '/sys/memo/**', '备忘查询', 'sys:memo:query');
+/*
+ * permission
+ */
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (1, '/**', '完全权限', '*');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (2, '/sys/file/*/add', '档案添加', 'sys:file:add');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (3, '/sys/file/*/modify', '档案修改', 'sys:file:modify');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (4, '/sys/file/*/remove', '档案删除', 'sys:file:remove');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (5, '/sys/file/**', '档案查询', 'sys:file:query');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (6, '/sys/auth/**', '权限管理', 'sys:auth');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (7, '/sys/data/**', '数据查询', 'sys:data:query');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (8, '/sys/warn/*/modify', '报警修改', 'sys:warn:modify');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (9, '/sys/warn/**', '报警查询', 'sys:warn:query');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (10, '/sys/control/**', '控制管理', 'sys:ctrl');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (11, '/sys/memo/add', '备忘添加', 'sys:memo:add');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (12, '/sys/memo/modify', '备忘修改', 'sys:memo:modify');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (13, '/sys/memo/remove', '备忘删除', 'sys:memo:remove');
+INSERT INTO ia.permission (id, url, url_name, perm) VALUES (14, '/sys/memo/**', '备忘查询', 'sys:memo:query');
 
-/* user_roles */
-INSERT INTO wa.user_roles (user_id, role_id) VALUES (1, 1);
+/*
+ * user_roles
+ */
+INSERT INTO ia.user_roles (user_id, role_id) VALUES (1, 1);
 
-/* role_permissions */
-INSERT INTO wa.role_permissions (role_id, permission_id) VALUES (1, 1);
+/*
+ * role_permissions
+ */
+INSERT INTO ia.role_permissions (role_id, permission_id) VALUES (1, 1);

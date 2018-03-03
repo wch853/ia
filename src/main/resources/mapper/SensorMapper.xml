@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.SensorMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.SensorMapper">
 
     <resultMap id="sensorMap" type="Sensor">
         <id property="sensorId" column="sensor_id"/>
@@ -12,7 +12,7 @@
         <result property="terminalId" column="terminal_id"/>
         <result property="useStatus" column="use_status"/>
         <result property="sensorPs" column="sensor_ps"/>
-        <association property="field" column="field_id" select="com.njfu.wa.sys.mapper.FieldMapper.selectFieldById"/>
+        <association property="field" column="field_id" select="com.njfu.ia.sys.mapper.FieldMapper.selectFieldById"/>
     </resultMap>
 
     <select id="selectSensors" resultMap="sensorMap">

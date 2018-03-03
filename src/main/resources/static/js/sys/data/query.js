@@ -52,9 +52,6 @@ $("#recordTable").bootstrapTable({
     }, {
         field: 'recordTime',
         title: '记录时间'
-    }, {
-        field: 'warnCount',
-        title: '报警计数'
     }],
     striped: true,
     pagination: true,

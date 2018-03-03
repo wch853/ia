@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.TerminalMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.TerminalMapper">
 
     <select id="selectTerminals" resultType="Terminal">
         SELECT terminal_id, terminal_type, use_status, termial_ps

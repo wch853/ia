@@ -3,16 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.SecurityMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.SecurityMapper">
 
     <select id="selectUser" resultType="User">
         SELECT
-            id,
-            name,
-            username,
-            password,
-            salt,
-            status
+        id,
+        name,
+        username,
+        password,
+        salt,
+        status
         FROM user
         WHERE username = #{username}
     </select>

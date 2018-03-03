@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.EmployeeMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.EmployeeMapper">
 
     <select id="selectEmployees" resultType="Employee">
         SELECT emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps
@@ -22,15 +22,16 @@
     </select>
 
     <insert id="insertEmployee">
-        INSERT IGNORE INTO employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status, emp_ps)
+        INSERT IGNORE INTO employee (emp_id, emp_name, emp_tel, emp_position, emp_age, emp_sex, emp_mail, mail_status,
+        emp_ps)
         VALUES
-            (#{empId}, #{empName}, #{empTel}, #{empPosition}, #{empAge}, #{empSex}, #{empMail}, #{mailStatus}, #{empPs})
+        (#{empId}, #{empName}, #{empTel}, #{empPosition}, #{empAge}, #{empSex}, #{empMail}, #{mailStatus}, #{empPs})
     </insert>
 
     <update id="updateEmployee">
         UPDATE employee
         SET emp_name = #{empName}, emp_tel = #{empTel}, emp_position = #{empPosition}, emp_age = #{empAge},
-            emp_sex  = #{empSex}, emp_mail = #{empMail}, mail_status = #{mailStatus}, emp_ps = #{empPs}
+        emp_sex = #{empSex}, emp_mail = #{empMail}, mail_status = #{mailStatus}, emp_ps = #{empPs}
         WHERE emp_id = #{empId}
     </update>
 

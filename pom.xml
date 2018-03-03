@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.njfu</groupId>
-    <artifactId>wa</artifactId>
+    <artifactId>ia</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>wa</name>
-    <description>Demo project for Spring Boot</description>
+    <name>ia</name>
+    <description>Intelligent agriculture project</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -118,7 +118,7 @@
     </dependencies>
 
     <build>
-        <finalName>wa</finalName>
+        <finalName>${project.name}</finalName>
         <plugins>
             <!-- spring boot maven插件，用于将应用打成可执行jar包 -->
             <plugin>

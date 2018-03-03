@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.CropMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.CropMapper">
 
-    <select id="com.njfu.wa.sys.mapper.CropMapper.selectCrops" resultType="Crop">
+    <select id="selectCrops" resultType="Crop">
         SELECT crop_id, crop_name, crop_ps
         FROM crop
         <where>

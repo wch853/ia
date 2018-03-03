@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.wa.sys.mapper.VehicleMapper">
+<mapper namespace="com.njfu.ia.sys.mapper.VehicleMapper">
 
     <resultMap id="vehicleMap" type="Vehicle">
         <id property="vehicleId" column="vehicle_id"/>
         <result property="vehicleType" column="vehicle_type"/>
         <result property="useStatus" column="use_status"/>
         <result property="vehiclePs" column="vehicle_ps"/>
-        <association property="block" column="block_id" select="com.njfu.wa.sys.mapper.BlockMapper.selectBlockById"/>
+        <association property="block" column="block_id" select="com.njfu.ia.sys.mapper.BlockMapper.selectBlockById"/>
     </resultMap>
 
     <select id="selectVehicles" resultMap="vehicleMap">
