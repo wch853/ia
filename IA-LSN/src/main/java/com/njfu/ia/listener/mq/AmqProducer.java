@@ -1,6 +1,6 @@
 package com.njfu.ia.listener.mq;
 
-import com.njfu.ia.listener.common.StaticProperty;
+import com.njfu.ia.listener.property.StaticProperty;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class AmqProducer {
     /**
      * 队列生产者集合
      */
-    private static Map<String, MessageProducer> amqMap;
+    private static Map<String, MessageProducer> AMQ_MAP;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AmqProducer.class);
 
@@ -37,7 +37,7 @@ public class AmqProducer {
             for (String mqName : StaticProperty.MQ_LIST) {
                 Queue destination = session.createQueue(mqName);
                 MessageProducer producer = session.createProducer(destination);
-                amqMap.put(mqName, producer);
+                AMQ_MAP.put(mqName, producer);
             }
         } catch (JMSException e) {
             LOGGER.error(e.getMessage(), e);
@@ -52,7 +52,7 @@ public class AmqProducer {
      */
     public static void send(String mqName, String message) {
         try {
-            amqMap.get(mqName).send(session.createMessage());
+            AMQ_MAP.get(mqName).send(session.createTextMessage(message));
         } catch (JMSException e) {
             LOGGER.error(e.getMessage(), e);
         }

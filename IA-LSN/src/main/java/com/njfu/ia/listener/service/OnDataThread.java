@@ -1,16 +1,14 @@
 package com.njfu.ia.listener.service;
 
-import com.njfu.ia.listener.common.StaticProperty;
 import com.njfu.ia.listener.connection.Connections;
 import com.njfu.ia.listener.mq.AmqProducer;
+import com.njfu.ia.listener.property.StaticProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * socket服务端接收线程，处理上行数据
@@ -20,7 +18,7 @@ public class OnDataThread extends Thread {
     private static final Logger LOGGER = LoggerFactory.getLogger(OnDataThread.class);
 
     /**
-     * socket连接
+     * socket连接对象
      */
     private Socket socket;
 
@@ -34,20 +32,17 @@ public class OnDataThread extends Thread {
      */
     private StringBuilder messageBuffer = new StringBuilder();
 
-    /**
-     * 字节缓存队列，用于暂存
-     */
-    private Queue<Byte> bufferQueue = new ConcurrentLinkedQueue<>();
-
     public OnDataThread(Socket socket) {
         this.socket = socket;
     }
 
     @Override
     public void run() {
-        // 加入socket列表
-        Connections.join(socket);
+        // socket异常重读记录
+        int tryReadCount = 0;
         try (InputStream inputStream = socket.getInputStream()) {
+            // 加入socket列表
+            Connections.join(socket);
             // 用于保存读入的字节
             byte[] data;
             while (true) {
@@ -62,13 +57,16 @@ public class OnDataThread extends Thread {
                         }
                     }
                 } catch (IOException e) {
-                    Connections.kick(socket);
-                    LOGGER.error("read stream Exception: {}", e.getMessage());
+                    LOGGER.error("read stream Exception", e);
+                    if (++tryReadCount == StaticProperty.DEFAULT_TRY_READ_COUNT_LIMIT) {
+                        // 达到异常重读数量上限，抛出异常给外层处理
+                        throw new Exception(e);
+                    }
                 }
             }
         } catch (Exception e) {
             Connections.kick(socket);
-            LOGGER.error("on data Thread Exception: {}", e.getMessage(), e);
+            LOGGER.error("on data Thread Exception", e);
         }
     }
 
@@ -93,8 +91,10 @@ public class OnDataThread extends Thread {
                     // 截取有效消息体
                     String validMsg = messageBuffer.substring(0, msgBufLen - 1);
                     if (validMsgLen == validMsg.length()) {
-                        // 验证为有效消息
+                        // 验证为有效消息，推送队列
                         AmqProducer.send(StaticProperty.AMQ_UPLOAD_DATA, validMsg);
+                        // 消息缓存清空
+                        messageBuffer.setLength(0);
                     }
                 }
             }

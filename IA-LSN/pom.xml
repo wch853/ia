@@ -7,7 +7,10 @@
     <groupId>com.njfu.ia</groupId>
     <artifactId>listener</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
     <name>ia-listener</name>
+    <description>Intelligent Agriculture listen Data Module</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

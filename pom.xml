@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>ia</name>
-    <description>Intelligent agriculture project</description>
+    <description>Intelligent agriculture Project</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
