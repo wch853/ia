@@ -2,7 +2,7 @@ package com.njfu.ia.sys.shiro;
 
 import com.njfu.ia.sys.domain.Permission;
 import com.njfu.ia.sys.service.SecurityService;
-import com.njfu.ia.sys.utils.CommonConstants;
+import com.njfu.ia.sys.utils.Constants;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
@@ -36,8 +36,8 @@ public class ShiroConfig implements ApplicationContextAware {
     @Bean
     public Realm authRealm() {
         // 凭证匹配器，配置加密方式和hash次数
-        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher(CommonConstants.HASH_CREDENTIAL_NAME);
-        credentialsMatcher.setHashIterations(CommonConstants.HASH_ITERATIONS);
+        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher(Constants.HASH_CREDENTIAL_NAME);
+        credentialsMatcher.setHashIterations(Constants.HASH_ITERATIONS);
 
         AuthRealm authRealm = new AuthRealm();
         authRealm.setCredentialsMatcher(credentialsMatcher);
@@ -64,7 +64,7 @@ public class ShiroConfig implements ApplicationContextAware {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(authRealm());
-        if (CommonConstants.USE_EHCACHE) {
+        if (Constants.USE_EHCACHE) {
             securityManager.setCacheManager(getEhCacheManager());
         }
         return securityManager;

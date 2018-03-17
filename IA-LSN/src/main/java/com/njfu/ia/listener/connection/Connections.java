@@ -3,6 +3,7 @@ package com.njfu.ia.listener.connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -45,5 +46,20 @@ public class Connections {
      */
     public static Set<Socket> list() {
         return CURRENT_CONNECT;
+    }
+
+    /**
+     * 广播消息
+     *
+     * @param data data
+     */
+    public static void broadcast(byte[] data) {
+        for (Socket socket : CURRENT_CONNECT) {
+            try (OutputStream os = socket.getOutputStream()) {
+                os.write(data);
+            } catch (Exception e) {
+                LOGGER.error("write download data Exception", e);
+            }
+        }
     }
 }

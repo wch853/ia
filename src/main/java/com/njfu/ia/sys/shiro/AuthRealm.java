@@ -2,7 +2,7 @@ package com.njfu.ia.sys.shiro;
 
 import com.njfu.ia.sys.domain.User;
 import com.njfu.ia.sys.service.SecurityService;
-import com.njfu.ia.sys.utils.CommonConstants;
+import com.njfu.ia.sys.utils.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -51,7 +51,7 @@ public class AuthRealm extends AuthorizingRealm {
         if (null == name || null == password || null == salt) {
             throw new AccountException("账户异常！");
         }
-        if (CommonConstants.VALID_USER_STATUS != status) {
+        if (Constants.VALID_USER_STATUS != status) {
             // 账号无效
             throw new AccountException("无效账号！");
         }

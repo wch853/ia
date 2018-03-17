@@ -8,7 +8,7 @@ import com.njfu.ia.sys.exception.BusinessException;
 import com.njfu.ia.sys.mapper.SecurityMapper;
 import com.njfu.ia.sys.service.SecurityService;
 import com.njfu.ia.sys.shiro.AuthRealm;
-import com.njfu.ia.sys.utils.CommonConstants;
+import com.njfu.ia.sys.utils.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
@@ -106,7 +106,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public void addUser(User user) {
         this.resetSaltAndPassword(user);
-        user.setStatus(CommonConstants.VALID_USER_STATUS);
+        user.setStatus(Constants.VALID_USER_STATUS);
         int count = securityMapper.insertUser(user);
         if (count <= 0) {
             throw new BusinessException("创建用户失败！");
@@ -122,7 +122,7 @@ public class SecurityServiceImpl implements SecurityService {
         // 以创建时间为salt
         String salt = String.valueOf(System.currentTimeMillis());
         // 重新hash生成密码
-        String originPassword = user.getPassword() == null ? CommonConstants.DEFAULT_PASSWORD : user.getPassword();
+        String originPassword = user.getPassword() == null ? Constants.DEFAULT_PASSWORD : user.getPassword();
         String password = this.hashPassword(originPassword, salt);
         user.setSalt(salt);
         user.setPassword(password);
@@ -136,8 +136,8 @@ public class SecurityServiceImpl implements SecurityService {
      * @return password
      */
     private String hashPassword(String originPassword, String salt) {
-        return new SimpleHash(CommonConstants.HASH_CREDENTIAL_NAME, originPassword,
-                ByteSource.Util.bytes(salt), CommonConstants.HASH_ITERATIONS).toString();
+        return new SimpleHash(Constants.HASH_CREDENTIAL_NAME, originPassword,
+                ByteSource.Util.bytes(salt), Constants.HASH_ITERATIONS).toString();
     }
 
     /**
@@ -152,8 +152,8 @@ public class SecurityServiceImpl implements SecurityService {
         List<Role> allRoles = securityMapper.selectRoles(null, null);
 
         Map<String, List<Role>> map = new HashMap<>();
-        map.put(CommonConstants.HAS_ROLES, hasRoles);
-        map.put(CommonConstants.ALL_ROLES, allRoles);
+        map.put(Constants.HAS_ROLES, hasRoles);
+        map.put(Constants.ALL_ROLES, allRoles);
         return map;
     }
 
@@ -169,7 +169,7 @@ public class SecurityServiceImpl implements SecurityService {
         if (null == userId) {
             throw new BusinessException("账号ID不可为空！");
         }
-        if (CommonConstants.ROOT_USER_ID == userId) {
+        if (Constants.ROOT_USER_ID == userId) {
             throw new BusinessException("root账户不可编辑角色！");
         }
         Map<String, Object> map = new HashMap<>();
@@ -186,7 +186,7 @@ public class SecurityServiceImpl implements SecurityService {
             }
         }
 
-        if (CommonConstants.USE_EHCACHE) {
+        if (Constants.USE_EHCACHE) {
             // 清除权限缓存
             authRealm.clearCache();
         }
@@ -205,7 +205,7 @@ public class SecurityServiceImpl implements SecurityService {
             // 获取当前用户
             Subject subject = SecurityUtils.getSubject();
             currentUser = (User) subject.getPrincipal();
-            if (null != user.getStatus() && !subject.isPermitted(CommonConstants.AUTH_PERM)) {
+            if (null != user.getStatus() && !subject.isPermitted(Constants.AUTH_PERM)) {
                 throw new BusinessException("无权限修改用户账号状态");
             }
             if (null == user.getStatus()) {
@@ -223,7 +223,7 @@ public class SecurityServiceImpl implements SecurityService {
             user.setPassword(null);
         }
 
-        if (null != user.getName() && CommonConstants.ROOT_USER_ID == user.getId()) {
+        if (null != user.getName() && Constants.ROOT_USER_ID == user.getId()) {
             throw new BusinessException("root账号不可修改账号名称");
         }
 
@@ -253,7 +253,7 @@ public class SecurityServiceImpl implements SecurityService {
         if (null == userId) {
             throw new BusinessException("账号ID不可为空！");
         }
-        if (CommonConstants.ROOT_USER_ID == userId) {
+        if (Constants.ROOT_USER_ID == userId) {
             throw new BusinessException("root账户不可删除！");
         }
         Map<String, Object> map = new HashMap<>();
@@ -266,7 +266,7 @@ public class SecurityServiceImpl implements SecurityService {
             throw new BusinessException("删除用户账号失败");
         }
 
-        if (CommonConstants.USE_EHCACHE) {
+        if (Constants.USE_EHCACHE) {
             // 清除权限缓存
             authRealm.clearCache();
         }
@@ -297,8 +297,8 @@ public class SecurityServiceImpl implements SecurityService {
         List<Permission> hasPermissions = securityMapper.selectPermissions(roleId);
 
         Map<String, Object> map = new HashMap<>();
-        map.put(CommonConstants.ALL_PERMISSIONS, allPermissions);
-        map.put(CommonConstants.HAS_PERMISSIONS, hasPermissions);
+        map.put(Constants.ALL_PERMISSIONS, allPermissions);
+        map.put(Constants.HAS_PERMISSIONS, hasPermissions);
         return map;
     }
 
@@ -310,7 +310,7 @@ public class SecurityServiceImpl implements SecurityService {
      */
     @Override
     public void saveRolePermissions(Integer roleId, List<Integer> permissionIds) {
-        if (CommonConstants.SUPER_ROLE_ID == roleId) {
+        if (Constants.SUPER_ROLE_ID == roleId) {
             throw new BusinessException("超级管理员角色不可编辑权限！");
         }
         Map<String, Object> map = new HashMap<>();
@@ -327,7 +327,7 @@ public class SecurityServiceImpl implements SecurityService {
             }
         }
 
-        if (CommonConstants.USE_EHCACHE) {
+        if (Constants.USE_EHCACHE) {
             // 清除权限缓存
             authRealm.clearCache();
         }
@@ -345,7 +345,7 @@ public class SecurityServiceImpl implements SecurityService {
         if (null == roleId) {
             throw new BusinessException("角色ID不可为空！");
         }
-        if (CommonConstants.SUPER_ROLE_ID == roleId) {
+        if (Constants.SUPER_ROLE_ID == roleId) {
             throw new BusinessException("超级管理员不可删除！");
         }
 

@@ -8,7 +8,7 @@ import com.njfu.ia.sys.exception.BusinessException;
 import com.njfu.ia.sys.service.FieldService;
 import com.njfu.ia.sys.service.WarnRecordService;
 import com.njfu.ia.sys.service.WarnThresholdService;
-import com.njfu.ia.sys.utils.CommonConstants;
+import com.njfu.ia.sys.utils.Constants;
 import com.njfu.ia.sys.utils.PaginationResult;
 import com.njfu.ia.sys.utils.Result;
 import org.apache.shiro.SecurityUtils;
@@ -163,7 +163,7 @@ public class WarnController {
     public @ResponseBody
     Result getUnhandleRecordCount() {
         int count = 0;
-        if (SecurityUtils.getSubject().isPermitted(CommonConstants.WARN_PERM)) {
+        if (SecurityUtils.getSubject().isPermitted(Constants.WARN_PERM)) {
             count = warnRecordService.getUnhandleRecordCount();
         }
         return Result.response(ResultEnum.WARN, count);

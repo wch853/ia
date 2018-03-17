@@ -10,7 +10,7 @@ import com.njfu.ia.sys.enums.ResultEnum;
 import com.njfu.ia.sys.exception.BusinessException;
 import com.njfu.ia.sys.service.FieldService;
 import com.njfu.ia.sys.service.IrrigationPlanService;
-import com.njfu.ia.sys.utils.CommonConstants;
+import com.njfu.ia.sys.utils.Constants;
 import com.njfu.ia.sys.utils.PaginationResult;
 import com.njfu.ia.sys.utils.Result;
 import org.apache.commons.lang3.time.DateUtils;
@@ -146,7 +146,7 @@ public class ControlController {
     Result doExecute(String planId, String start) {
         try {
             // TODO do execute
-            Date date = DateUtils.parseDate(start, CommonConstants.DATE_MINUTE_FORMAT);
+            Date date = DateUtils.parseDate(start, Constants.DATE_MINUTE_FORMAT);
             if (date.compareTo(new Date()) < 0) {
                 throw new BusinessException("执行时间必须大于当前时间！");
             }

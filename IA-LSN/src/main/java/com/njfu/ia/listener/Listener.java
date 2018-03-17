@@ -1,6 +1,6 @@
 package com.njfu.ia.listener;
 
-import com.njfu.ia.listener.property.StaticProperty;
+import com.njfu.ia.listener.utils.Constants;
 import com.njfu.ia.listener.service.OnDataThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,8 @@ public class Listener {
 
     public static void main(String[] args) {
         // 在指定端口建立socket服务
-        try (ServerSocket serverSocket = new ServerSocket(StaticProperty.LISTEN_PORT)) {
-            LOGGER.info("server socket service established, listen port {}", StaticProperty.LISTEN_PORT);
+        try (ServerSocket serverSocket = new ServerSocket(Constants.LISTEN_PORT)) {
+            LOGGER.info("Server socket service established, listen port {}", Constants.LISTEN_PORT);
             while (true) {
                 // 阻塞状态，等待socket连接
                 Socket socket = serverSocket.accept();

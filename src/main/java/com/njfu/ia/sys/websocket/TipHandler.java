@@ -1,6 +1,6 @@
 package com.njfu.ia.sys.websocket;
 
-import com.njfu.ia.sys.utils.CommonConstants;
+import com.njfu.ia.sys.utils.Constants;
 import com.njfu.ia.sys.utils.JsonUtils;
 import com.njfu.ia.sys.utils.Result;
 import org.slf4j.Logger;
@@ -77,7 +77,7 @@ public class TipHandler extends AbstractWebSocketHandler {
             String res = JsonUtils.toJsonString(result);
             if (null != res) {
                 for (WebSocketSession webSocketSession : webSocketSessions) {
-                    if (null != webSocketSession.getAttributes().get(CommonConstants.WARN_PERM)) {
+                    if (null != webSocketSession.getAttributes().get(Constants.WARN_PERM)) {
                         // 该连接有报警查询权限才推送消息
                         webSocketSession.sendMessage(new TextMessage(res));
                     }

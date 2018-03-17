@@ -28,7 +28,7 @@ public class JsonUtils {
         try {
             json = MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            LOGGER.error("JsonUtils.toJsonString JsonProcessingException");
+            LOGGER.error("JsonUtils.toJsonString Exception", e);
         }
         return json;
     }
@@ -46,7 +46,7 @@ public class JsonUtils {
         try {
             t = MAPPER.readValue(json, clazz);
         } catch (IOException e) {
-            LOGGER.error("JsonUtils.toBean IOException");
+            LOGGER.error("JsonUtils.toBean Exception", e);
         }
         return t;
     }

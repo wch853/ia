@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.ia.process.mapper.EndDeviceMapper">
+
+    <select id="selectDeviceByMac" resultType="java.lang.Integer">
+        SELECT id, use_status
+        FROM end_device
+        WHERE mac = #{macAddress}
+    </select>
+
+</mapper>	

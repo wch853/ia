@@ -10,7 +10,7 @@ import com.njfu.ia.sys.mail.MailService;
 import com.njfu.ia.sys.mapper.EmployeeMapper;
 import com.njfu.ia.sys.mapper.WarnRecordMapper;
 import com.njfu.ia.sys.service.WarnRecordService;
-import com.njfu.ia.sys.utils.CommonConstants;
+import com.njfu.ia.sys.utils.Constants;
 import com.njfu.ia.sys.utils.Result;
 import com.njfu.ia.sys.websocket.TipHandler;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -47,7 +47,7 @@ public class WarnRecordServiceImpl implements WarnRecordService {
      * 扫描大棚状态表，出现异常数据，插入报警记录
      */
     @Override
-    @Scheduled(cron = CommonConstants.SCAN_FIELD_STATUS_CRON)
+    @Scheduled(cron = Constants.SCAN_FIELD_STATUS_CRON)
     public void scanFieldStatus() {
         try {
             long start = System.currentTimeMillis();
@@ -65,7 +65,7 @@ public class WarnRecordServiceImpl implements WarnRecordService {
                 tipHandler.broadcastTip(Result.response(ResultEnum.WARN, count));
                 LOGGER.info("warn count: {}", count);
 
-                if (CommonConstants.USE_WARN_MAIL) {
+                if (Constants.USE_WARN_MAIL) {
                     // 邮件推送开关打开，推送报警邮件
                     this.sendWarnMail(unHandleWarnRecords);
                 }
@@ -81,7 +81,7 @@ public class WarnRecordServiceImpl implements WarnRecordService {
     private void sendWarnMail(List<WarnRecord> warnRecords) {
         List<String> toList = new ArrayList<>();
         Employee employee = new Employee();
-        employee.setMailStatus(CommonConstants.SEND_WARN_MAIL);
+        employee.setMailStatus(Constants.SEND_WARN_MAIL);
         List<Employee> employees = employeeMapper.selectEmployees(employee);
         if (!CollectionUtils.isEmpty(employees)) {
             for (Employee emp : employees) {
@@ -95,12 +95,12 @@ public class WarnRecordServiceImpl implements WarnRecordService {
                 // 拼接邮件内容
                 StringBuilder sb = new StringBuilder();
                 for (WarnRecord warnRecord : warnRecords) {
-                    if (warnRecord.getWarnCount() < CommonConstants.SEND_MAIL_WARN_COUNT) {
+                    if (warnRecord.getWarnCount() < Constants.SEND_MAIL_WARN_COUNT) {
                         // 低于邮件推送报警次数最低限制，不推送
                         continue;
                     }
                     sb.append("大棚：").append(warnRecord.getFieldId()).append(" ")
-                            .append("报警时间：").append(DateFormatUtils.format(warnRecord.getWarnTime(), CommonConstants.DATE_SECOND_FORMAT)).append(" ")
+                            .append("报警时间：").append(DateFormatUtils.format(warnRecord.getWarnTime(), Constants.DATE_SECOND_FORMAT)).append(" ")
                             .append("报警类型：").append(DataTypeEnum.reflectMap.get(warnRecord.getWarnType())).append(" ")
                             .append("报警值：").append(warnRecord.getWarnVal()).append(" ")
                             .append("报警次数：").append(warnRecord.getWarnCount()).append("\r\n");

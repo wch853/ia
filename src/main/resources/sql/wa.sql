@@ -21,6 +21,20 @@ CREATE TABLE block (
   DEFAULT CHARSET = utf8
   COMMENT ='地块';
 
+DROP TABLE IF EXISTS section;
+CREATE TABLE section (
+  id           INT AUTO_INCREMENT NOT NULL
+  COMMENT '区块编号',
+  section_name VARCHAR(255)       NOT NULL
+  COMMENT '区块名称',
+  block_id     VARCHAR(255)       NOT NULL
+  COMMENT '所属地块编号',
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='区块';
+
 DROP TABLE IF EXISTS field;
 CREATE TABLE field (
   field_id   VARCHAR(255)             NOT NULL
@@ -166,6 +180,26 @@ CREATE TABLE terminal (
   DEFAULT CHARSET = utf8
   COMMENT ='终端';
 
+DROP TABLE IF EXISTS end_device;
+CREATE TABLE end_device (
+  id         INT AUTO_INCREMENT NOT NULL
+  COMMENT '终端编号',
+  model      VARCHAR(255)       NOT NULL
+  COMMENT '终端型号',
+  mac        VARCHAR(255)       NOT NULL
+  COMMENT 'mac地址',
+  section_id INT                NULL
+  COMMENT '所属区块编号',
+  use_status INT                NOT NULL DEFAULT 0
+  COMMENT '终端使用状态：0，未使用；1，使用中；2：故障中',
+  PRIMARY KEY (id),
+  KEY idx_use_status(use_status),
+  UNIQUE KEY (mac)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='终端';
+
 DROP TABLE IF EXISTS data_record;
 CREATE TABLE data_record (
   id          INT AUTO_INCREMENT NOT NULL
@@ -185,6 +219,29 @@ CREATE TABLE data_record (
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
   COMMENT ='数据记录';
+
+DROP TABLE IF EXISTS upload_data_record;
+CREATE TABLE upload_data_record (
+  id            INT AUTO_INCREMENT NOT NULL
+  COMMENT '数据记录编号',
+  end_device_id INT                NOT NULL
+  COMMENT '来源区块编号',
+  data_type     INT                NOT NULL
+  COMMENT '数据类型编号',
+  value         DOUBLE(8, 2)       NOT NULL
+  COMMENT '数据记录值',
+  receive_time  DATETIME           NOT NULL
+  COMMENT '数据上传时间',
+  record_time   DATETIME           NOT NULL DEFAULT NOW()
+  COMMENT '数据记录时间',
+  PRIMARY KEY (id),
+  KEY idx_section_id(end_device_id),
+  KEY idx_data_type(data_type),
+  KEY idx_receive_time(receive_time)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='数据上传记录';
 
 DROP TABLE IF EXISTS field_status;
 CREATE TABLE field_status (
@@ -300,14 +357,17 @@ CREATE TABLE tmp_data (
   
 DROP TABLE IF EXISTS data_type;
 CREATE TABLE data_type (
-  id INT AUTO_INCREMENT NOT NULL
+  id              INT AUTO_INCREMENT NOT NULL
   COMMENT '数据类型编号',
-  data_type_name      VARCHAR(255) NOT NULL
+  data_type_name  VARCHAR(255)       NOT NULL
   COMMENT '数据类型名称',
-  use_status   TINYINT      NOT NULL DEFAULT 1
+  data_short_name VARCHAR(3)         NOT NULL
+  COMMENT '数据类型缩写',
+  use_status      TINYINT            NOT NULL DEFAULT 1
   COMMENT '使用状态 0-无效，1-有效',
   PRIMARY KEY (id),
-  UNIQUE KEY (data_type_name)
+  UNIQUE KEY (data_type_name),
+  UNIQUE KEY (data_short_name)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -965,3 +1025,9 @@ INSERT INTO ia.user_roles (user_id, role_id) VALUES (1, 1);
  * role_permissions
  */
 INSERT INTO ia.role_permissions (role_id, permission_id) VALUES (1, 1);
+
+/**
+ * end_device
+ */
+INSERT INTO ia.end_device (id, model, mac, section_id, use_status) VALUES (1, 'cc2530', '5C-93-A2-FE-2E-BA', NULL, 0);
+INSERT INTO ia.end_device (id, model, mac, section_id, use_status) VALUES (2, 'cc2530', 'C6-AC-9E-17-1D-52', NULL, 0);

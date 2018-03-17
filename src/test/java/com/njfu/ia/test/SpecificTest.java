@@ -1,13 +1,9 @@
 package com.njfu.ia.test;
 
-import com.njfu.ia.sys.domain.Block;
-import com.njfu.ia.sys.utils.JsonUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.util.DigestUtils;
 
 public class SpecificTest {
 
@@ -22,10 +18,7 @@ public class SpecificTest {
 
     @Test
     public void test1() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("blockId", "f1");
-
-        Block block = JsonUtils.toBean(JsonUtils.toJsonString(map), Block.class);
-        System.out.println(block);
+        String md5 = DigestUtils.md5DigestAsHex(String.valueOf(System.currentTimeMillis()).getBytes());
+        System.out.println(md5);
     }
 }

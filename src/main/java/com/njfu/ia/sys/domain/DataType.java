@@ -13,6 +13,11 @@ public class DataType {
     private String dataTypeName;
 
     /**
+     * 数据类型缩写
+     */
+    private String dataShortName;
+
+    /**
      * 使用状态 0，未使用 1，使用中
      */
     private Integer useStatus;
@@ -34,6 +39,14 @@ public class DataType {
 
     public void setDataTypeName(String dataTypeName) {
         this.dataTypeName = dataTypeName;
+    }
+
+    public String getDataShortName() {
+        return dataShortName;
+    }
+
+    public void setDataShortName(String dataShortName) {
+        this.dataShortName = dataShortName;
     }
 
     public Integer getUseStatus() {

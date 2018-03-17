@@ -3,7 +3,7 @@ package com.njfu.ia.sys.mapper;
 import com.njfu.ia.sys.domain.Permission;
 import com.njfu.ia.sys.domain.Role;
 import com.njfu.ia.sys.domain.User;
-import com.njfu.ia.sys.utils.CommonConstants;
+import com.njfu.ia.sys.utils.Constants;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -130,7 +130,7 @@ public class SecurityMapperTest {
     public void updateUser() throws Exception {
         User user = new User();
         user.setId(id);
-        user.setStatus(CommonConstants.INVALID_USER_STATUS);
+        user.setStatus(Constants.INVALID_USER_STATUS);
 
         int res = securityMapper.updateUser(user);
         Assert.assertEquals(1, res);

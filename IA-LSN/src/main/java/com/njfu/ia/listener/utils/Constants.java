@@ -1,9 +1,9 @@
-package com.njfu.ia.listener.property;
+package com.njfu.ia.listener.utils;
 
 import java.util.Collections;
 import java.util.List;
 
-public interface StaticProperty {
+public interface Constants {
 
     /**
      * 监听端口
@@ -11,14 +11,14 @@ public interface StaticProperty {
     int LISTEN_PORT = 9040;
 
     /**
-     * 协议消息开始标志
+     * 协议消息开始标志（S）
      */
     byte START_FLAG = 0x53;
 
     /**
-     * 协议消息结束标志
+     * 协议消息结束标志（T）
      */
-    byte END_FLAG = 0x45;
+    byte END_FLAG = 0x54;
 
     /**
      * amq broker url
@@ -34,6 +34,11 @@ public interface StaticProperty {
      * 队列集合
      */
     List<String> MQ_LIST = Collections.singletonList(AMQ_UPLOAD_DATA);
+
+    /**
+     * 数据下行主题
+     */
+    String AMQ_DOWNLOAD_DATA = "topic.ia.download.command";
 
     /**
      * socket字节流异常重读次数

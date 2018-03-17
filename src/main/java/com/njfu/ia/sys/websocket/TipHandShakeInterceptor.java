@@ -1,6 +1,6 @@
 package com.njfu.ia.sys.websocket;
 
-import com.njfu.ia.sys.utils.CommonConstants;
+import com.njfu.ia.sys.utils.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -39,8 +39,8 @@ public class TipHandShakeInterceptor implements HandshakeInterceptor {
             // 用户经过认证才能获取websocket连接
             subject = SecurityUtils.getSubject();
             // 验证websocket推送权限
-            if (subject.isPermitted(CommonConstants.WARN_PERM)) {
-                attributes.put(CommonConstants.WARN_PERM, Boolean.TRUE);
+            if (subject.isPermitted(Constants.WARN_PERM)) {
+                attributes.put(Constants.WARN_PERM, Boolean.TRUE);
             }
             return subject.isAuthenticated();
         } catch (Exception e) {

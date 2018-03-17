@@ -1,14 +1,17 @@
 package com.njfu.ia.listener.service;
 
 import com.njfu.ia.listener.connection.Connections;
-import com.njfu.ia.listener.mq.AmqProducer;
-import com.njfu.ia.listener.property.StaticProperty;
+import com.njfu.ia.listener.jms.JmsHandler;
+import com.njfu.ia.listener.utils.JsonUtils;
+import com.njfu.ia.listener.utils.Constants;
+import com.njfu.ia.listener.domain.UploadRet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.util.Date;
 
 /**
  * socket服务端接收线程，处理上行数据
@@ -58,7 +61,7 @@ public class OnDataThread extends Thread {
                     }
                 } catch (IOException e) {
                     LOGGER.error("read stream Exception", e);
-                    if (++tryReadCount == StaticProperty.DEFAULT_TRY_READ_COUNT_LIMIT) {
+                    if (++tryReadCount == Constants.DEFAULT_TRY_READ_COUNT_LIMIT) {
                         // 达到异常重读数量上限，抛出异常给外层处理
                         throw new Exception(e);
                     }
@@ -77,11 +80,11 @@ public class OnDataThread extends Thread {
      */
     private void analysisMessage(byte[] data) {
         for (byte single : data) {
-            if (StaticProperty.START_FLAG == single) {
+            if (Constants.START_FLAG == single) {
                 // 读到开始标志，打开读入缓存标志
                 allowBufRead = Boolean.TRUE;
                 continue;
-            } else if (StaticProperty.END_FLAG == single) {
+            } else if (Constants.END_FLAG == single) {
                 // 读到结束标志，关闭读入缓存标志
                 allowBufRead = Boolean.FALSE;
                 int msgBufLen = messageBuffer.length();
@@ -91,8 +94,12 @@ public class OnDataThread extends Thread {
                     // 截取有效消息体
                     String validMsg = messageBuffer.substring(0, msgBufLen - 1);
                     if (validMsgLen == validMsg.length()) {
-                        // 验证为有效消息，推送队列
-                        AmqProducer.send(StaticProperty.AMQ_UPLOAD_DATA, validMsg);
+                        // 验证为有效消息，组装为json数据
+                        String json = JsonUtils.toJsonString(new UploadRet(new Date(), validMsg));
+                        // 推送队列
+                        if (null != json) {
+                            JmsHandler.send(Constants.AMQ_UPLOAD_DATA, validMsg);
+                        }
                         // 消息缓存清空
                         messageBuffer.setLength(0);
                     }
