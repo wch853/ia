@@ -5,17 +5,87 @@ public interface Constants {
     /**
      * 数据上行队列
      */
-    String AMQ_UPLOAD_DATA = "queue.ia.upload.data";
+    String QUEUE_UPSTREAM_DATA = "queue.ia.upstream.data";
 
     /**
-     * 数据下行主题
+     * 命令反馈队列
      */
-    String AMQ_DOWNLOAD_DATA = "topic.ia.download.data";
+    String QUEUE_INFORM_COMMAND = "queue.ia.inform.command";
 
     /**
-     * 终端设备心跳通知
+     * 上线通知/心跳反馈队列
      */
-    String AMQ_INFORM_HERAT = "queue.ia.inform.heart";
+    String QUEUE_UPSTREAM_HEART = "queue.ia.upstream.heart";
+
+    /**
+     * 上线提示
+     */
+    String QUEUE_INFORM_HEART = "queue.ia.inform. heart";
+
+    /**
+     * 报警通知
+     */
+    String QUEUE_INFORM_ALARM = "queue.ia.inform.alarm";
+
+    /**
+     * 心跳下行主题
+     */
+    String TOPIC_DOWNSTREAM_HEART = "topic.ia.downstream.heart";
+
+    /**
+     * 命令下行主题
+     */
+    String TOPIC_DOWNSTREAM_COMMAND = "topic.ia.downstream.command";
+
+    /**
+     * 消息类型-上线
+     */
+    int MESSAGE_UPSTREAM_ON = 0;
+
+    /**
+     * 消息类型-分配设备编号
+     */
+    int MESSAGE_DOWNSTREAM_ON = 1;
+
+    /**
+     * 消息类型-上线提示
+     */
+    int MESSAGE_INFORM_ON = 2;
+
+    /**
+     * 消息类型-上行数据
+     */
+    int MESSAGE_UPSTREAM_DATA = 3;
+
+    /**
+     * 消息类型-报警通知
+     */
+    int MESSAGE_INFORM_ALARM = 4;
+
+    /**
+     * 消息类型-下达命令
+     */
+    int MESSAGE_DOWNSTREAM_COMMAND = 5;
+
+    /**
+     * 消息类型-反馈命令
+     */
+    int MESSAGE_INFORM_COMMAND = 6;
+
+    /**
+     * 消息类型-心跳指令
+     */
+    int MESSAGE_DOWNSTREAM_HEART = 7;
+
+    /**
+     * 消息类型-心跳反馈
+     */
+    int MESSAGE_UPSTREAM_HEART = 8;
+
+    /**
+     * 消息类型-终端失联通知
+     */
+    int MESSAGE_INFORM_HEART = 9;
 
     /**
      * 默认消费者数量范围 TODO 使用JMX控制
@@ -28,9 +98,19 @@ public interface Constants {
     String REDIS_SUCCESS_MSG = "OK";
 
     /**
-     * 更新监控数据类型时间(millisecond)
+     * 更新监控数据类型间隔时间(millisecond)
      */
     int UPDATE_DATA_TYPE_TIME = 5 * 60 * 1000;
+
+    /**
+     * 心跳任务间隔时间(millisecond)
+     */
+    int HEART_TASK_TIME = 45 * 60 * 1000;
+
+    /**
+     * 心跳反馈限制时间(millisecond)
+     */
+    int HEART_BACK_LIMIT_TIME = 5 * 60 * 1000;
 
     /**
      * 数据分隔标志
@@ -70,17 +150,20 @@ public interface Constants {
     /**
      * 命令消息关键字
      */
-    String RET_ORDER_ID = "cid";
+    String RET_COMMAN_ID = "cid";
 
     /**
      * 使用状态-未使用
      */
-    int unuse = 0;
+    int UNUSE = 0;
 
     /**
      * 使用中
      */
-    int inuse = 1;
+    int INUSE = 1;
 
+    /**
+     * 故障中
+     */
     int ERROR = 2;
 }

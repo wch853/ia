@@ -3,14 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.njfu.ia.process.mapper.UploadDataRecordMapper">
+<mapper namespace="com.njfu.ia.process.mapper.UpstreamDataRecordMapper">
 
     <insert id="batchInsertDataRecords">
-        INSERT INTO upload_data_record(end_device_id, data_type, value, receive_time)
+        INSERT INTO upstream_data_record(id, data_type, value, receive_time)
         VALUES
-        <foreach collection="uploadDataRecords" item="record" separator=",">
+        <foreach collection="upstreamDataRecords" item="record" separator=",">
             (#{record.endDeviceId}, #{record.dataType}, #{record.value}, #{record.receiveTime})
         </foreach>
     </insert>
+
+    <select id="selectNoRecordDevice" resultType="java.lang.Integer">
+        SELECT DISTINCT device_id
+        FROM upstream_data_record
+        WHERE record_time >= DATE_ADD(NOW(), INTERVAL -#{second} SECOND)
+        AND device_id IN
+        <foreach collection="deviceIds" item="deviceId" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </select>
 
 </mapper>	

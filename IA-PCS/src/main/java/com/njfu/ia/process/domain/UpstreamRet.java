@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * 上行报文
  */
-public class UploadRet {
+public class UpstreamRet {
 
     /**
      * 侦听数据获取时间
@@ -17,7 +17,7 @@ public class UploadRet {
      */
     private String data;
 
-    public UploadRet(Date receiveTime, String data) {
+    public UpstreamRet(Date receiveTime, String data) {
         this.receiveTime = receiveTime;
         this.data = data;
     }

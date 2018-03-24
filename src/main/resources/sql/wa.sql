@@ -182,16 +182,20 @@ CREATE TABLE terminal (
 
 DROP TABLE IF EXISTS end_device;
 CREATE TABLE end_device (
-  id         INT AUTO_INCREMENT NOT NULL
+  id          INT AUTO_INCREMENT NOT NULL
   COMMENT '终端编号',
-  model      VARCHAR(255)       NOT NULL
+  model       VARCHAR(255)       NOT NULL
   COMMENT '终端型号',
-  mac        VARCHAR(255)       NOT NULL
+  mac         VARCHAR(255)       NOT NULL
   COMMENT 'mac地址',
-  section_id INT                NULL
+  section_id  INT                NULL
   COMMENT '所属区块编号',
-  use_status INT                NOT NULL DEFAULT 0
+  use_status  INT                NOT NULL DEFAULT 0
   COMMENT '终端使用状态：0，未使用；1，使用中；2：故障中',
+  create_time DATETIME           NOT NULL DEFAULT NOW()
+  COMMENT '创建时间',
+  update_time DATETIME           NOT NULL DEFAULT NOW() ON UPDATE NOW()
+  COMMENT '更新时间',
   PRIMARY KEY (id),
   KEY idx_use_status(use_status),
   UNIQUE KEY (mac)
@@ -220,12 +224,12 @@ CREATE TABLE data_record (
   DEFAULT CHARSET = utf8
   COMMENT ='数据记录';
 
-DROP TABLE IF EXISTS upload_data_record;
-CREATE TABLE upload_data_record (
+DROP TABLE IF EXISTS upstream_data_record;
+CREATE TABLE upstream_data_record (
   id            INT AUTO_INCREMENT NOT NULL
   COMMENT '数据记录编号',
-  end_device_id INT                NOT NULL
-  COMMENT '来源区块编号',
+  device_id INT                NOT NULL
+  COMMENT '来源终端设备编号',
   data_type     INT                NOT NULL
   COMMENT '数据类型编号',
   value         DOUBLE(8, 2)       NOT NULL
@@ -235,7 +239,7 @@ CREATE TABLE upload_data_record (
   record_time   DATETIME           NOT NULL DEFAULT NOW()
   COMMENT '数据记录时间',
   PRIMARY KEY (id),
-  KEY idx_section_id(end_device_id),
+  KEY idx_section_id(device_id),
   KEY idx_data_type(data_type),
   KEY idx_receive_time(receive_time)
 )
@@ -324,6 +328,32 @@ CREATE TABLE warn_record (
   DEFAULT CHARSET = utf8
   COMMENT ='报警记录';
 
+DROP TABLE IF EXISTS alarm_record;
+CREATE TABLE alarm_record (
+  id          INT AUTO_INCREMENT NOT NULL
+  COMMENT '报警记录编号',
+  device_id   INT                NOT NULL
+  COMMENT '来源终端设备编号',
+  data_type   INT                NOT NULL
+  COMMENT '数据类型',
+  value       DOUBLE(8, 2)       NOT NULL
+  COMMENT '数据值',
+  alarm_time  DATETIME           NOT NULL DEFAULT NOW()
+  COMMENT '报警时间',
+  handle_time DATETIME                    DEFAULT NULL
+  COMMENT '处理时间',
+  handle_flag INT                NOT NULL DEFAULT 0
+  COMMENT '处理标志 0-未处理 1-已处理 2-已忽略',
+  PRIMARY KEY (id),
+  KEY idx_device_id(device_id),
+  KEY idx_data_type(data_type),
+  KEY idx_alarm_time(alarm_time),
+  KEY idx_handle_flag(handle_flag)
+)
+  ENGINE = INNODB
+  DEFAULT CHARSET = utf8
+  COMMENT ='报警记录';
+
 DROP TABLE IF EXISTS warn_threshold;
 CREATE TABLE warn_threshold (
   id             INT AUTO_INCREMENT       NOT NULL
@@ -354,7 +384,7 @@ CREATE TABLE tmp_data (
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
   COMMENT ='大棚临时数据表';
-  
+
 DROP TABLE IF EXISTS data_type;
 CREATE TABLE data_type (
   id              INT AUTO_INCREMENT NOT NULL
@@ -363,8 +393,12 @@ CREATE TABLE data_type (
   COMMENT '数据类型名称',
   data_short_name VARCHAR(3)         NOT NULL
   COMMENT '数据类型缩写',
+  floor          DOUBLE(8, 2)             NOT NULL
+  COMMENT '阈值下限',
+  ceil           DOUBLE(8, 2)             NOT NULL
+  COMMENT '阈值上限',
   use_status      TINYINT            NOT NULL DEFAULT 1
-  COMMENT '使用状态 0-无效，1-有效',
+  COMMENT '使用状态 0-未使用，1-使用中',
   PRIMARY KEY (id),
   UNIQUE KEY (data_type_name),
   UNIQUE KEY (data_short_name)
@@ -1029,5 +1063,20 @@ INSERT INTO ia.role_permissions (role_id, permission_id) VALUES (1, 1);
 /**
  * end_device
  */
-INSERT INTO ia.end_device (id, model, mac, section_id, use_status) VALUES (1, 'cc2530', '5C-93-A2-FE-2E-BA', NULL, 0);
-INSERT INTO ia.end_device (id, model, mac, section_id, use_status) VALUES (2, 'cc2530', 'C6-AC-9E-17-1D-52', NULL, 0);
+INSERT INTO ia.end_device (id, model, mac, section_id, use_status, create_time, update_time)
+VALUES (1, 'cc2530', '00-12-4B-00-03-98-A1-AB', NULL, 0, NOW(), NOW());
+INSERT INTO ia.end_device (id, model, mac, section_id, use_status, create_time, update_time)
+VALUES (2, 'cc2530', '00-12-4B-00-9E-17-1D-52', NULL, 0, NOW(), NOW());
+
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (1, '温度', 't', 15, 45, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (2, '湿度', 'h', 15, 45, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (3, '土壤温度', 'st', 15, 45, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (4, '土壤湿度', 'sh', 15, 45, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (5, '光照度', 'l', 3000, 60000, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (6, '二氧化碳含量', 'co2', 350, 1000, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (7, 'pH值', 'ph', 6.5, 8.5, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (8, '氮含量', 'n', 30, 100, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (9, '磷含量', 'p', 5, 30, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (10, '钾含量', 'k', 30, 160, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (11, '汞含量', 'hg', 0.15, 1.5, 1);
+INSERT INTO ia.data_type (id, data_type_name, data_short_name, floor, ceil, use_status) VALUES (12, '铅含量', 'pb', 35, 500, 1);

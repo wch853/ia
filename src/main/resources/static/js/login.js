@@ -5,7 +5,6 @@ var login = {
         $('#error-message').hide();
 
         var height = $(window).height();
-        console.log(height);
         if (height < 600) {
             $('.content').css({
                 'position': 'relative',

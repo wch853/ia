@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 上行数据记录
  */
-public class UploadDataRecord {
+public class UpstreamDataRecord {
 
     /**
      * 记录编号
@@ -15,9 +15,9 @@ public class UploadDataRecord {
     private Integer id;
 
     /**
-     * 来源区块编号
+     * 来源终端设备编号
      */
-    private Integer endDeviceId;
+    private Integer deviceId;
 
     /**
      * 数据类型
@@ -41,7 +41,7 @@ public class UploadDataRecord {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date recordTime;
 
-    public UploadDataRecord() {
+    public UpstreamDataRecord() {
     }
 
     public Integer getId() {
@@ -52,12 +52,12 @@ public class UploadDataRecord {
         this.id = id;
     }
 
-    public Integer getEndDeviceId() {
-        return endDeviceId;
+    public Integer getDeviceId() {
+        return deviceId;
     }
 
-    public void setEndDeviceId(Integer endDeviceId) {
-        this.endDeviceId = endDeviceId;
+    public void setDeviceId(Integer deviceId) {
+        this.deviceId = deviceId;
     }
 
     public Integer getDataType() {
@@ -90,17 +90,5 @@ public class UploadDataRecord {
 
     public void setRecordTime(Date recordTime) {
         this.recordTime = recordTime;
-    }
-
-    @Override
-    public String toString() {
-        return "UploadDataRecord{" +
-                "id=" + id +
-                ", endDeviceId=" + endDeviceId +
-                ", dataType=" + dataType +
-                ", value=" + value +
-                ", receiveTime=" + receiveTime +
-                ", recordTime=" + recordTime +
-                '}';
     }
 }

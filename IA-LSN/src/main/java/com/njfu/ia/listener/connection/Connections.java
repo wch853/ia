@@ -27,7 +27,7 @@ public class Connections {
      */
     public static void join(Socket socket) {
         CURRENT_CONNECT.add(socket);
-        LOGGER.info("new socket established, ip: {}, remote port: {}", socket.getInetAddress(), socket.getPort());
+        LOGGER.info("new socket established, ip: {}", socket.getInetAddress());
     }
 
     /**
@@ -57,8 +57,9 @@ public class Connections {
         for (Socket socket : CURRENT_CONNECT) {
             try (OutputStream os = socket.getOutputStream()) {
                 os.write(data);
+                os.flush();
             } catch (Exception e) {
-                LOGGER.error("write download data Exception", e);
+                LOGGER.error("write downstream data Exception", e);
             }
         }
     }

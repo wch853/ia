@@ -1,5 +1,8 @@
 package com.njfu.ia.process.domain;
 
+/**
+ * 数据类型
+ */
 public class DataType {
 
     /**
@@ -16,6 +19,16 @@ public class DataType {
      * 数据类型缩写
      */
     private String dataShortName;
+
+    /**
+     * 数据下限
+     */
+    private Double floor;
+
+    /**
+     * 数据上限
+     */
+    private Double ceil;
 
     /**
      * 使用状态 0，未使用 1，使用中
@@ -49,6 +62,22 @@ public class DataType {
         this.dataShortName = dataShortName;
     }
 
+    public Double getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Double floor) {
+        this.floor = floor;
+    }
+
+    public Double getCeil() {
+        return ceil;
+    }
+
+    public void setCeil(Double ceil) {
+        this.ceil = ceil;
+    }
+
     public Integer getUseStatus() {
         return useStatus;
     }
@@ -62,6 +91,9 @@ public class DataType {
         return "DataType{" +
                 "id=" + id +
                 ", dataTypeName='" + dataTypeName + '\'' +
+                ", dataShortName='" + dataShortName + '\'' +
+                ", floor=" + floor +
+                ", ceil=" + ceil +
                 ", useStatus=" + useStatus +
                 '}';
     }

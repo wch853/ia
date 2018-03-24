@@ -6,9 +6,55 @@
 <mapper namespace="com.njfu.ia.process.mapper.EndDeviceMapper">
 
     <select id="selectDeviceByMac" resultType="java.lang.Integer">
-        SELECT id, use_status
+        SELECT
+            id,
+            use_status
         FROM end_device
         WHERE mac = #{macAddress}
     </select>
+
+    <update id="updateDevice">
+        UPDATE end_device
+        <set>
+            <if test="null != model">
+                model = #{model}
+            </if>
+            <if test="null != mac">
+                mac = #{mac}
+            </if>
+            <if test="null != sectionId">
+                section_id = #{sectionId}
+            </if>
+            <if test="null != useStatus">
+                use_status = #{useStatus}
+            </if>
+        </set>
+        WHERE id = #{deviceId}
+    </update>
+
+    <select id="selectDevice" resultType="java.lang.Integer">
+        SELECT id
+        FROM end_device
+        <where>
+            <if test="null != useStatus">
+                use_status = #{useStatus}
+            </if>
+            <if test="null != deviceIds">
+                AND id IN
+                <foreach collection="deviceIds" item="deviceId" open="(" separator="," close=",">
+                    #{deviceId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <update id="batchUpdateDeviceUseStatus">
+        UPDATE end_device
+        SET use_status = #{useStatus}
+        WHERE id IN
+        <foreach collection="deviceIds" item="deviceId" open="(" separator="," close=",">
+            #{deviceId}
+        </foreach>
+    </update>
 
 </mapper>	

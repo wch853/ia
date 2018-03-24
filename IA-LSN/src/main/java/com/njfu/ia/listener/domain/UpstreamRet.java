@@ -1,15 +1,18 @@
 package com.njfu.ia.listener.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
- * 上行报文
+ * 上行数据报文
  */
-public class UploadRet {
+public class UpstreamRet {
 
     /**
-     * 侦听数据获取时间
+     * 数据接收时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date receiveTime;
 
     /**
@@ -17,7 +20,7 @@ public class UploadRet {
      */
     private String data;
 
-    public UploadRet(Date receiveTime, String data) {
+    public UpstreamRet(Date receiveTime, String data) {
         this.receiveTime = receiveTime;
         this.data = data;
     }

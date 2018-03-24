@@ -1,12 +1,12 @@
 package com.njfu.ia.listener.jms;
 
-import com.njfu.ia.listener.connection.Connections;
 import com.njfu.ia.listener.utils.Constants;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jms.*;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,7 +22,7 @@ public class JmsHandler {
     /**
      * 队列生产者集合
      */
-    private static Map<String, MessageProducer> AMQ_MAP;
+    private static Map<String, MessageProducer> PRODUCERS;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JmsHandler.class);
 
@@ -57,50 +57,61 @@ public class JmsHandler {
      * @throws JMSException JMSException
      */
     private static void registerProducer(Session session) throws JMSException {
-        for (String mqName : Constants.MQ_LIST) {
+        PRODUCERS = new HashMap<>(Constants.LSN_PRODUCER_DESTINATIONS.size());
+        for (String mqName : Constants.LSN_PRODUCER_DESTINATIONS) {
             Queue destination = session.createQueue(mqName);
             MessageProducer producer = session.createProducer(destination);
-            AMQ_MAP.put(mqName, producer);
+            PRODUCERS.put(mqName, producer);
         }
     }
 
     /**
-     * 启动下行数据主题消费者
+     * 启动下行命令主题/下行心跳主题消费者
      *
      * @param session session
      * @throws JMSException JMSException
      */
     private static void establishConsumer(Session session) throws JMSException {
-        Topic destination = session.createTopic(Constants.AMQ_DOWNLOAD_DATA);
-        MessageConsumer consumer = session.createConsumer(destination);
-        consumer.setMessageListener(new MessageListener() {
+        // 下行命令主题地址
+        Topic downstreamCommandTopic = session.createTopic(Constants.TOPIC_DOWNSTREAM_COMMAND);
+        // 下行心跳主题地址
+        Topic downstreamHeartTopic = session.createTopic(Constants.TOPIC_DOWNSTREAM_HEART);
 
-            @Override
-            public void onMessage(Message message) {
-                if (message instanceof TextMessage) {
-                    try {
-                        String order = ((TextMessage) message).getText();
-                        LOGGER.info("socket service consumer message: {}", order);
-                        Connections.broadcast(order.getBytes());
-                    } catch (Exception e) {
-                        LOGGER.error("socket service download Exception", e);
-                    }
-                }
-            }
-        });
+        // 下行命令主题消费者
+        MessageConsumer downstreamCommandConsumer = session.createConsumer(downstreamCommandTopic);
+        downstreamCommandConsumer.setMessageListener(new DownstreamMessageListener());
+
+        // 下行心跳主题消费者
+        MessageConsumer downstreamHeartConsumer = session.createConsumer(downstreamHeartTopic);
+        downstreamHeartConsumer.setMessageListener(new DownstreamMessageListener());
     }
 
     /**
      * 推送消息
      *
-     * @param mqName  mqName
-     * @param message message
+     * @param msgType msgType
+     * @param message     message
      */
-    public static void send(String mqName, String message) {
+    public static void send(int msgType, String message) {
+        String queueName = null;
+        switch (msgType) {
+            case Constants.MESSAGE_UPSTREAM_DATA:
+                queueName = Constants.QUEUE_UPSTREAM_DATA;
+                break;
+            case Constants.MESSAGE_INFORM_COMMAND:
+                queueName = Constants.QUEUE_INFORM_COMMAND;
+                break;
+            case Constants.MESSAGE_UPSTREAM_ON:
+            case Constants.MESSAGE_UPSTREAM_HEART:
+                queueName = Constants.QUEUE_UPSTREAM_HEART;
+                break;
+            default:
+                break;
+        }
         try {
-            AMQ_MAP.get(mqName).send(session.createTextMessage(message));
+            PRODUCERS.get(queueName).send(session.createTextMessage(message));
         } catch (Exception e) {
-            LOGGER.error("socket service upload Exception", e);
+            LOGGER.error("socket service upstream Exception", e);
         }
     }
 }

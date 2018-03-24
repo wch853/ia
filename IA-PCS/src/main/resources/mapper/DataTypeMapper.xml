@@ -6,8 +6,13 @@
 <mapper namespace="com.njfu.ia.process.mapper.DataTypeMapper">
 
     <select id="selectDataTypes" resultType="DataType">
-        SELECT id, data_short_name
+        SELECT id, data_short_name, floor, ceil
         FROM data_type
+        <where>
+            <if test="null != useStatus">
+                use_status = #{useStatus}
+            </if>
+        </where>
     </select>
 
 </mapper>	

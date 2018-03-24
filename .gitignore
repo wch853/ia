@@ -1,6 +1,10 @@
+# classes
 target/
+
+# log
 log/
 
+# properties
 application.yml
 
 ### IntelliJ IDEA ###

@@ -1,14 +1,13 @@
 package com.njfu.ia.listener.service;
 
 import com.njfu.ia.listener.connection.Connections;
+import com.njfu.ia.listener.domain.UpstreamRet;
 import com.njfu.ia.listener.jms.JmsHandler;
-import com.njfu.ia.listener.utils.JsonUtils;
 import com.njfu.ia.listener.utils.Constants;
-import com.njfu.ia.listener.domain.UploadRet;
+import com.njfu.ia.listener.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.Date;
@@ -59,7 +58,7 @@ public class OnDataThread extends Thread {
                             this.analysisMessage(data);
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     LOGGER.error("read stream Exception", e);
                     if (++tryReadCount == Constants.DEFAULT_TRY_READ_COUNT_LIMIT) {
                         // 达到异常重读数量上限，抛出异常给外层处理
@@ -90,19 +89,19 @@ public class OnDataThread extends Thread {
                 int msgBufLen = messageBuffer.length();
                 if (msgBufLen > 0) {
                     // 读到结束标志且消息缓存不为空，验证检校位
-                    byte validMsgLen = (byte) (messageBuffer.charAt(msgBufLen - 1) - 1);
+                    byte validMsgLen = (byte) messageBuffer.charAt(msgBufLen - 1);
                     // 截取有效消息体
                     String validMsg = messageBuffer.substring(0, msgBufLen - 1);
                     if (validMsgLen == validMsg.length()) {
-                        // 验证为有效消息，组装为json数据
-                        String json = JsonUtils.toJsonString(new UploadRet(new Date(), validMsg));
-                        // 推送队列
-                        if (null != json) {
-                            JmsHandler.send(Constants.AMQ_UPLOAD_DATA, validMsg);
+                        // 验证为有效消息
+                        Integer messageType = Character.getNumericValue(validMsg.charAt(Constants.MESSAGE_TYPE_IDX));
+                        if (Constants.MESSAGE_TYPES.contains(messageType)) {
+                            String messageBody = JsonUtils.toJsonString(new UpstreamRet(new Date(), validMsg));
+                            JmsHandler.send(messageType, messageBody);
                         }
-                        // 消息缓存清空
-                        messageBuffer.setLength(0);
                     }
+                    // 消息缓存清空
+                    messageBuffer.setLength(0);
                 }
             }
 

@@ -1,5 +1,9 @@
 package com.njfu.ia.sys.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
+
 /**
  * 设备终端
  */
@@ -29,6 +33,18 @@ public class EndDevice {
      * 终端使用状态：0，未使用；1，使用中；2：故障中
      */
     private Integer useStatus;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
 
     public EndDevice() {
     }
@@ -73,6 +89,22 @@ public class EndDevice {
         this.useStatus = useStatus;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "EndDevice{" +
@@ -81,6 +113,8 @@ public class EndDevice {
                 ", mac='" + mac + '\'' +
                 ", sectionId=" + sectionId +
                 ", useStatus=" + useStatus +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }

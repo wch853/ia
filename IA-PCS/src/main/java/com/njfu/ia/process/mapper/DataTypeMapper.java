@@ -11,7 +11,8 @@ public interface DataTypeMapper {
     /**
      * 查询所有数据类型
      *
+     * @param dataType dataType
      * @return return
      */
-    List<DataType> selectDataTypes();
+    List<DataType> selectDataTypes(DataType dataType);
 }
