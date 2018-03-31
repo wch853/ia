@@ -22,7 +22,7 @@ $('.field-card').hover(function () {
             fieldId: fieldId
         },
         success: function (res) {
-            if (res.code === 201) {
+            if (res.code == 201) {
                 $card.popover('destroy').popover({
                     title: '大棚编号：' + fieldId + '<span class="card-times close text-right">&times;</span>',
                     placement: 'auto',

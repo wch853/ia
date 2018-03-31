@@ -70,7 +70,7 @@ public class AuthController {
             securityService.addUser(user);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -108,7 +108,7 @@ public class AuthController {
             Map<String, List<Role>> classifyRoles = securityService.classifyRoles(userId);
             return Result.response(ResultEnum.DATA, classifyRoles);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -131,7 +131,7 @@ public class AuthController {
             securityService.saveUserRoles(userId, roleIds);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -152,7 +152,7 @@ public class AuthController {
             securityService.modifyUser(user, prePassword);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -173,7 +173,7 @@ public class AuthController {
             securityService.removeUser(userId);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -194,7 +194,7 @@ public class AuthController {
             securityService.addRole(role);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -215,7 +215,7 @@ public class AuthController {
             Map<String, Object> map = securityService.classifyPermissions(roleId);
             return Result.response(ResultEnum.DATA, map);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -238,7 +238,7 @@ public class AuthController {
             securityService.saveRolePermissions(roleId, permissionIds);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -259,7 +259,7 @@ public class AuthController {
             securityService.removeRole(roleId);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

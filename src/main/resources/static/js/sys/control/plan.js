@@ -58,28 +58,28 @@ var plan = {
         });
 
         // 查询
-        $('#queryBtn').click(function () {
+        $('#query-btn').click(function () {
             $('#plan-table').bootstrapTable('selectPage', 1);
         });
 
         // 重置
-        $('#resetBtn').click(function () {
-            $('#queryToolBar :text').val('');
+        $('#reset-btn').click(function () {
+            $('#query-tool-bar :text').val('');
             $('#plan-table').bootstrapTable('selectPage', 1);
         });
 
         // 新增
-        $('#addBtn').click(function () {
+        $('#add-btn').click(function () {
             $('.modal :text').val('');
-            $('#addModal').modal('show');
+            $('#add-modal').modal('show');
         });
 
-        $('#saveAdd').click(function () {
+        $('#save-add').click(function () {
             plan.addPlan();
         });
 
         // 修改
-        $('#saveModify').click(function () {
+        $('#save-modify').click(function () {
             plan.savePlan();
         });
 
@@ -98,7 +98,7 @@ var plan = {
      * 处理json中可能出现的null值
      */
     convertNull: function (param) {
-        if (null === param) {
+        if (null == param) {
             return '';
         } else {
             return param;
@@ -124,9 +124,9 @@ var plan = {
             },
             success: function (res) {
                 var message = '操作失败';
-                if (res.code === 200) {
+                if (res.code == 200) {
                     message = "操作成功！";
-                } else if (res.code === 300 && res.message) {
+                } else if (res.code == 300 && res.message) {
                     message = res.message;
                 }
                 bootbox.alert({
@@ -145,7 +145,7 @@ var plan = {
         var duration = $('#addDuration').val().trim();
         var planPs = $('#addPlanPs').val().trim();
 
-        $('#addModal').modal('hide');
+        $('#add-modal').modal('hide');
 
         var alertMessage = '';
 
@@ -183,9 +183,9 @@ var plan = {
         $('#modifyPlanVolume').val(planVolume);
         $('#modifyDuration').val(duration);
         $('#modifyPlanPs').val(planPs);
-        $('#saveModify').attr('plan', id);
+        $('#save-modify').attr('plan', id);
 
-        $('#modifyModal').modal('show');
+        $('#modify-modal').modal('show');
     },
     /**
      * 保存修改
@@ -195,7 +195,7 @@ var plan = {
         var duration = $('#modifyDuration').val().trim();
         var planPs = $('#modifyPlanPs').val().trim();
 
-        $('#modifyModal').modal('hide');
+        $('#modify-modal').modal('hide');
 
         var alertMessage = '';
 
@@ -211,7 +211,7 @@ var plan = {
                 message: alertMessage
             });
         } else {
-            var id = $('#saveModify').attr('plan');
+            var id = $('#save-modify').attr('plan');
             bootbox.confirm({
                 title: '提示',
                 message: '确认修改排灌方案',
@@ -254,10 +254,10 @@ var plan = {
             var hm = time.split(' ');
             var hour = hm[0].split(':')[0];
             var minute = hm[0].split(':')[1];
-            if (hm[1].trim() === 'PM') {
+            if (hm[1].trim() == 'PM') {
                 hour = parseInt(hour) + 12;
             }
-            if (hour === 24) {
+            if (hour == 24) {
                 hour = '00';
             } else if (hour < 10) {
                 hour = '0' + hour;
@@ -277,9 +277,9 @@ var plan = {
                             },
                             success: function (res) {
                                 var message = '操作失败';
-                                if (res.code === 200) {
+                                if (res.code == 200) {
                                     message = "操作成功！";
-                                } else if (res.code === 300 && res.message) {
+                                } else if (res.code == 300 && res.message) {
                                     message = res.message;
                                 }
                                 bootbox.alert({

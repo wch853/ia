@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-table.html"/>
+    <#include "/common/bootstrap-select.html"/>
+    <title>数据类型</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>数据类型</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="sys">首页</a></li>
+                    <li><a href="/sys/data/type">数据类型</a></li>
+                </ol>
+            </div>
+
+            <!-- 查询工具栏 -->
+            <div class="form-inline" id="query-tool-bar">
+                <div class="form-group">
+                    <label for="data-type-name">数据类型名称：</label>
+                    <input type="text" id="data-type-name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="data-short-name">数据类型缩写：</label>
+                    <input type="text" id="data-short-name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="use-status">使用状态：</label>
+                    <select id="use-status" class="selectpicker">
+                        <option value="" class="hide-option">请选择使用状态</option>
+                        <option value="0">未使用</option>
+                        <option value="1">使用中</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="query-btn">查询</button>
+                <button class="btn btn-success" id="reset-btn">重置</button>
+                <button class="btn btn-danger" id="add-btn">新增</button>
+            </div>
+            <hr>
+
+            <table id="data-type-table"></table>
+
+        </div><!--container-->
+    </div><!--page wrapped-->
+
+</div><!--wrapped-->
+</body>
+<script type="text/javascript" src="js/sys/data/type.js"></script>
+</html>

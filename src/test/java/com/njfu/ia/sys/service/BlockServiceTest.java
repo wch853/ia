@@ -37,9 +37,7 @@ public class BlockServiceTest {
     @Test
     public void addBlock() throws Exception {
         Block block = new Block();
-        block.setBlockId("test");
         block.setBlockName("test");
-        block.setBlockLoc("test");
 
         try {
             blockService.addBlock(block);
@@ -51,10 +49,7 @@ public class BlockServiceTest {
     @Test
     public void modifyBlock() throws Exception {
         Block block = new Block();
-        block.setBlockId("b01");
         block.setBlockName("test");
-        block.setBlockLoc("test");
-        block.setBlockPs("test");
 
         try {
             blockService.modifyBlock(block);
@@ -66,10 +61,9 @@ public class BlockServiceTest {
     @Test
     public void removeBlock() throws Exception {
         Block block = new Block();
-        block.setBlockId("b01");
 
         try {
-            blockService.removeBlock(block);
+            blockService.removeBlock(1);
         } catch (Exception e) {
             e.printStackTrace();
         }

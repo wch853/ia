@@ -98,7 +98,7 @@ function initTimeline() {
         url: 'sys/warn/record/unhandle',
         success: function (res) {
             var list = res.data;
-            if (null === list || 0 === list.length) {
+            if (null == list || 0 == list.length) {
                 var html = '<div class="alert alert-warning col-md-8"><a href="#" class="close" data-dismiss="alert">' +
                     '</a><strong>无待处理报警记录！</strong></div>';
                 $('.timeline').append(html);
@@ -160,9 +160,9 @@ function analysisVal(val, floor, ceil) {
 
 function handleWarn(flag) {
     var type = '';
-    if (1 === flag) {
+    if (1 == flag) {
         type = '已处理';
-    } else if (2 === flag) {
+    } else if (2 == flag) {
         type = '已忽略';
     }
 
@@ -191,9 +191,9 @@ function sendRequest(ids, flag) {
         },
         success: function (res) {
             var message = '操作失败';
-            if (res.code === 200) {
+            if (res.code == 200) {
                 message = "操作成功！";
-            } else if (res.code === 300 && res.message) {
+            } else if (res.code == 300 && res.message) {
                 message = res.message;
             }
             initTimeline();

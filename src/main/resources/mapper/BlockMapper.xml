@@ -6,17 +6,37 @@
 <mapper namespace="com.njfu.ia.sys.mapper.BlockMapper">
 
     <select id="selectBlocks" resultType="Block">
-        SELECT block_id, block_name, block_loc, block_ps
+        SELECT id, block_name, block_location
         FROM block
         <where>
-            <if test="null != blockId and !''.equals(blockId)">
-                block_id = #{blockId}
-            </if>
             <if test="null != blockName and !''.equals(blockName)">
-                AND block_name LIKE CONCAT('%', #{blockName}, '%')
+                block_name LIKE CONCAT('%', #{blockName}, '%')
             </if>
         </where>
     </select>
+
+    <insert id="insertBlock">
+        INSERT INTO block (id, block_name, block_location)
+        VALUES (#{id}, #{blockName}, #{blockLocation})
+    </insert>
+
+    <update id="updateBlock">
+        UPDATE block
+        <set>
+            <if test="null != blockName">
+                block_name = #{blockName},
+            </if>
+            <if test="null != blockLocation">
+                block_location = #{blockLocation}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteBlock">
+        DELETE FROM block
+        WHERE id = #{id}
+    </delete>
 
     <resultMap id="blocksAndFieldsMap" type="Block">
         <id property="blockId" column="block_id"/>
@@ -25,35 +45,26 @@
     </resultMap>
 
     <select id="selectBlocksAndFields" resultMap="blocksAndFieldsMap">
-        SELECT block_id, block_name
+        SELECT
+            block_id,
+            block_name
         FROM block
     </select>
 
     <select id="selectFields" resultType="Field">
-        SELECT field_id, field_name
+        SELECT
+            field_id,
+            field_name
         FROM field
         WHERE block_id = #{block_id} AND use_status = '1'
     </select>
 
     <select id="selectBlockById" resultType="Block">
-        SELECT block_id, block_name
+        SELECT
+            block_id,
+            block_name
         FROM block
         WHERE block_id = #{block_id}
     </select>
 
-    <insert id="insertBlock">
-        INSERT IGNORE INTO block (block_id, block_name, block_loc, block_ps)
-        VALUES (#{blockId}, #{blockName}, #{blockLoc}, #{blockPs})
-    </insert>
-
-    <update id="updateBlock">
-        UPDATE block
-        SET block_name = #{blockName}, block_loc = #{blockLoc}, block_ps = #{blockPs}
-        WHERE block_id = #{blockId}
-    </update>
-
-    <delete id="deleteBlock">
-        DELETE FROM block
-        WHERE block_id = #{blockId}
-    </delete>
 </mapper>	

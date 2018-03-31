@@ -2,7 +2,7 @@
 $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
-$("#vehicleFileTable").bootstrapTable({
+$("#vehicleFile-table").bootstrapTable({
     url: 'sys/file/vehicle/data',
     queryParams: function (params) {
         return {
@@ -11,7 +11,7 @@ $("#vehicleFileTable").bootstrapTable({
             vehicleId: $('#queryVehicleId').val().trim(),
             vehicleType: $('#queryVehicleType').val().trim(),
             blockId: $('#queryBlock').val(),
-            useStatus: $('#queryUseStatus').val()
+            useStatus: $('#use-status').val()
         }
     },
     columns: [{
@@ -27,11 +27,11 @@ $("#vehicleFileTable").bootstrapTable({
         formatter: function (value, row, index) {
             var useStatus = row.useStatus;
             var format = '';
-            if (useStatus === '0') {
+            if (useStatus == '0') {
                 format = '未使用';
-            } else if (useStatus === '1') {
+            } else if (useStatus == '1') {
                 format = '使用中';
-            } else if (useStatus === '2') {
+            } else if (useStatus == '2') {
                 format = '故障中';
             }
             return format;
@@ -72,7 +72,7 @@ function convertBlockName(block) {
 
 // 处理json中可能出现的null值
 function convertNull(param) {
-    if (null === param) {
+    if (null == param) {
         return '';
     } else {
         return param;
@@ -80,15 +80,15 @@ function convertNull(param) {
 }
 
 // 重置
-$('#resetBtn').click(function () {
-    $('#queryToolBar :text').val('');
-    $('#queryToolBar .selectpicker').selectpicker('val', '');
-    $("#vehicleFileTable").bootstrapTable('selectPage', 1);
+$('#reset-btn').click(function () {
+    $('#query-tool-bar :text').val('');
+    $('#query-tool-bar .selectpicker').selectpicker('val', '');
+    $("#vehicleFile-table").bootstrapTable('selectPage', 1);
 });
 
 // 查询
-$('#queryBtn').click(function () {
-    $("#vehicleFileTable").bootstrapTable('selectPage', 1);
+$('#query-btn').click(function () {
+    $("#vehicleFile-table").bootstrapTable('selectPage', 1);
 });
 
 // 设置bootstrap-select大小
@@ -110,45 +110,45 @@ function sendRequest(path, vehicleId, vehicleType, blockId, useStatus, vehiclePs
         },
         success: function (res) {
             var message = '操作失败';
-            if (res.code === 200) {
+            if (res.code == 200) {
                 message = "操作成功！";
-            } else if (res.code === 300 && res.message) {
+            } else if (res.code == 300 && res.message) {
                 message = res.message;
             }
             bootbox.alert({
                 title: '提示',
                 message: message
             });
-            $("#vehicleFileTable").bootstrapTable('selectPage', 1);
+            $("#vehicleFile-table").bootstrapTable('selectPage', 1);
         }
     });
 }
 
 // 新增
-$('#addBtn').click(function () {
+$('#add-btn').click(function () {
     // 清空新增modal内容
     $('.modal :text').val('');
     $('#addVehiclePs').val('');
-    $('#addModal .selectpicker').each(function () {
+    $('#add-modal .selectpicker').each(function () {
         var val = $(this).find('option:first').val();
         $(this).selectpicker('val', val);
     });
 
-    $('#addModal').modal('show');
+    $('#add-modal').modal('show');
 });
 
-$('#saveAdd').click(function () {
+$('#save-add').click(function () {
     var vehicleId = $('#addVehicleId').val().trim();
     var vehicleType = $('#addVehicleType').val().trim();
     var blockId = $('#addBlockId').val();
     var useStatus = $('#addUseStatus').val();
     var vehiclePs = $('#addVehiclePs').val().trim();
 
-    $('#addModal').modal('hide');
+    $('#add-modal').modal('hide');
 
     var alertMessage = '';
 
-    if (vehicleId === '' || vehicleType === '') {
+    if (vehicleId == '' || vehicleType == '') {
         alertMessage = '请输入完整信息！';
     } else if (vehiclePs.length > 80) {
         alertMessage = '车辆备注限输入80个字符！';
@@ -180,21 +180,21 @@ function modifyVehicle(vehicleId, vehicleType, blockId, useStatus, vehiclePs) {
     $('#modifyUseStatus').selectpicker('val', useStatus);
     $('#modifyVehiclePs').val(vehiclePs);
 
-    $('#modifyModal').modal('show');
+    $('#modify-modal').modal('show');
 }
 
-$('#saveModify').click(function () {
+$('#save-modify').click(function () {
     var vehicleId = $('#modifyVehicleId').text();
     var vehicleType = $('#modifyVehicleType').val().trim();
     var blockId = $('#modifyBlockId').val();
     var useStatus = $('#modifyUseStatus').val();
     var vehiclePs = $('#modifyVehiclePs').val().trim();
 
-    $('#modifyModal').modal('hide');
+    $('#modify-modal').modal('hide');
 
     var alertMessage = '';
 
-    if (vehicleType === '') {
+    if (vehicleType == '') {
         alertMessage = '请输入完整信息！';
     } else if (vehiclePs.length > 80) {
         alertMessage = '车辆备注限输入80个字符！';

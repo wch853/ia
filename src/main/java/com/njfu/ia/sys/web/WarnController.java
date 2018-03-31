@@ -2,7 +2,8 @@ package com.njfu.ia.sys.web;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.njfu.ia.sys.domain.*;
+import com.njfu.ia.sys.domain.WarnRecord;
+import com.njfu.ia.sys.domain.WarnThreshold;
 import com.njfu.ia.sys.enums.ResultEnum;
 import com.njfu.ia.sys.exception.BusinessException;
 import com.njfu.ia.sys.service.FieldService;
@@ -72,7 +73,7 @@ public class WarnController {
             warnThresholdService.modifyWarnThreshold(warnThreshold);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -87,8 +88,6 @@ public class WarnController {
      */
     @GetMapping("/record")
     public String record(Model model) {
-        List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
-        model.addAttribute("fields", fields);
         return "sys/warn/record";
     }
 
@@ -146,7 +145,7 @@ public class WarnController {
             warnRecordService.modifyWarnRecord(ids, flag);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

@@ -20,6 +20,11 @@ public class Section {
      */
     private Integer blockId;
 
+    /**
+     * 所属地块名称
+     */
+    private String blockName;
+
     public Section() {
     }
 
@@ -47,12 +52,11 @@ public class Section {
         this.blockId = blockId;
     }
 
-    @Override
-    public String toString() {
-        return "Section{" +
-                "id=" + id +
-                ", sectionName='" + sectionName + '\'' +
-                ", blockId=" + blockId +
-                '}';
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 }

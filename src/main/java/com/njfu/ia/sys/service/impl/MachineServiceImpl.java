@@ -83,10 +83,5 @@ public class MachineServiceImpl implements MachineService {
             machine.setMachinePs(null);
         }
 
-        if (!"".equals(block.getBlockId())) {
-            machine.setBlock(block);
-        } else {
-            machine.setBlock(new Block());
-        }
     }
 }

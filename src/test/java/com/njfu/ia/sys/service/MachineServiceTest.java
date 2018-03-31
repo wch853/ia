@@ -35,7 +35,6 @@ public class MachineServiceTest {
         machine.setMachineId("m000");
         machine.setMachineType("xyz");
         Block block = new Block();
-        block.setBlockId("b01");
         machine.setUseStatus("0");
         machine.setMachinePs("test");
 
@@ -53,7 +52,6 @@ public class MachineServiceTest {
         machine.setMachineType("xyz");
 
         Block block = new Block();
-        block.setBlockId("b01");
 
         machine.setUseStatus("0");
         machine.setMachinePs("test");

@@ -16,7 +16,7 @@ var initMemo = {
                 type: type
             },
             success: function (res) {
-                if (res.code === 201) {
+                if (res.code == 201) {
                     $.each(res.data, function (i, el) {
                         var id = el.id;
                         var title = el.title;
@@ -36,7 +36,7 @@ var initMemo = {
 
         $('.log-list li').click(function () {
             var mid = $(this).attr('mid');
-            if ('0' === mid) {
+            if ('0' == mid) {
                 initMemo.fillMemoArea(mid, '', '', '');
             } else {
                 $.ajax({
@@ -45,7 +45,7 @@ var initMemo = {
                         id: mid
                     },
                     success: function (res) {
-                        if (res.code === 201) {
+                        if (res.code == 201) {
                             var data = res.data;
                             /** @namespace data.updateUser */
                             /** @namespace data.updateTime */
@@ -105,9 +105,9 @@ var initMemo = {
             },
             success: function (res) {
                 var message = '操作失败';
-                if (res.code === 200) {
+                if (res.code == 200) {
                     message = "操作成功！";
-                } else if (res.code === 300 && res.message) {
+                } else if (res.code == 300 && res.message) {
                     message = res.message;
                 }
                 bootbox.alert({
@@ -139,7 +139,7 @@ var initMemo = {
         var title = $('#memo-title').val().trim();
         var content = $('.memo-edit-area').val().trim();
         var type = initMemo.getType();
-        if (title === undefined || content === undefined || title.length === 0 || content.length === 0) {
+        if (title == undefined || content == undefined || title.length == 0 || content.length == 0) {
             bootbox.alert({
                 title: '提示',
                 message: '标题和内容不可为空！'
@@ -176,7 +176,7 @@ var initMemo = {
     removeMemo: function () {
         var mid = $('#memo-title').attr('mid');
         var type = initMemo.getType();
-        if (mid === '0') {
+        if (mid == '0') {
             bootbox.alert({
                 title: '提示',
                 message: '不可删除！'

@@ -5,6 +5,12 @@ package com.njfu.ia.sys.utils;
  */
 public interface Constants {
     // TODO JMX
+
+    /**
+     * shiro使用开关
+     */
+    boolean USE_SHIRO = false;
+
     /**
      * shiro加密方式
      */
@@ -43,7 +49,7 @@ public interface Constants {
     /**
      * 邮件推送-是
      */
-    short SEND_WARN_MAIL = 1;
+    short USE_ALARM_EMAIL = 1;
 
     /**
      * 邮件推送报警次数最低限制
@@ -78,7 +84,7 @@ public interface Constants {
     /**
      * 是否开启报警邮件推送
      */
-    boolean USE_WARN_MAIL = true;
+    boolean USE_ALARM_MAIL = false;
 
     /**
      * 权限管理标识符

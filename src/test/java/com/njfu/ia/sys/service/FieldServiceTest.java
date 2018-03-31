@@ -26,23 +26,19 @@ public class FieldServiceTest {
 
     @Test
     public void getFields() throws Exception {
-        List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
+        List<Field> fields = fieldService.getFields(new Field());
         LOGGER.info("fields: {}", fields);
     }
 
     @Test
     public void addField() throws Exception {
         Field field = new Field();
-        field.setFieldId("f1700001");
         field.setFieldName("test");
-        field.setUseStatus("0");
-        field.setFieldPs("test");
 
         Block block = new Block();
-        block.setBlockId("b01");
 
         try {
-            fieldService.addField(field, block, new Crop());
+            fieldService.addField(field);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,15 +48,12 @@ public class FieldServiceTest {
     @Test
     public void modifyField() throws Exception {
         Field field = new Field();
-        field.setFieldId("f1701001");
         field.setFieldName("test");
-        field.setUseStatus("0");
 
         Block block = new Block();
-        block.setBlockId("b01");
 
         try {
-            fieldService.modifyField(new Field(), block, new Crop());
+            fieldService.modifyField(new Field());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,11 +61,9 @@ public class FieldServiceTest {
 
     @Test
     public void removeField() throws Exception {
-        Field field = new Field();
-        field.setFieldId("f1701001");
 
         try {
-            fieldService.removeField(field);
+            fieldService.removeField(1);
         } catch (Exception e) {
             e.printStackTrace();
         }

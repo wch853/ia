@@ -32,7 +32,7 @@ function getUserInfo() {
     $.ajax({
         url: 'sys/user/info',
         success: function (res) {
-            if (res.code === 201) {
+            if (res.code == 201) {
                 $('.user-info-name').empty().text(res.data);
             }
         }
@@ -47,20 +47,29 @@ $('.pop-tip').click(function () {
 
 var websocket;
 
+function appendHttpsProtocol() {
+    var ishttps = 'https:' == document.location.protocol ? true: false;
+    if (ishttps) {
+        return 's';
+    } else {
+        return '';
+    }
+}
+
 /**
  * 建立WebSocket连接
  */
 function getConnect() {
     var path = window.location.hostname + ":8000/ia";
     if (window.WebSocket) {
-        websocket = new WebSocket('ws://' + path + '/tip/handler');
+        websocket = new WebSocket('ws' + appendHttpsProtocol() +'://' + path + '/tip/handler');
     } else {
         // console.log('Not Support WebSocket! It\'s recommended to use chrome!');
         bootbox.alert({
             title: '提示',
             message: '您的浏览器不支持WebSocket，建议切换到谷歌浏览器获取最佳体验！'
         });
-        websocket = new SockJS('http://' + path + '/sockjs/tip/handler')
+        websocket = new SockJS('http' + appendHttpsProtocol() + '://' + path + '/sockjs/tip/handler')
     }
 
     // 配置WebSocket连接生命周期
@@ -73,7 +82,7 @@ function getConnect() {
         var code = result.code;
         var count = result.data;
 
-        if (code === 202) {
+        if (code == 202) {
             $('#tip-view-point').addClass('tip-view-point');
             $('#warn-count').text(count);
             popTip(count);

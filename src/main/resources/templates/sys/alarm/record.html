@@ -1,43 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-table.html"/>
+    <#include "/common/bootstrap-select.html"/>
+    <#include "/common/bootstrap-daterangepicker.html"/>
     <title>报警记录</title>
 </head>
 <body>
-<div id="app" v-text="message">
-</div>
-<div></div>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>报警记录</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="sys">首页</a></li>
+                    <li><a href="sys/alarm/record">报警记录</a></li>
+                </ol>
+            </div>
+
+            <!-- 查询工具栏 -->
+            <div class="form-inline" id="query-tool-bar">
+                <div class="form-group">
+                    <label for="query-date">起止时间：</label>
+                    <input type="text" id="query-date" class="form-control range-date">
+                </div>
+                <div class="form-group">
+                    <label for="device-id">终端编号：</label>
+                    <select id="device-id" class="selectpicker" data-live-search="true">
+                        <option value="" class="hide-option">请选择终端编号</option>
+                        <option v-bind:value="endDevice.id" v-for="endDevice in endDevices">{{ 'NO.' + endDevice.id }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="data-type">报警类型：</label>
+                    <select id="data-type" class="selectpicker" data-live-search="true">
+                        <option value="" class="hide-option">请选择报警类型</option>
+                        <option v-bind:value="dataType.id" v-for="dataType in dataTypes" v-text="dataType.dataTypeName"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="hadle-flag">处理标志：</label>
+                    <select id="hadle-flag" class="selectpicker">
+                        <option value="" class="hide-option">请选择处理标志</option>
+                        <option value="0">未处理</option>
+                        <option value="1">已处理</option>
+                        <option value="2">已忽略</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="query-btn">查询</button>
+                <button class="btn btn-success" id="reset-btn">重置</button>
+            </div>
+            <hr>
+
+            <table id="record-table"></table>
+
+        </div><!--container-->
+    </div><!--page wrapped-->
+
+</div><!--wrapped-->
 </body>
-<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<!--<script type="text/javascript" src="js/sys/alarm/record.js"></script>-->
-<script>
-    var vm = new Vue({
-        el: '#app',
-        data: {
-            message: 'kkk',
-            list: [1, 3, 5]
-        },
-        filters: {},
-        mounted: function () {
-            this.getData();
-        },
-        methods: {
-            getData: function () {
-                $.ajax({
-                    method: 'get',
-                    url: '/ia/sys/warn/record/data',
-                    data: {
-                        limit: 10,
-                        offset: 0
-                    },
-                    success: function (res) {
-                        console.log(res);
-                    }
-                });
-            }
-        }
-    });
-</script>
+<script type="text/javascript" src="js/sys/alarm/record.js"></script>
 </html>

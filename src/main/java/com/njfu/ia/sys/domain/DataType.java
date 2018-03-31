@@ -85,16 +85,4 @@ public class DataType {
     public void setUseStatus(Integer useStatus) {
         this.useStatus = useStatus;
     }
-
-    @Override
-    public String toString() {
-        return "DataType{" +
-                "id=" + id +
-                ", dataTypeName='" + dataTypeName + '\'' +
-                ", dataShortName='" + dataShortName + '\'' +
-                ", floor=" + floor +
-                ", ceil=" + ceil +
-                ", useStatus=" + useStatus +
-                '}';
-    }
 }

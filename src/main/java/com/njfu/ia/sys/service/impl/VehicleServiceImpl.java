@@ -37,7 +37,6 @@ public class VehicleServiceImpl implements VehicleService {
      */
     @Override
     public void addVehicle(Vehicle vehicle, Block block) {
-        this.convertNull(vehicle, block);
         int res = vehicleMapper.insertVehicle(vehicle);
         if (res <= 0) {
             throw new BusinessException("新增车辆信息失败，请检查新增编号是否存在！");
@@ -52,7 +51,6 @@ public class VehicleServiceImpl implements VehicleService {
      */
     @Override
     public void modifyVehicle(Vehicle vehicle, Block block) {
-        this.convertNull(vehicle, block);
         int res = vehicleMapper.updateVehicle(vehicle);
         if (res == 0) {
             throw new BusinessException("修改车辆信息失败");
@@ -72,21 +70,4 @@ public class VehicleServiceImpl implements VehicleService {
         }
     }
 
-    /**
-     * 使得blockId、vehiclePs不为空字符串
-     *
-     * @param vehicle vehiclePs
-     * @param block   blockId
-     */
-    private void convertNull(Vehicle vehicle, Block block) {
-        if (!"".equals(block.getBlockId())) {
-            vehicle.setBlock(block);
-        } else {
-            vehicle.setBlock(new Block());
-        }
-
-        if ("".equals(vehicle.getVehiclePs())) {
-            vehicle.setVehiclePs(null);
-        }
-    }
 }

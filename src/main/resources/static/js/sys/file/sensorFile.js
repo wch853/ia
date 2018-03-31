@@ -2,7 +2,7 @@
 $('[data-target="#sys-man"]').trigger('click');
 $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
-$("#sensorFileTable").bootstrapTable({
+$("#sensorFile-table").bootstrapTable({
     url: 'sys/file/sensor/data',
     queryParams: function (params) {
         return {
@@ -12,8 +12,8 @@ $("#sensorFileTable").bootstrapTable({
             sensorFunc: $('#querySensorFunc').val(),
             sensorType: $('#querySensorType').val().trim(),
             fieldId: $('#queryFieldId').val(),
-            terminalId: $('#queryTerminalId').val(),
-            useStatus: $('#queryUseStatus').val()
+            terminalId: $('#end-device-id').val(),
+            useStatus: $('#use-status').val()
         }
     },
     columns: [{
@@ -23,21 +23,21 @@ $("#sensorFileTable").bootstrapTable({
         formatter: function (value, row, index) {
             var sensorFunc = row.sensorFunc;
             var format = '';
-            if (sensorFunc === '1') {
+            if (sensorFunc == '1') {
                 format = '温度传感器';
-            } else if (sensorFunc === '2') {
+            } else if (sensorFunc == '2') {
                 format = '湿度传感器';
-            } else if (sensorFunc === '3') {
+            } else if (sensorFunc == '3') {
                 format = '土壤温度传感器';
-            } else if (sensorFunc === '4') {
+            } else if (sensorFunc == '4') {
                 format = '土壤湿度传感器';
-            } else if (sensorFunc === '5') {
+            } else if (sensorFunc == '5') {
                 format = '光照度传感器';
-            } else if (sensorFunc === '6') {
+            } else if (sensorFunc == '6') {
                 format = 'Co2传感器';
-            } else if (sensorFunc === '7') {
+            } else if (sensorFunc == '7') {
                 format = 'pH传感器';
-            } else if (sensorFunc === '8') {
+            } else if (sensorFunc == '8') {
                 format = '元素含量传感器';
             } else {
                 format = null;
@@ -58,11 +58,11 @@ $("#sensorFileTable").bootstrapTable({
         formatter: function (value, row, index) {
             var useStatus = row.useStatus;
             var format = '';
-            if (useStatus === '0') {
+            if (useStatus == '0') {
                 format = '未使用';
-            } else if (useStatus === '1') {
+            } else if (useStatus == '1') {
                 format = '使用中';
-            } else if (useStatus === '2') {
+            } else if (useStatus == '2') {
                 format = '故障中';
             }
             return format;
@@ -104,7 +104,7 @@ function convertFieldId(field) {
 
 // 处理json中可能出现的null值
 function convertNull(param) {
-    if (null === param) {
+    if (null == param) {
         return '';
     } else {
         return param;
@@ -112,19 +112,19 @@ function convertNull(param) {
 }
 
 // 重置
-$('#resetBtn').click(function () {
-    $('#queryToolBar :text').val('');
-    $('#queryToolBar .selectpicker').selectpicker('val', '');
-    $("#sensorFileTable").bootstrapTable('selectPage', 1);
+$('#reset-btn').click(function () {
+    $('#query-tool-bar :text').val('');
+    $('#query-tool-bar .selectpicker').selectpicker('val', '');
+    $("#sensorFile-table").bootstrapTable('selectPage', 1);
 });
 
 // 查询
-$('#queryBtn').click(function () {
-    $("#sensorFileTable").bootstrapTable('selectPage', 1);
+$('#query-btn').click(function () {
+    $("#sensorFile-table").bootstrapTable('selectPage', 1);
 });
 
 // 设置bootstrap-select大小
-$('#queryToolBar .selectpicker').selectpicker({
+$('#query-tool-bar .selectpicker').selectpicker({
     width: '180.67px'
 });
 
@@ -144,34 +144,34 @@ function sendRequest(path, sensorId, sensorFunc, sensorType, fieldId, terminalId
         },
         success: function (res) {
             var message = '操作失败';
-            if (res.code === 200) {
+            if (res.code == 200) {
                 message = "操作成功！";
-            } else if (res.code === 300 && res.message) {
+            } else if (res.code == 300 && res.message) {
                 message = res.message;
             }
             bootbox.alert({
                 title: '提示',
                 message: message
             });
-            $("#sensorFileTable").bootstrapTable('selectPage', 1);
+            $("#sensorFile-table").bootstrapTable('selectPage', 1);
         }
     });
 }
 
 // 新增
-$('#addBtn').click(function () {
+$('#add-btn').click(function () {
     // 清空新增modal内容
     $('.modal :text').val('');
     $('#addSensorPs').val('');
-    $('#addModal .selectpicker').each(function () {
+    $('#add-modal .selectpicker').each(function () {
         var val = $(this).find('option:first').val();
         $(this).selectpicker('val', val);
     });
 
-    $('#addModal').modal('show');
+    $('#add-modal').modal('show');
 });
 
-$('#saveAdd').click(function () {
+$('#save-add').click(function () {
     var sensorId = $('#addSensorId').val().trim();
     var sensorFunc = $('#addSensorFunc').val();
     var sensorType = $('#addSensorType').val().trim();
@@ -180,11 +180,11 @@ $('#saveAdd').click(function () {
     var useStatus = $('#addUseStatus').val();
     var sensorPs = $('#addSensorPs').val().trim();
 
-    $('#addModal').modal('hide');
+    $('#add-modal').modal('hide');
 
     var alertMessage = '';
 
-    if (sensorId === '' || sensorFunc === '' || sensorType === '') {
+    if (sensorId == '' || sensorFunc == '' || sensorType == '') {
         alertMessage = '请输入完整信息！';
     } else if (sensorPs.length > 80) {
         alertMessage = '传感器备注限输入80个字符！';
@@ -218,10 +218,10 @@ function modifySensor(sensorId, sensorFunc, sensorType, fieldId, terminalId, use
     $('#modifyUseStatus').selectpicker('val', useStatus);
     $('#modifySensorPs').val(sensorPs);
 
-    $('#modifyModal').modal('show');
+    $('#modify-modal').modal('show');
 }
 
-$('#saveModify').click(function () {
+$('#save-modify').click(function () {
     var sensorId = $('#modifySensorId').text();
     var sensorFunc = $('#modifySensorFunc').val();
     var sensorType = $('#modifySensorType').val().trim();
@@ -230,11 +230,11 @@ $('#saveModify').click(function () {
     var useStatus = $('#modifyUseStatus').val();
     var sensorPs = $('#modifySensorPs').val().trim();
 
-    $('#modifyModal').modal('hide');
+    $('#modify-modal').modal('hide');
 
     var alertMessage = '';
 
-    if (sensorFunc === '' || sensorType === '') {
+    if (sensorFunc == '' || sensorType == '') {
         alertMessage = '请输入完整信息！';
     } else if (sensorPs.length > 80) {
         alertMessage = '传感器备注限输入80个字符！';

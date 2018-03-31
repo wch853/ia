@@ -34,7 +34,6 @@ public class BlockMapperTest {
     public void selectBlocksAndFields() throws Exception {
         List<Block> blocks = blockMapper.selectBlocksAndFields();
         for (Block block : blocks) {
-            LOGGER.info("block: {}", block.getFields());
         }
     }
 
@@ -53,10 +52,7 @@ public class BlockMapperTest {
     @Test
     public void updateBlock() throws Exception {
         Block block = new Block();
-        block.setBlockId("b01");
         block.setBlockName("test");
-        block.setBlockLoc("test");
-        block.setBlockPs("test");
 
         int res = blockMapper.updateBlock(block);
         Assert.assertEquals(1, res);
@@ -65,9 +61,8 @@ public class BlockMapperTest {
     @Test
     public void deleteBlock() throws Exception {
         Block block = new Block();
-        block.setBlockId("b01");
 
-        int res = blockMapper.deleteBlock(block);
+        int res = blockMapper.deleteBlock(1);
         Assert.assertEquals(1, res);
     }
 

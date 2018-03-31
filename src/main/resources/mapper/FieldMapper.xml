@@ -5,6 +5,45 @@
 
 <mapper namespace="com.njfu.ia.sys.mapper.FieldMapper">
 
+    <select id="selectFields" resultType="Field">
+        SELECT f.id, f.field_name, f.section_id, f.crop_id, c.crop_name
+        FROM field f LEFT JOIN section s ON f.section_id = s.id LEFT JOIN crop c ON c.id = f.crop_id
+        <where>
+            <if test="null != fieldName and !''.equals(fieldName)">
+                f.field_name = #{fieldName}
+            </if>
+            <if test="null != sectionId">
+                AND s.id = #{sectionId}
+            </if>
+            <if test="null != cropId">
+                AND c.id = #{cropId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertField">
+        INSERT INTO field (field_name, section_id, crop_id)
+        VALUES (#{fieldName}, #{sectionId}, #{cropId})
+    </insert>
+
+    <update id="updateField">
+        UPDATE field
+        SET field_name = #{fieldName}, section_id = #{sectionId}, crop_id = #{crop.cropId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteField">
+        DELETE FROM field
+        WHERE id = #{id}
+    </delete>
+
+    <select id="selectFieldById" resultType="Field">
+        SELECT field_id
+        FROM field
+        WHERE field_id = #{field_id}
+    </select>
+
+
     <resultMap id="fieldMap" type="Field">
         <id property="fieldId" column="field_id"/>
         <result property="fieldName" column="field_name"/>
@@ -13,47 +52,5 @@
         <association property="block" column="block_id" select="com.njfu.ia.sys.mapper.BlockMapper.selectBlockById"/>
         <association property="crop" column="crop_id" select="com.njfu.ia.sys.mapper.CropMapper.selectCropById"/>
     </resultMap>
-
-    <select id="selectFields" resultMap="fieldMap">
-        SELECT field_id, field_name, block_id, crop_id, use_status, field_ps
-        FROM field
-        <where>
-            <if test="null != fieldName and !''.equals(fieldName)">
-                field_name LIKE CONCAT('%', #{fieldName}, '%')
-            </if>
-            <if test="null != block.blockId and !''.equals(block.blockId)">
-                AND block_id = #{block.blockId}
-            </if>
-            <if test="null != crop.cropId and !''.equals(crop.cropId)">
-                AND crop_id = #{crop.cropId}
-            </if>
-            <if test="null != useStatus and !''.equals(useStatus)">
-                AND use_status = #{useStatus}
-            </if>
-        </where>
-    </select>
-
-    <select id="selectFieldById" resultType="Field">
-        SELECT field_id
-        FROM field
-        WHERE field_id = #{field_id}
-    </select>
-
-    <insert id="insertField">
-        INSERT IGNORE INTO field (field_id, field_name, block_id, crop_id, use_status, field_ps)
-        VALUES (#{fieldId}, #{fieldName}, #{block.blockId}, #{crop.cropId}, #{useStatus}, #{fieldPs})
-    </insert>
-
-    <update id="updateField">
-        UPDATE field
-        SET field_name = #{fieldName}, block_id = #{block.blockId}, crop_id = #{crop.cropId},
-        use_status = #{useStatus}, field_ps = #{fieldPs}
-        WHERE field_id = #{fieldId}
-    </update>
-
-    <delete id="deleteField">
-        DELETE FROM field
-        WHERE field_id = #{fieldId}
-    </delete>
 
 </mapper>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-table.html"/>
+    <#include "/common/bootstrap-select.html"/>
+    <title>终端档案</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>终端档案</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="sys">首页</a></li>
+                    <li><a href="sys/file">档案管理</a></li>
+                    <li><a href="/sys/file/device">终端档案</a></li>
+                </ol>
+            </div>
+
+            <!-- 查询工具栏 -->
+            <div class="form-inline" id="query-tool-bar">
+                <div class="form-group">
+                    <label for="end-device-model">终端型号：</label>
+                    <input id="end-device-model" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="end-device-mac">终端Mac地址：</label>
+                    <input id="end-device-mac" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="section-id">所属区块编号：</label>
+                    <input id="section-id" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="use-status">使用状态：</label>
+                    <select id="use-status" class="selectpicker">
+                        <option value="" class="hide-option">请选择使用状态</option>
+                        <option value="0">未使用</option>
+                        <option value="1">使用中</option>
+                        <option value="2">故障中</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="query-btn">查询</button>
+                <button class="btn btn-success" id="reset-btn">重置</button>
+                <button class="btn btn-danger" id="add-btn">新增</button>
+            </div>
+            <hr>
+
+            <table id="end-device-file-table"></table>
+
+            <!-- 新增模态窗 -->
+            <div class="modal fade" id="add-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">新增终端信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="addTerminalId">终端编号：</label>
+                                    <input id="addTerminalId" class="form-control" placeholder="终端编号不可为空">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addTerminalType">终端型号：</label>
+                                    <input id="addTerminalType" class="form-control" placeholder="终端型号不可为空">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="addUseStatus">使用状态：</label>
+                                <select id="addUseStatus" class="selectpicker">
+                                    <option value="0">未使用</option>
+                                    <option value="1">使用中</option>
+                                    <option value="2">故障中</option>
+                                </select>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="addTerminalPs">终端备注：</label>
+                                    <textarea id="addTerminalPs" class="form-control" placeholder="限输入80个字符" rows="3"
+                                              cols="60"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="save-add">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 修改模态窗 -->
+            <div class="modal fade" id="modify-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">修改终端信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="modifyTerminalId">终端编号：</label>
+                                    <p id="modifyTerminalId" class="form-control-static"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modifyTerminalType">终端型号：</label>
+                                    <input id="modifyTerminalType" class="form-control" placeholder="终端型号不可为空">
+                                </div>
+                            </div>
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="modifyUseStatus">使用状态：</label>
+                                    <select id="modifyUseStatus" class="selectpicker">
+                                        <option value="0">未使用</option>
+                                        <option value="1">使用中</option>
+                                        <option value="2">故障中</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="modifyTerminalPs">终端备注：</label>
+                                    <textarea id="modifyTerminalPs" class="form-control" placeholder="限输入80个字符"
+                                              rows="3" cols="60"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="save-modify">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!--container-->
+    </div><!--page wrapped-->
+
+</div><!--wrapped-->
+<script type="text/javascript" src="js/sys/file/device.js"></script>
+</body>
+</html>

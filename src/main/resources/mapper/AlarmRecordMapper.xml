@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.ia.sys.mapper.AlarmRecordMapper">
+
+    <select id="selectAlarmRecord" resultType="AlarmRecord">
+        SELECT ar.id, ar.device_id, ar.data_type, dt.data_type_name , ar.value,
+               ar.alarm_time, ar.handle_time, ar.handle_flag
+        FROM alarm_record ar
+            LEFT JOIN data_type dt
+                ON data_type = dt.id
+        <where>
+            <if test="null != alarmRecord.deviceId and !''.equals(alarmRecord.deviceId)">
+                device_id = #{alarmRecord.deviceId}
+            </if>
+            <if test="null != alarmRecord.dataType and !''.equals(alarmRecord.dataType)">
+                AND data_type = #{alarmRecord.dataType}
+            </if>
+            <if test="null != start and !''.equals(start)">
+                AND alarm_time &gt;= #{start}
+            </if>
+            <if test="null != end and !''.equals(end)">
+                AND alarm_time &lt;= #{end}
+            </if>
+            <if test="null != alarmRecord.handleFlag and !''.equals(alarmRecord.handleFlag)">
+                AND handle_flag = #{alarmRecord.handleFlag}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+</mapper>	

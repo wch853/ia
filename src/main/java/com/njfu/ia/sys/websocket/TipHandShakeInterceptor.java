@@ -34,18 +34,22 @@ public class TipHandShakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                    WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-        Subject subject;
-        try {
-            // 用户经过认证才能获取websocket连接
-            subject = SecurityUtils.getSubject();
-            // 验证websocket推送权限
-            if (subject.isPermitted(Constants.WARN_PERM)) {
-                attributes.put(Constants.WARN_PERM, Boolean.TRUE);
+        if (Constants.USE_SHIRO) {
+            Subject subject;
+            try {
+                // 用户经过认证才能获取websocket连接
+                subject = SecurityUtils.getSubject();
+                // 验证websocket推送权限
+                if (subject.isPermitted(Constants.WARN_PERM)) {
+                    attributes.put(Constants.WARN_PERM, Boolean.TRUE);
+                }
+                return subject.isAuthenticated();
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                return Boolean.FALSE;
             }
-            return subject.isAuthenticated();
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Boolean.FALSE;
+        } else {
+            return true;
         }
     }
 

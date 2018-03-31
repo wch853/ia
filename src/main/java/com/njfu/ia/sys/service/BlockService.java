@@ -9,36 +9,36 @@ public interface BlockService {
     /**
      * 获取地块信息
      *
-     * @param block blockId blockName
-     * @return data
+     * @param block
+     * @return
      */
     List<Block> getBlocks(Block block);
 
     /**
      * index页获取所有地块信息及相应地块下使用状态的大棚
      *
-     * @return data
+     * @return
      */
     List<Block> getBlocksAndFields();
 
     /**
      * 新增地块信息
      *
-     * @param block blockId blockName blockLoc blockPs
+     * @param block
      */
     void addBlock(Block block);
 
     /**
      * 修改地块信息
      *
-     * @param block blockId blockName blockLoc blockPs
+     * @param block
      */
     void modifyBlock(Block block);
 
     /**
      * 删除地块信息
      *
-     * @param block blockId
+     * @param id
      */
-    void removeBlock(Block block);
+    void removeBlock(Integer id);
 }

@@ -5,21 +5,25 @@ package com.njfu.ia.sys.domain;
  */
 public class Crop {
 
-    private String cropId;
+    /**
+     * 作物编号
+     */
+    private Integer Id;
 
+    /**
+     * 作物名称
+     */
     private String cropName;
-
-    private String cropPs;
 
     public Crop() {
     }
 
-    public String getCropId() {
-        return cropId;
+    public Integer getId() {
+        return Id;
     }
 
-    public void setCropId(String cropId) {
-        this.cropId = cropId;
+    public void setId(Integer id) {
+        Id = id;
     }
 
     public String getCropName() {
@@ -28,22 +32,5 @@ public class Crop {
 
     public void setCropName(String cropName) {
         this.cropName = cropName;
-    }
-
-    public String getCropPs() {
-        return cropPs;
-    }
-
-    public void setCropPs(String cropPs) {
-        this.cropPs = cropPs;
-    }
-
-    @Override
-    public String toString() {
-        return "Crop{" +
-                "cropId='" + cropId + '\'' +
-                ", cropName='" + cropName + '\'' +
-                ", cropPs='" + cropPs + '\'' +
-                '}';
     }
 }

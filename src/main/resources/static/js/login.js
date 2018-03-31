@@ -19,7 +19,7 @@ var login = {
         $.ajax({
             url: 'sys/user/info',
             success: function (res) {
-                if (res.code === 201) {
+                if (res.code == 201) {
                     window.location.href = 'sys';
                 }
             }
@@ -38,7 +38,7 @@ var login = {
                     password: $('#password').val().trim()
                 },
                 success: function (res) {
-                    if (res.code === 200) {
+                    if (res.code == 200) {
                         window.location.href = 'sys'
                     } else {
                         var message = '登录失败！';

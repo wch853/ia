@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.ia.sys.mapper.EndDeviceMapper">
+
+    <select id="selectEndDevices" resultType="EndDevice">
+        SELECT id, model, mac, section_id, use_status, create_time, update_time
+            FROM end_device
+        <where>
+            <if test="null != model and !''.equals(model)">
+                model = #{model}
+            </if>
+            <if test="null != mac and !''.equals(mac)">
+                AND mac = #{mac}
+            </if>
+            <if test="null != sectionId">
+                AND section_id = #{sectionId}
+            </if>
+            <if test="null != useStatus">
+                AND use_status = #{useStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>	

@@ -1,7 +1,7 @@
 // 激活侧边栏
-$('[data-target="#warn-man"]').trigger('click').parent().find('li:eq(1) a').addClass('side-active');
+$('[data-target="#alarm-man"]').trigger('click').parent().find('li:eq(1) a').addClass('side-active');
 
-$('#queryDate').daterangepicker({
+$('#query-date').daterangepicker({
     locale: {
         applyLabel: '确认',
         cancelLabel: '取消',
@@ -19,7 +19,7 @@ $('#queryDate').daterangepicker({
     },
 }).val('');
 
-$("#recordTable").bootstrapTable({
+$("#record-table").bootstrapTable({
     url: 'sys/warn/record/data',
     queryParams: function (params) {
         return {
@@ -60,11 +60,11 @@ $("#recordTable").bootstrapTable({
             /** @namespace row.flag */
             var flag = row.flag;
             var format = '';
-            if (flag === '0') {
+            if (flag == '0') {
                 format = '未处理';
-            } else if (flag === '1') {
+            } else if (flag == '1') {
                 format = '已处理';
-            } else if (flag === '2') {
+            } else if (flag == '2') {
                 format = '已忽略';
             }
             return format;
@@ -79,7 +79,7 @@ $("#recordTable").bootstrapTable({
 });
 
 // 设置bootstrap-select大小
-$('#queryToolBar .selectpicker').selectpicker({
+$('#query-tool-bar .selectpicker').selectpicker({
     width: '180.67px'
 });
 
@@ -89,7 +89,7 @@ $('#queryToolBar .selectpicker').selectpicker({
  * @returns String
  */
 function getTime(index) {
-    var time = $('#queryDate').val().split(' 至 ');
+    var time = $('#query-date').val().split(' 至 ');
     if (time.length > 1) {
         return time[index].trim();
     } else {
@@ -146,13 +146,13 @@ function convertWarnType(warnType) {
 }
 
 // 重置
-$('#resetBtn').click(function () {
-    $('#queryDate').val('');
-    $('#queryToolBar .selectpicker').selectpicker('val', '');
-    $('#queryBtn').trigger('click');
+$('#reset-btn').click(function () {
+    $('#query-date').val('');
+    $('#query-tool-bar .selectpicker').selectpicker('val', '');
+    $('#query-btn').trigger('click');
 });
 
 // 查询
-$('#queryBtn').click(function () {
-    $("#recordTable").bootstrapTable('selectPage', 1);
+$('#query-btn').click(function () {
+    $("#record-table").bootstrapTable('selectPage', 1);
 });

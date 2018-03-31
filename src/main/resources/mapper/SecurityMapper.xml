@@ -120,7 +120,7 @@
     </select>
 
     <insert id="insertUser">
-        INSERT IGNORE INTO user (id, name, username, password, salt, status)
+        INSERT INTO user (id, name, username, password, salt, status)
         VALUES (NULL, #{name}, #{username}, #{password}, #{salt}, #{status})
     </insert>
 

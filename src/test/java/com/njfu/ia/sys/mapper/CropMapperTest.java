@@ -32,9 +32,7 @@ public class CropMapperTest {
     @Test
     public void insertCrop() throws Exception {
         Crop crop = new Crop();
-        crop.setCropId("c00");
         crop.setCropName("test");
-        crop.setCropPs("test");
 
         int res = cropMapper.insertCrop(crop);
         Assert.assertEquals(1, res);
@@ -43,9 +41,7 @@ public class CropMapperTest {
     @Test
     public void updateCrop() throws Exception {
         Crop crop = new Crop();
-        crop.setCropId("c001");
         crop.setCropName("test");
-        crop.setCropPs("test");
 
         int res = cropMapper.updateCrop(crop);
         Assert.assertEquals(1, res);
@@ -54,7 +50,6 @@ public class CropMapperTest {
     @Test
     public void deleteCrop() throws Exception {
         Crop crop = new Crop();
-        crop.setCropId("c001");
 
         int res = cropMapper.deleteCrop(crop);
         Assert.assertEquals(1, res);

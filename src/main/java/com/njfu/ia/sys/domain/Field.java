@@ -5,27 +5,40 @@ package com.njfu.ia.sys.domain;
  */
 public class Field {
 
-    private String fieldId;
+    /**
+     * 大棚编号
+     */
+    private Integer id;
 
+    /**
+     * 大棚名称
+     */
     private String fieldName;
 
-    private Block block;
+    /**
+     * 所属区块编号
+     */
+    private Integer sectionId;
 
-    private Crop crop;
+    /**
+     * 种植作物编号
+     */
+    private Integer cropId;
 
-    private String useStatus;
-
-    private String fieldPs;
+    /**
+     * 种植作物名称
+     */
+    private String cropName;
 
     public Field() {
     }
 
-    public String getFieldId() {
-        return fieldId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setFieldId(String fieldId) {
-        this.fieldId = fieldId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFieldName() {
@@ -36,47 +49,27 @@ public class Field {
         this.fieldName = fieldName;
     }
 
-    public Block getBlock() {
-        return block;
+    public Integer getSectionId() {
+        return sectionId;
     }
 
-    public void setBlock(Block block) {
-        this.block = block;
+    public void setSectionId(Integer sectionId) {
+        this.sectionId = sectionId;
     }
 
-    public Crop getCrop() {
-        return crop;
+    public Integer getCropId() {
+        return cropId;
     }
 
-    public void setCrop(Crop crop) {
-        this.crop = crop;
+    public void setCropId(Integer cropId) {
+        this.cropId = cropId;
     }
 
-    public String getUseStatus() {
-        return useStatus;
+    public String getCropName() {
+        return cropName;
     }
 
-    public void setUseStatus(String useStatus) {
-        this.useStatus = useStatus;
-    }
-
-    public String getFieldPs() {
-        return fieldPs;
-    }
-
-    public void setFieldPs(String fieldPs) {
-        this.fieldPs = fieldPs;
-    }
-
-    @Override
-    public String toString() {
-        return "Field{" +
-                "fieldId='" + fieldId + '\'' +
-                ", fieldName='" + fieldName + '\'' +
-                ", block=" + block +
-                ", crop=" + crop +
-                ", useStatus='" + useStatus + '\'' +
-                ", fieldPs='" + fieldPs + '\'' +
-                '}';
+    public void setCropName(String cropName) {
+        this.cropName = cropName;
     }
 }

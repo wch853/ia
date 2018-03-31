@@ -114,6 +114,7 @@ public class ShiroConfig implements ApplicationContextAware {
         ShiroFilterFactoryBean filter = new ShiroFilterFactoryBean();
         // 配置SecurityManager
         filter.setSecurityManager(securityManager());
+
         // 配置登录页
         filter.setLoginUrl("/");
         // 登录成功跳转链接
@@ -122,29 +123,35 @@ public class ShiroConfig implements ApplicationContextAware {
         filter.setUnauthorizedUrl("/403");
         // 拦截器链，由上到下顺序执行
         Map<String, String> filterChain = new LinkedHashMap<>();
-        // 配置ajax登录url匿名访问
-        filterChain.put("/login", "anon");
-        // 配置登出路径
-        filterChain.put("/logout", "logout");
-        // 静态资源处理
-        filterChain.put("/js/**", "anon");
-        filterChain.put("/css/**", "anon");
-        filterChain.put("/img/**", "anon");
-        // 账号管理
-        filterChain.put("/sys/auth/user/modify", "authc");
+        if (Constants.USE_SHIRO) {
+            // 配置ajax登录url匿名访问
+            filterChain.put("/login", "anon");
+            // 配置登出路径
+            filterChain.put("/logout", "logout");
+            // 静态资源处理
+            filterChain.put("/js/**", "anon");
+            filterChain.put("/css/**", "anon");
+            filterChain.put("/img/**", "anon");
+            // 账号管理
+            filterChain.put("/sys/auth/user/modify", "authc");
 
-        // 动态添加权限
-        SecurityService securityService = null;
-        while (securityService == null) {
-            securityService = (SecurityService) context.getBean("securityServiceImpl");
-        }
-        List<Permission> permissions = securityService.getPermissions();
-        for (Permission permission : permissions) {
-            filterChain.put(permission.getUrl(), this.adaptPerms(permission.getPerm()));
+            // 动态添加权限
+            SecurityService securityService = null;
+            while (securityService == null) {
+                securityService = (SecurityService) context.getBean("securityServiceImpl");
+            }
+            List<Permission> permissions = securityService.getPermissions();
+            for (Permission permission : permissions) {
+                filterChain.put(permission.getUrl(), this.adaptPerms(permission.getPerm()));
+            }
+
+            // 认证后访问
+            filterChain.put("/**", "authc");
+        } else {
+            // 开发模式
+            filterChain.put("/**", "anon");
         }
 
-        // 认证后访问
-        filterChain.put("/**", "authc");
         filter.setFilterChainDefinitionMap(filterChain);
         return filter;
     }

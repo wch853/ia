@@ -2,7 +2,7 @@
 $('[data-target="#data-man"]').trigger('click').parent().find('li:eq(1) a').addClass('side-active');
 
 // 设置bootstrap-select大小
-$('#queryToolBar .selectpicker').selectpicker({
+$('#query-tool-bar .selectpicker').selectpicker({
     width: '180.67px'
 });
 
@@ -175,12 +175,12 @@ var chart = {
             },
             success: function (res) {
                 chart.chartOption.clear();
-                if (!res.code || 300 === res.code) {
+                if (!res.code || 300 == res.code) {
                     bootbox.alert({
                         title: '提示',
                         message: '获取数据失败！'
                     });
-                } else if (200 === res.code) {
+                } else if (200 == res.code) {
                     var data = res.data;
                     // 图例
                     var legends = chart.getLegends(dataTypes);

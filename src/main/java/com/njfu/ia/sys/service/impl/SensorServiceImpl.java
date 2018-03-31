@@ -79,12 +79,6 @@ public class SensorServiceImpl implements SensorService {
      * @param field  fieldId
      */
     private void convertNull(Sensor sensor, Field field) {
-        if (!"".equals(field.getFieldId())) {
-            sensor.setField(field);
-        } else {
-            sensor.setField(new Field());
-        }
-
         if ("".equals(sensor.getSensorPs())) {
             sensor.setSensorPs(null);
         }

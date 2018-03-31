@@ -6,12 +6,9 @@
 <mapper namespace="com.njfu.ia.sys.mapper.CropMapper">
 
     <select id="selectCrops" resultType="Crop">
-        SELECT crop_id, crop_name, crop_ps
+        SELECT id, crop_name
         FROM crop
         <where>
-            <if test="null != cropId and !''.equals(cropId)">
-                crop_id = #{cropId}
-            </if>
             <if test="null != cropName and !''.equals(cropName)">
                 AND crop_name LIKE CONCAT('%', #{cropName}, '%')
             </if>
@@ -27,18 +24,18 @@
     </select>
 
     <insert id="insertCrop">
-        INSERT INTO crop (crop_id, crop_name, crop_ps)
-        VALUES (#{cropId}, #{cropName}, #{cropPs})
+        INSERT INTO crop (crop_name)
+        VALUES (#{cropName})
     </insert>
 
     <update id="updateCrop">
         UPDATE crop
-        SET crop_name = #{cropName}, crop_ps = #{cropPs}
-        WHERE crop_id = #{cropId}
+        SET crop_name = #{cropName}
+        WHERE id = #{id}
     </update>
 
     <delete id="deleteCrop">
         DELETE FROM crop
-        WHERE crop_id = #{cropId}
+        WHERE id = #{id}
     </delete>
 </mapper>	

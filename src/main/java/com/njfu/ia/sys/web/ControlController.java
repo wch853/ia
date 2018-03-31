@@ -2,9 +2,6 @@ package com.njfu.ia.sys.web;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.njfu.ia.sys.domain.Block;
-import com.njfu.ia.sys.domain.Crop;
-import com.njfu.ia.sys.domain.Field;
 import com.njfu.ia.sys.domain.IrrigationPlan;
 import com.njfu.ia.sys.enums.ResultEnum;
 import com.njfu.ia.sys.exception.BusinessException;
@@ -17,7 +14,6 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,12 +41,10 @@ public class ControlController {
     /**
      * 排灌管理页
      *
-     * @return Page
+     * @return
      */
     @GetMapping("/plan")
-    public String plan(Model model) {
-        List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
-        model.addAttribute("fields", fields);
+    public String plan() {
         return "sys/control/plan";
     }
 
@@ -84,7 +78,7 @@ public class ControlController {
             irrigationPlanService.addIrrigationPlan(irrigationPlan);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -105,7 +99,7 @@ public class ControlController {
             irrigationPlanService.modifyIrrigationPlan(irrigationPlan);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -126,7 +120,7 @@ public class ControlController {
             irrigationPlanService.removeIrrigationPlan(id);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -152,7 +146,7 @@ public class ControlController {
             }
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

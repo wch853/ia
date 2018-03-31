@@ -2,6 +2,7 @@ package com.njfu.ia.sys.mapper;
 
 import com.njfu.ia.sys.domain.Field;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,32 +12,32 @@ public interface FieldMapper {
     /**
      * 获取大棚列表
      *
-     * @param field fieldName useStatus block crop
-     * @return data
+     * @param field
+     * @return
      */
     List<Field> selectFields(Field field);
 
     /**
      * 新增大棚信息
      *
-     * @param field fieldId fieldName useStatus fieldPs block crop
-     * @return row count
+     * @param field
+     * @return
      */
     int insertField(Field field);
 
     /**
      * 修改大棚信息
      *
-     * @param field fieldId fieldName useStatus fieldPs block crop
-     * @return row count
+     * @param field
+     * @return
      */
     int updateField(Field field);
 
     /**
      * 删除大棚信息
      *
-     * @param field fieldId
-     * @return row count
+     * @param id
+     * @return
      */
-    int deleteField(Field field);
+    int deleteField(@Param("id") Integer id);
 }

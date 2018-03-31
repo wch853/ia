@@ -7,7 +7,10 @@ import com.njfu.ia.sys.enums.ResultEnum;
  */
 public class Result<T> {
 
-    // TODO 出参增加success参数
+    /**
+     * 成功与否
+     */
+    private boolean success;
 
     /**
      * 消息代码
@@ -25,6 +28,11 @@ public class Result<T> {
     private T data;
 
     public Result(Integer code, String message, T data) {
+        if (code >= ResultEnum.FAIL.code()) {
+            this.success = Boolean.FALSE;
+        } else {
+            this.success = Boolean.TRUE;
+        }
         this.code = code;
         this.message = message;
         this.data = data;
@@ -64,6 +72,14 @@ public class Result<T> {
      */
     public static <T> Result<T> response(ResultEnum resultEnum) {
         return response(resultEnum, null);
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public Integer getCode() {

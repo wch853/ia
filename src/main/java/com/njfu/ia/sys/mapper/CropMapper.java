@@ -11,32 +11,32 @@ public interface CropMapper {
     /**
      * 获取作物列表
      *
-     * @param crop cropId cropName
-     * @return data
+     * @param crop
+     * @return
      */
     List<Crop> selectCrops(Crop crop);
 
     /**
      * 新增作物信息
      *
-     * @param crop cropId cropName cropPs
-     * @return row count
+     * @param crop
+     * @return
      */
     int insertCrop(Crop crop);
 
     /**
      * 修改作物信息
      *
-     * @param crop cropId cropName cropPs
-     * @return row count
+     * @param crop
+     * @return
      */
     int updateCrop(Crop crop);
 
     /**
      * 删除作物信息
      *
-     * @param crop cropId
-     * @return row count
+     * @param crop
+     * @return
      */
     int deleteCrop(Crop crop);
 }

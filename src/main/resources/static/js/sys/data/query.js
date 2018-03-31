@@ -1,7 +1,7 @@
 // 激活侧边栏
 $('[data-target="#data-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
 
-$('#queryDate').daterangepicker({
+$('#query-date').daterangepicker({
     locale: {
         applyLabel: '确认',
         cancelLabel: '取消',
@@ -19,7 +19,7 @@ $('#queryDate').daterangepicker({
     },
 }).val('');
 
-$("#recordTable").bootstrapTable({
+$("#record-table").bootstrapTable({
     url: 'sys/data/record',
     queryParams: function (params) {
         return {
@@ -66,7 +66,7 @@ $("#recordTable").bootstrapTable({
  * @returns String
  */
 function getTime(index) {
-    var time = $('#queryDate').val().split(' 至 ');
+    var time = $('#query-date').val().split(' 至 ');
     if (time.length > 1) {
         return time[index].trim();
     } else {
@@ -75,7 +75,7 @@ function getTime(index) {
 }
 
 // 设置bootstrap-select大小
-$('#queryToolBar .selectpicker').selectpicker({
+$('#query-tool-bar .selectpicker').selectpicker({
     width: '180.67px'
 });
 
@@ -128,13 +128,13 @@ function convertDataType(dataType) {
 }
 
 // 重置
-$('#resetBtn').click(function () {
-    $('#queryDate').val('');
-    $('#queryToolBar .selectpicker').selectpicker('val', '');
-    $('#queryBtn').trigger('click');
+$('#reset-btn').click(function () {
+    $('#query-date').val('');
+    $('#query-tool-bar .selectpicker').selectpicker('val', '');
+    $('#query-btn').trigger('click');
 });
 
 // 查询
-$('#queryBtn').click(function () {
-    $("#recordTable").bootstrapTable('selectPage', 1);
+$('#query-btn').click(function () {
+    $("#record-table").bootstrapTable('selectPage', 1);
 });

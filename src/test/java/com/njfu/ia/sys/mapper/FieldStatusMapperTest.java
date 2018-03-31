@@ -25,7 +25,6 @@ public class FieldStatusMapperTest {
     @Test
     public void insertFieldStatus() throws Exception {
         Field field = new Field();
-        field.setFieldId("test");
 
         int res = fieldStatusMapper.insertFieldStatus(field);
 
@@ -42,7 +41,6 @@ public class FieldStatusMapperTest {
     @Test
     public void deleteFieldStatus() throws Exception {
         Field field = new Field();
-        field.setFieldId("f1701001");
 
         int res = fieldStatusMapper.deleteFieldStatus(field);
 

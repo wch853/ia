@@ -24,7 +24,7 @@ public class ExceptionController {
     @ExceptionHandler(Exception.class)
     public @ResponseBody
     Result exceptionHandler(Exception e) {
-        LOGGER.error(e.getMessage());
+        LOGGER.error(e.getMessage(), e);
         return Result.response(ResultEnum.FAIL);
     }
 

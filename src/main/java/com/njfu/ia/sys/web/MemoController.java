@@ -71,7 +71,7 @@ public class MemoController {
             memoService.addMemo(memo);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -92,7 +92,7 @@ public class MemoController {
             memoService.modifyMemo(memo);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

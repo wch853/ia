@@ -90,7 +90,7 @@ public class DataUpstreamHandler extends UpstreamHandler {
                 informRet.setRecord(alarmRecord);
                 // 报警通知
                 jmsSender.sendMessage(Constants.MESSAGE_INFORM_ALARM, JsonUtils.toJsonString(informRet));
-                LOGGER.info("end device {} upstream alarm record: {}", record.getDeviceId(), JsonUtils.toJsonString(alarmRecord));
+                LOGGER.info("end device {} upstream alarm record: {}", alarmRecord.getDeviceId(), JsonUtils.toJsonString(alarmRecord));
             }
         }
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.ia.sys.mapper.DataTypeMapper">
+
+    <select id="selectDataTypes" resultType="DataType">
+        SELECT id, data_type_name, data_short_name, floor, ceil, use_status
+        FROM data_type
+        <where>
+            <if test="null != dataTypeName and !''.equals(dataTypeName)">
+                data_type_name = #{dataTypeName}
+            </if>
+            <if test="null != dataShortName and !''.equals(dataShortName)">
+                AND data_short_name = #{dataShortName}
+            </if>
+            <if test="null != useStatus">
+                AND use_status = #{useStatus}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDataType">
+        UPDATE data_type
+        <set>
+            <if test="null != dataTypeName and !''.equals(dataTypeName)">
+                data_type_name = #{dataTypeName},
+            </if>
+            <if test="null != dataShortName and !''.equals(dataShortName)">
+                data_short_name = #{dataShortName},
+            </if>
+            <if test="null != floor">
+                floor = #{floor},
+            </if>
+            <if test="null != ceil">
+                ceil = #{ceil},
+            </if>
+            <if test="null != useStatus">
+               use_status = #{useStatus}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>	

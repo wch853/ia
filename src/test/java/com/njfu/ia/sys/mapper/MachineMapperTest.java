@@ -44,7 +44,6 @@ public class MachineMapperTest {
         machine.setMachineType("xyz");
 
         Block block = new Block();
-        block.setBlockId("b01");
         machine.setBlock(block);
 
         machine.setUseStatus("0");
@@ -62,7 +61,6 @@ public class MachineMapperTest {
         machine.setMachineType("xyz");
 
         Block block = new Block();
-        block.setBlockId("b01");
         machine.setBlock(block);
 
         machine.setUseStatus("0");

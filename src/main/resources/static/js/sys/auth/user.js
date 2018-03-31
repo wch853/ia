@@ -63,9 +63,9 @@ var user = {
             },
             success: function (res) {
                 var message = '操作失败！';
-                if (res.code === 200) {
+                if (res.code == 200) {
                     message = "操作成功！";
-                } else if (res.code === 300 && res.message) {
+                } else if (res.code == 300 && res.message) {
                     message = res.message;
                 }
                 bootbox.confirm({
@@ -83,7 +83,7 @@ var user = {
      */
     modifyName: function () {
         var name = $('#name').val().trim();
-        if (name === '') {
+        if (name == '') {
             bootbox.alert({
                 title: '提示',
                 message: '用户名称不可为空'
@@ -109,7 +109,7 @@ var user = {
         var rePassword = $('#re-password').val().trim();
 
         var alertMessage = '';
-        if (prePassword.length === 0 || password.length === 0 || rePassword.length === 0) {
+        if (prePassword.length == 0 || password.length == 0 || rePassword.length == 0) {
             alertMessage = '密码不可为空！';
         } else if (password !== rePassword) {
             alertMessage = '两次输入的密码不一致！';

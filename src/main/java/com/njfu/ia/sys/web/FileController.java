@@ -8,6 +8,7 @@ import com.njfu.ia.sys.exception.BusinessException;
 import com.njfu.ia.sys.service.*;
 import com.njfu.ia.sys.utils.PaginationResult;
 import com.njfu.ia.sys.utils.Result;
+import com.njfu.ia.sys.utils.page.PageOffset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -31,13 +32,13 @@ public class FileController {
     private BlockService blockService;
 
     @Resource
+    private SectionService sectionService;
+
+    @Resource
     private FieldService fieldService;
 
     @Resource
     private CropService cropService;
-
-    @Resource
-    private EmployeeService employeeService;
 
     @Resource
     private MachineService machineService;
@@ -46,7 +47,7 @@ public class FileController {
     private VehicleService vehicleService;
 
     @Resource
-    private TerminalService terminalService;
+    private EndDeviceService endDeviceService;
 
     @Resource
     private SensorService sensorService;
@@ -56,35 +57,53 @@ public class FileController {
     /**
      * 地块档案页
      *
-     * @return Page
+     * @return
      */
     @GetMapping("/block")
     public String blockFile() {
-        return "sys/file/blockFile";
+        return "sys/file/block";
     }
 
     /**
      * 获取地块列表
      *
-     * @param offset offset
-     * @param limit  limit
-     * @param block  blockId blockName
-     * @return json data
+     * @param offset
+     * @param limit
+     * @param block
+     * @return
      */
     @GetMapping("/block/data")
+    @PageOffset
     public @ResponseBody
     PaginationResult getBlocks(int offset, int limit, Block block) {
-        PageHelper.offsetPage(offset, limit);
         List<Block> blocks = blockService.getBlocks(block);
         PageInfo<Block> page = new PageInfo<>(blocks);
         return new PaginationResult<>(page.getTotal(), blocks);
     }
 
     /**
+     * 获取地块列表
+     *
+     * @param block
+     * @return
+     */
+    @GetMapping("/block/list")
+    public @ResponseBody
+    Result listBlocks(Block block) {
+        try {
+            List<Block> blocks = blockService.getBlocks(block);
+            return Result.response(ResultEnum.SUCCESS, null, blocks);
+        } catch (Exception e) {
+            LOGGER.error("list blocks Exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
      * 新增地块信息
      *
-     * @param block blockId blockName blockLoc blockPs
-     * @return json Result
+     * @param block
+     * @return
      */
     @PostMapping("/block/add")
     public @ResponseBody
@@ -93,7 +112,7 @@ public class FileController {
             blockService.addBlock(block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -104,8 +123,8 @@ public class FileController {
     /**
      * 修改地块信息
      *
-     * @param block blockId blockName blockLoc blockPs
-     * @return json Result
+     * @param block
+     * @return
      */
     @PostMapping("/block/modify")
     public @ResponseBody
@@ -114,7 +133,7 @@ public class FileController {
             blockService.modifyBlock(block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -125,17 +144,128 @@ public class FileController {
     /**
      * 删除地块信息
      *
-     * @param block blockId
-     * @return json Result
+     * @param block
+     * @return
      */
     @PostMapping("/block/remove")
     public @ResponseBody
-    Result removeBlock(Block block) {
+    Result removeBlock(Integer id) {
         try {
-            blockService.removeBlock(block);
+            blockService.removeBlock(id);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 区块档案页
+     *
+     * @return
+     */
+    @GetMapping("/section")
+    public String sectionFile() {
+        return "sys/file/section";
+    }
+
+    /**
+     * 获取区块信息数据
+     *
+     * @param offset
+     * @param limit
+     * @param section
+     * @return
+     */
+    @GetMapping("/section/data")
+    @PageOffset
+    public @ResponseBody
+    PaginationResult getSectionData(int offset, int limit, Section section) {
+        List<Section> sections = sectionService.getSections(section);
+        PageInfo<Section> page = new PageInfo<>(sections);
+        return new PaginationResult(page.getTotal(), sections);
+    }
+
+    /**
+     * 获取区块信息列表
+     *
+     * @param section
+     * @return
+     */
+    @GetMapping("/section/list")
+    public @ResponseBody
+    Result getSectionList(Section section) {
+        try {
+            List<Section> sections = sectionService.getSections(section);
+            return Result.response(ResultEnum.SUCCESS, null, sections);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 新增区块信息
+     *
+     * @param section
+     * @return
+     */
+    @PostMapping("/section/add")
+    public @ResponseBody
+    Result addSection(Section section) {
+        try {
+            sectionService.addSection(section);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 修改区块信息
+     *
+     * @param section
+     * @return
+     */
+    @PostMapping("/section/modify")
+    public @ResponseBody
+    Result modifySection(Section section) {
+        try {
+            sectionService.modifySection(section);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 删除区块信息
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/section/remove")
+    public @ResponseBody
+    Result removeSection(Integer id) {
+        try {
+            sectionService.removeSection(id);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -146,33 +276,26 @@ public class FileController {
     /**
      * 大棚档案页
      *
-     * @param model blocks crops
-     * @return Page
+     * @return
      */
     @GetMapping("/field")
-    public String fieldFile(Model model) {
-        List<Block> blocks = blockService.getBlocks(new Block());
-        List<Crop> crops = cropService.getCrops(new Crop());
-        model.addAttribute("blocks", blocks);
-        model.addAttribute("crops", crops);
-        return "sys/file/fieldFile";
+    public String field() {
+        return "sys/file/field";
     }
 
     /**
      * 获取大棚列表
      *
-     * @param offset offset
-     * @param limit  limit
-     * @param field  fieldName useStatus
-     * @param block  blockId
-     * @param crop   cropId
-     * @return json data
+     * @param offset
+     * @param limit
+     * @param field
+     * @return
      */
     @GetMapping("/field/data")
     public @ResponseBody
-    PaginationResult getFields(int offset, int limit, Field field, Block block, Crop crop) {
+    PaginationResult getFields(int offset, int limit, Field field) {
         PageHelper.offsetPage(offset, limit);
-        List<Field> fields = fieldService.getFields(field, block, crop);
+        List<Field> fields = fieldService.getFields(field);
         PageInfo<Field> page = new PageInfo<>(fields);
         return new PaginationResult<>(page.getTotal(), fields);
     }
@@ -180,19 +303,19 @@ public class FileController {
     /**
      * 新增大棚信息
      *
-     * @param field fieldId fieldName useStatus fieldPs
-     * @param block blockId
-     * @param crop  cropId
-     * @return json Result
+     * @param field
+     * @param block
+     * @param crop
+     * @return
      */
     @PostMapping("/field/add")
     public @ResponseBody
     Result addField(Field field, Block block, Crop crop) {
         try {
-            fieldService.addField(field, block, crop);
+            fieldService.addField(field);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -203,19 +326,17 @@ public class FileController {
     /**
      * 修改大棚信息
      *
-     * @param field fieldId fieldName useStatus fieldPs
-     * @param block blockId
-     * @param crop  cropId
-     * @return json Result
+     * @param field
+     * @return
      */
     @PostMapping("/field/modify")
     public @ResponseBody
-    Result modifyField(Field field, Block block, Crop crop) {
+    Result modifyField(Field field) {
         try {
-            fieldService.modifyField(field, block, crop);
+            fieldService.modifyField(field);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -226,17 +347,17 @@ public class FileController {
     /**
      * 移除大棚信息
      *
-     * @param field fieldId
-     * @return json Result
+     * @param id
+     * @return
      */
     @PostMapping("/field/remove")
     public @ResponseBody
-    Result removeField(Field field) {
+    Result removeField(Integer id) {
         try {
-            fieldService.removeField(field);
+            fieldService.removeField(id);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -247,20 +368,20 @@ public class FileController {
     /**
      * 作物档案页
      *
-     * @return Page
+     * @return
      */
     @GetMapping("/crop")
-    public String cropFile() {
-        return "sys/file/cropFile";
+    public String crop() {
+        return "sys/file/crop";
     }
 
     /**
-     * 获取作物列表
+     * 获取作物信息数据
      *
-     * @param offset offset
-     * @param limit  limit
-     * @param crop   cropId cropName
-     * @return json data
+     * @param offset
+     * @param limit
+     * @param crop
+     * @return
      */
     @GetMapping("/crop/data")
     public @ResponseBody
@@ -272,10 +393,31 @@ public class FileController {
     }
 
     /**
+     * 获取作物信息列表
+     *
+     * @param crop
+     * @return
+     */
+    @GetMapping("/crop/list")
+    public @ResponseBody
+    Result getCropList(Crop crop) {
+        try {
+            List<Crop> crops = cropService.getCrops(crop);
+            return Result.response(ResultEnum.SUCCESS, null, crops);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
      * 新增作物信息
      *
-     * @param crop cropId cropName cropPs
-     * @return json Result
+     * @param crop
+     * @return
      */
     @PostMapping("/crop/add")
     public @ResponseBody
@@ -284,7 +426,7 @@ public class FileController {
             cropService.addCrop(crop);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -295,8 +437,8 @@ public class FileController {
     /**
      * 修改作物信息
      *
-     * @param crop cropId cropName cropPs
-     * @return json Result
+     * @param crop
+     * @return
      */
     @PostMapping("/crop/modify")
     public @ResponseBody
@@ -305,7 +447,7 @@ public class FileController {
             cropService.modifyCrop(crop);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -316,8 +458,8 @@ public class FileController {
     /**
      * 删除作物信息
      *
-     * @param crop cropId
-     * @return json Result
+     * @param crop
+     * @return
      */
     @PostMapping("/crop/remove")
     public @ResponseBody
@@ -326,97 +468,7 @@ public class FileController {
             cropService.removeCrop(crop);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
-    }
-
-    /**
-     * 员工档案页
-     *
-     * @return Page
-     */
-    @GetMapping("/employee")
-    public String employeeFile() {
-        return "sys/file/employeeFile";
-    }
-
-    /**
-     * 获取员工列表
-     *
-     * @param offset   offset
-     * @param limit    limit
-     * @param employee empId empName
-     * @return json data
-     */
-    @GetMapping("/employee/data")
-    public @ResponseBody
-    PaginationResult getEmployees(int offset, int limit, Employee employee) {
-        PageHelper.offsetPage(offset, limit);
-        List<Employee> employees = employeeService.getEmployees(employee);
-        PageInfo<Employee> page = new PageInfo<>(employees);
-        return new PaginationResult<>(page.getTotal(), employees);
-    }
-
-    /**
-     * 新增员工信息
-     *
-     * @param employee empId empName empTel empPosition empAge empSex empPs
-     * @return json Result
-     */
-    @PostMapping("/employee/add")
-    public @ResponseBody
-    Result addEmployee(Employee employee) {
-        try {
-            employeeService.addEmployee(employee);
-            return Result.response(ResultEnum.SUCCESS);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
-    }
-
-    /**
-     * 修改员工信息
-     *
-     * @param employee empId empName empTel empPosition empAge empSex empPs
-     * @return json Result
-     */
-    @PostMapping("/employee/modify")
-    public @ResponseBody
-    Result modifyEmployee(Employee employee) {
-        try {
-            employeeService.modifyEmployee(employee);
-            return Result.response(ResultEnum.SUCCESS);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
-    }
-
-    /**
-     * 删除员工信息
-     *
-     * @param employee empId
-     * @return json Result
-     */
-    @PostMapping("/employee/remove")
-    public @ResponseBody
-    Result removeEmployee(Employee employee) {
-        try {
-            employeeService.removeEmployee(employee);
-            return Result.response(ResultEnum.SUCCESS);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -469,7 +521,7 @@ public class FileController {
             machineService.addMachine(machine, block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -491,7 +543,7 @@ public class FileController {
             machineService.modifyMachine(machine, block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -512,7 +564,7 @@ public class FileController {
             machineService.removeMachine(machine);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -564,7 +616,7 @@ public class FileController {
             vehicleService.addVehicle(vehicle, block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -586,7 +638,7 @@ public class FileController {
             vehicleService.modifyVehicle(vehicle, block);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -607,7 +659,7 @@ public class FileController {
             vehicleService.removeVehicle(vehicle);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -620,102 +672,50 @@ public class FileController {
      *
      * @return Page
      */
-    @GetMapping("/terminal")
-    public String terminalFile() {
-        return "sys/file/terminal";
+    @GetMapping("/device")
+    public String endDeviceFile() {
+        return "sys/file/device";
     }
 
     /**
      * 获取终端列表
      *
-     * @param terminal terminalId terminalType useStatus
-     * @param offset   offset
-     * @param limit    limit
+     * @param offset    offset
+     * @param limit     limit
+     * @param endDevice endDevice
      * @return json data
      */
-    @RequestMapping("terminal/data")
+    @RequestMapping("/device/data")
     public @ResponseBody
-    PaginationResult getTerminals(Terminal terminal, int offset, int limit) {
+    PaginationResult getEndDevices(int offset, int limit, EndDevice endDevice) {
         PageHelper.offsetPage(offset, limit);
-        List<Terminal> terminals = terminalService.getTerminals(terminal);
-        PageInfo<Terminal> page = new PageInfo<>(terminals);
-        return new PaginationResult<>(page.getTotal(), terminals);
+        List<EndDevice> endDevices = endDeviceService.getEndDevices(endDevice);
+        PageInfo<EndDevice> page = new PageInfo<>(endDevices);
+        return new PaginationResult<>(page.getTotal(), endDevices);
     }
 
     /**
-     * 新增终端
+     * 获取终端列表
      *
-     * @param terminal terminal
-     * @return json Result
+     * @param offset    offset
+     * @param limit     limit
+     * @param endDevice endDevice
+     * @return EndDevice list
      */
-    @RequestMapping("/terminal/add")
+    @RequestMapping("/device/list")
     public @ResponseBody
-    Result addTerminal(Terminal terminal) {
-        try {
-            terminalService.addTerminal(terminal);
-            return Result.response(ResultEnum.SUCCESS);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
-    }
-
-    /**
-     * 修改终端信息
-     *
-     * @param terminal terminal
-     * @return json Result
-     */
-    @RequestMapping("/terminal/modify")
-    public @ResponseBody
-    Result modifyTerminal(Terminal terminal) {
-        try {
-            terminalService.modifyTerminal(terminal);
-            return Result.response(ResultEnum.SUCCESS);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
-    }
-
-    /**
-     * 删除终端
-     *
-     * @param terminalId terminalId
-     * @return json Result
-     */
-    @RequestMapping("/terminal/remove")
-    public @ResponseBody
-    Result removeTerminal(String terminalId) {
-        try {
-            terminalService.removeTerminal(terminalId);
-            return Result.response(ResultEnum.SUCCESS);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
+    Result listEndDevices(EndDevice endDevice) {
+        List<EndDevice> endDevices = endDeviceService.getEndDevices(endDevice);
+        return Result.response(ResultEnum.SUCCESS, null, endDevices);
     }
 
     /**
      * 传感器档案页
      *
-     * @return Page
+     * @return
      */
     @GetMapping("/sensor")
-    public String sensorFile(Model model) {
-        List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
-        List<Terminal> terminals = terminalService.getTerminals(new Terminal());
-        model.addAttribute("fields", fields);
-        model.addAttribute("terminals", terminals);
+    public String sensorFile() {
         return "sys/file/sensorFile";
     }
 
@@ -751,7 +751,7 @@ public class FileController {
             sensorService.addSensor(sensor, field);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -773,7 +773,7 @@ public class FileController {
             sensorService.modifySensor(sensor, field);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -794,7 +794,7 @@ public class FileController {
             sensorService.removeSensor(sensor);
             return Result.response(ResultEnum.SUCCESS);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

@@ -2,6 +2,7 @@ package com.njfu.ia.sys.mapper;
 
 import com.njfu.ia.sys.domain.Block;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,39 +12,39 @@ public interface BlockMapper {
     /**
      * 查询地块信息
      *
-     * @param block blockId blockName
-     * @return data
+     * @param block
+     * @return
      */
     List<Block> selectBlocks(Block block);
 
     /**
      * 查询所有地块信息及相应地块下使用状态的大棚
      *
-     * @return data
+     * @return
      */
     List<Block> selectBlocksAndFields();
 
     /**
      * 新增地块信息
      *
-     * @param block blockId blockName blockLoc blockPs
-     * @return row count
+     * @param block
+     * @return
      */
     int insertBlock(Block block);
 
     /**
      * 修改地块信息
      *
-     * @param block blockId blockName blockLoc blockPs
-     * @return row count
+     * @param block
+     * @return
      */
     int updateBlock(Block block);
 
     /**
      * 删除地块信息
      *
-     * @param block blockId
-     * @return row count
+     * @param id
+     * @return
      */
-    int deleteBlock(Block block);
+    int deleteBlock(@Param("id") Integer id);
 }

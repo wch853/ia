@@ -31,9 +31,7 @@ public class CropServiceTest {
     @Test
     public void addCrop() throws Exception {
         Crop crop = new Crop();
-        crop.setCropId("c000");
         crop.setCropName("test");
-        crop.setCropPs("test");
 
         try {
             cropService.addCrop(crop);
@@ -45,9 +43,7 @@ public class CropServiceTest {
     @Test
     public void modifyCrop() throws Exception {
         Crop crop = new Crop();
-        crop.setCropId("c001");
         crop.setCropName("test");
-        crop.setCropPs("test");
 
         try {
             cropService.modifyCrop(crop);
@@ -59,7 +55,6 @@ public class CropServiceTest {
     @Test
     public void removeCrop() throws Exception {
         Crop crop = new Crop();
-        crop.setCropId("c001");
 
         try {
             cropService.removeCrop(crop);

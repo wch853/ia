@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-table.html"/>
+    <title>作物档案</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>作物档案</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="sys">首页</a></li>
+                    <li><a href="sys/file">档案管理</a></li>
+                    <li><a href="sys/file/crop">作物档案</a></li>
+                </ol>
+            </div>
+
+            <!-- 查询工具栏 -->
+            <div class="form-inline" id="query-tool-bar">
+                <div class="form-group">
+                    <label for="crop-name">作物名称：</label>
+                    <input id="crop-name" class="form-control">
+                </div>
+                <button class="btn btn-primary" id="query-btn">查询</button>
+                <button class="btn btn-success" id="reset-btn">重置</button>
+                <button class="btn btn-danger" id="add-btn" @click="addCrop">新增</button>
+            </div>
+            <hr>
+
+            <table id="crop-table"></table>
+
+            <div class="modal fade" id="crop-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">{{ cropModalTitle }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="edit-crop-name">作物名称：</label>
+                                    <input id="edit-crop-name" class="form-control" placeholder="作物名称不可为空">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="save-add" @click="saveAdd">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!--container-->
+    </div><!--page wrapped-->
+
+</div><!--wrapped-->
+</body>
+<script type="text/javascript" src="js/sys/file/crop.js"></script>
+</html>

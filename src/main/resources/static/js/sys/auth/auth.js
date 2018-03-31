@@ -8,13 +8,13 @@ var auth = {
         $('#auth-man').addClass('side-active');
 
         // 重置
-        $('#resetBtn').click(function () {
+        $('#reset-btn').click(function () {
             $('#query-name').val('');
-            $('#queryBtn').trigger('click');
+            $('#query-btn').trigger('click');
         });
 
         // 查询
-        $('#queryBtn').click(function () {
+        $('#query-btn').click(function () {
             $("#auth-table").bootstrapTable('selectPage', 1);
         });
 
@@ -33,7 +33,7 @@ var auth = {
         $('#user-man').trigger('click');
 
         // 新增弹窗
-        $('#addBtn').click(function () {
+        $('#add-btn').click(function () {
             $('.modal :text').val('');
             if ($('#user-man').hasClass('active')) {
                 $('#user-add-modal .selectpicker').each(function () {
@@ -109,9 +109,9 @@ var auth = {
             formatter: function (value, row, index) {
                 var fmt = '-';
                 var status = row.status;
-                if (status === 1) {
+                if (status == 1) {
                     fmt = '有效';
-                } else if (status === 0) {
+                } else if (status == 0) {
                     fmt = '无效';
                 }
                 return fmt;
@@ -169,10 +169,10 @@ var auth = {
         var prefix = '<i class="fa ';
         var iconType = '';
         var suffix = '"></i> ';
-        if (1 === status) {
+        if (1 == status) {
             iconType = 'fa-minus';
             suffix += "禁用";
-        } else if (0 === status) {
+        } else if (0 == status) {
             iconType = 'fa-check';
             suffix += "启用";
         } else {
@@ -187,9 +187,9 @@ var auth = {
      */
     ajaxResponse: function (res) {
         var message = '操作失败！';
-        if (res.code === 200) {
+        if (res.code == 200) {
             message = "操作成功！";
-        } else if (res.code === 300 && res.message) {
+        } else if (res.code == 300 && res.message) {
             message = res.message;
         }
         bootbox.alert({
@@ -213,7 +213,7 @@ var auth = {
         var regex = /^[a-zA-Z0-9]{6,16}$/;
         if (!regex.test(username)) {
             alertMessage = '用户账户应为6~16位字母数字组合！';
-        } else if (name.length === 0) {
+        } else if (name.length == 0) {
             alertMessage = '用户名称不可为空！';
         }
 
@@ -250,7 +250,7 @@ var auth = {
      * @param id
      */
     getUserRoles: function (id) {
-        if (id === 1) {
+        if (id == 1) {
             bootbox.alert({
                 title: '提示',
                 message: 'root账号不可编辑角色！'
@@ -264,7 +264,7 @@ var auth = {
                 userId: id
             },
             success: function (res) {
-                if (res.code && res.code === 201) {
+                if (res.code && res.code == 201) {
                     /** @namespace res.data.allRoles */
                     var allRoles = res.data.allRoles;
                     /** @namespace res.data.hasRoles */
@@ -293,7 +293,7 @@ var auth = {
      */
     saveUserRoles: function (id) {
         $('#role-modal').modal('hide');
-        if (id === '1') {
+        if (id == '1') {
             bootbox.alert({
                 title: '提示',
                 message: 'root账号不可编辑角色！'
@@ -327,14 +327,14 @@ var auth = {
      * @param status
      */
     modifyUserStatus: function (id, status) {
-        if (id === '1') {
+        if (id == '1') {
             bootbox.alert({
                 title: '提示',
                 message: 'root账号不可修改使用状态！'
             });
             return;
         }
-        var newStatus = status === '1' ? '禁用' : '启用';
+        var newStatus = status == '1' ? '禁用' : '启用';
         bootbox.confirm({
             title: '提示',
             message: '确认将用户账户状态修改为<span class="status-data">' + newStatus + '</span>',
@@ -345,7 +345,7 @@ var auth = {
                         type: 'post',
                         data: {
                             id: id,
-                            status: status === '1' ? 0 : 1
+                            status: status == '1' ? 0 : 1
                         },
                         success: function (res) {
                             auth.ajaxResponse(res);
@@ -360,7 +360,7 @@ var auth = {
      * @param id
      */
     removeUser: function (id) {
-        if (id === '1') {
+        if (id == '1') {
             bootbox.alert({
                 title: '提示',
                 message: 'root账号不可删除！'
@@ -392,7 +392,7 @@ var auth = {
     saveRole: function () {
         $('#role-add-modal').modal('hide');
         var roleName = $('#add-role-name').val().trim();
-        if (roleName.length === 0) {
+        if (roleName.length == 0) {
             bootbox.alert({
                 title: '提示',
                 message: '角色名称不可为空！'
@@ -423,7 +423,7 @@ var auth = {
      * @param id
      */
     getRolePermissions: function (id) {
-        if (id === 1) {
+        if (id == 1) {
             bootbox.alert({
                 title: '提示',
                 message: 'root账号不可编辑权限！'
@@ -437,7 +437,7 @@ var auth = {
                 roleId: id
             },
             success: function (res) {
-                if (res.code && res.code === 201) {
+                if (res.code && res.code == 201) {
                     /** @namespace res.data.allPermissions */
                     var allPermissions = res.data.allPermissions;
                     /** @namespace res.data.hasPermissions */
@@ -466,7 +466,7 @@ var auth = {
     saveRolePermissions: function (id) {
         var roleId = $('#save-role-permission').attr('role');
         $('#permission-modal').modal('hide');
-        if (id === '1') {
+        if (id == '1') {
             bootbox.alert({
                 title: '提示',
                 message: 'root账号不可编辑权限！'
@@ -499,7 +499,7 @@ var auth = {
      * @param id
      */
     removeRole: function (id) {
-        if (id === '1') {
+        if (id == '1') {
             bootbox.alert({
                 title: '提示',
                 message: '超级管理员角色不可删除！'

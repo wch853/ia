@@ -28,9 +28,6 @@ public class FieldMapperTest {
     @Test
     public void selectFields() throws Exception {
         Field field = new Field();
-        field.setBlock(new Block());
-        field.setCrop(new Crop());
-        field.setUseStatus("");
 
         List<Field> fields = fieldMapper.selectFields(field);
         LOGGER.info("fields: {}", fields);
@@ -39,16 +36,9 @@ public class FieldMapperTest {
     @Test
     public void insertField() throws Exception {
         Field field = new Field();
-        field.setFieldId("f1700001");
         field.setFieldName("test");
 
         Block block = new Block();
-        block.setBlockId("b01");
-        field.setBlock(block);
-
-        field.setCrop(new Crop());
-        field.setUseStatus("0");
-        field.setFieldPs("test");
 
         int res = fieldMapper.insertField(field);
 
@@ -58,13 +48,9 @@ public class FieldMapperTest {
     @Test
     public void updateField() throws Exception {
         Field field = new Field();
-        field.setFieldId("f1701001");
         field.setFieldName("test");
-        field.setUseStatus("0");
 
         Block block = new Block();
-        block.setBlockId("b01");
-        field.setBlock(block);
 
         int res = fieldMapper.updateField(field);
         Assert.assertEquals(1, res);
@@ -72,9 +58,7 @@ public class FieldMapperTest {
 
     @Test
     public void deleteField() throws Exception {
-        Field field = new Field();
-        field.setFieldId("f1701001");
-        int res = fieldMapper.deleteField(field);
+        int res = fieldMapper.deleteField(1);
 
         Assert.assertEquals(1, res);
     }

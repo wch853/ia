@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.ia.sys.mapper.SectionMapper">
+
+    <select id="selectSections" resultType="Section">
+        SELECT s.id, s.section_name, s.block_id, b.block_name
+        FROM section s
+        LEFT JOIN block b
+        ON b.id = s.block_id
+        <where>
+            <if test="null != id">
+                s.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSection">
+        INSERT INTO section (section_name, block_id)
+        VALUES (#{sectionName}, #{blockId})
+    </insert>
+
+    <update id="updateSection">
+        UPDATE section
+        <set>
+            <if test="null != sectionName and !''.equals(sectionName)">
+                section_name = #{sectionName},
+            </if>
+            <if test="null != blockId">
+                block_id = #{blockId}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteSection">
+        DELETE FROM section
+        WHERE id = #{id}
+    </delete>
+
+</mapper>	

@@ -18,8 +18,8 @@ public class CropServiceImpl implements CropService {
     /**
      * 获取作物列表
      *
-     * @param crop cropId cropName
-     * @return data
+     * @param crop
+     * @return
      */
     @Override
     public List<Crop> getCrops(Crop crop) {
@@ -29,13 +29,10 @@ public class CropServiceImpl implements CropService {
     /**
      * 新增作物信息
      *
-     * @param crop cropId cropName cropPs
+     * @param crop
      */
     @Override
     public void addCrop(Crop crop) {
-        if ("".equals(crop.getCropPs())) {
-            crop.setCropPs(null);
-        }
         int res = cropMapper.insertCrop(crop);
         if (res <= 0) {
             throw new BusinessException("新增作物信息失败");
@@ -45,13 +42,10 @@ public class CropServiceImpl implements CropService {
     /**
      * 修改作物信息
      *
-     * @param crop cropId cropName cropPs
+     * @param crop
      */
     @Override
     public void modifyCrop(Crop crop) {
-        if ("".equals(crop.getCropPs())) {
-            crop.setCropPs(null);
-        }
         int res = cropMapper.updateCrop(crop);
         if (res <= 0) {
             throw new BusinessException("修改作物信息失败!");
@@ -61,7 +55,7 @@ public class CropServiceImpl implements CropService {
     /**
      * 删除作物信息
      *
-     * @param crop cropId
+     * @param crop
      */
     @Override
     public void removeCrop(Crop crop) {

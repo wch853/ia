@@ -25,6 +25,11 @@ public class AlarmRecord {
     private Integer dataType;
 
     /**
+     * 数据类型名称
+     */
+    private String dataTypeName;
+
+    /**
      * 数据值
      */
     private Double value;
@@ -49,6 +54,13 @@ public class AlarmRecord {
     public AlarmRecord() {
     }
 
+    public AlarmRecord(UpstreamDataRecord record) {
+        this.deviceId = record.getDeviceId();
+        this.dataType = record.getDataType();
+        this.value = record.getValue();
+        this.alarmTime = record.getReceiveTime();
+    }
+
     public Integer getId() {
         return id;
     }
@@ -71,6 +83,14 @@ public class AlarmRecord {
 
     public void setDataType(Integer dataType) {
         this.dataType = dataType;
+    }
+
+    public String getDataTypeName() {
+        return dataTypeName;
+    }
+
+    public void setDataTypeName(String dataTypeName) {
+        this.dataTypeName = dataTypeName;
     }
 
     public Double getValue() {

@@ -6,18 +6,17 @@ import com.njfu.ia.sys.domain.*;
 import com.njfu.ia.sys.enums.ResultEnum;
 import com.njfu.ia.sys.exception.BusinessException;
 import com.njfu.ia.sys.service.DataRecordService;
+import com.njfu.ia.sys.service.DataTypeService;
 import com.njfu.ia.sys.service.FieldService;
 import com.njfu.ia.sys.service.SensorService;
 import com.njfu.ia.sys.utils.PaginationResult;
 import com.njfu.ia.sys.utils.Result;
+import com.njfu.ia.sys.utils.page.PageOffset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -40,17 +39,16 @@ public class DataController {
     @Resource
     private SensorService sensorService;
 
+    @Resource
+    private DataTypeService dataTypeService;
+
     /**
      * 数据查询页面
      *
-     * @return Page
+     * @return
      */
     @GetMapping("/query")
-    public String dataQuery(Model model) {
-        List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
-        List<Sensor> sensors = sensorService.getSensors(new Sensor(), new Field());
-        model.addAttribute("fields", fields);
-        model.addAttribute("sensors", sensors);
+    public String dataQuery() {
         return "sys/data/query";
     }
 
@@ -80,8 +78,6 @@ public class DataController {
      */
     @GetMapping("/analysis")
     public String dataAnalysis(Model model) {
-        List<Field> fields = fieldService.getFields(new Field(), new Block(), new Crop());
-        model.addAttribute("fields", fields);
         return "sys/data/analysis";
     }
 
@@ -99,10 +95,72 @@ public class DataController {
             ChartData chartData = dataRecordService.getChartData(dataTypes, fieldId);
             return Result.response(ResultEnum.SUCCESS, null, chartData);
         } catch (BusinessException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
+            LOGGER.error("get chart data Exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 数据类型页面
+     *
+     * @return Page
+     */
+    @GetMapping("/type")
+    public String dataTypes() {
+        return "sys/data/type";
+    }
+
+    /**
+     * 获取数据类型
+     *
+     * @param offset   offset
+     * @param limit    limit
+     * @param dataType dataType
+     * @return json data
+     */
+    @GetMapping("/type/data")
+    @PageOffset
+    public @ResponseBody
+    PaginationResult getDataTypes(int offset, int limit, DataType dataType) {
+        List<DataType> dataTypes = dataTypeService.getDataTypes(dataType);
+        PageInfo<DataType> page = new PageInfo<>(dataTypes);
+        return new PaginationResult<>(page.getTotal(), dataTypes);
+    }
+
+    /**
+     * 获取数据类型
+     *
+     * @param offset   offset
+     * @param limit    limit
+     * @param dataType dataType
+     * @return json data
+     */
+    @GetMapping("/type/list")
+    public @ResponseBody
+    Result listDataTypes(DataType dataType) {
+        return Result.response(ResultEnum.SUCCESS, null, dataTypeService.getDataTypes(dataType));
+    }
+
+    /**
+     * 修改数据类型
+     *
+     * @param dataType
+     * @return
+     */
+    @PostMapping("/type/modify")
+    public @ResponseBody
+    Result modifyDataType(DataType dataType) {
+        try {
+            dataTypeService.updateDataType(dataType);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
             LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error("modify data type Exception", e);
             return Result.response(ResultEnum.FAIL);
         }
     }

@@ -9,29 +9,29 @@ public interface CropService {
     /**
      * 获取作物列表
      *
-     * @param crop cropId cropName
-     * @return data
+     * @param crop
+     * @return
      */
     List<Crop> getCrops(Crop crop);
 
     /**
      * 新增作物信息
      *
-     * @param crop cropId cropName cropPs
+     * @param crop
      */
     void addCrop(Crop crop);
 
     /**
      * 修改作物信息
      *
-     * @param crop cropId cropName cropPs
+     * @param crop
      */
     void modifyCrop(Crop crop);
 
     /**
      * 删除作物信息
      *
-     * @param crop cropId
+     * @param crop
      */
     void removeCrop(Crop crop);
 }

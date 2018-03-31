@@ -6,6 +6,7 @@ import com.njfu.ia.sys.domain.User;
 import com.njfu.ia.sys.enums.ResultEnum;
 import com.njfu.ia.sys.service.BlockService;
 import com.njfu.ia.sys.service.FieldStatusService;
+import com.njfu.ia.sys.utils.Constants;
 import com.njfu.ia.sys.utils.Result;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
@@ -65,13 +66,17 @@ public class IndexController {
     @GetMapping("/user/info")
     public @ResponseBody
     Result getUserInfo() {
-        try {
-            User user = (User) SecurityUtils.getSubject().getPrincipal();
-            String name = user.getName();
-            return Result.response(ResultEnum.DATA, name);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
+        if (Constants.USE_SHIRO) {
+            try {
+                User user = (User) SecurityUtils.getSubject().getPrincipal();
+                String name = user.getName();
+                return Result.response(ResultEnum.DATA, name);
+            } catch (Exception e) {
+                LOGGER.error("Security get user info Exception", e);
+                return Result.response(ResultEnum.FAIL);
+            }
+        } else {
+            return Result.response(ResultEnum.DATA, "wch853");
         }
     }
 

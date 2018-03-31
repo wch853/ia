@@ -1,7 +1,7 @@
 // 激活侧边栏
 $('[data-target="#warn-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
 
-$("#thresholdTable").bootstrapTable({
+$("#threshold-table").bootstrapTable({
     url: 'sys/warn/threshold/data',
     queryParams: function (params) {
         return {
@@ -29,9 +29,9 @@ $("#thresholdTable").bootstrapTable({
         formatter: function (value, row, index) {
             var useStatus = row.useStatus;
             var format = '';
-            if (useStatus === '1') {
+            if (useStatus == '1') {
                 format = '使用中';
-            } else if (useStatus === '0') {
+            } else if (useStatus == '0') {
                 format = '未使用';
             }
             return format;
@@ -105,14 +105,14 @@ function convertThresholdType(thresholdType) {
 }
 
 // 重置
-$('#resetBtn').click(function () {
-    $('#queryToolBar .selectpicker').selectpicker('val', '');
-    $('#queryBtn').trigger('click');
+$('#reset-btn').click(function () {
+    $('#query-tool-bar .selectpicker').selectpicker('val', '');
+    $('#query-btn').trigger('click');
 });
 
 // 查询
-$('#queryBtn').click(function () {
-    $("#thresholdTable").bootstrapTable('selectPage', 1);
+$('#query-btn').click(function () {
+    $("#threshold-table").bootstrapTable('selectPage', 1);
 });
 
 $('.selectpicker').selectpicker({
@@ -127,21 +127,21 @@ function modifyWarnThreshold(id, thresholdType, floor, ceil, useStatus) {
     $('#range-floor').val(floor);
     $('#range-ceil').val(ceil);
 
-    $('#modifyModal').modal('show');
+    $('#modify-modal').modal('show');
 }
 
-$('#saveModify').click(function () {
+$('#save-modify').click(function () {
     var id = $('#modifyThresholdId').text();
     var floor = $('#range-floor').val();
     var ceil = $('#range-ceil').val();
     var useStatus = $('#modifyUseStatus').val();
 
-    $('#modifyModal').modal('hide');
+    $('#modify-modal').modal('hide');
 
     var reg = /^[0-9]+([.][0-9]{1,2})?$/;
 
     var message;
-    useStatus === '0' ? message = '将阈值设为不可用，报警系统将忽略此类信息！' : message = '确认修改阈值信息';
+    useStatus == '0' ? message = '将阈值设为不可用，报警系统将忽略此类信息！' : message = '确认修改阈值信息';
 
     if (reg.test(floor) && reg.test(ceil)) {
         bootbox.confirm({
@@ -174,16 +174,16 @@ function sendRequest(path, id, floor, ceil, useStatus) {
         },
         success: function (res) {
             var message = '操作失败';
-            if (res.code === 200) {
+            if (res.code == 200) {
                 message = "操作成功！";
-            } else if (res.code === 300 && res.message) {
+            } else if (res.code == 300 && res.message) {
                 message = res.message;
             }
             bootbox.alert({
                 title: '提示',
                 message: message
             });
-            $("#thresholdTable").bootstrapTable('selectPage', 1);
+            $("#threshold-table").bootstrapTable('selectPage', 1);
         }
     });
 }

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/bootstrap-table.html"/>
+    <#include "/common/bootstrap-select.html"/>
+    <title>区块档案</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>区块档案</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="sys">首页</a></li>
+                    <li><a href="sys/file">档案管理</a></li>
+                    <li><a href="/sys/file/section">区块档案</a></li>
+                </ol>
+            </div>
+
+            <!-- 查询工具栏 -->
+            <div class="form-inline" id="query-tool-bar">
+                <div class="form-group">
+                    <label for="section-id">区块编号：</label>
+                    <input id="section-id" class="form-control">
+                </div>
+                <button class="btn btn-primary" id="query-btn">查询</button>
+                <button class="btn btn-success" id="reset-btn">重置</button>
+                <button class="btn btn-danger" id="add-btn" @click="addSection">新增</button>
+            </div>
+            <hr>
+
+            <table id="section-table"></table>
+
+            <div class="modal fade" id="section-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">{{sectionModalTitle}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-inline btm-px">
+                                <div class="form-group">
+                                    <label for="edit-section-name">区块名称：</label>
+                                    <input id="edit-section-name" class="form-control" placeholder="区块名称不可为空">
+                                </div>
+                            </div>
+                            <div id="form-inline">
+                                <div class="form-group">
+                                    <label for="edit-block">所属地块：</label>
+                                    <select id="edit-block" class="selectpicker" data-live-search="true">
+                                        <option value="0" class="hide-option">请选择所属地块</option>
+                                        <option v-bind:value="block.id" v-for="block in blocks" v-text="block.blockName"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="save-add" @click="saveAdd">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!--container-->
+    </div><!--page wrapped-->
+
+</div><!--wrapped-->
+</body>
+<script type="text/javascript" src="js/sys/file/section.js"></script>
+</html>
