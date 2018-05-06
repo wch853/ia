@@ -25,7 +25,7 @@ public class SensorServiceTest {
 
     @Test
     public void getSensors() throws Exception {
-        List<Sensor> sensors = sensorService.getSensors(new Sensor(), new Field());
+        List<Sensor> sensors = sensorService.querySensors(new Sensor(), new Field());
 
         LOGGER.info("sensors: {}", sensors);
     }

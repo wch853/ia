@@ -198,30 +198,35 @@ nav i,
     display: inline-block;
     margin: 5px 10px 10px 5px;
     padding-bottom: 10px;
+    display: inline-block;
+}
+
+.field-card a {
+    text-decoration: none;
 }
 
 @media (max-width: 484px) {
     .field-card {
-        width: 50%;
+        width: 45%;
     }
 }
 
 .card-header-blue {
-    background-color: #337ab7;
+    background-color: #548eb7;
     border-radius: 5px 5px 0 0;
     color: #ffffff;
     padding: 10px;
 }
 
 .card-header-red {
-    background-color: #d9534f;
+    background-color: #d94f52;
     border-radius: 5px 5px 0 0;
     color: #ffffff;
     padding: 10px;
 }
 
 .card-header-yellow {
-    background-color: #f0ad4e;
+    background-color: #f0c23f;
     border-radius: 5px 5px 0 0;
     color: #ffffff;
     padding: 10px;
@@ -285,7 +290,7 @@ nav i,
     margin-bottom: 5px;
 }
 
-.status-data {
+.status-data, .timeline-content span {
     font-weight: 600;
     color: #f09323;
 }
@@ -402,13 +407,6 @@ nav {
     position: relative;
 }
 
-.pop-tip {
-    display: none;
-    position: absolute;
-    top: 70px;
-    right: 40px;
-}
-
 .help-panel {
     font-size: 16px;
 }
@@ -452,6 +450,7 @@ nav {
     border: 2px solid #cbd3d4;
     margin: 5px 0;
     width: 100%;
+    resize: none;
 }
 
 #add-memo {
@@ -466,14 +465,6 @@ nav {
 
 .error-back {
     width: 100px;
-}
-
-.lg-label {
-    width: 83px;
-}
-
-.lg-label-b {
-    width: 70px;
 }
 
 .tab-content {
@@ -511,4 +502,35 @@ nav {
         width: 130px;
         float: right;
     }
+}
+
+.second-date-input {
+    width: 320px !important;
+}
+
+#chart-container {
+    width: 100%;
+    height: 480px;
+    position: absolute;
+    top: 300px;
+    padding-left: 250px;
+}
+
+@media (max-width: 768px) {
+    #chart-container {
+        padding-left: 0;
+        top: 500px;
+    }
+}
+
+.section-area {
+    margin-left: 0;
+}
+
+#exe-begin-time {
+    width: 220px;
+}
+
+.jq-toast-wrap {
+    top: 90px !important;
 }

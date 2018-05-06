@@ -40,12 +40,4 @@ public class PaginationResult<T> {
     public void setRows(List<T> rows) {
         this.rows = rows;
     }
-
-    @Override
-    public String toString() {
-        return "PaginationResult{" +
-                "total=" + total +
-                ", rows=" + rows +
-                '}';
-    }
 }

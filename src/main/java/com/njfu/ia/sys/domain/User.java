@@ -23,6 +23,11 @@ public class User {
     private String username;
 
     /**
+     * 邮箱地址
+     */
+    private String mail;
+
+    /**
      * 密码
      */
     @JsonIgnore
@@ -37,7 +42,10 @@ public class User {
     /**
      * 账号状态 0-无效，1-有效
      */
-    private Short status;
+    private Integer status;
+
+    public User() {
+    }
 
     public Integer getId() {
         return id;
@@ -63,6 +71,14 @@ public class User {
         this.username = username;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -79,23 +95,11 @@ public class User {
         this.salt = salt;
     }
 
-    public Short getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", status=" + status +
-                '}';
     }
 }

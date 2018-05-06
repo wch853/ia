@@ -5,6 +5,7 @@ import com.njfu.ia.sys.domain.User;
 import com.njfu.ia.sys.exception.BusinessException;
 import com.njfu.ia.sys.mapper.MemoMapper;
 import com.njfu.ia.sys.service.MemoService;
+import com.njfu.ia.sys.utils.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
@@ -20,30 +21,30 @@ public class MemoServiceImpl implements MemoService {
     /**
      * 根据记录类型获取记录列表
      *
-     * @param type type
-     * @return data
+     * @param type
+     * @return
      */
     @Override
-    public List<Memo> getMemoList(String type) {
+    public List<Memo> queryMemoList(Integer type) {
         return memoMapper.selectMemoList(type);
     }
 
     /**
      * 根据记录编号查找记录
      *
-     * @param id id
-     * @return data
+     * @param id
+     * @return
      */
     @Override
-    public Memo getMemo(int id) {
+    public Memo queryMemo(int id) {
         return memoMapper.selectMemo(id);
     }
 
     /**
      * 新增记录
      *
-     * @param memo memo
-     * @throws BusinessException BusinessException
+     * @param memo
+     * @throws BusinessException
      */
     @Override
     public void addMemo(Memo memo) throws BusinessException {
@@ -57,8 +58,8 @@ public class MemoServiceImpl implements MemoService {
     /**
      * 修改记录
      *
-     * @param memo memo
-     * @throws BusinessException BusinessException
+     * @param memo
+     * @throws BusinessException
      */
     @Override
     public void modifyMemo(Memo memo) throws BusinessException {
@@ -72,8 +73,8 @@ public class MemoServiceImpl implements MemoService {
     /**
      * 删除记录
      *
-     * @param id id
-     * @throws BusinessException BusinessException
+     * @param id
+     * @throws BusinessException
      */
     @Override
     public void removeMemo(int id) throws BusinessException {
@@ -86,10 +87,14 @@ public class MemoServiceImpl implements MemoService {
     /**
      * 获取编辑用户信息
      *
-     * @return String
+     * @return
      */
     private String getUpdateUser() {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-        return user.getName();
+        String name = Constants.DEFAULT_USER_NAME;
+        if (Constants.USE_SHIRO) {
+            User user = (User) SecurityUtils.getSubject().getPrincipal();
+            name = user.getName();
+        }
+        return name;
     }
 }

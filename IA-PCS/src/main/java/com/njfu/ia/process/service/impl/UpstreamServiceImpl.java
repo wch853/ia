@@ -32,8 +32,12 @@ public class UpstreamServiceImpl implements UpstreamService {
         if (null != ret) {
             Map<String, Object> retMap = this.convertRetToMap(ret.getData());
             Integer msgType = (Integer) retMap.get(Constants.RET_TYPE);
-            // 调用处理器处理不同上行数据
-            this.getUpstreamHandler(ret.getReceiveTime(), msgType, retMap).handleUpstream();
+            try {
+                // 调用处理器处理不同上行数据
+                this.getUpstreamHandler(ret.getReceiveTime(), msgType, retMap).handleUpstream();
+            } catch (NullPointerException e) {
+                LOGGER.error("invalid msgType: {}", msgType);
+            }
         }
     }
 
@@ -62,6 +66,7 @@ public class UpstreamServiceImpl implements UpstreamService {
      * @return UpstreamHandler
      */
     private UpstreamHandler getUpstreamHandler(Date receiveTime, Integer msgType, Map<String, Object> retMap) {
+        // 通过消息类型获取上行数据处理器
         UpstreamHandler handler = null;
         switch (msgType) {
             case Constants.MESSAGE_UPSTREAM_ON:

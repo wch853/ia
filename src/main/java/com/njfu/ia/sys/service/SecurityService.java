@@ -16,7 +16,7 @@ public interface SecurityService {
      * @param username username
      * @return User
      */
-    User getUser(String username);
+    User queryUser(String username);
 
     /**
      * 查询指定账号对应的角色
@@ -25,7 +25,7 @@ public interface SecurityService {
      * @param userId   userId
      * @return Roles
      */
-    List<Role> getRoles(String roleName, Integer userId);
+    List<Role> queryRoles(String roleName, Integer userId);
 
     /**
      * 查询权限
@@ -33,7 +33,7 @@ public interface SecurityService {
      * @param roleId roleId
      * @return Permissions
      */
-    List<Permission> getPermissionsByRole(Integer roleId);
+    List<Permission> queryPermissionsByRole(Integer roleId);
 
     /**
      * 查询指定账号拥有的权限
@@ -41,14 +41,14 @@ public interface SecurityService {
      * @param userId userId
      * @return StringPermissions
      */
-    Set<String> getStringPermissions(int userId);
+    Set<String> queryStringPermissions(int userId);
 
     /**
      * 获取系统所有注册权限
      *
      * @return Permissions
      */
-    List<Permission> getPermissions();
+    List<Permission> queryPermissions();
 
     /**
      * 获取用户信息
@@ -56,7 +56,7 @@ public interface SecurityService {
      * @param username username
      * @return Users
      */
-    List<User> getUsers(String username);
+    List<User> queryUsers(String username);
 
     /**
      * 新增用户

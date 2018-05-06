@@ -7,13 +7,18 @@
 
     <select id="selectAlarmRecord" resultType="AlarmRecord">
         SELECT ar.id, ar.device_id, ar.data_type, dt.data_type_name , ar.value,
-               ar.alarm_time, ar.handle_time, ar.handle_flag
+               ar.alarm_time, ar.handle_time, ar.handle_flag, ed.section_id, dt.floor, dt.ceil
         FROM alarm_record ar
             LEFT JOIN data_type dt
                 ON data_type = dt.id
+            LEFT JOIN end_device ed
+                ON ed.id = ar.device_id
         <where>
             <if test="null != alarmRecord.deviceId and !''.equals(alarmRecord.deviceId)">
                 device_id = #{alarmRecord.deviceId}
+            </if>
+            <if test="null != alarmRecord.sectionId and !''.equals(alarmRecord.sectionId)">
+                AND section_id = #{alarmRecord.sectionId}
             </if>
             <if test="null != alarmRecord.dataType and !''.equals(alarmRecord.dataType)">
                 AND data_type = #{alarmRecord.dataType}
@@ -30,5 +35,16 @@
         </where>
         ORDER BY id DESC
     </select>
+
+    <update id="updateAlarmRecordHandleFlag">
+        UPDATE alarm_record
+        <set>
+            handle_flag = #{flag}
+        </set>
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 
 </mapper>	

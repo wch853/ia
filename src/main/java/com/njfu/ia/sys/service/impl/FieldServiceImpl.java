@@ -3,7 +3,6 @@ package com.njfu.ia.sys.service.impl;
 import com.njfu.ia.sys.domain.Field;
 import com.njfu.ia.sys.exception.BusinessException;
 import com.njfu.ia.sys.mapper.FieldMapper;
-import com.njfu.ia.sys.mapper.FieldStatusMapper;
 import com.njfu.ia.sys.mapper.SensorMapper;
 import com.njfu.ia.sys.service.FieldService;
 import org.springframework.stereotype.Service;
@@ -18,9 +17,6 @@ public class FieldServiceImpl implements FieldService {
     private FieldMapper fieldMapper;
 
     @Resource
-    private FieldStatusMapper fieldStatusMapper;
-
-    @Resource
     private SensorMapper sensorMapper;
 
     /**
@@ -30,7 +26,7 @@ public class FieldServiceImpl implements FieldService {
      * @return
      */
     @Override
-    public List<Field> getFields(Field field) {
+    public List<Field> queryFields(Field field) {
         return fieldMapper.selectFields(field);
     }
 

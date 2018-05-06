@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class MailService {
+public class MailSender {
 
     @Resource
     private JavaMailSender mailSender;
@@ -20,7 +20,7 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String from;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MailService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailSender.class);
 
     /**
      * batch send simple mail
@@ -35,16 +35,16 @@ public class MailService {
         mailMessage.setSubject(subject);
         mailMessage.setText(text);
 
-        int successSendCount = 0;
+        int succeedSendCount = 0;
         for (String to : toList) {
             try {
                 mailMessage.setTo(to);
                 mailSender.send(mailMessage);
-                successSendCount++;
+                succeedSendCount++;
             } catch (MailException e) {
                 LOGGER.error("send to {} exception, {}", to, e.getMessage());
             }
         }
-        LOGGER.info("send {} mails, {} succeed", toList.size(), successSendCount);
+        LOGGER.info("send {} mails, {} succeed", toList.size(), succeedSendCount);
     }
 }

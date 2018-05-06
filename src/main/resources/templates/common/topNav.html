@@ -1,4 +1,4 @@
-<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+<nav id="sys-top" class="navbar navbar-fixed-top navbar-inverse" role="navigation">
     <!-- nav header 导航栏左侧-->
     <div class="navbar-header">
         <!--响应式布局按钮，用于触发侧边栏-->
@@ -22,7 +22,7 @@
             </a>
             <ul class="dropdown-menu alert-dropdown">
                 <li>
-                    <a href="sys/warn/detail"><i class="fa fa-exclamation-triangle"></i>
+                    <a href="sys/alarm/detail"><i class="fa fa-exclamation-triangle"></i>
                         系统报警 <span id="warn-count" class="label label-danger">0</span></a>
                 </li>
             </ul>
@@ -43,10 +43,6 @@
             </ul>
         </li>
     </ul>
-    <div class="alert alert-danger pop-tip">
-        <a href="javascript:void(0)" class="close">&times;</a>
-        您有 <span class="status-data-warn"></span> 条待办事项！
-    </div>
 </nav>
 <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script type="text/javascript" src="js/common/topNav.js"></script>

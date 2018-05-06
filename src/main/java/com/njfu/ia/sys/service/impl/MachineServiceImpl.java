@@ -19,12 +19,12 @@ public class MachineServiceImpl implements MachineService {
     /**
      * 获取机械列表
      *
-     * @param machine machineId machineType useStatus
-     * @param block   blockId
+     * @param machine
+     * @param block
      * @return data
      */
     @Override
-    public List<Machine> getMachines(Machine machine, Block block) {
+    public List<Machine> queryMachines(Machine machine, Block block) {
         machine.setBlock(block);
         return machineMapper.selectMachines(machine);
     }
@@ -32,8 +32,8 @@ public class MachineServiceImpl implements MachineService {
     /**
      * 新增机械信息
      *
-     * @param machine machineId machineType useStatus machinePs
-     * @param block   blockId
+     * @param machine
+     * @param block
      */
     @Override
     public void addMachine(Machine machine, Block block) {
@@ -47,8 +47,8 @@ public class MachineServiceImpl implements MachineService {
     /**
      * 修改机械信息
      *
-     * @param machine machineId machineType useStatus machinePs
-     * @param block   blockId
+     * @param machine
+     * @param block
      */
     @Override
     public void modifyMachine(Machine machine, Block block) {
@@ -62,7 +62,7 @@ public class MachineServiceImpl implements MachineService {
     /**
      * 删除机械信息
      *
-     * @param machine machineId
+     * @param machine
      */
     @Override
     public void removeMachine(Machine machine) {
@@ -75,8 +75,8 @@ public class MachineServiceImpl implements MachineService {
     /**
      * 若machinePs、blockId为空字符串，转为null
      *
-     * @param machine machinePs
-     * @param block   blockId
+     * @param machine
+     * @param block
      */
     private void convertNull(Machine machine, Block block) {
         if ("".equals(machine.getMachinePs())) {

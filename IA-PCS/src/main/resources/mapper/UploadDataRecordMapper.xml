@@ -13,7 +13,7 @@
         </foreach>
     </insert>
 
-    <select id="selectNoRecordDevice" resultType="java.lang.Integer">
+    <select id="selectHasRecordDevice" resultType="java.lang.Integer">
         SELECT DISTINCT device_id
         FROM upstream_data_record
         WHERE record_time >= DATE_ADD(NOW(), INTERVAL -#{second} SECOND)

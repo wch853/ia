@@ -12,7 +12,7 @@ public interface SectionService {
      * @param section
      * @return
      */
-    List<Section> getSections(Section section);
+    List<Section> querySections(Section section);
 
     /**
      * 新增区块信息

@@ -33,45 +33,45 @@ public class SecurityServiceImpl implements SecurityService {
     /**
      * 查询指定用户帐号对应的密码和盐
      *
-     * @param username username
-     * @return User
+     * @param username
+     * @return
      */
     @Override
-    public User getUser(String username) {
+    public User queryUser(String username) {
         return securityMapper.selectUser(username);
     }
 
     /**
      * 查询角色
      *
-     * @param roleName roleName
-     * @param userId   userId
-     * @return Roles
+     * @param roleName
+     * @param userId
+     * @return
      */
     @Override
-    public List<Role> getRoles(String roleName, Integer userId) {
+    public List<Role> queryRoles(String roleName, Integer userId) {
         return securityMapper.selectRoles(roleName, userId);
     }
 
     /**
      * 查询权限
      *
-     * @param roleId roleId
-     * @return Permissions
+     * @param roleId
+     * @return
      */
     @Override
-    public List<Permission> getPermissionsByRole(Integer roleId) {
+    public List<Permission> queryPermissionsByRole(Integer roleId) {
         return securityMapper.selectPermissions(roleId);
     }
 
     /**
      * 查询指定账号拥有的权限
      *
-     * @param userId userId
-     * @return StringPermissions
+     * @param userId
+     * @return
      */
     @Override
-    public Set<String> getStringPermissions(int userId) {
+    public Set<String> queryStringPermissions(int userId) {
         List<String> permissions = securityMapper.selectStringPermissions(userId);
         // 通过账号拥有的角色查询出的权限可能有重复，通过Set去重
         return new HashSet<>(permissions);
@@ -80,10 +80,10 @@ public class SecurityServiceImpl implements SecurityService {
     /**
      * 获取系统所有注册权限
      *
-     * @return Permissions
+     * @return
      */
     @Override
-    public List<Permission> getPermissions() {
+    public List<Permission> queryPermissions() {
         return securityMapper.selectPermissions(null);
     }
 
@@ -94,7 +94,7 @@ public class SecurityServiceImpl implements SecurityService {
      * @return Users
      */
     @Override
-    public List<User> getUsers(String name) {
+    public List<User> queryUsers(String name) {
         return securityMapper.selectUsers(name);
     }
 
@@ -131,8 +131,8 @@ public class SecurityServiceImpl implements SecurityService {
     /**
      * 对原密码进行hash
      *
-     * @param originPassword originPassword
-     * @param salt           salt
+     * @param originPassword
+     * @param salt
      * @return password
      */
     private String hashPassword(String originPassword, String salt) {
@@ -143,8 +143,8 @@ public class SecurityServiceImpl implements SecurityService {
     /**
      * 分类获取用户已分配/未分配角色
      *
-     * @param userId userId
-     * @return Map
+     * @param userId
+     * @return
      */
     @Override
     public Map<String, List<Role>> classifyRoles(Integer userId) {
@@ -160,8 +160,8 @@ public class SecurityServiceImpl implements SecurityService {
     /**
      * 重新保存用户角色
      *
-     * @param userId  userId
-     * @param roleIds roleIds 为空时删除该user所有的角色
+     * @param userId
+     * @param roleIds
      */
     @Override
     @Transactional
@@ -195,8 +195,8 @@ public class SecurityServiceImpl implements SecurityService {
     /**
      * 修改用户信息
      *
-     * @param user        user
-     * @param prePassword prePassword
+     * @param user
+     * @param prePassword
      */
     @Override
     public void modifyUser(User user, String prePassword) {
@@ -245,7 +245,7 @@ public class SecurityServiceImpl implements SecurityService {
     /**
      * 删除用户
      *
-     * @param userId userId
+     * @param userId
      */
     @Override
     @Transactional

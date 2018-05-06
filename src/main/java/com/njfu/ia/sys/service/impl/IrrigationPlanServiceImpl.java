@@ -16,65 +16,52 @@ public class IrrigationPlanServiceImpl implements IrrigationPlanService {
     private IrrigationPlanMapper irrigationPlanMapper;
 
     /**
-     * 获取排灌方案列表
+     * 获取灌溉方案列表
      *
-     * @param irrigationPlan irrigationPlan
-     * @return IrrigationPlan list
+     * @param irrigationPlan
+     * @return
      */
     @Override
-    public List<IrrigationPlan> getIrrigationPlans(IrrigationPlan irrigationPlan) {
+    public List<IrrigationPlan> queryIrrigationPlans(IrrigationPlan irrigationPlan) {
         return irrigationPlanMapper.selectIrrigationPlans(irrigationPlan);
     }
 
     /**
-     * 新增排灌方案
+     * 新增灌溉方案
      *
-     * @param irrigationPlan irrigationPlan
+     * @param irrigationPlan
      */
     @Override
     public void addIrrigationPlan(IrrigationPlan irrigationPlan) {
-        this.convertNull(irrigationPlan);
         int count = irrigationPlanMapper.insertIrrigationPlan(irrigationPlan);
         if (count <= 0) {
-            throw new BusinessException("新增排灌方案失败！");
+            throw new BusinessException("新增灌溉方案失败！");
         }
     }
 
     /**
-     * 修改排灌方案
+     * 修改灌溉方案
      *
-     * @param irrigationPlan irrigationPlan
+     * @param irrigationPlan
      */
     @Override
     public void modifyIrrigationPlan(IrrigationPlan irrigationPlan) {
-        this.convertNull(irrigationPlan);
         int count = irrigationPlanMapper.updateIrrigationPlan(irrigationPlan);
         if (count <= 0) {
-            throw new BusinessException("修改排灌方案失败！");
+            throw new BusinessException("修改灌溉方案失败！");
         }
     }
 
     /**
-     * 删除排灌方案
+     * 删除灌溉方案
      *
-     * @param id id
+     * @param id
      */
     @Override
     public void removeIrrigationPlan(Integer id) {
         int count = irrigationPlanMapper.deleteIrrigationPlan(id);
         if (count <= 0) {
-            throw new BusinessException("删除排灌方案失败！");
-        }
-    }
-
-    /**
-     * 将planPs由空字符串转为null
-     *
-     * @param irrigationPlan planPs
-     */
-    private void convertNull(IrrigationPlan irrigationPlan) {
-        if ("".equals(irrigationPlan.getPlanPs())) {
-            irrigationPlan.setPlanPs(null);
+            throw new BusinessException("删除灌溉方案失败！");
         }
     }
 }

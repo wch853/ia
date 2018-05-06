@@ -14,7 +14,7 @@ public interface SensorService {
      * @param field  fieldId
      * @return data
      */
-    List<Sensor> getSensors(Sensor sensor, Field field);
+    List<Sensor> querySensors(Sensor sensor, Field field);
 
     /**
      * 新增传感器信息

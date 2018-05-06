@@ -12,14 +12,14 @@ public interface BlockService {
      * @param block
      * @return
      */
-    List<Block> getBlocks(Block block);
+    List<Block> queryBlocks(Block block);
 
     /**
      * index页获取所有地块信息及相应地块下使用状态的大棚
      *
      * @return
      */
-    List<Block> getBlocksAndFields();
+    List<Block> queryBlocksWithSections();
 
     /**
      * 新增地块信息

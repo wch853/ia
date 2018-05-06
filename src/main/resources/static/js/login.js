@@ -38,7 +38,7 @@ var login = {
                     password: $('#password').val().trim()
                 },
                 success: function (res) {
-                    if (res.code == 200) {
+                    if (res.success) {
                         window.location.href = 'sys'
                     } else {
                         var message = '登录失败！';

@@ -1,6 +1,7 @@
 package com.njfu.ia.sys.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.njfu.ia.sys.utils.Constants;
 
 import java.util.Date;
 
@@ -20,9 +21,19 @@ public class UpstreamDataRecord {
     private Integer deviceId;
 
     /**
+     * 来源区块编号
+     */
+    private Integer sectionId;
+
+    /**
      * 数据类型
      */
     private Integer dataType;
+
+    /**
+     * 数据类型名称
+     */
+    private String dataTypeName;
 
     /**
      * 数据值
@@ -32,13 +43,13 @@ public class UpstreamDataRecord {
     /**
      * 上传时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = Constants.DATE_SECOND_FORMAT, timezone = Constants.DEFAULT_GMT)
     private Date receiveTime;
 
     /**
      * 记录时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = Constants.DATE_SECOND_FORMAT, timezone = Constants.DEFAULT_GMT)
     private Date recordTime;
 
     public UpstreamDataRecord() {
@@ -60,12 +71,28 @@ public class UpstreamDataRecord {
         this.deviceId = deviceId;
     }
 
+    public Integer getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(Integer sectionId) {
+        this.sectionId = sectionId;
+    }
+
     public Integer getDataType() {
         return dataType;
     }
 
     public void setDataType(Integer dataType) {
         this.dataType = dataType;
+    }
+
+    public String getDataTypeName() {
+        return dataTypeName;
+    }
+
+    public void setDataTypeName(String dataTypeName) {
+        this.dataTypeName = dataTypeName;
     }
 
     public Double getValue() {

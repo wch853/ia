@@ -40,8 +40,8 @@ public class MemoController {
      */
     @GetMapping("/list")
     public @ResponseBody
-    Result getMemoList(String type) {
-        List<Memo> memoList = memoService.getMemoList(type);
+    Result getMemoList(Integer type) {
+        List<Memo> memoList = memoService.queryMemoList(type);
         return Result.response(ResultEnum.DATA, memoList);
     }
 
@@ -54,7 +54,7 @@ public class MemoController {
     @GetMapping("/data")
     public @ResponseBody
     Result getMemo(Integer id) {
-        Memo memo = memoService.getMemo(id);
+        Memo memo = memoService.queryMemo(id);
         return Result.response(ResultEnum.DATA, memo);
     }
 

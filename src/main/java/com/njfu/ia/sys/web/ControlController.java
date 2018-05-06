@@ -39,7 +39,7 @@ public class ControlController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlController.class);
 
     /**
-     * 排灌管理页
+     * 灌溉管理页
      *
      * @return
      */
@@ -49,7 +49,7 @@ public class ControlController {
     }
 
     /**
-     * 获取排灌方案列表
+     * 获取灌溉方案列表
      *
      * @param offset         offset
      * @param limit          limit
@@ -58,15 +58,15 @@ public class ControlController {
      */
     @GetMapping("/plan/data")
     public @ResponseBody
-    PaginationResult getIrrigationPlans(int offset, int limit, IrrigationPlan irrigationPlan) {
+    PaginationResult getIrrigationPlans(Integer offset, Integer limit, IrrigationPlan irrigationPlan) {
         PageHelper.offsetPage(offset, limit);
-        List<IrrigationPlan> irrigationPlans = irrigationPlanService.getIrrigationPlans(irrigationPlan);
+        List<IrrigationPlan> irrigationPlans = irrigationPlanService.queryIrrigationPlans(irrigationPlan);
         PageInfo<IrrigationPlan> page = new PageInfo<>(irrigationPlans);
         return new PaginationResult<>(page.getTotal(), irrigationPlans);
     }
 
     /**
-     * 新增排灌方案
+     * 新增灌溉方案
      *
      * @param irrigationPlan irrigationPlan
      * @return json Result
@@ -87,7 +87,7 @@ public class ControlController {
     }
 
     /**
-     * 修改排灌方案
+     * 修改灌溉方案
      *
      * @param irrigationPlan irrigationPlan
      * @return json Result
@@ -108,7 +108,7 @@ public class ControlController {
     }
 
     /**
-     * 删除排灌方案
+     * 删除灌溉方案
      *
      * @param id id
      * @return json Result
@@ -129,7 +129,7 @@ public class ControlController {
     }
 
     /**
-     * 执行排灌方案
+     * 执行灌溉方案
      *
      * @param planId planId
      * @param start  start time

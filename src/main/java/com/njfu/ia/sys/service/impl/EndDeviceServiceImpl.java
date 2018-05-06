@@ -21,7 +21,7 @@ public class EndDeviceServiceImpl implements EndDeviceService {
      * @return
      */
     @Override
-    public List<EndDevice> getEndDevices(EndDevice endDevice) {
+    public List<EndDevice> queryEndDevices(EndDevice endDevice) {
         return endDeviceMapper.selectEndDevices(endDevice);
     }
 }

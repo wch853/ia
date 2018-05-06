@@ -25,7 +25,7 @@ public class MachineServiceTest {
 
     @Test
     public void getMachines() throws Exception {
-        List<Machine> machines = machineService.getMachines(new Machine(), new Block());
+        List<Machine> machines = machineService.queryMachines(new Machine(), new Block());
         LOGGER.info("machines: {}", machines);
     }
 

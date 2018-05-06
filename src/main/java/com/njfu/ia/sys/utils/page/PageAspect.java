@@ -27,6 +27,8 @@ public class PageAspect {
 
         if (null != offset && null != limit) {
             PageHelper.offsetPage(offset, limit);
+        } else {
+            PageHelper.offsetPage(0, Short.MAX_VALUE);
         }
 
         try {

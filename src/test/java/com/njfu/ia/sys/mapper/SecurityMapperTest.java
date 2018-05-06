@@ -120,7 +120,7 @@ public class SecurityMapperTest {
         user.setUsername("wch");
         user.setPassword("");
         user.setSalt("");
-        user.setStatus((short) 1);
+        user.setStatus(1);
 
         int res = securityMapper.insertUser(user);
         Assert.assertEquals(1, res);

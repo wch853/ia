@@ -6,11 +6,14 @@
 <mapper namespace="com.njfu.ia.sys.mapper.EndDeviceMapper">
 
     <select id="selectEndDevices" resultType="EndDevice">
-        SELECT id, model, mac, section_id, use_status, create_time, update_time
+        SELECT id, model, type, mac, section_id, use_status, create_time, update_time
             FROM end_device
         <where>
             <if test="null != model and !''.equals(model)">
                 model = #{model}
+            </if>
+            <if test="null != type">
+                type = #{type}
             </if>
             <if test="null != mac and !''.equals(mac)">
                 AND mac = #{mac}

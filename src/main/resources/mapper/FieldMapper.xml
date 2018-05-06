@@ -6,7 +6,7 @@
 <mapper namespace="com.njfu.ia.sys.mapper.FieldMapper">
 
     <select id="selectFields" resultType="Field">
-        SELECT f.id, f.field_name, f.section_id, f.crop_id, c.crop_name
+        SELECT f.id, f.field_name, f.section_id, s.section_name, f.crop_id, c.crop_name
         FROM field f LEFT JOIN section s ON f.section_id = s.id LEFT JOIN crop c ON c.id = f.crop_id
         <where>
             <if test="null != fieldName and !''.equals(fieldName)">

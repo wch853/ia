@@ -26,6 +26,7 @@
             <div class="row col-md-12">
                 <ol class="breadcrumb">
                     <li><a href="sys">首页</a></li>
+                    <li><a href="javascript:void(0);">报警管理</a></li>
                     <li><a href="sys/alarm/record">报警记录</a></li>
                 </ol>
             </div>
@@ -34,13 +35,13 @@
             <div class="form-inline" id="query-tool-bar">
                 <div class="form-group">
                     <label for="query-date">起止时间：</label>
-                    <input type="text" id="query-date" class="form-control range-date">
+                    <input type="text" id="query-date" class="form-control second-date-input">
                 </div>
                 <div class="form-group">
-                    <label for="device-id">终端编号：</label>
-                    <select id="device-id" class="selectpicker" data-live-search="true">
-                        <option value="" class="hide-option">请选择终端编号</option>
-                        <option v-bind:value="endDevice.id" v-for="endDevice in endDevices">{{ 'NO.' + endDevice.id }}</option>
+                    <label for="query-section">区块编号：</label>
+                    <select id="query-section" class="selectpicker" data-live-search="true">
+                        <option value="" class="hide-option">请选择区块编号</option>
+                        <option v-bind:value="section.id" v-for="section in sections">{{ 'NO.' + section.id }}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -51,9 +52,9 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="hadle-flag">处理标志：</label>
+                    <label for="hadle-flag">处理状态：</label>
                     <select id="hadle-flag" class="selectpicker">
-                        <option value="" class="hide-option">请选择处理标志</option>
+                        <option value="" class="hide-option">请选择处理状态</option>
                         <option value="0">未处理</option>
                         <option value="1">已处理</option>
                         <option value="2">已忽略</option>
@@ -67,9 +68,9 @@
             <table id="record-table"></table>
 
         </div><!--container-->
-    </div><!--page wrapped-->
+    </div><!--page wrapper-->
 
-</div><!--wrapped-->
+</div><!--wrapper-->
 </body>
 <script type="text/javascript" src="js/sys/alarm/record.js"></script>
 </html>

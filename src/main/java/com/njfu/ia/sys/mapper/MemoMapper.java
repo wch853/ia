@@ -12,40 +12,40 @@ public interface MemoMapper {
     /**
      * 根据类型获取记录标题列表
      *
-     * @param type type
-     * @return data
+     * @param type
+     * @return
      */
-    List<Memo> selectMemoList(@Param("type") String type);
+    List<Memo> selectMemoList(@Param("type") Integer type);
 
     /**
      * 根据id获取记录
      *
-     * @param id id
-     * @return Memo
+     * @param id
+     * @return
      */
     Memo selectMemo(@Param("id") int id);
 
     /**
      * 新增记录
      *
-     * @param memo memo
-     * @return count
+     * @param memo
+     * @return
      */
     int insertMemo(Memo memo);
 
     /**
      * 修改记录
      *
-     * @param memo memo
-     * @return count
+     * @param memo
+     * @return
      */
     int updateMemo(Memo memo);
 
     /**
      * 删除记录
      *
-     * @param id id
-     * @return count
+     * @param id
+     * @return
      */
-    int deleteMemo(@Param("id") int id);
+    int deleteMemo(@Param("id") Integer id);
 }

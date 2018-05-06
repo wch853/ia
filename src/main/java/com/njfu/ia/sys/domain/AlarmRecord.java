@@ -1,6 +1,7 @@
 package com.njfu.ia.sys.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.njfu.ia.sys.utils.Constants;
 
 import java.util.Date;
 
@@ -20,6 +21,11 @@ public class AlarmRecord {
     private Integer deviceId;
 
     /**
+     * 来源区块编号
+     */
+    private Integer sectionId;
+
+    /**
      * 数据类型
      */
     private Integer dataType;
@@ -35,19 +41,29 @@ public class AlarmRecord {
     private Double value;
 
     /**
+     * 数据阈值下限
+     */
+    private Double floor;
+
+    /**
+     * 数据阈值上限
+     */
+    private Double ceil;
+
+    /**
      * 报警时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = Constants.DATE_SECOND_FORMAT, timezone = Constants.DEFAULT_GMT)
     private Date alarmTime;
 
     /**
      * 处理时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = Constants.DATE_SECOND_FORMAT, timezone = Constants.DEFAULT_GMT)
     private Date handleTime;
 
     /**
-     * 处理标志 0-未处理 1-已处理 2-已忽略
+     * 处理状态 0-未处理 1-已处理 2-已忽略
      */
     private Integer handleFlag;
 
@@ -77,6 +93,14 @@ public class AlarmRecord {
         this.deviceId = deviceId;
     }
 
+    public Integer getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(Integer sectionId) {
+        this.sectionId = sectionId;
+    }
+
     public Integer getDataType() {
         return dataType;
     }
@@ -99,6 +123,22 @@ public class AlarmRecord {
 
     public void setValue(Double value) {
         this.value = value;
+    }
+
+    public Double getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Double floor) {
+        this.floor = floor;
+    }
+
+    public Double getCeil() {
+        return ceil;
+    }
+
+    public void setCeil(Double ceil) {
+        this.ceil = ceil;
     }
 
     public Date getAlarmTime() {

@@ -12,7 +12,7 @@ public interface CropService {
      * @param crop
      * @return
      */
-    List<Crop> getCrops(Crop crop);
+    List<Crop> queryCrops(Crop crop);
 
     /**
      * 新增作物信息

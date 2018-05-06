@@ -37,7 +37,7 @@ public class AuthRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         String username = upToken.getUsername();
-        User user = securityService.getUser(username);
+        User user = securityService.queryUser(username);
 
         if (null == user) {
             throw new UnknownAccountException("不存在该账户！");
@@ -46,7 +46,7 @@ public class AuthRealm extends AuthorizingRealm {
         String name = user.getName();
         String password = user.getPassword();
         String salt = user.getSalt();
-        short status = user.getStatus();
+        Integer status = user.getStatus();
 
         if (null == name || null == password || null == salt) {
             throw new AccountException("账户异常！");
@@ -74,7 +74,7 @@ public class AuthRealm extends AuthorizingRealm {
             // 获取身份信息
             User user = (User) principals.getPrimaryPrincipal();
             // 查询权限信息
-            permissions.addAll(securityService.getStringPermissions(user.getId()));
+            permissions.addAll(securityService.queryStringPermissions(user.getId()));
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }

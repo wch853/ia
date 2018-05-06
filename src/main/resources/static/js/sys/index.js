@@ -1,106 +1,65 @@
-/**
- * 收缩/展开地块
- */
-$('.index-bread').click(function () {
-    $(this).siblings('.row').toggle(300);
-    var $icon = $(this).find('.icon-collapse');
-    if ($icon.hasClass('fa-compress')) {
-        $icon.removeClass('fa-compress').addClass('fa-expand');
-    } else {
-        $icon.removeClass('fa-expand').addClass('fa-compress');
-    }
-});
+var index = {
+    init: function () {
+        $('.field-card').hover(function () {
 
-$('.field-card').hover(function () {
-    var $card = $(this);
-    var fieldId = $(this).attr('code');
-    var fieldName = $(this).find('.card-body-content').text();
-
-    $.ajax({
-        url: 'sys/status',
+        }, function () {
+            $(this).popover('destroy');
+        });
+    },
+    appendStatus: function (data, fieldName) {
+        var html = '<ul><li>区块编号: ' + '<span class="status-data">' + fieldName + '</span></li>';
+        $.each(data, function (i, el) {
+            html += '<li>' + el.dataTypeName + '：<span class="status-data">' + el.value + '</span></li>'
+        });
+        return html + '</ul>';
+    },
+    /**
+     * 发送ajax请求
+     * @param url
+     * @param method
+     * @param params
+     * @param callback
+     */
+    sendRequest: function (url, method, params, callback) {
+        $.ajax({
+            method: method,
+            url: url,
+            data: params,
+            success: function (res) {
+                if (undefined != callback) {
+                    callback(res);
+                }
+            }
+        });
+    },
+    vm: new Vue({
+        el: '#wrapper',
         data: {
-            fieldId: fieldId
+            blocks: []
         },
-        success: function (res) {
-            if (res.code == 201) {
-                $card.popover('destroy').popover({
-                    title: '大棚编号：' + fieldId + '<span class="card-times close text-right">&times;</span>',
-                    placement: 'auto',
-                    html: true,
-                    content: appendStatus(res.data, fieldName)
-                }).popover('show');
-
-                $('.card-times').click(function () {
-                    $(this).parents('.popover').prev().popover('destroy');
+        mounted: function () {
+            var that = this;
+            this.$nextTick(function () {
+                index.sendRequest('sys/file/block/section/list', 'GET', null, function (res) {
+                    that.blocks = res.data;
+                    index.init();
                 });
+            });
+        },
+        methods: {
+            over: function ($event, sectionId, sectionName) {
+                index.sendRequest('sys/data/status', 'GET', {sectionId: sectionId}, function (res) {
+                    $($event.target).popover('destroy').popover({
+                        title: '<span>区块名称：' + sectionName + '</span>',
+                        placement: 'auto',
+                        html: true,
+                        content: index.appendStatus(res.data, sectionId)
+                    }).popover('show');
+                });
+            },
+            out: function () {
+                $('.popover').prev().popover('destroy');
             }
         }
-    });
-}, function () {
-    $(this).popover('destroy');
-});
-
-
-function appendStatus(data, fieldName) {
-
-    var html = '<ul><li>名称: ' + '<span class="status-data">' + fieldName + '</span></li>';
-
-    $.each(data, function (i, el) {
-        html += convertData(i, el);
-    });
-
-    return html + '</ul>';
-}
-
-/**
- * 转换大棚状态数据
- */
-function convertData(i, el) {
-
-    var html = '';
-    switch (i) {
-        case 'updateTime':
-            html = '<li>更新时间: ' + '<span class="status-data">' + el + '</span>' + '</li>';
-            break;
-        case 'temperature':
-            html = '<li>温度: ' + '<span class="status-data">' + el + '</span>' + ' °C</li>';
-            break;
-        case 'moisture':
-            html = '<li>湿度: ' + '<span class="status-data">' + el + '</span>' + ' %</li>';
-            break;
-        case 'soilTemperature':
-            html = '<li>土壤温度: ' + '<span class="status-data">' + el + '</span>' + ' °C</li>';
-            break;
-        case 'soilMoisture':
-            html = '<li>土壤湿度: ' + '<span class="status-data">' + el + '</span>' + ' %</li>';
-            break;
-        case 'light':
-            html = '<li>光照强度: ' + '<span class="status-data">' + el + '</span>' + ' LUX</li>';
-            break;
-        case 'co2':
-            html = '<li>Co2浓度: ' + '<span class="status-data">' + el + '</span>' + ' PPM</li>';
-            break;
-        case 'ph':
-            html = '<li>ph酸碱度: ' + '<span class="status-data">' + el + '</span>' + '</li>';
-            break;
-        case 'n':
-            html = '<li>氮含量: ' + '<span class="status-data">' + el + '</span>' + ' mg/kg</li>';
-            break;
-        case 'p':
-            html = '<li>磷含量: ' + '<span class="status-data">' + el + '</span>' + ' mg/kg</li>';
-            break;
-        case 'k':
-            html = '<li>钾含量: ' + '<span class="status-data">' + el + '</span>' + ' mg/kg</li>';
-            break;
-        case 'hg':
-            html = '<li>汞含量: ' + '<span class="status-data">' + el + '</span>' + ' mg/kg</li>';
-            break;
-        case 'pb':
-            html = '<li>铅含量: ' + '<span class="status-data">' + el + '</span>' + ' mg/kg</li>';
-            break;
-        default:
-            html = '';
-    }
-
-    return html;
-}
+    })
+};

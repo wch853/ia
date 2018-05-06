@@ -86,16 +86,11 @@ $('#query-btn').click(function () {
     $("#end-device-file-table").bootstrapTable('selectPage', 1);
 });
 
-// 设置bootstrap-select大小
-$('.selectpicker').selectpicker({
-    width: '180.67px'
-});
-
 // 数据提交
 function sendRequest(path, terminalId, terminalType, useStatus, terminalPs) {
     $.ajax({
         url: path,
-        type: 'post',
+        type: 'POST',
         data: {
             terminalId: terminalId,
             terminalType: terminalType,
@@ -104,10 +99,8 @@ function sendRequest(path, terminalId, terminalType, useStatus, terminalPs) {
         },
         success: function (res) {
             var message = '操作失败';
-            if (res.code == 200) {
+            if (res.success) {
                 message = "操作成功！";
-            } else if (res.code == 300 && res.message) {
-                message = res.message;
             }
             bootbox.alert({
                 title: '提示',

@@ -1,21 +1,21 @@
 package com.njfu.ia.sys.web;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.njfu.ia.sys.domain.*;
+import com.njfu.ia.sys.domain.ChartData;
+import com.njfu.ia.sys.domain.DataType;
+import com.njfu.ia.sys.domain.UpstreamDataRecord;
 import com.njfu.ia.sys.enums.ResultEnum;
 import com.njfu.ia.sys.exception.BusinessException;
-import com.njfu.ia.sys.service.DataRecordService;
 import com.njfu.ia.sys.service.DataTypeService;
 import com.njfu.ia.sys.service.FieldService;
 import com.njfu.ia.sys.service.SensorService;
+import com.njfu.ia.sys.service.UpstreamDataRecordService;
 import com.njfu.ia.sys.utils.PaginationResult;
 import com.njfu.ia.sys.utils.Result;
 import com.njfu.ia.sys.utils.page.PageOffset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,9 +31,6 @@ public class DataController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataController.class);
 
     @Resource
-    private DataRecordService dataRecordService;
-
-    @Resource
     private FieldService fieldService;
 
     @Resource
@@ -41,6 +38,9 @@ public class DataController {
 
     @Resource
     private DataTypeService dataTypeService;
+
+    @Resource
+    private UpstreamDataRecordService upstreamDataRecordService;
 
     /**
      * 数据查询页面
@@ -55,19 +55,19 @@ public class DataController {
     /**
      * 获取数据列表
      *
-     * @param offset     offset
-     * @param limit      limit
-     * @param dataRecord dataRecord
-     * @param start      start
-     * @param end        end
+     * @param offset
+     * @param limit
+     * @param dataRecord
+     * @param start
+     * @param end
      * @return json data
      */
     @GetMapping("/record")
+    @PageOffset
     public @ResponseBody
-    PaginationResult getDataRecord(int offset, int limit, DataRecord dataRecord, String start, String end) {
-        PageHelper.offsetPage(offset, limit);
-        List<DataRecord> dataRecords = dataRecordService.getDataRecords(dataRecord, start, end);
-        PageInfo<DataRecord> page = new PageInfo<>(dataRecords);
+    PaginationResult getDataRecord(Integer offset, Integer limit, UpstreamDataRecord dataRecord, String start, String end) {
+        List<UpstreamDataRecord> dataRecords = upstreamDataRecordService.queryDataRecords(dataRecord, start, end);
+        PageInfo<UpstreamDataRecord> page = new PageInfo<>(dataRecords);
         return new PaginationResult<>(page.getTotal(), dataRecords);
     }
 
@@ -76,9 +76,9 @@ public class DataController {
      *
      * @return Page
      */
-    @GetMapping("/analysis")
-    public String dataAnalysis(Model model) {
-        return "sys/data/analysis";
+    @GetMapping("/chart")
+    public String dataChart() {
+        return "sys/data/chart";
     }
 
     /**
@@ -88,17 +88,17 @@ public class DataController {
      * @param fieldId   fieldId
      * @return json data
      */
-    @GetMapping("/chart")
+    @PostMapping("/chart")
     public @ResponseBody
-    Result<ChartData> getChartData(@RequestParam("dataTypes[]") String[] dataTypes, String fieldId) {
+    Result<ChartData> getChartData(@RequestParam("dataTypes[]") Integer[] dataTypes, Integer sectionId, String start, String end) {
         try {
-            ChartData chartData = dataRecordService.getChartData(dataTypes, fieldId);
+            ChartData chartData = upstreamDataRecordService.constructChartData(dataTypes, sectionId, start, end);
             return Result.response(ResultEnum.SUCCESS, null, chartData);
         } catch (BusinessException e) {
             LOGGER.error(e.getMessage(), e);
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
-            LOGGER.error("get chart data Exception", e);
+            LOGGER.error("consutruct chart data Exception", e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -124,24 +124,31 @@ public class DataController {
     @GetMapping("/type/data")
     @PageOffset
     public @ResponseBody
-    PaginationResult getDataTypes(int offset, int limit, DataType dataType) {
-        List<DataType> dataTypes = dataTypeService.getDataTypes(dataType);
+    PaginationResult getDataTypes(Integer offset, Integer limit, DataType dataType) {
+        List<DataType> dataTypes = dataTypeService.queryDataTypes(dataType);
         PageInfo<DataType> page = new PageInfo<>(dataTypes);
         return new PaginationResult<>(page.getTotal(), dataTypes);
     }
 
     /**
-     * 获取数据类型
+     * 新增数据类型
      *
-     * @param offset   offset
-     * @param limit    limit
-     * @param dataType dataType
-     * @return json data
+     * @param dataType
+     * @return
      */
-    @GetMapping("/type/list")
+    @PostMapping(value = "/type/add")
     public @ResponseBody
-    Result listDataTypes(DataType dataType) {
-        return Result.response(ResultEnum.SUCCESS, null, dataTypeService.getDataTypes(dataType));
+    Result addDataType(DataType dataType) {
+        try {
+            dataTypeService.addDataType(dataType);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error("add data type Exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
     }
 
     /**
@@ -161,6 +168,45 @@ public class DataController {
             return Result.response(ResultEnum.FAIL, e.getMessage(), null);
         } catch (Exception e) {
             LOGGER.error("modify data type Exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 删除数据类型
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/type/remove")
+    public @ResponseBody
+    Result removeDataType(Integer id) {
+        try {
+            dataTypeService.reomveDataType(id);
+            return Result.response(ResultEnum.SUCCESS);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage(), e);
+            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
+        } catch (Exception e) {
+            LOGGER.error("remove data type Exception", e);
+            return Result.response(ResultEnum.FAIL);
+        }
+    }
+
+    /**
+     * 查询各区块当前各监控数据状态
+     *
+     * @param sectionId
+     * @return
+     */
+    @GetMapping("/status")
+    public @ResponseBody
+    Result querySectionStatus(Integer sectionId) {
+        try {
+            List<UpstreamDataRecord> lastDataRecords = upstreamDataRecordService.queryLastDataRecords(sectionId);
+            return Result.response(ResultEnum.SUCCESS, lastDataRecords);
+        } catch (Exception e) {
+            LOGGER.error("query section status Exception", e);
             return Result.response(ResultEnum.FAIL);
         }
     }

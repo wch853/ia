@@ -9,15 +9,29 @@ public interface DataTypeService {
     /**
      * 查询数据类型
      *
-     * @param dataType dataType
-     * @return DataType list
+     * @param
+     * @return
      */
-    List<DataType> getDataTypes(DataType dataType);
+    List<DataType> queryDataTypes(DataType dataType);
+
+    /**
+     * 新增数据类型
+     *
+     * @param dataType
+     */
+    void addDataType(DataType dataType);
 
     /**
      * 更新数据类型
      *
-     * @param dataType dataType
+     * @param dataType
      */
     void updateDataType(DataType dataType);
+
+    /**
+     * 删除数据类型
+     *
+     * @param id
+     */
+    void reomveDataType(Integer id);
 }

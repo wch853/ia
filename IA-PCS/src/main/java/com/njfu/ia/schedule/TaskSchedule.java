@@ -103,7 +103,9 @@ public class TaskSchedule {
         @Override
         public void run() {
             try {
+                // 休眠，给心跳反馈留下足够的事件
                 Thread.sleep(Constants.HEART_BACK_LIMIT_TIME);
+                // 唤醒后查询接受心跳检测的终端状态
                 List<Integer> onDeviceIds = deviceMapper.selectDevice(deviceIds, Constants.INUSE);
                 if (onDeviceIds.size() < deviceIds.size()) {
                     // 存在失联的终端
@@ -115,6 +117,7 @@ public class TaskSchedule {
                             InformRet informRet = new InformRet();
                             informRet.setMsgType(Constants.MESSAGE_INFORM_HEART);
                             informRet.setDeviceId(deviceId);
+                            // 将失联终端消息推送给应用系统
                             jmsSender.sendMessage(Constants.MESSAGE_INFORM_HEART, JsonUtils.toJsonString(informRet));
                         }
                     }

@@ -25,7 +25,7 @@
             <div class="row col-md-12">
                 <ol class="breadcrumb">
                     <li><a href="sys">首页</a></li>
-                    <li><a href="sys/file">档案管理</a></li>
+                    <li><a href="javascript:void(0);">档案管理</a></li>
                     <li><a href="sys/file/sensor">传感器档案</a></li>
                 </ol>
             </div>
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="addSensorFunc" class="lg-label">功能类型：</label>
+                                <label for="addSensorFunc" >功能类型：</label>
                                 <select id="addSensorFunc" class="selectpicker" data-live-search="true">
                                     <option value="" class="hide-option">请选择功能类型（不可为空）：</option>
                                     <option value="1">温度传感器</option>
@@ -127,7 +127,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="addFieldId" class="lg-label">所属大棚：</label>
+                                <label for="addFieldId" >所属大棚：</label>
                                 <select id="addFieldId" class="selectpicker" data-live-search="true">
                                     <option value="" class="hide-option">请选择大棚编号</option>
                                     <#list fields as field>
@@ -136,7 +136,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="addTerminalId" class="lg-label">所属终端：</label>
+                                <label for="addTerminalId" >所属终端：</label>
                                 <select id="addTerminalId" class="selectpicker" data-live-search="true">
                                     <option value="" class="hide-option">请选择终端编号</option>
                                     <#list terminals as terminal>
@@ -145,7 +145,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="addUseStatus" class="lg-label">使用状态：</label>
+                                <label for="addUseStatus" >使用状态：</label>
                                 <select id="addUseStatus" class="selectpicker">
                                     <option value="0">未使用</option>
                                     <option value="1">使用中</option>
@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="modifySensorFunc" class="lg-label">功能类型：</label>
+                                <label for="modifySensorFunc" >功能类型：</label>
                                 <select id="modifySensorFunc" class="selectpicker" data-live-search="true">
                                     <option value="" class="hide-option">请选择功能类型（不可为空）：</option>
                                     <option value="1">温度传感器</option>
@@ -202,7 +202,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="modifyFieldId" class="lg-label">所属大棚：</label>
+                                <label for="modifyFieldId" >所属大棚：</label>
                                 <select id="modifyFieldId" class="selectpicker" data-live-search="true">
                                     <option value="">待定</option>
                                     <#list fields as field>
@@ -211,7 +211,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="modifyTerminalId" class="lg-label">所属终端：</label>
+                                <label for="modifyTerminalId" >所属终端：</label>
                                 <select id="modifyTerminalId" class="selectpicker" data-live-search="true">
                                     <option value="" class="hide-option">请选择终端编号</option>
                                     <#list terminals as terminal>
@@ -220,7 +220,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="modifyUseStatus" class="lg-label">使用状态：</label>
+                                <label for="modifyUseStatus" >使用状态：</label>
                                 <select id="modifyUseStatus" class="selectpicker">
                                     <option value="0">未使用</option>
                                     <option value="1">使用中</option>
@@ -229,7 +229,7 @@
                             </div>
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <label for="modifySensorPs" class="lg-label">传感器备注：</label>
+                                    <label for="modifySensorPs" >传感器备注：</label>
                                     <textarea id="modifySensorPs" class="form-control" placeholder="限输入80个字符" rows="3"
                                               cols="60"></textarea>
                                 </div>
@@ -244,9 +244,9 @@
             </div>
 
         </div><!--container-->
-    </div><!--page wrapped-->
+    </div><!--page wrapper-->
 
-</div><!--wrapped-->
+</div><!--wrapper-->
 <script type="text/javascript" src="js/sys/file/sensorFile.js"></script>
 </body>
 </html>

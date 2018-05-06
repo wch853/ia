@@ -2,6 +2,26 @@
  * 初始化记录事件
  */
 var initMemo = {
+    init: function () {
+        /**
+         * 初始加载日志
+         */
+        initMemo.initMemoList(0);
+
+        /**
+         * 激活侧边栏
+         */
+        $('[data-target="#memo-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
+
+        /**
+         * 切换记录类型事件
+         */
+        $('.memo-type-list li').click(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+            var type = $(this).attr('type');
+            initMemo.initMemoList(type);
+        });
+    },
     /**
      * 加载记录列表
      * @param type 0-日志 1-备忘录 2-注意事项
@@ -105,10 +125,8 @@ var initMemo = {
             },
             success: function (res) {
                 var message = '操作失败';
-                if (res.code == 200) {
+                if (res.success) {
                     message = "操作成功！";
-                } else if (res.code == 300 && res.message) {
-                    message = res.message;
                 }
                 bootbox.alert({
                     title: '提示',
@@ -192,24 +210,13 @@ var initMemo = {
                 }
             });
         }
-    }
+    },
+    vm: new Vue({
+        el: '#wrapper',
+        mounted: function () {
+            this.$nextTick(function () {
+                initMemo.init();
+            });
+        }
+    })
 };
-
-/**
- * 初始加载日志
- */
-initMemo.initMemoList(0);
-
-/**
- * 激活侧边栏
- */
-$('[data-target="#memo-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
-
-/**
- * 切换记录类型事件
- */
-$('.memo-type-list li').click(function () {
-    $(this).addClass('active').siblings().removeClass('active');
-    var type = $(this).attr('type');
-    initMemo.initMemoList(type);
-});

@@ -1,6 +1,7 @@
 package com.njfu.ia.sys.service;
 
 import com.njfu.ia.sys.domain.Block;
+import com.njfu.ia.sys.utils.JsonUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -24,14 +25,14 @@ public class BlockServiceTest {
 
     @Test
     public void getBlocks() throws Exception {
-        List<Block> blocks = blockService.getBlocks(new Block());
+        List<Block> blocks = blockService.queryBlocks(new Block());
         LOGGER.info("blocks: {}", blocks);
     }
 
     @Test
-    public void getBlocksAndFields() throws Exception {
-        List<Block> blocksAndFields = blockService.getBlocksAndFields();
-        LOGGER.info("blocksAndFields: {}", blocksAndFields);
+    public void getBlocksWithSections() throws Exception {
+        List<Block> blocksAndFields = blockService.queryBlocksWithSections();
+        LOGGER.info("blocksAndFields: {}", JsonUtils.toJsonString(blocksAndFields));
     }
 
     @Test

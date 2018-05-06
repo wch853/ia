@@ -18,11 +18,11 @@ public interface BlockMapper {
     List<Block> selectBlocks(Block block);
 
     /**
-     * 查询所有地块信息及相应地块下使用状态的大棚
+     * 查询所有地块信息及相应地块下使用状态的区块
      *
      * @return
      */
-    List<Block> selectBlocksAndFields();
+    List<Block> selectBlocksWithSections();
 
     /**
      * 新增地块信息

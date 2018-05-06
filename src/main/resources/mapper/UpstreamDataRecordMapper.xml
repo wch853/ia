@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njfu.ia.sys.mapper.UpstreamDataRecordMapper">
+
+    <select id="selectDataRecords" resultType="UpstreamDataRecord">
+        SELECT d.id, d.device_id, d.data_type, d.value, d.receive_time, d.record_time, e.section_id, t.data_type_name
+        FROM upstream_data_record d
+        LEFT JOIN end_device e
+        ON d.device_id = e.id
+        LEFT JOIN data_type t
+        ON d.data_type = t.id
+        <where>
+            <if test="null != record.sectionId">
+                e.section_id = #{record.sectionId}
+            </if>
+            <if test="null != record.dataType">
+                AND d.data_type = #{record.dataType}
+            </if>
+            <if test="null != start and !''.equals(start)">
+                AND d.receive_time &gt;= #{start}
+            </if>
+            <if test="null != end and !''.equals(end)">
+                AND d.receive_time &lt;= #{end}
+            </if>
+        </where>
+        ORDER BY d.id DESC
+    </select>
+
+    <select id="selectLastReceiveTime" resultType="UpstreamDataRecord">
+        SELECT r.data_type, MAX(r.receive_time) AS receiveTime
+        FROM upstream_data_record r
+            LEFT JOIN end_device d
+            ON r.device_id = d.id
+        WHERE d.section_id = #{sectionId}
+             <!-- AND r.receive_time &gt;= DATE_ADD(NOW(), INTERVAL - #{minutes} MINUTE) -->
+        GROUP BY r.data_type
+    </select>
+
+    <select id="selectLastDataRecords" resultType="UpstreamDataRecord">
+        SELECT r.data_type, t.data_type_name, r.value
+        FROM upstream_data_record r
+            LEFT JOIN data_type t
+                ON r.data_type = t.id
+            LEFT JOIN end_device d
+                ON r.device_id = d.id
+        WHERE t.use_status = #{useStatus}
+            AND d.section_id = #{sectionId}
+            AND r.data_type = #{dataType}
+            AND r.receive_time = #{receiveTime}
+    </select>
+
+</mapper>	

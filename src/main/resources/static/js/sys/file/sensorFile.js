@@ -123,16 +123,11 @@ $('#query-btn').click(function () {
     $("#sensorFile-table").bootstrapTable('selectPage', 1);
 });
 
-// 设置bootstrap-select大小
-$('#query-tool-bar .selectpicker').selectpicker({
-    width: '180.67px'
-});
-
 // 数据提交
 function sendRequest(path, sensorId, sensorFunc, sensorType, fieldId, terminalId, useStatus, sensorPs) {
     $.ajax({
         url: path,
-        type: 'post',
+        type: 'POST',
         data: {
             sensorId: sensorId,
             sensorFunc: sensorFunc,
@@ -144,10 +139,8 @@ function sendRequest(path, sensorId, sensorFunc, sensorType, fieldId, terminalId
         },
         success: function (res) {
             var message = '操作失败';
-            if (res.code == 200) {
+            if (res.success) {
                 message = "操作成功！";
-            } else if (res.code == 300 && res.message) {
-                message = res.message;
             }
             bootbox.alert({
                 title: '提示',

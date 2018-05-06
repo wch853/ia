@@ -21,6 +21,11 @@ public class Field {
     private Integer sectionId;
 
     /**
+     * 所属区块名称
+     */
+    private String sectionName;
+
+    /**
      * 种植作物编号
      */
     private Integer cropId;
@@ -55,6 +60,14 @@ public class Field {
 
     public void setSectionId(Integer sectionId) {
         this.sectionId = sectionId;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
     }
 
     public Integer getCropId() {

@@ -12,7 +12,7 @@ public interface FieldService {
      * @param field
      * @return
      */
-    List<Field> getFields(Field field);
+    List<Field> queryFields(Field field);
 
     /**
      * 新增大棚信息

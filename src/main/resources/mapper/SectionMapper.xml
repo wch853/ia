@@ -17,6 +17,12 @@
         </where>
     </select>
 
+    <select id="selectSectionsByBlockId" resultType="Section">
+        SELECT id, section_name
+        FROM section
+        WHERE block_id = #{blockId}
+    </select>
+
     <insert id="insertSection">
         INSERT INTO section (section_name, block_id)
         VALUES (#{sectionName}, #{blockId})

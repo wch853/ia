@@ -12,5 +12,5 @@ public interface EndDeviceService {
      * @param endDevice
      * @return
      */
-    List<EndDevice> getEndDevices(EndDevice endDevice);
+    List<EndDevice> queryEndDevices(EndDevice endDevice);
 }

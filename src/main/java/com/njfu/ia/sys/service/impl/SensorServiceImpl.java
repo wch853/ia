@@ -19,12 +19,12 @@ public class SensorServiceImpl implements SensorService {
     /**
      * 获取传感器列表
      *
-     * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
-     * @param field  fieldId
+     * @param sensor
+     * @param field
      * @return data
      */
     @Override
-    public List<Sensor> getSensors(Sensor sensor, Field field) {
+    public List<Sensor> querySensors(Sensor sensor, Field field) {
         sensor.setField(field);
         return sensorMapper.selectSensors(sensor);
     }
@@ -32,8 +32,8 @@ public class SensorServiceImpl implements SensorService {
     /**
      * 新增传感器信息
      *
-     * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
-     * @param field  fieldId
+     * @param sensor
+     * @param field
      */
     @Override
     public void addSensor(Sensor sensor, Field field) {
@@ -47,8 +47,8 @@ public class SensorServiceImpl implements SensorService {
     /**
      * 修改传感器信息
      *
-     * @param sensor sensorId sensorFunc sensorType useStatus sensorPs
-     * @param field  fieldId
+     * @param sensor
+     * @param field
      */
     @Override
     public void modifySensor(Sensor sensor, Field field) {
@@ -62,7 +62,7 @@ public class SensorServiceImpl implements SensorService {
     /**
      * 删除传感器信息
      *
-     * @param sensor sensorId
+     * @param sensor
      */
     @Override
     public void removeSensor(Sensor sensor) {

@@ -22,7 +22,7 @@ public class SectionServiceImpl implements SectionService {
      * @return
      */
     @Override
-    public List<Section> getSections(Section section) {
+    public List<Section> querySections(Section section) {
         return sectionMapper.selectSections(section);
     }
 

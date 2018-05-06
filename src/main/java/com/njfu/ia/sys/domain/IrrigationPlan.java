@@ -1,7 +1,7 @@
 package com.njfu.ia.sys.domain;
 
 /**
- * 排灌方案
+ * 灌溉方案
  */
 public class IrrigationPlan {
 
@@ -19,14 +19,6 @@ public class IrrigationPlan {
      * 持续时长
      */
     private Integer duration;
-
-    /**
-     * 方案备注
-     */
-    private String planPs;
-
-    public IrrigationPlan() {
-    }
 
     public Integer getId() {
         return id;
@@ -50,23 +42,5 @@ public class IrrigationPlan {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
-    }
-
-    public String getPlanPs() {
-        return planPs;
-    }
-
-    public void setPlanPs(String planPs) {
-        this.planPs = planPs;
-    }
-
-    @Override
-    public String toString() {
-        return "IrrigationPlan{" +
-                "id=" + id +
-                ", planVolume=" + planVolume +
-                ", duration=" + duration +
-                ", planPs='" + planPs + '\'' +
-                '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.njfu.ia.sys.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.njfu.ia.sys.utils.Constants;
 
 import java.util.Date;
 
@@ -20,6 +21,11 @@ public class EndDevice {
     private String model;
 
     /**
+     * 终端类型：0-终端，1-路由器，2-协调器
+     */
+    private Integer type;
+
+    /**
      * 终端mac地址
      */
     private String mac;
@@ -37,13 +43,13 @@ public class EndDevice {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = Constants.DATE_SECOND_FORMAT, timezone = Constants.DEFAULT_GMT)
     private Date createTime;
 
     /**
      * 更新时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = Constants.DATE_SECOND_FORMAT, timezone = Constants.DEFAULT_GMT)
     private Date updateTime;
 
     public EndDevice() {
@@ -63,6 +69,14 @@ public class EndDevice {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getMac() {
@@ -103,18 +117,5 @@ public class EndDevice {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "EndDevice{" +
-                "id=" + id +
-                ", model='" + model + '\'' +
-                ", mac='" + mac + '\'' +
-                ", sectionId=" + sectionId +
-                ", useStatus=" + useStatus +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
     }
 }

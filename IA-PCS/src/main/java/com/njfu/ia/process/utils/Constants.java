@@ -20,7 +20,7 @@ public interface Constants {
     /**
      * 上线提示
      */
-    String QUEUE_INFORM_HEART = "queue.ia.inform. heart";
+    String QUEUE_INFORM_HEART = "queue.ia.inform.heart";
 
     /**
      * 报警通知

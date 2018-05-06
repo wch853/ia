@@ -46,10 +46,6 @@ var auth = {
             }
         });
 
-        $('.selectpicker').selectpicker({
-            width: '180.67px'
-        });
-
         // 保存新增用户
         $('#save-add-user').click(function () {
             auth.addUser();
@@ -106,6 +102,9 @@ var auth = {
             field: 'name',
             title: '用户名称'
         }, {
+            field: 'mail',
+            title: '邮箱地址'
+        },  {
             formatter: function (value, row, index) {
                 var fmt = '-';
                 var status = row.status;
@@ -187,10 +186,8 @@ var auth = {
      */
     ajaxResponse: function (res) {
         var message = '操作失败！';
-        if (res.code == 200) {
+        if (res.success) {
             message = "操作成功！";
-        } else if (res.code == 300 && res.message) {
-            message = res.message;
         }
         bootbox.alert({
             title: '提示',
@@ -204,6 +201,7 @@ var auth = {
     addUser: function () {
         var username = $('#add-username').val().trim();
         var name = $('#add-name').val().trim();
+        var mail = $('#add-mail').val().trim();
         var status = $('#add-status').val();
 
         $('#user-add-modal').modal('hide');
@@ -216,6 +214,8 @@ var auth = {
         } else if (name.length == 0) {
             alertMessage = '用户名称不可为空！';
         }
+
+        // TODO 邮箱校验
 
         if ('' !== alertMessage) {
             bootbox.alert({
@@ -230,10 +230,11 @@ var auth = {
                     if (flag) {
                         $.ajax({
                             url: 'sys/auth/user/add',
-                            type: 'post',
+                            type: 'POST',
                             data: {
                                 username: username,
                                 name: name,
+                                mail: mail,
                                 status: status
                             },
                             success: function (res) {
@@ -279,7 +280,7 @@ var auth = {
                         hasRoleIds.push(el.id.toString());
                     });
                     $('#role-select').empty().html(options).multiSelect({
-                        selectableHeader: '<div class="select-header">所有角色</div>',
+                        selectableHeader: '<div class="select-header">存在角色</div>',
                         selectionHeader: '<div class="select-header">已有角色</div>'
                     }).multiSelect('deselect_all').multiSelect('select', hasRoleIds).multiSelect('refresh');
                 }
@@ -307,7 +308,7 @@ var auth = {
                         var roleIds = $('#role-select').val();
                         $.ajax({
                             url: 'sys/auth/user/role/add',
-                            type: 'post',
+                            type: 'POST',
                             data: {
                                 userId: id,
                                 roleIds: roleIds
@@ -342,7 +343,7 @@ var auth = {
                 if (flag) {
                     $.ajax({
                         url: 'sys/auth/user/modify',
-                        type: 'post',
+                        type: 'POST',
                         data: {
                             id: id,
                             status: status == '1' ? 0 : 1
@@ -374,7 +375,7 @@ var auth = {
                 if (flag) {
                     $.ajax({
                         url: 'sys/auth/user/remove',
-                        type: 'post',
+                        type: 'POST',
                         data: {
                             userId: id
                         },
@@ -405,7 +406,7 @@ var auth = {
                     if (flag) {
                         $.ajax({
                             url: 'sys/auth/role/add',
-                            type: 'post',
+                            type: 'POST',
                             data: {
                                 roleName: roleName
                             },
@@ -452,7 +453,7 @@ var auth = {
                         hasPermissionIds.push(el.id.toString());
                     });
                     $('#permission-select').empty().html(options).multiSelect({
-                        selectableHeader: '<div class="select-header">所有权限</div>',
+                        selectableHeader: '<div class="select-header">存在权限</div>',
                         selectionHeader: '<div class="select-header">已有权限</div>'
                     }).multiSelect('deselect_all').multiSelect('select', hasPermissionIds).multiSelect('refresh');
                 }
@@ -480,7 +481,7 @@ var auth = {
                         var permissionIds = $('#permission-select').val();
                         $.ajax({
                             url: 'sys/auth/role/permission/add',
-                            type: 'post',
+                            type: 'POST',
                             data: {
                                 roleId: id,
                                 permissionIds: permissionIds
@@ -512,7 +513,7 @@ var auth = {
                 if (flag) {
                     $.ajax({
                         url: 'sys/auth/role/remove',
-                        type: 'post',
+                        type: 'POST',
                         data: {
                             roleId: id
                         },
@@ -523,9 +524,13 @@ var auth = {
                 }
             }
         });
-    }
+    },
+    vm: new Vue({
+        el: '#wrapper',
+        mounted: function () {
+            this.$nextTick(function () {
+                auth.init();
+            });
+        }
+    })
 };
-/**
- * 启动
- */
-auth.init();

@@ -14,7 +14,7 @@ public interface MachineService {
      * @param block   blockId
      * @return data
      */
-    List<Machine> getMachines(Machine machine, Block block);
+    List<Machine> queryMachines(Machine machine, Block block);
 
     /**
      * 新增机械信息

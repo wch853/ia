@@ -7,29 +7,29 @@ import java.util.List;
 public interface IrrigationPlanService {
 
     /**
-     * 获取排灌方案列表
+     * 获取灌溉方案列表
      *
      * @param irrigationPlan irrigationPlan
      * @return IrrigationPlan list
      */
-    List<IrrigationPlan> getIrrigationPlans(IrrigationPlan irrigationPlan);
+    List<IrrigationPlan> queryIrrigationPlans(IrrigationPlan irrigationPlan);
 
     /**
-     * 新增排灌方案
+     * 新增灌溉方案
      *
      * @param irrigationPlan irrigationPlan
      */
     void addIrrigationPlan(IrrigationPlan irrigationPlan);
 
     /**
-     * 修改排灌方案
+     * 修改灌溉方案
      *
      * @param irrigationPlan irrigationPlan
      */
     void modifyIrrigationPlan(IrrigationPlan irrigationPlan);
 
     /**
-     * 删除排灌方案
+     * 删除灌溉方案
      *
      * @param id id
      */

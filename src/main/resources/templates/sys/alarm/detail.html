@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <title>报警详情</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>报警详情</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="sys">首页</a></li>
+                    <li><a href="javascript:void(0);">报警管理</a></li>
+                    <li><a href="sys/warn/detail">报警详情</a></li>
+                </ol>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="btm-px">
+                    <button class="btn btn-primary" id="check-all">全选</button>
+                    <button class="btn btn-success" id="uncheck-all">反选</button>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" id="btn-handle" class="btn btn-danger dropdown-toggle" disabled>
+                            操作 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li @click="markHandle(1)">
+                                <a href="javascript:void(0);">标记为已处理</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li @click="markHandle(2)">
+                                <a href="javascript:void(0);">标记为已忽略</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item" v-for="record in alarmRecords">
+                        <div class="row">
+                            <div class="col-xs-3 timeline-date" @click="checkIsChecked()">
+                                <label>
+                                    <input type="checkbox" class="timeline-check" :value="record.id">
+                                    <i class="fa fa-bell-o"></i>
+                                    <div>{{ record.date }}</div>
+                                    <div>{{ record.time }}</div>
+                                    <small class="text-muted">{{ record.timeGap }}</small>
+                                </label>
+                            </div>
+                            <div class="col-xs-7 timeline-content">
+                                <p>报警编号：<span>{{ record.id }}</span></p>
+                                <p>报警类型： <span>{{ record.dataTypeName }}</span></p>
+                                <p>区块编号：<span>{{ record.sectionId }}</span></p>
+                                <p>
+                                    异常值：<span class="status-data-warn"> {{ record.value }} </span>
+                                    ( 阈值范围：<span>{{ record.floor }}</span> ~ <span>{{ record.ceil }}</span> )
+                                </p>
+                                <p>报警分析：<span>{{ record.analysis }}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!--container-->
+    </div><!--page wrapper-->
+</div><!--wrapper-->
+</body>
+<#include "/common/momentjs.html"/>
+<script type="text/javascript" src="js/sys/alarm/detail.js"></script>
+</html>

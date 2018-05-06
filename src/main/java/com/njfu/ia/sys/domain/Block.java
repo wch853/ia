@@ -1,5 +1,7 @@
 package com.njfu.ia.sys.domain;
 
+import java.util.List;
+
 /**
  * 地块
  */
@@ -19,6 +21,11 @@ public class Block {
      * 地块位置
      */
     private String blockLocation;
+
+    /**
+     * 包含区块
+     */
+    private List<Section> sections;
 
     public Block() {
     }
@@ -45,5 +52,13 @@ public class Block {
 
     public void setBlockLocation(String blockLocation) {
         this.blockLocation = blockLocation;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
     }
 }

@@ -25,7 +25,7 @@ public class IrrigationPlanServiceTest {
     @Test
     public void getIrrigationPlans() throws Exception {
         IrrigationPlan irrigationPlan = new IrrigationPlan();
-        List<IrrigationPlan> irrigationPlans = irrigationPlanService.getIrrigationPlans(irrigationPlan);
+        List<IrrigationPlan> irrigationPlans = irrigationPlanService.queryIrrigationPlans(irrigationPlan);
         LOGGER.info("irrigationPlans: {}", irrigationPlans);
     }
 

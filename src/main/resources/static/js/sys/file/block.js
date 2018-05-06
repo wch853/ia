@@ -127,7 +127,7 @@ var block = {
     sendRequest: function (path, id, blockName, blockLocation) {
         $.ajax({
             url: path,
-            type: 'post',
+            type: 'POST',
             data: {
                 id: id,
                 blockName: blockName,

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- headers -->
+    <#include "/common/standard.html"/>
+    <#include "/common/echarts.html"/>
+    <#include "/common/bootstrap-select.html"/>
+    <#include "/common/bootstrap-daterangepicker.html"/>
+    <title>图表分析</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- top navigation-->
+    <#include "/common/topNav.html"/>
+
+    <!-- side navigation -->
+    <#include "/sys/sysSideNav.html"/>
+
+    <!-- page content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="page-header">
+                <h2>图表分析</h2>
+            </div>
+
+            <div class="row col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="sys">首页</a></li>
+                    <li><a href="javascript:void(0);">数据管理</a></li>
+                    <li><a href="sys/data/chart">图表分析</a></li>
+                </ol>
+            </div>
+
+            <!-- 查询工具栏 -->
+            <div class="form-inline" id="query-tool-bar">
+                <div class="form-group">
+                    <label for="query-date">上传时间：</label>
+                    <input type="text" id="query-date" class="form-control second-date-input">
+                </div>
+                <div class="form-group">
+                    <label for="query-data-type">数据类型：</label>
+                    <select id="query-data-type" class="selectpicker" multiple data-live-search="true">
+                        <option value="" class="hide-option">请选择数据类型</option>
+                        <option v-bind:value="dataType.id" v-for="dataType in dataTypes"
+                                v-text="dataType.dataTypeName"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="query-section">区块编号：</label>
+                    <select id="query-section" class="selectpicker" data-live-search="true">
+                        <option value="" class="hide-option">请选择区块编号</option>
+                        <option v-bind:value="section.id" v-for="section in sections">
+                            {{ 'NO.' + section.id }}
+                        </option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" @click="constructChart">生成图表</button>
+            </div>
+            <hr>
+        </div><!--container-->
+    </div><!--page wrapper-->
+</div><!--wrapper-->
+<div class="col-md-12" id="chart-container"></div>
+</body>
+<script type="text/javascript" src="js/sys/data/chart.js"></script>
+</html>

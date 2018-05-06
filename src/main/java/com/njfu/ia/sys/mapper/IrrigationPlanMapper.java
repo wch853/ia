@@ -10,34 +10,34 @@ import java.util.List;
 public interface IrrigationPlanMapper {
 
     /**
-     * 获取排灌方案列表
+     * 获取灌溉方案列表
      *
-     * @param irrigationPlan irrigationPlan
-     * @return IrrigationPlan list
+     * @param irrigationPlan
+     * @return
      */
     List<IrrigationPlan> selectIrrigationPlans(IrrigationPlan irrigationPlan);
 
     /**
-     * 新增排灌方案
+     * 新增灌溉方案
      *
-     * @param irrigationPlan irrigationPlan
-     * @return count
+     * @param irrigationPlan
+     * @return
      */
     int insertIrrigationPlan(IrrigationPlan irrigationPlan);
 
     /**
-     * 更新排灌方案
+     * 更新灌溉方案
      *
-     * @param irrigationPlan irrigationPlan
-     * @return count
+     * @param irrigationPlan
+     * @return
      */
     int updateIrrigationPlan(IrrigationPlan irrigationPlan);
 
     /**
-     * 删除排灌方案
+     * 删除灌溉方案
      *
-     * @param id id
-     * @return count
+     * @param id
+     * @return
      */
     int deleteIrrigationPlan(@Param("id") Integer id);
 }

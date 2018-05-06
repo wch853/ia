@@ -35,13 +35,13 @@ CREATE TABLE section (
 
 DROP TABLE IF EXISTS field;
 CREATE TABLE field (
-  id         INT           NOT NULL AUTO_INCREMENT
+  id         INT          NOT NULL AUTO_INCREMENT
   COMMENT '大棚编号',
-  field_name VARCHAR(255)  NOT NULL
+  field_name VARCHAR(255) NOT NULL
   COMMENT '大棚名称',
-  section_id INT           NOT NULL
+  section_id INT          NOT NULL
   COMMENT '所属区块编号',
-  crop_id    INT           NULL DEFAULT 0
+  crop_id    INT          NULL
   COMMENT '种植作物编号',
   PRIMARY KEY (id)
 )
@@ -63,24 +63,13 @@ CREATE TABLE crop (
 
 DROP TABLE IF EXISTS sensor;
 CREATE TABLE sensor (
-  sensor_id   VARCHAR(255)             NOT NULL
+  id        INT          NOT NULL AUTO_INCREMENT
   COMMENT '传感器编号',
-  sensor_func VARCHAR(255)             NOT NULL
-  COMMENT '传感器功能类型',
-  sensor_type VARCHAR(255)             NOT NULL
+  model     VARCHAR(255) NOT NULL
   COMMENT '传感器型号',
-  field_id    VARCHAR(255) DEFAULT NULL
-  COMMENT '所属大棚编号',
-  terminal_id VARCHAR(255) DEFAULT NULL
+  device_id INT          NULL
   COMMENT '所属终端编号',
-  use_status  VARCHAR(255) DEFAULT '0' NOT NULL
-  COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
-  sensor_ps   VARCHAR(255) DEFAULT NULL
-  COMMENT '传感器备注',
-  PRIMARY KEY (sensor_id),
-  KEY idx_field_id(field_id),
-  KEY idx_terminal_id(terminal_id),
-  KEY idx_use_status(use_status)
+  PRIMARY KEY (id)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
@@ -88,60 +77,19 @@ CREATE TABLE sensor (
 
 DROP TABLE IF EXISTS machine;
 CREATE TABLE machine (
-  machine_id   VARCHAR(255)             NOT NULL
+  id         INT AUTO_INCREMENT NOT NULL
   COMMENT '机械编号',
-  machine_type VARCHAR(255)             NOT NULL
+  model      VARCHAR(255)       NOT NULL
   COMMENT '机械型号',
-  block_id     VARCHAR(255) DEFAULT NULL
+  block_id   INT                NULL
   COMMENT '所属地块编号',
-  use_status   VARCHAR(255) DEFAULT '0' NOT NULL
-  COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
-  machine_ps   VARCHAR(255) DEFAULT NULL
-  COMMENT '机械备注',
-  PRIMARY KEY (machine_id),
-  KEY idx_block_id(block_id),
-  KEY idx_use_status(use_status)
+  use_status INT                NOT NULL DEFAULT 0
+  COMMENT '机械使用状态：0，未使用；1，使用中；2：故障中',
+  PRIMARY KEY (id)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
   COMMENT ='机械';
-
-DROP TABLE IF EXISTS vehicle;
-CREATE TABLE vehicle (
-  vehicle_id   VARCHAR(255)             NOT NULL
-  COMMENT '车辆编号',
-  vehicle_type VARCHAR(255)             NOT NULL
-  COMMENT '车辆型号',
-  block_id     VARCHAR(255) DEFAULT NULL
-  COMMENT '所属地块编号',
-  use_status   VARCHAR(255) DEFAULT '0' NOT NULL
-  COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
-  vehicle_ps   VARCHAR(255) DEFAULT NULL
-  COMMENT '车辆备注',
-  PRIMARY KEY (vehicle_id),
-  KEY idx_block_id(block_id),
-  KEY idx_use_status(use_status)
-)
-  ENGINE = INNODB
-  DEFAULT CHARSET = utf8
-  COMMENT ='车辆';
-
-DROP TABLE IF EXISTS terminal;
-CREATE TABLE terminal (
-  terminal_id   VARCHAR(255)             NOT NULL
-  COMMENT '终端编号',
-  terminal_type VARCHAR(255)             NOT NULL
-  COMMENT '终端型号',
-  use_status    VARCHAR(255) DEFAULT '0' NOT NULL
-  COMMENT '使用状态：0-unuse 未使用，1-inuse 使用中， 2-error 故障中',
-  termial_ps    VARCHAR(255) DEFAULT NULL
-  COMMENT '终端备注',
-  PRIMARY KEY (terminal_id),
-  KEY idx_use_status(use_status)
-)
-  ENGINE = INNODB
-  DEFAULT CHARSET = utf8
-  COMMENT ='终端';
 
 DROP TABLE IF EXISTS end_device;
 CREATE TABLE end_device (
@@ -149,6 +97,8 @@ CREATE TABLE end_device (
   COMMENT '终端编号',
   model       VARCHAR(255)       NOT NULL
   COMMENT '终端型号',
+  type        INT                NOT NULL DEFAULT 0
+  COMMENT '终端类型：0，终端；1，路由器；2，协调器',
   mac         VARCHAR(255)       NOT NULL
   COMMENT 'mac地址',
   section_id  INT                NULL
@@ -167,26 +117,6 @@ CREATE TABLE end_device (
   DEFAULT CHARSET = utf8
   COMMENT ='终端';
 
-DROP TABLE IF EXISTS data_record;
-CREATE TABLE data_record (
-  id          INT AUTO_INCREMENT NOT NULL
-  COMMENT '数据记录编号',
-  sensor_id   VARCHAR(255)       NOT NULL
-  COMMENT '来源传感器编号',
-  data_type   VARCHAR(255)       NOT NULL
-  COMMENT '数据类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
-  val         DOUBLE(8, 2)       NOT NULL
-  COMMENT '数据记录值',
-  record_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  COMMENT '记录时间',
-  PRIMARY KEY (id),
-  KEY idx_sensor_id(sensor_id),
-  KEY idx_data_type(data_type)
-)
-  ENGINE = INNODB
-  DEFAULT CHARSET = utf8
-  COMMENT ='数据记录';
-
 DROP TABLE IF EXISTS upstream_data_record;
 CREATE TABLE upstream_data_record (
   id           INT AUTO_INCREMENT NOT NULL
@@ -197,7 +127,7 @@ CREATE TABLE upstream_data_record (
   COMMENT '数据类型编号',
   value        DOUBLE(8, 2)       NOT NULL
   COMMENT '数据记录值',
-  receive_time DATETIME           NOT NULL
+  receive_time DATETIME           NOT NULL DEFAULT NOW()
   COMMENT '数据上传时间',
   record_time  DATETIME           NOT NULL DEFAULT NOW()
   COMMENT '数据记录时间',
@@ -210,86 +140,19 @@ CREATE TABLE upstream_data_record (
   DEFAULT CHARSET = utf8
   COMMENT ='数据上传记录';
 
-DROP TABLE IF EXISTS field_status;
-CREATE TABLE field_status (
-  field_id         VARCHAR(255) NOT NULL
-  COMMENT '大棚编号',
-  update_time      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-  COMMENT '状态更新时间',
-  temperature      DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '温度',
-  moisture         DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '湿度',
-  soil_temperature DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '土壤温度',
-  soil_moisture    DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '土壤湿度',
-  light            DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '光照度',
-  co2              DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '二氧化碳浓度',
-  ph               DOUBLE(8, 2) DEFAULT NULL
-  COMMENT 'ph',
-  n                DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '氮含量',
-  p                DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '磷含量',
-  k                DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '钾含量',
-  hg               DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '汞含量',
-  pb               DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '铅含量',
-  PRIMARY KEY (field_id),
-  KEY idx_update_time(update_time)
-)
-  ENGINE = INNODB
-  DEFAULT CHARSET = utf8
-  COMMENT ='大棚状态';
-
 DROP TABLE IF EXISTS irrigation_plan;
 CREATE TABLE irrigation_plan (
   id          INT AUTO_INCREMENT NOT NULL
-  COMMENT '排灌方案编号',
+  COMMENT '灌溉方案编号',
   plan_volume DOUBLE(8, 2)       NOT NULL
   COMMENT '灌溉量(m3)',
   duration    INT                NOT NULL
   COMMENT '灌溉持续时长(分钟)',
-  plan_ps     VARCHAR(255) DEFAULT NULL
-  COMMENT '方案备注',
   PRIMARY KEY (id)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
-  COMMENT ='排灌方案';
-
-DROP TABLE IF EXISTS warn_record;
-CREATE TABLE warn_record (
-  id          INT AUTO_INCREMENT NOT NULL
-  COMMENT '报警记录编号',
-  field_id    VARCHAR(255)       NOT NULL
-  COMMENT '来源大棚编号',
-  warn_type   VARCHAR(255)       NOT NULL
-  COMMENT '报警类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
-  warn_val    DOUBLE(8, 2)       NOT NULL
-  COMMENT '报警值',
-  warn_time   TIMESTAMP                   DEFAULT CURRENT_TIMESTAMP
-  COMMENT '最早报警时间',
-  warn_count  INT                NOT NULL DEFAULT 1
-  COMMENT '报警计数',
-  handle_time TIMESTAMP          NULL
-  COMMENT '处理时间',
-  flag        VARCHAR(255)       NOT NULL DEFAULT '0'
-  COMMENT '处理标志：0-unhandle 未处理，1-handled 已处理，2-ignore 已忽略',
-  PRIMARY KEY (id),
-  KEY idx_field_id(field_id),
-  KEY idx_warn_type(warn_type),
-  KEY idx_warn_time(warn_time),
-  KEY idx_flag(flag)
-)
-  ENGINE = INNODB
-  DEFAULT CHARSET = utf8
-  COMMENT ='报警记录';
+  COMMENT ='灌溉方案';
 
 DROP TABLE IF EXISTS alarm_record;
 CREATE TABLE alarm_record (
@@ -306,47 +169,14 @@ CREATE TABLE alarm_record (
   handle_time DATETIME                    DEFAULT NULL
   COMMENT '处理时间',
   handle_flag INT                NOT NULL DEFAULT 0
-  COMMENT '处理标志 0-未处理 1-已处理 2-已忽略',
+  COMMENT '处理状态：0，未处理；1，已处理；2：已忽略',
   PRIMARY KEY (id),
   KEY idx_device_id(device_id),
-  KEY idx_data_type(data_type),
-  KEY idx_alarm_time(alarm_time),
-  KEY idx_handle_flag(handle_flag)
+  KEY idx_data_type(data_type)
 )
   ENGINE = INNODB
   DEFAULT CHARSET = utf8
   COMMENT ='报警记录';
-
-DROP TABLE IF EXISTS warn_threshold;
-CREATE TABLE warn_threshold (
-  id             INT AUTO_INCREMENT       NOT NULL
-  COMMENT '报警阈值编号',
-  threshold_type VARCHAR(255)             NOT NULL
-  COMMENT '阈值类型：1-temperature 温度，2-moisture 湿度，3-soil_temperature 土壤温度，4-soil_moisture 土壤水分，5-light 光照，6-co2 二氧化碳，7-ph pH，8-n 氮含量，9-p 磷含量，10-k 钾含量，11-hg 汞含量，12-pb 铅含量',
-  floor          DOUBLE(8, 2)             NOT NULL
-  COMMENT '阈值下限',
-  ceil           DOUBLE(8, 2)             NOT NULL
-  COMMENT '阈值上限',
-  use_status     VARCHAR(255) DEFAULT '0' NOT NULL
-  COMMENT '使用状态，0unuse，1inuse',
-  PRIMARY KEY (id),
-  KEY idx_threshold_type(threshold_type),
-  KEY idx_use_status(use_status)
-)
-  ENGINE = INNODB
-  DEFAULT CHARSET = utf8
-  COMMENT ='报警阈值';
-
-DROP TABLE IF EXISTS tmp_data;
-CREATE TABLE tmp_data (
-  field_id VARCHAR(255) NOT NULL
-  COMMENT '大棚编号',
-  val      DOUBLE(8, 2) DEFAULT NULL
-  COMMENT '临时数据值'
-)
-  ENGINE = INNODB
-  DEFAULT CHARSET = utf8
-  COMMENT ='大棚临时数据表';
 
 DROP TABLE IF EXISTS data_type;
 CREATE TABLE data_type (
@@ -361,7 +191,7 @@ CREATE TABLE data_type (
   ceil            DOUBLE(8, 2)       NOT NULL
   COMMENT '阈值上限',
   use_status      TINYINT            NOT NULL DEFAULT 1
-  COMMENT '使用状态 0-未使用，1-使用中',
+  COMMENT '监控状态 0-未监控，1-监控中',
   PRIMARY KEY (id),
   UNIQUE KEY (data_type_name),
   UNIQUE KEY (data_short_name)
@@ -376,13 +206,13 @@ CREATE TABLE memo (
   COMMENT '记录编号',
   title       VARCHAR(255)       NOT NULL
   COMMENT '标题',
-  type        VARCHAR(255)       NOT NULL
+  type        INT                NOT NULL
   COMMENT '类型，0-日志，1-备忘录，2-注意事项',
   content     TEXT               NULL
   COMMENT '内容',
   update_user VARCHAR(255)       NOT NULL
   COMMENT '更新人',
-  update_time TIMESTAMP          NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  update_time DATETIME           NOT NULL DEFAULT NOW() ON UPDATE NOW()
   COMMENT '更新时间',
   PRIMARY KEY (id)
 )
@@ -398,6 +228,8 @@ CREATE TABLE user (
   COMMENT '用户名称',
   username VARCHAR(255) NOT NULL
   COMMENT '账号',
+  mail     VARCHAR(255) NULL
+  COMMENT '邮箱地址',
   password VARCHAR(255) NOT NULL
   COMMENT '密码',
   salt     VARCHAR(255) NOT NULL
@@ -769,34 +601,48 @@ CREATE PROCEDURE insert_test_chart_data(IN days INT)
     INTO e_time;
     WHILE r_time < e_time DO
       SET random_value = RAND() * 10 + 15;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 1, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 1, random_value, r_time, r_time);
       SET random_value = RAND() * 10 + 15;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 2, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 2, random_value, r_time, r_time);
       SET random_value = RAND() * 10 + 15;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 3, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 3, random_value, r_time, r_time);
       SET random_value = RAND() * 10 + 15;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 4, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 4, random_value, r_time, r_time);
       SET random_value = RAND() * 10000 + 3000;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 5, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 5, random_value, r_time, r_time);
       SET random_value = RAND() * 1000 + 800;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 6, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 6, random_value, r_time, r_time);
       SET random_value = RAND() * 1 + 6.5;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 7, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 7, random_value, r_time, r_time);
       SET random_value = RAND() * 10 + 30;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 8, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 8, random_value, r_time, r_time);
       SET random_value = RAND() * 10 + 5;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 9, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 9, random_value, r_time, r_time);
       SET random_value = RAND() * 100 + 30;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 10, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 10, random_value, r_time, r_time);
       SET random_value = RAND() * 1 + 0.15;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 11, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 11, random_value, r_time, r_time);
       SET random_value = RAND() * 100 + 35;
-      INSERT INTO data_record (sensor_id, data_type, val, record_time) VALUES ('s-01-001', 12, random_value, r_time);
+      INSERT INTO upstream_data_record (device_id, data_type, value, receive_time, record_time)
+      VALUES (1, 12, random_value, r_time, r_time);
       SELECT DATE_ADD(r_time, INTERVAL 1 HOUR)
       INTO r_time;
     END WHILE;
   END //
 DELIMITER ;
+
+CALL insert_test_chart_data(7);
 
 /*********
  * data
@@ -814,6 +660,51 @@ INSERT INTO ia.block (id, block_name, block_location) VALUES (NULL, '鹿楼种�
 INSERT INTO ia.block (id, block_name, block_location) VALUES (NULL, '河口设施农业示范园', '河口镇');
 INSERT INTO ia.block (id, block_name, block_location) VALUES (NULL, '敬安循环农业示范园', '敬安镇');
 INSERT INTO ia.block (id, block_name, block_location) VALUES (NULL, '安国生态农业观光园', '安国镇');
+
+/*
+ * section
+ */
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '生菜1区', 1);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '番茄1区', 2);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '玉米1区', 3);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '大豆1区', 4);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '草莓1区', 5);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '黄瓜1区', 1);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '草莓2区', 2);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '黄瓜2区', 3);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '生菜2区', 4);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '番茄2区:10', 5);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '大豆2区:11', 1);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '红薯1区', 2);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '西柚1区', 3);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '甘蔗1区', 4);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '丝瓜1区', 5);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '白菜1区', 1);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '莴苣1区', 2);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '大豆3区', 3);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '甘蔗2区', 4);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '冬瓜2区', 5);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '白菜2区', 1);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '土豆1区', 2);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '甘蔗3区', 3);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '土豆2区', 4);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '土豆3区', 5);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '莴苣2区', 1);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '茄子1区', 2);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '茄子2区', 3);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '豆角1区', 4);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '豆角2区', 5);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '豆角3区', 1);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '萝卜1区', 2);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '土豆4区', 3);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '萝卜2区', 4);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '萝卜3区', 5);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '豌豆1区', 1);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '花椒1区', 2);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '花菜1区', 3);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '花菜2区', 4);
+INSERT INTO ia.section (id, section_name, block_id) VALUES (NULL, '花菜3区', 5);
+
 
 /*
  * field
@@ -836,40 +727,8 @@ INSERT INTO ia.crop (id, crop_name) VALUES (5, '草莓');
 INSERT INTO ia.crop (id, crop_name) VALUES (6, '土豆');
 
 /*
- * sensor
- */
-INSERT INTO ia.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
-VALUES ('s-01-001', '1', 'abc001', 'f1701001', 't01', '1', NULL);
-INSERT INTO ia.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
-VALUES ('s-01-002', '1', 'abc001', 'f1701002', 't01', '1', NULL);
-INSERT INTO ia.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
-VALUES ('s-02-001', '2', 'abc002', 'f1701003', 't01', '1', NULL);
-INSERT INTO ia.sensor (sensor_id, sensor_func, sensor_type, field_id, terminal_id, use_status, sensor_ps)
-VALUES ('s-02-002', '2', 'abc002', 'f1701004', 't01', '1', NULL);
-
-/*
  * machine
  */
-INSERT INTO ia.machine (machine_id, machine_type, block_id, use_status, machine_ps)
-VALUES ('m001', 'cba001', 'b01', '0', NULL);
-INSERT INTO ia.machine (machine_id, machine_type, block_id, use_status, machine_ps)
-VALUES ('m002', 'cba002', 'b02', '0', NULL);
-INSERT INTO ia.machine (machine_id, machine_type, block_id, use_status, machine_ps)
-VALUES ('m003', 'cba003', 'b03', '0', NULL);
-INSERT INTO ia.machine (machine_id, machine_type, block_id, use_status, machine_ps)
-VALUES ('m004', 'cba004', 'b04', '0', NULL);
-
-/*
- * vehicle
- */
-INSERT INTO ia.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
-VALUES ('v001', 'xyz001', 'b01', '0', NULL);
-INSERT INTO ia.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
-VALUES ('v002', 'xyz002', 'b02', '0', NULL);
-INSERT INTO ia.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
-VALUES ('v003', 'xyz003', 'b03', '0', NULL);
-INSERT INTO ia.vehicle (vehicle_id, vehicle_type, block_id, use_status, vehicle_ps)
-VALUES ('v004', 'xyz004', 'b04', '0', NULL);
 
 /*
  * field_status
@@ -901,6 +760,30 @@ INSERT INTO ia.data_record (id, sensor_id, data_type, val, record_time) VALUES (
  * ----- 测试，生产删 -----
  * CALL insert_test_chart_data();
  */
+
+/*
+ * upstream_data_record
+ */
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 1, 14.15, NOW(), NOW());
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 2, 25.15, NOW(), NOW());
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 3, 25.25, NOW(), NOW());
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 4, 25.15, NOW(), NOW());
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 5, 2000, NOW(), NOW());
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 6, 800, NOW(), NOW());
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 7, 7, NOW(), NOW());
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 8, 40, NOW(), NOW());
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 9, 37, NOW(), NOW());
+INSERT INTO ia.upstream_data_record (id, device_id, data_type, value, receive_time, record_time)
+VALUES (NULL, 1, 10, 42, NOW(), NOW());
 
 /*
  * warn_threshold
@@ -945,8 +828,8 @@ VALUES (3, '注意事项1', '2', '注意事项1', 'root', NULL);
 /*
  * user
  */
-INSERT INTO ia.user (id, name, username, password, salt, status)
-VALUES (1, 'root', 'wch853', '6991b327c9a016bbfc7fbe905d08a82e', '!@#', 1);
+INSERT INTO ia.user (id, name, username, mail, password, salt, status)
+VALUES (1, 'wch853', 'root', 'wch853@ia.com', '6991b327c9a016bbfc7fbe905d08a82e', '!@#', 1);
 
 /*
  * role
@@ -984,10 +867,10 @@ INSERT INTO ia.role_permissions (role_id, permission_id) VALUES (1, 1);
 /**
  * end_device
  */
-INSERT INTO ia.end_device (id, model, mac, section_id, use_status, create_time, update_time)
-VALUES (1, 'cc2530', '00-12-4B-00-03-98-A1-AB', NULL, 0, NOW(), NOW());
-INSERT INTO ia.end_device (id, model, mac, section_id, use_status, create_time, update_time)
-VALUES (2, 'cc2530', '00-12-4B-00-9E-17-1D-52', NULL, 0, NOW(), NOW());
+INSERT INTO ia.end_device (id, model, type, mac, section_id, use_status, create_time, update_time)
+VALUES (1, 'cc2530', 0, '00-12-4B-00-03-98-A1-AB', NULL, 0, NOW(), NOW());
+INSERT INTO ia.end_device (id, model, type, mac, section_id, use_status, create_time, update_time)
+VALUES (2, 'cc2530', 0, '00-12-4B-00-9E-17-1D-52', NULL, 0, NOW(), NOW());
 
 /**
  * data_type
@@ -1022,22 +905,18 @@ VALUES (12, '铅含量', 'pb', 35, 500, 1);
  * alarm_record
  */
 INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
+VALUES (NULL, 1, 1, 47, '2018-04-27 11:22:29', NULL, 2);
 INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
+VALUES (NULL, 1, 2, 96, '2018-04-28 16:42:41', NULL, 0);
 INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
+VALUES (NULL, 1, 3, 42, '2018-04-29 15:30:20', NULL, 0);
 INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
+VALUES (NULL, 1, 4, 12, '2018-05-01 02:10:07', NULL, 0);
 INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
-INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
-INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
-INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
-INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
-INSERT INTO ia.alarm_record (id, device_id, data_type, value, alarm_time, handle_time, handle_flag)
-VALUES (NULL, 1, 1, 50, NOW(), NULL, 0);
+VALUES (NULL, 1, 1, 48, '2018-05-03 07:40:40', NULL, 0);
+
+/**
+ * irrigation_plan
+ */
+INSERT INTO ia.irrigation_plan (id, plan_volume, duration) VALUES (1, 40, 60);
+INSERT INTO ia.irrigation_plan (id, plan_volume, duration) VALUES (2, 30, 40);

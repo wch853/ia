@@ -97,6 +97,7 @@ public class OnDataThread extends Thread {
                         Integer messageType = Character.getNumericValue(validMsg.charAt(Constants.MESSAGE_TYPE_IDX));
                         if (Constants.MESSAGE_TYPES.contains(messageType)) {
                             String messageBody = JsonUtils.toJsonString(new UpstreamRet(new Date(), validMsg));
+                            // 发送给指定队列处理
                             JmsHandler.send(messageType, messageBody);
                         }
                     }
@@ -106,6 +107,7 @@ public class OnDataThread extends Thread {
             }
 
             if (allowBufRead) {
+                // 读入缓存标志开，字节读入StringBuilder
                 messageBuffer.append((char) single);
             }
         }

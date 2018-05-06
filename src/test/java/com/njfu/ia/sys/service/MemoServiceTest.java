@@ -24,13 +24,13 @@ public class MemoServiceTest {
 
     @Test
     public void getMemoList() throws Exception {
-        List<Memo> memoList = memoService.getMemoList("1");
+        List<Memo> memoList = memoService.queryMemoList(1);
         LOGGER.info("memoList: {}", memoList);
     }
 
     @Test
     public void getMemo() throws Exception {
-        Memo memo = memoService.getMemo(1);
+        Memo memo = memoService.queryMemo(1);
         LOGGER.info("memo: {}", memo);
     }
 
@@ -38,7 +38,7 @@ public class MemoServiceTest {
     public void addMemo() throws Exception {
         Memo memo = new Memo();
         memo.setTitle("test");
-        memo.setType("1");
+        memo.setType(1);
         memo.setContent("test");
         memo.setUpdateUser("root");
 

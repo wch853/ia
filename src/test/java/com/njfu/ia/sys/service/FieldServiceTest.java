@@ -1,7 +1,6 @@
 package com.njfu.ia.sys.service;
 
 import com.njfu.ia.sys.domain.Block;
-import com.njfu.ia.sys.domain.Crop;
 import com.njfu.ia.sys.domain.Field;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +25,7 @@ public class FieldServiceTest {
 
     @Test
     public void getFields() throws Exception {
-        List<Field> fields = fieldService.getFields(new Field());
+        List<Field> fields = fieldService.queryFields(new Field());
         LOGGER.info("fields: {}", fields);
     }
 

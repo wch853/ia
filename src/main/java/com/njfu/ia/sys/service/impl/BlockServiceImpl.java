@@ -6,7 +6,6 @@ import com.njfu.ia.sys.mapper.*;
 import com.njfu.ia.sys.service.BlockService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,13 +20,7 @@ public class BlockServiceImpl implements BlockService {
     private FieldMapper fieldMapper;
 
     @Resource
-    private FieldStatusMapper fieldStatusMapper;
-
-    @Resource
     private MachineMapper machineMapper;
-
-    @Resource
-    private VehicleMapper vehicleMapper;
 
     @Resource
     private SensorMapper sensorMapper;
@@ -35,28 +28,28 @@ public class BlockServiceImpl implements BlockService {
     /**
      * 获取地块列表
      *
-     * @param block blockId blockName
+     * @param block
      * @return data
      */
     @Override
-    public List<Block> getBlocks(Block block) {
+    public List<Block> queryBlocks(Block block) {
         return blockMapper.selectBlocks(block);
     }
 
     /**
-     * 查询所有地块及各地块下处于使用中状态的大棚
+     * 查询所有地块及各地块下处于使用中状态的区块
      *
      * @return data
      */
     @Override
-    public List<Block> getBlocksAndFields() {
-        return blockMapper.selectBlocksAndFields();
+    public List<Block> queryBlocksWithSections() {
+        return blockMapper.selectBlocksWithSections();
     }
 
     /**
      * 新增地块信息
      *
-     * @param block blockId blockName blockLoc blockPs
+     * @param block
      */
     @Override
     public void addBlock(Block block) {
@@ -71,7 +64,7 @@ public class BlockServiceImpl implements BlockService {
     /**
      * 修改地块信息
      *
-     * @param block blockId blockName blockLoc blockPs
+     * @param block
      */
     @Override
     public void modifyBlock(Block block) {

@@ -61,13 +61,4 @@ public class Permission {
         this.perm = perm;
     }
 
-    @Override
-    public String toString() {
-        return "Permission{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                ", urlName='" + urlName + '\'' +
-                ", perm='" + perm + '\'' +
-                '}';
-    }
 }

@@ -21,6 +21,11 @@
         </where>
     </select>
 
+    <insert id="insertDataType">
+        INSERT INTO data_type (data_type_name, data_short_name, floor, ceil, use_status)
+        VALUES (#{dataTypeName}, #{dataShortName}, #{floor}, #{ceil}, #{useStatus})
+    </insert>
+
     <update id="updateDataType">
         UPDATE data_type
         <set>
@@ -37,10 +42,15 @@
                 ceil = #{ceil},
             </if>
             <if test="null != useStatus">
-               use_status = #{useStatus}
+                use_status = #{useStatus}
             </if>
         </set>
         WHERE id = #{id}
     </update>
+
+    <delete id="deleteDataType">
+        DELETE FROM data_type
+        WHERE id = #{id}
+    </delete>
 
 </mapper>	

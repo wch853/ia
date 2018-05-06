@@ -1,6 +1,7 @@
 package com.njfu.ia.sys.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.njfu.ia.sys.utils.Constants;
 
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  */
 public class Memo {
 
-    private int id;
+    private Integer id;
 
     /**
      * 标题
@@ -19,7 +20,7 @@ public class Memo {
     /**
      * 类型
      */
-    private String type;
+    private Integer type;
 
     /**
      * 内容
@@ -34,14 +35,14 @@ public class Memo {
     /**
      * 更新时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = Constants.DEFAULT_GMT)
     private Date updateTime;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -53,11 +54,11 @@ public class Memo {
         this.title = title;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -83,17 +84,5 @@ public class Memo {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Memo{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", type='" + type + '\'' +
-                ", content='" + content + '\'' +
-                ", updateUser='" + updateUser + '\'' +
-                ", updateTime=" + updateTime +
-                '}';
     }
 }

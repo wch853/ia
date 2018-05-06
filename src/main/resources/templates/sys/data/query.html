@@ -26,6 +26,7 @@
             <div class="row col-md-12">
                 <ol class="breadcrumb">
                     <li><a href="sys">首页</a></li>
+                    <li><a href="javascript:void(0);">数据管理</a></li>
                     <li><a href="sys/data/query">数据查询</a></li>
                 </ol>
             </div>
@@ -33,43 +34,25 @@
             <!-- 查询工具栏 -->
             <div class="form-inline" id="query-tool-bar">
                 <div class="form-group">
-                    <label for="query-date">起止时间：</label>
-                    <input type="text" id="query-date" class="form-control range-date">
+                    <label for="query-date">上传时间：</label>
+                    <input type="text" id="query-date" class="form-control second-date-input">
                 </div>
                 <div class="form-group">
-                    <label for="querySensorId">传感器编号：</label>
-                    <select id="querySensorId" class="selectpicker" data-live-search="true">
+                    <label for="query-section">来源区块编号：</label>
+                    <select id="query-section" class="selectpicker" data-live-search="true">
                         <option value="" class="hide-option">请选择传感器编号</option>
-                        <#list sensors as sensor>
-                        <option value="${(sensor.sensorId)!}">NO.${(sensor.sensorId)!}</option>
-                    </#list>
+                        <option v-bind:value="section.id" v-for="section in sections">
+                            {{ 'NO.' + section.id }}
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="queryFieldId">大棚编号：</label>
-                    <select id="queryFieldId" class="selectpicker" data-live-search="true">
-                        <option value="" class="hide-option">请选择大棚编号</option>
-                        <#list fields as field>
-                        <option value="${(field.fieldId)!}">NO.${(field.fieldId)!}</option>
-                    </#list>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="queryDataType">数据类型：</label>
-                    <select id="queryDataType" class="selectpicker" data-live-search="true">
+                    <label for="query-data-type">数据类型：</label>
+                    <select id="query-data-type" class="selectpicker" data-live-search="true">
                         <option value="" class="hide-option">请选择数据类型</option>
-                        <option value="1">温度</option>
-                        <option value="2">湿度</option>
-                        <option value="3">土壤温度</option>
-                        <option value="4">土壤湿度</option>
-                        <option value="5">光照度</option>
-                        <option value="6">Co2浓度</option>
-                        <option value="7">pH（土壤酸碱度）</option>
-                        <option value="8">N（氮含量）</option>
-                        <option value="9">P（磷含量）</option>
-                        <option value="10">K（钾含量）</option>
-                        <option value="11">Hg（汞含量）</option>
-                        <option value="12">Pb（铅含量）</option>
+                        <option v-bind:value="dataType.id" v-for="dataType in dataTypes">
+                            {{dataType.dataTypeName }}
+                        </option>
                     </select>
                 </div>
                 <button class="btn btn-primary" id="query-btn">查询</button>
@@ -80,9 +63,9 @@
             <table id="record-table"></table>
 
         </div><!--container-->
-    </div><!--page wrapped-->
+    </div><!--page wrapper-->
 
-</div><!--wrapped-->
+</div><!--wrapper-->
 </body>
 <script type="text/javascript" src="js/sys/data/query.js"></script>
 </html>

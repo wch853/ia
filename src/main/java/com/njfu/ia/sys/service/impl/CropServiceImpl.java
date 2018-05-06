@@ -22,7 +22,7 @@ public class CropServiceImpl implements CropService {
      * @return
      */
     @Override
-    public List<Crop> getCrops(Crop crop) {
+    public List<Crop> queryCrops(Crop crop) {
         return cropMapper.selectCrops(crop);
     }
 

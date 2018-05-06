@@ -50,9 +50,9 @@ public class AuthController {
      */
     @GetMapping("/user")
     public @ResponseBody
-    PaginationResult<User> getUsers(int offset, int limit, String name) {
+    PaginationResult<User> getUsers(Integer offset, Integer limit, String name) {
         PageHelper.offsetPage(offset, limit);
-        List<User> users = securityService.getUsers(name);
+        List<User> users = securityService.queryUsers(name);
         PageInfo<User> page = new PageInfo<>(users);
         return new PaginationResult<>(page.getTotal(), users);
     }
@@ -88,9 +88,9 @@ public class AuthController {
      */
     @GetMapping("/role")
     public @ResponseBody
-    PaginationResult<Role> getRoles(int offset, int limit, @RequestParam("name") String roleName) {
+    PaginationResult<Role> getRoles(Integer offset, Integer limit, @RequestParam("name") String roleName) {
         PageHelper.offsetPage(offset, limit);
-        List<Role> roles = securityService.getRoles(roleName, null);
+        List<Role> roles = securityService.queryRoles(roleName, null);
         PageInfo<Role> page = new PageInfo<>(roles);
         return new PaginationResult<>(page.getTotal(), roles);
     }

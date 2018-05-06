@@ -22,7 +22,7 @@ public class SectionServiceTest {
 
     @Test
     public void selectSections() {
-        List<Section> sections = sectionService.getSections(new Section());
+        List<Section> sections = sectionService.querySections(new Section());
         LOGGER.info("sections: {}", sections);
     }
 }

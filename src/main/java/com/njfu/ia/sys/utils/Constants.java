@@ -39,22 +39,17 @@ public interface Constants {
     /**
      * 账号状态-有效
      */
-    short VALID_USER_STATUS = 1;
+    int VALID_USER_STATUS = 1;
 
     /**
      * 账号状态-无效
      */
-    short INVALID_USER_STATUS = 0;
+    int INVALID_USER_STATUS = 0;
 
     /**
      * 邮件推送-是
      */
-    short USE_ALARM_EMAIL = 1;
-
-    /**
-     * 邮件推送报警次数最低限制
-     */
-    int SEND_MAIL_WARN_COUNT = 1;
+    int USE_ALARM_EMAIL = 1;
 
     /**
      * 所有角色
@@ -94,7 +89,7 @@ public interface Constants {
     /**
      * 报警管理权限标识符
      */
-    String WARN_PERM = "sys:warn:query";
+    String WARN_PERM = "sys:alarm:query";
 
     /**
      * 扫描定时任务设置
@@ -104,7 +99,7 @@ public interface Constants {
     /**
      * websocket origin
      */
-    String WS_ORIGIN = "http://106.14.200.121";
+    String WS_ORIGIN = "http://localhost";
 
     /**
      * Date字符串格式化patter(second)
@@ -115,4 +110,34 @@ public interface Constants {
      * Date字符串格式化patter(minute)
      */
     String DATE_MINUTE_FORMAT = "yyyy-MM-dd HH:mm";
+
+    /**
+     * 7天秒数(second)
+     */
+    int SECONDS_OF_WEEK = 7 * 24 * 60;
+
+    /**
+     * 首页查询数据最长时间间隔(minute)
+     */
+    int DEFAULT_QUERY_GAP = 24 * 60;
+
+    /**
+     * 使用状态-使用
+     */
+    int IN_USE_STATUS = 1;
+
+    /**
+     * 报警记录-未处理
+     */
+    int UNHANDLE_FLAG = 0;
+
+    /**
+     * 默认timezone
+     */
+    String DEFAULT_GMT = "GMT+8";
+
+    /**
+     * 默认用户名
+     */
+    String DEFAULT_USER_NAME = "wch853";
 }

@@ -24,7 +24,7 @@ public class CropServiceTest {
 
     @Test
     public void getCrops() throws Exception {
-        List<Crop> crops = cropService.getCrops(new Crop());
+        List<Crop> crops = cropService.queryCrops(new Crop());
         LOGGER.info("crops: {}", crops);
     }
 

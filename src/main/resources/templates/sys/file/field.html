@@ -25,7 +25,7 @@
             <div class="row col-md-12">
                 <ol class="breadcrumb">
                     <li><a href="sys">首页</a></li>
-                    <li><a href="sys/file">档案管理</a></li>
+                    <li><a href="javascript:void(0);">档案管理</a></li>
                     <li><a href="sys/file/field">大棚档案</a></li>
                 </ol>
             </div>
@@ -77,9 +77,8 @@
                                     <label for="edit-section-id">所属区块：</label>
                                     <select id="edit-section-id" class="selectpicker" data-live-search="true">
                                         <option value="0" class="hide-option">请选择所属区块（不可为空）</option>
-                                        <option v-bind:value="section.id" v-for="section in sections">{{ 'NO.' +
-                                            section.id
-                                            }}
+                                        <option v-bind:value="section.id" v-for="section in sections">
+                                            {{ 'NO.' + section.id }}
                                         </option>
                                     </select>
                                 </div>
@@ -104,9 +103,9 @@
             </div>
 
         </div><!--container-->
-    </div><!--page wrapped-->
+    </div><!--page wrapper-->
 
-</div><!--wrapped-->
+</div><!--wrapper-->
 </body>
 <script type="text/javascript" src="js/sys/file/field.js"></script>
 </html>

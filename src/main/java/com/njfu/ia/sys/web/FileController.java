@@ -1,6 +1,5 @@
 package com.njfu.ia.sys.web;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.njfu.ia.sys.domain.*;
 import com.njfu.ia.sys.enums.ResultEnum;
@@ -44,9 +43,6 @@ public class FileController {
     private MachineService machineService;
 
     @Resource
-    private VehicleService vehicleService;
-
-    @Resource
     private EndDeviceService endDeviceService;
 
     @Resource
@@ -75,26 +71,19 @@ public class FileController {
     @GetMapping("/block/data")
     @PageOffset
     public @ResponseBody
-    PaginationResult getBlocks(int offset, int limit, Block block) {
-        List<Block> blocks = blockService.getBlocks(block);
+    PaginationResult getBlocks(Integer offset, Integer limit, Block block) {
+        List<Block> blocks = blockService.queryBlocks(block);
         PageInfo<Block> page = new PageInfo<>(blocks);
         return new PaginationResult<>(page.getTotal(), blocks);
     }
 
-    /**
-     * 获取地块列表
-     *
-     * @param block
-     * @return
-     */
-    @GetMapping("/block/list")
-    public @ResponseBody
-    Result listBlocks(Block block) {
+    @GetMapping("/block/section/list")
+    public @ResponseBody Result listBlocksWithSections() {
         try {
-            List<Block> blocks = blockService.getBlocks(block);
+            List<Block> blocks = blockService.queryBlocksWithSections();
             return Result.response(ResultEnum.SUCCESS, null, blocks);
         } catch (Exception e) {
-            LOGGER.error("list blocks Exception", e);
+            LOGGER.error("list blocks with sections Exception", e);
             return Result.response(ResultEnum.FAIL);
         }
     }
@@ -183,31 +172,10 @@ public class FileController {
     @GetMapping("/section/data")
     @PageOffset
     public @ResponseBody
-    PaginationResult getSectionData(int offset, int limit, Section section) {
-        List<Section> sections = sectionService.getSections(section);
+    PaginationResult getSectionData(Integer offset, Integer limit, Section section) {
+        List<Section> sections = sectionService.querySections(section);
         PageInfo<Section> page = new PageInfo<>(sections);
         return new PaginationResult(page.getTotal(), sections);
-    }
-
-    /**
-     * 获取区块信息列表
-     *
-     * @param section
-     * @return
-     */
-    @GetMapping("/section/list")
-    public @ResponseBody
-    Result getSectionList(Section section) {
-        try {
-            List<Section> sections = sectionService.getSections(section);
-            return Result.response(ResultEnum.SUCCESS, null, sections);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
     }
 
     /**
@@ -292,10 +260,10 @@ public class FileController {
      * @return
      */
     @GetMapping("/field/data")
+    @PageOffset
     public @ResponseBody
-    PaginationResult getFields(int offset, int limit, Field field) {
-        PageHelper.offsetPage(offset, limit);
-        List<Field> fields = fieldService.getFields(field);
+    PaginationResult getFields(Integer offset, Integer limit, Field field) {
+        List<Field> fields = fieldService.queryFields(field);
         PageInfo<Field> page = new PageInfo<>(fields);
         return new PaginationResult<>(page.getTotal(), fields);
     }
@@ -384,33 +352,12 @@ public class FileController {
      * @return
      */
     @GetMapping("/crop/data")
+    @PageOffset
     public @ResponseBody
-    PaginationResult getCrops(int offset, int limit, Crop crop) {
-        PageHelper.offsetPage(offset, limit);
-        List<Crop> crops = cropService.getCrops(crop);
+    PaginationResult getCrops(Integer offset, Integer limit, Crop crop) {
+        List<Crop> crops = cropService.queryCrops(crop);
         PageInfo<Crop> page = new PageInfo<>(crops);
         return new PaginationResult<>(page.getTotal(), crops);
-    }
-
-    /**
-     * 获取作物信息列表
-     *
-     * @param crop
-     * @return
-     */
-    @GetMapping("/crop/list")
-    public @ResponseBody
-    Result getCropList(Crop crop) {
-        try {
-            List<Crop> crops = cropService.getCrops(crop);
-            return Result.response(ResultEnum.SUCCESS, null, crops);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
     }
 
     /**
@@ -479,13 +426,10 @@ public class FileController {
     /**
      * 机械档案页
      *
-     * @param model blocks
-     * @return Page
+     * @return
      */
     @GetMapping("/machine")
-    public String machineFile(Model model) {
-        List<Block> blocks = blockService.getBlocks(new Block());
-        model.addAttribute("blocks", blocks);
+    public String machineFile() {
         return "sys/file/machineFile";
     }
 
@@ -499,10 +443,10 @@ public class FileController {
      * @return json data
      */
     @GetMapping("/machine/data")
+    @PageOffset
     public @ResponseBody
-    PaginationResult getMachines(int offset, int limit, Machine machine, Block block) {
-        PageHelper.offsetPage(offset, limit);
-        List<Machine> machines = machineService.getMachines(machine, block);
+    PaginationResult getMachines(Integer offset, Integer limit, Machine machine, Block block) {
+        List<Machine> machines = machineService.queryMachines(machine, block);
         PageInfo<Machine> page = new PageInfo<>(machines);
         return new PaginationResult<>(page.getTotal(), machines);
     }
@@ -579,92 +523,9 @@ public class FileController {
      */
     @GetMapping("/vehicle")
     public String vehicleFile(Model model) {
-        List<Block> blocks = blockService.getBlocks(new Block());
+        List<Block> blocks = blockService.queryBlocks(new Block());
         model.addAttribute("blocks", blocks);
         return "sys/file/vehicleFile";
-    }
-
-    /**
-     * 获取车辆列表
-     *
-     * @param offset  offset
-     * @param limit   limit
-     * @param vehicle vehicleId vehicleType useStatus vehiclePs
-     * @param block   blockId
-     * @return json data
-     */
-    @GetMapping("/vehicle/data")
-    public @ResponseBody
-    PaginationResult getVehicles(int offset, int limit, Vehicle vehicle, Block block) {
-        PageHelper.offsetPage(offset, limit);
-        List<Vehicle> vehicles = vehicleService.getVehicles(vehicle, block);
-        PageInfo<Vehicle> page = new PageInfo<>(vehicles);
-        return new PaginationResult<>(page.getTotal(), vehicles);
-    }
-
-    /**
-     * 新增车辆信息
-     *
-     * @param vehicle vehicleId vehicleType useStatus vehiclePs
-     * @param block   blockId
-     * @return json Result
-     */
-    @PostMapping("/vehicle/add")
-    public @ResponseBody
-    Result addVehicle(Vehicle vehicle, Block block) {
-        try {
-            vehicleService.addVehicle(vehicle, block);
-            return Result.response(ResultEnum.SUCCESS);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
-    }
-
-    /**
-     * 修改车辆信息
-     *
-     * @param vehicle vehicleId vehicleType useStatus vehiclePs
-     * @param block   blockId
-     * @return json Result
-     */
-    @PostMapping("/vehicle/modify")
-    public @ResponseBody
-    Result modifyVehicle(Vehicle vehicle, Block block) {
-        try {
-            vehicleService.modifyVehicle(vehicle, block);
-            return Result.response(ResultEnum.SUCCESS);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
-    }
-
-    /**
-     * 删除车辆档案
-     *
-     * @param vehicle vehicleId
-     * @return json Result
-     */
-    @PostMapping("/vehicle/remove")
-    public @ResponseBody
-    Result removeVehicle(Vehicle vehicle) {
-        try {
-            vehicleService.removeVehicle(vehicle);
-            return Result.response(ResultEnum.SUCCESS);
-        } catch (BusinessException e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL, e.getMessage(), null);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return Result.response(ResultEnum.FAIL);
-        }
     }
 
     /**
@@ -686,27 +547,12 @@ public class FileController {
      * @return json data
      */
     @RequestMapping("/device/data")
+    @PageOffset
     public @ResponseBody
-    PaginationResult getEndDevices(int offset, int limit, EndDevice endDevice) {
-        PageHelper.offsetPage(offset, limit);
-        List<EndDevice> endDevices = endDeviceService.getEndDevices(endDevice);
+    PaginationResult getEndDevices(Integer offset, Integer limit, EndDevice endDevice) {
+        List<EndDevice> endDevices = endDeviceService.queryEndDevices(endDevice);
         PageInfo<EndDevice> page = new PageInfo<>(endDevices);
         return new PaginationResult<>(page.getTotal(), endDevices);
-    }
-
-    /**
-     * 获取终端列表
-     *
-     * @param offset    offset
-     * @param limit     limit
-     * @param endDevice endDevice
-     * @return EndDevice list
-     */
-    @RequestMapping("/device/list")
-    public @ResponseBody
-    Result listEndDevices(EndDevice endDevice) {
-        List<EndDevice> endDevices = endDeviceService.getEndDevices(endDevice);
-        return Result.response(ResultEnum.SUCCESS, null, endDevices);
     }
 
     /**
@@ -729,10 +575,10 @@ public class FileController {
      * @return json data
      */
     @GetMapping("/sensor/data")
+    @PageOffset
     public @ResponseBody
-    PaginationResult getSensors(int offset, int limit, Sensor sensor, Field field) {
-        PageHelper.offsetPage(offset, limit);
-        List<Sensor> sensors = sensorService.getSensors(sensor, field);
+    PaginationResult getSensors(Integer offset, Integer limit, Sensor sensor, Field field) {
+        List<Sensor> sensors = sensorService.querySensors(sensor, field);
         PageInfo<Sensor> page = new PageInfo<>(sensors);
         return new PaginationResult<>(page.getTotal(), sensors);
     }

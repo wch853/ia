@@ -109,7 +109,7 @@ var section = {
             message: '确认删除区块信息',
             callback: function (flag) {
                 if (flag) {
-                    section.sendRequest('sys/file/section/remove', 'post', {id: row.id}, function (res) {
+                    section.sendRequest('sys/file/section/remove', 'POST', {id: row.id}, function (res) {
                         var message = '删除区块信息失败！';
                         if (res.success) {
                             message = '删除区块信息成功！';
@@ -135,10 +135,8 @@ var section = {
             var that = this;
             this.$nextTick(function () {
                 section.init();
-                section.sendRequest('sys/file/block/list', 'get', null, function (res) {
-                    if (res.success) {
-                        that.blocks = res.data;
-                    }
+                section.sendRequest('sys/file/block/data', 'GET', null, function (res) {
+                    that.blocks = res.rows;
                 });
             });
         },
@@ -184,7 +182,7 @@ var section = {
                         message: '确认' + messagePrefix + '区块信息',
                         callback: function (flag) {
                             if (flag) {
-                                section.sendRequest('sys/file/section/' + urlSuffix, 'post', params, function (res) {
+                                section.sendRequest('sys/file/section/' + urlSuffix, 'POST', params, function (res) {
                                     var message = messagePrefix + '区块信息成功！';
                                     if (!res.success) {
                                         message = messagePrefix + '区块信息失败！';
@@ -211,6 +209,11 @@ var section = {
                 }
                 return title;
             }
+        },
+        updated: function () {
+            this.$nextTick(function () {
+                $('.selectpicker').selectpicker('refresh');
+            });
         }
     })
 };

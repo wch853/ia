@@ -98,7 +98,7 @@ var crop = {
             message: '确认删除作物信息',
             callback: function (flag) {
                 if (flag) {
-                    crop.sendRequest('sys/file/crop/remove', 'post', {id: id}, function (res) {
+                    crop.sendRequest('sys/file/crop/remove', 'POST', {id: id}, function (res) {
                         var message = '删除作物信息失败！';
                         if (res.message) {
                             message = '删除作物信息成功！';
@@ -163,7 +163,7 @@ var crop = {
                     message: '确认' + messagePrefix + '作物信息',
                     callback: function (flag) {
                         if (flag) {
-                            crop.sendRequest('sys/file/crop/' + urlSuffix, 'post', params, function (res) {
+                            crop.sendRequest('sys/file/crop/' + urlSuffix, 'POST', params, function (res) {
                                 var message = messagePrefix + '作物信息失败！';
                                 if (res.success) {
                                     message = messagePrefix + '作物信息成功！';

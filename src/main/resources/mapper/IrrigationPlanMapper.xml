@@ -9,8 +9,7 @@
         SELECT
         id,
         plan_volume,
-        duration,
-        plan_ps
+        duration
         FROM irrigation_plan
         <where>
             <if test="null != id">
@@ -20,8 +19,8 @@
     </select>
 
     <insert id="insertIrrigationPlan">
-        INSERT INTO irrigation_plan (id, plan_volume, duration, plan_ps)
-        VALUES (NULL, #{planVolume}, #{duration}, #{planPs})
+        INSERT INTO irrigation_plan (id, plan_volume, duration)
+        VALUES (NULL, #{planVolume}, #{duration})
     </insert>
 
     <update id="updateIrrigationPlan">
@@ -32,9 +31,6 @@
             </if>
             <if test="null != duration">
                 duration = #{duration},
-            </if>
-            <if test="null != planPs">
-                plan_ps = #{planPs}
             </if>
         </set>
         WHERE id = #{id}

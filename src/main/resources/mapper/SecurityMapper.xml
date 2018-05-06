@@ -6,21 +6,13 @@
 <mapper namespace="com.njfu.ia.sys.mapper.SecurityMapper">
 
     <select id="selectUser" resultType="User">
-        SELECT
-        id,
-        name,
-        username,
-        password,
-        salt,
-        status
+        SELECT id, name, username, mail, password, salt, status
         FROM user
         WHERE username = #{username}
     </select>
 
     <select id="selectRoles" resultType="Role">
-        SELECT
-        r.id AS id,
-        r.role_name AS role_name
+        SELECT r.id AS id, r.role_name AS role_name
         FROM role r LEFT JOIN user_roles ur ON r.id = ur.role_id
         <where>
             <if test="null != roleName and !''.equals(roleName)">
@@ -34,11 +26,7 @@
     </select>
 
     <select id="selectPermissions" resultType="Permission">
-        SELECT
-        p.id AS id,
-        p.url AS url,
-        p.url_name AS url_name,
-        p.perm AS perm
+        SELECT p.id AS id, p.url AS url, p.url_name AS url_name, p.perm AS perm
         FROM permission p LEFT JOIN role_permissions rp ON rp.permission_id = p.id
         <where>
             id != 1
@@ -109,7 +97,7 @@
     </delete>
 
     <select id="selectUsers" resultType="User">
-        SELECT id, name, username, status
+        SELECT id, name, username, mail, status
         FROM user
         <where>
             <if test="null != name and !''.equals(name)">
@@ -120,8 +108,8 @@
     </select>
 
     <insert id="insertUser">
-        INSERT INTO user (id, name, username, password, salt, status)
-        VALUES (NULL, #{name}, #{username}, #{password}, #{salt}, #{status})
+        INSERT INTO user (id, name, username, mail, password, salt, status)
+        VALUES (NULL, #{name}, #{username}, #{mail}, #{password}, #{salt}, #{status})
     </insert>
 
     <update id="updateUser">
@@ -129,6 +117,9 @@
         <set>
             <if test="null != name and !''.equals(name)">
                 name = #{name},
+            </if>
+            <if test="null != mail and !''.equals(mail)">
+                mail = #{mail},
             </if>
             <if test="null != password and !''.equals(password)">
                 password = #{password},

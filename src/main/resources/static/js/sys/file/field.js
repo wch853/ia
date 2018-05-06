@@ -4,8 +4,8 @@ var field = {
         $('[data-target="#sys-man"]').trigger('click');
         $('[data-target="#file-man"]').trigger('click').addClass('side-active');
 
-        $("#field-table").bootstrapTable({
-            url: 'sys/file//field/data',
+        $('#field-table').bootstrapTable({
+            url: 'sys/file/field/data',
             queryParams: function (params) {
                 return {
                     offset: params.offset,
@@ -24,6 +24,9 @@ var field = {
             }, {
                 field: 'sectionId',
                 title: '所属区块编号'
+            }, {
+                field: 'sectionName',
+                title: '所属区块名称'
             }, {
                 field: 'cropName',
                 title: '种植作物名称'
@@ -86,6 +89,13 @@ var field = {
             }
         });
     },
+    /**
+     * 修改
+     * @param id
+     * @param fieldName
+     * @param sectionId
+     * @param cropId
+     */
     modifyField: function (id, fieldName, sectionId, cropId) {
         field.vm.isAdd = false;
         field.vm.modifyId = id;
@@ -93,6 +103,28 @@ var field = {
         $('#edit-section-id').selectpicker('val', sectionId);
         $('#edit-crop-id').selectpicker('val', cropId);
         $('#field-modal').modal('show');
+    },
+    /**
+     * 删除
+     * @param id
+     */
+    removeField: function (id) {
+        bootbox.confirm({
+            title: '提示',
+            message: '确认删除大棚信息',
+            callback: function (flag) {
+                if (flag) {
+                    field.sendRequest('sys/file/field/remove', 'POST', {id: id}, function (res) {
+                        var message = (res.success ? '成功' : '失败');
+                        bootbox.alert({
+                            title: '提示',
+                            message: '删除大棚信息' + message
+                        });
+                        $('#reset-btn').trigger('click');
+                    });
+                }
+            }
+        });
     },
     clearModalInput: function () {
         $('#field-modal :text').val('');
@@ -107,28 +139,28 @@ var field = {
             modifyId: null
         },
         mounted: function () {
+            var that = this;
             this.$nextTick(function () {
                 field.init();
-                field.sendRequest('sys/file/section/list', 'get', null, this.fillSectionList);
-                field.sendRequest('sys/file/crop/list', 'get', null, this.fillCropList);
+                field.sendRequest('sys/file/section/data', 'GET', null, function (res) {
+                    that.sections = res.rows;
+                });
+                field.sendRequest('sys/file/crop/data', 'GET', null, function (res) {
+                    that.crops = res.rows;
+                });
             });
         },
         methods: {
-            fillSectionList: function (res) {
-                this.sections = res.data;
-            },
-            fillCropList: function (res) {
-                this.crops = res.data;
-            },
             addField: function () {
                 field.clearModalInput();
                 $('#field-modal').modal('show');
+                field.vm.isAdd = true;
             },
             saveAdd: function () {
-                field.vm.isAdd = true;
                 var fieldName = $('#edit-field-name').val().trim();
                 var sectionId = $('#edit-section-id').selectpicker('val');
                 var cropId = $('#edit-crop-id').selectpicker('val');
+                $('#field-modal').modal('hide');
                 if (fieldName == '' || sectionId == 0 || cropId == 0) {
                     bootbox.alert({
                         title: '提示',
@@ -137,7 +169,7 @@ var field = {
                     return
                 }
                 var params = {
-                    fieldName: trim,
+                    fieldName: fieldName,
                     sectionId: sectionId,
                     cropId: cropId
                 };
@@ -156,7 +188,7 @@ var field = {
                     message: '确认' + messagePrefix + '大棚信息',
                     callback: function (flag) {
                         if (flag) {
-                            field.sendRequest('sys/file/field/' + urlSuffix, 'post', params, function (res) {
+                            field.sendRequest('sys/file/field/' + urlSuffix, 'POST', params, function (res) {
                                 var message = messagePrefix + '大棚信息失败！';
                                 if (res.success) {
                                     message = messagePrefix + '大棚信息成功！';
@@ -164,7 +196,8 @@ var field = {
                                 bootbox.alert({
                                     title: '提示',
                                     message: message
-                                })
+                                });
+                                $('#reset-btn').trigger('click');
                             });
                         }
                     }
@@ -181,6 +214,11 @@ var field = {
                 }
                 return title;
             }
+        },
+        updated: function () {
+            this.$nextTick(function () {
+                $('.selectpicker').selectpicker('refresh');
+            });
         }
     })
 };

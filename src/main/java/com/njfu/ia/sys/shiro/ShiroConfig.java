@@ -140,7 +140,7 @@ public class ShiroConfig implements ApplicationContextAware {
             while (securityService == null) {
                 securityService = (SecurityService) context.getBean("securityServiceImpl");
             }
-            List<Permission> permissions = securityService.getPermissions();
+            List<Permission> permissions = securityService.queryPermissions();
             for (Permission permission : permissions) {
                 filterChain.put(permission.getUrl(), this.adaptPerms(permission.getPerm()));
             }

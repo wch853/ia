@@ -14,9 +14,14 @@ public class ChartData {
     private List<String> dateList;
 
     /**
-     * 数据类型-数据列表
+     * 数据类型名称-数据列表
      */
     private Map<String, List<Double>> dataMap;
+
+    public ChartData(List<String> dateList, Map<String, List<Double>> dataMap) {
+        this.dateList = dateList;
+        this.dataMap = dataMap;
+    }
 
     public List<String> getDateList() {
         return dateList;
@@ -32,13 +37,5 @@ public class ChartData {
 
     public void setDataMap(Map<String, List<Double>> dataMap) {
         this.dataMap = dataMap;
-    }
-
-    @Override
-    public String toString() {
-        return "ChartData{" +
-                "dateList=" + dateList +
-                ", dataMap=" + dataMap +
-                '}';
     }
 }

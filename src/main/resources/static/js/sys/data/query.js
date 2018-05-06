@@ -1,140 +1,136 @@
-// 激活侧边栏
-$('[data-target="#data-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
+var query = {
+    init: function () {
+        // 激活侧边栏
+        $('[data-target="#data-man"]').trigger('click').parent().find('li:eq(1) a').addClass('side-active');
 
-$('#query-date').daterangepicker({
-    locale: {
-        applyLabel: '确认',
-        cancelLabel: '取消',
-        format: 'YYYY-MM-DD',
-        customRangeLabel: '自定义',
-        separator: ' 至 '
-    },
-    ranges: {
-        '今天': [moment(), moment()],
-        '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        '过去7天': [moment().subtract(6, 'days'), moment()],
-        '过去30天': [moment().subtract(29, 'days'), moment()],
-        '本月': [moment().startOf('month'), moment().endOf('month')],
-        '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-    },
-}).val('');
+        $('#query-date').daterangepicker({
+            locale: {
+                applyLabel: '确认',
+                cancelLabel: '取消',
+                format: 'YYYY-MM-DD HH:mm:ss',
+                customRangeLabel: '自定义',
+                separator: ' - '
+            },
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '过去7天': [moment().subtract(6, 'days'), moment()],
+                '过去30天': [moment().subtract(29, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')],
+                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+        }).val('');
 
-$("#record-table").bootstrapTable({
-    url: 'sys/data/record',
-    queryParams: function (params) {
-        return {
-            offset: params.offset,
-            limit: params.limit,
-            sensorId: $('#querySensorId').val(),
-            fieldId: $('#queryFieldId').val(),
-            dataType: $('#queryDataType').val(),
-            start: getTime(0),
-            end: getTime(1)
+        $("#record-table").bootstrapTable({
+            url: 'sys/data/record',
+            queryParams: function (params) {
+                return {
+                    offset: params.offset,
+                    limit: params.limit,
+                    sectionId: $('#query-section').val(),
+                    dataType: $('#query-data-type').val(),
+                    start: query.getTime(0),
+                    end: query.getTime(1)
+                }
+            },
+            columns: [{
+                field: 'id',
+                title: '记录编号'
+            }, {
+                field: 'deviceId',
+                title: '来源终端编号'
+            }, {
+                field: 'sectionId',
+                title: '来源区块编号'
+            }, {
+                field: 'dataTypeName',
+                title: '数据类型'
+            }, {
+                field: 'value',
+                title: '数据值'
+            }, {
+                field: 'receiveTime',
+                title: '上传时间'
+            }, {
+                field: 'recordTime',
+                title: '记录时间'
+            }],
+            striped: true,
+            pagination: true,
+            sidePagination: 'server',
+            pageSize: 10,
+            pageList: [5, 10, 25, 50]
+        });
+
+
+        // 重置
+        $('#reset-btn').click(function () {
+            $('#query-date').val('');
+            $('#query-tool-bar .selectpicker').selectpicker('val', '');
+            $('#query-btn').trigger('click');
+        });
+
+        // 查询
+        $('#query-btn').click(function () {
+            $("#record-table").bootstrapTable('selectPage', 1);
+        });
+
+    },
+    /**
+     * 获取起止时间
+     * @param index
+     * @returns String
+     */
+    getTime: function (index) {
+        var time = $('#query-date').val().split(' - ');
+        if (time.length > 1) {
+            return time[index].trim();
+        } else {
+            return '';
         }
     },
-    columns: [{
-        field: 'id',
-        title: '记录编号'
-    }, {
-        field: 'sensorId',
-        title: '大棚编号'
-    }, {
-        field: 'fieldId',
-        title: '大棚编号'
-    }, {
-        formatter: function (value, row, index) {
-            return convertDataType(row.dataType);
+    /**
+     * 发送请求
+     * @param url
+     * @param method
+     * @param params
+     * @param callback
+     */
+    sendRequest: function (url, method, params, callback) {
+        $.ajax({
+            url: url,
+            type: method,
+            data: params,
+            success: function (res) {
+                if (undefined != callback) {
+                    callback(res);
+                }
+            }
+        });
+    },
+    vm: new Vue({
+        el: '#wrapper',
+        data: {
+            sections: [],
+            dataTypes: [],
+            count: 0
         },
-        title: '数据类型'
-    }, {
-        field: 'val',
-        title: '数据值'
-    }, {
-        field: 'recordTime',
-        title: '记录时间'
-    }],
-    striped: true,
-    pagination: true,
-    sidePagination: 'server',
-    pageSize: 10,
-    pageList: [5, 10, 25, 50]
-});
-
-/**
- * 获取起止时间
- * @param index
- * @returns String
- */
-function getTime(index) {
-    var time = $('#query-date').val().split(' 至 ');
-    if (time.length > 1) {
-        return time[index].trim();
-    } else {
-        return '';
-    }
-}
-
-// 设置bootstrap-select大小
-$('#query-tool-bar .selectpicker').selectpicker({
-    width: '180.67px'
-});
-
-/**
- * 转换数据类型
- */
-function convertDataType(dataType) {
-    var type = '';
-    switch (dataType) {
-        case '1':
-            type = '温度';
-            break;
-        case '2':
-            type = "湿度";
-            break;
-        case '3':
-            type = '土壤温度';
-            break;
-        case '4':
-            type = '土壤湿度';
-            break;
-        case '5':
-            type = '光照度';
-            break;
-        case '6':
-            type = 'CO2浓度';
-            break;
-        case '7':
-            type = 'pH（土壤酸碱度）';
-            break;
-        case '8':
-            type = 'N（氮含量）';
-            break;
-        case '9':
-            type = 'P（磷含量）';
-            break;
-        case '10':
-            type = 'K（钾含量）';
-            break;
-        case '11':
-            type = 'Hg（汞含量）';
-            break;
-        case '12':
-            type = 'Pb（铅含量）';
-            break;
-        default:
-            type = null;
-    }
-    return type;
-}
-
-// 重置
-$('#reset-btn').click(function () {
-    $('#query-date').val('');
-    $('#query-tool-bar .selectpicker').selectpicker('val', '');
-    $('#query-btn').trigger('click');
-});
-
-// 查询
-$('#query-btn').click(function () {
-    $("#record-table").bootstrapTable('selectPage', 1);
-});
+        mounted: function () {
+            var that = this;
+            this.$nextTick(function () {
+                query.init();
+                query.sendRequest('sys/file/section/data', 'GET', null, function (res) {
+                    that.sections = res.rows;
+                });
+                query.sendRequest('sys/data/type/data', 'GET', null, function (res) {
+                    that.dataTypes = res.rows;
+                });
+            });
+        },
+        updated: function () {
+            this.$nextTick(function () {
+                $('.selectpicker').selectpicker('refresh');
+            });
+        }
+    })
+};

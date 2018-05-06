@@ -2,6 +2,7 @@ package com.njfu.ia.sys.mapper;
 
 
 import com.njfu.ia.sys.domain.Block;
+import com.njfu.ia.sys.utils.JsonUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,19 +32,14 @@ public class BlockMapperTest {
     }
 
     @Test
-    public void selectBlocksAndFields() throws Exception {
-        List<Block> blocks = blockMapper.selectBlocksAndFields();
-        for (Block block : blocks) {
-        }
+    public void selectBlocksWithSections() throws Exception {
+        List<Block> blocks = blockMapper.selectBlocksWithSections();
+        LOGGER.info("blocks: {}", JsonUtils.toJsonString(blocks));
     }
 
     @Test
     public void insertBlock() throws Exception {
         Block block = new Block();
-//        block.setBlockId("test");
-//        block.setBlockName("test");
-//        block.setBlockLoc("test");
-//        block.setBlockPs("test");
 
         int res = blockMapper.insertBlock(block);
         Assert.assertEquals(1, res);

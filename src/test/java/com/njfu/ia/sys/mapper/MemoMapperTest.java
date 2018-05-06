@@ -24,7 +24,7 @@ public class MemoMapperTest {
 
     @Test
     public void selectMemoList() throws Exception {
-        List<Memo> memoList = memoMapper.selectMemoList("1");
+        List<Memo> memoList = memoMapper.selectMemoList(1);
         LOGGER.info("memoList: {}", memoList);
     }
 
@@ -38,7 +38,7 @@ public class MemoMapperTest {
     public void insertMemo() throws Exception {
         Memo memo = new Memo();
         memo.setTitle("test");
-        memo.setType("1");
+        memo.setType(1);
         memo.setContent("test");
         memo.setUpdateUser("root");
         int res = memoMapper.insertMemo(memo);

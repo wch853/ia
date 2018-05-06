@@ -55,7 +55,7 @@ var user = {
     sendRequest: function (name, password, prePassword) {
         $.ajax({
             url: 'sys/auth/user/modify',
-            type: 'post',
+            type: 'POST',
             data: {
                 name: name,
                 password: password,
@@ -63,10 +63,8 @@ var user = {
             },
             success: function (res) {
                 var message = '操作失败！';
-                if (res.code == 200) {
+                if (res.success) {
                     message = "操作成功！";
-                } else if (res.code == 300 && res.message) {
-                    message = res.message;
                 }
                 bootbox.confirm({
                     title: '提示',

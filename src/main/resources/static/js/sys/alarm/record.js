@@ -1,7 +1,7 @@
 var record = {
     init: function () {
         // 激活侧边栏
-        $('[data-target="#alarm-man"]').trigger('click').parent().find('li:eq(1) a').addClass('side-active');
+        $('[data-target="#alarm-man"]').trigger('click').parent().find('li:eq(0) a').addClass('side-active');
 
         $("#record-table").bootstrapTable({
             url: 'sys/alarm/record/data',
@@ -9,7 +9,7 @@ var record = {
                 return {
                     offset: params.offset,
                     limit: params.limit,
-                    deviceId: $('#device-id').val().trim(),
+                    sectionId: $('#query-section').val().trim(),
                     dataType: $('#data-type').val().trim(),
                     start: record.getTime(0),
                     end: record.getTime(1),
@@ -23,11 +23,14 @@ var record = {
                 field: 'deviceId',
                 title: '终端设备编号'
             }, {
+                field: 'sectionId',
+                title: '区块编号'
+            }, {
                 field: 'dataTypeName',
                 title: '报警类型'
             }, {
                 field: 'value',
-                title: '报警值'
+                title: '报警数值'
             }, {
                 field: 'alarmTime',
                 title: '报警时间'
@@ -38,7 +41,7 @@ var record = {
                 formatter: function (value, row, index) {
                     return record.vm.handleFlagMap.get(row.handleFlag);
                 },
-                title: '处理标志'
+                title: '处理状态'
             }],
             striped: true,
             pagination: true,
@@ -63,7 +66,7 @@ var record = {
             locale: {
                 applyLabel: '确认',
                 cancelLabel: '取消',
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD HH:mm:ss',
                 customRangeLabel: '自定义',
                 separator: ' - '
             },
@@ -76,6 +79,11 @@ var record = {
                 '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             },
         }).val('');
+
+
+        $('.selectpicker').selectpicker({
+            width: '180.67px'
+        });
     },
     getTime: function (index) {
         var time = $('#query-date').val().split(' - ');
@@ -107,24 +115,27 @@ var record = {
     vm: new Vue({
         el: '#wrapper',
         data: {
-            endDevices: [],
+            sections: [],
             dataTypes: [],
-            handleFlagMap: new Map([[0, '未处理'], [1, '已处理'], [2, '已忽略']])
+            handleFlagMap: new Map([[0, '未处理'], [1, '已处理'], [2, '已忽略']]),
+            count: 0
         },
         mounted: function () {
+            var that = this;
             this.$nextTick(function () {
                 record.init();
-                record.sendRequest('sys/file/device/list', 'get', null, this.fillEndDevice);
-                record.sendRequest('sys/data/type/list', 'get', null, this.fillDataType);
+                record.sendRequest('sys/file/section/data', 'GET', null, function (res) {
+                    that.sections = res.rows;
+                });
+                record.sendRequest('sys/data/type/data', 'GET', null, function (res) {
+                    that.dataTypes = res.rows;
+                });
             });
         },
-        methods: {
-            fillEndDevice: function (res) {
-                this.endDevices = res.data;
-            },
-            fillDataType: function (res) {
-                this.dataTypes = res.data;
-            }
+        updated: function () {
+            this.$nextTick(function () {
+                $('.selectpicker').selectpicker('refresh');
+            });
         }
     })
 }
